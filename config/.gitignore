@@ -1,2 +1,3 @@
 config.*.yml
+!config.papyrus.yml
 !config.example.yml
