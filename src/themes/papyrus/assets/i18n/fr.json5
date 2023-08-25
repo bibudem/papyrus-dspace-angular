@@ -2,4 +2,51 @@
   // "repository.title.prefix": "DSpace Angular :: ",
   "repository.title.prefix": "Papyrus :: ",
 
+  // Les items de menu pour parcourir (browse) tout le contenu
+  "menu.section.browse_global": "Tout Papyrus",
+  "menu.section.browse_global_by_title": "Titres",
+  "menu.section.browse_global_by_dateissued": "Dates de publication",
+  "menu.section.browse_global_by_author": "Auteurs",
+  "menu.section.browse_global_by_advisor": "Directeurs de recherche",
+  "menu.section.browse_global_by_subject": "Sujets",
+  "menu.section.browse_global_by_discipline": "Programmes",
+  "menu.section.browse_global_by_affiliation": "Affiliation",
+  "menu.section.browse_global_by_titleindex": "Index des titres",
+
+  // Les libellés pour parcourir dans une collection
+  "browse.comcol.head": "Parcourir par",
+  "browse.comcol.by.title": "Titres",
+  "browse.comcol.by.dateissued": "Dates de publication",
+  "browse.comcol.by.author": "Auteurs",
+  "browse.comcol.by.advisor": "Directeurs de recherche",
+  "browse.comcol.by.subject": "Sujets",
+  "browse.comcol.by.discipline": "Programmes",
+  "browse.comcol.by.affiliation": "Affiliation",
+  "browse.comcol.by.titleindex": "Index des titres",
+
+  // Le nom des champs lorsqu'on parcourt
+  "browse.metadata.title": "titre",
+  "browse.metadata.dateissued": "date de publication",
+  "browse.metadata.author": "auteur",
+  "browse.metadata.advisor": "directeur de recherche",
+  "browse.metadata.subject": "sujet",
+  "browse.metadata.discipline": "programme",
+  "browse.metadata.affiliation": "affiliation",
+  "browse.metadata.titleindex": "l'index des titres",
+
+  // Le nom des fils d'ariane lorsqu'on parcourt
+  "browse.metadata.title.breadcrumbs": "Parcourir par titre",
+  "browse.metadata.dateissued.breadcrumbs": "Parcourir par date de publication",
+  "browse.metadata.author.breadcrumbs": "Parcourir par auteur",
+  "browse.metadata.advisor.breadcrumbs": "Parcourir par directeur de recherche",
+  "browse.metadata.subject.breadcrumbs": "Parcourir par sujet",
+  "browse.metadata.discipline.breadcrumbs": "Parcourir par programme",
+  "browse.metadata.affiliation.breadcrumbs": "Parcourir par affiliation",
+  "browse.metadata.titleindex.breadcrumbs": "Parcourir l'index des titres",
+
+  // Le titre de page lorsqu'on parcourt... c'était "Parcourir la collection"
+  "browse.title": "Parcourir {{ collection }} par {{ field }} {{ value }}",
+  "browse.title.page": "Parcourir {{ collection }} par {{ field }} {{ value }}",
+
+
 }
