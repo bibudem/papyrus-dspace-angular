@@ -14,7 +14,7 @@
   "menu.section.browse_global_by_titleindex": "Index des titres",
 
   // Les libellés pour parcourir dans une collection
-  "browse.comcol.head": "Parcourir par",
+  "browse.comcol.head": "Parcourir",
   "browse.comcol.by.title": "Titres",
   "browse.comcol.by.dateissued": "Dates de publication",
   "browse.comcol.by.author": "Auteurs",
@@ -35,18 +35,34 @@
   "browse.metadata.titleindex": "l'index des titres",
 
   // Le nom des fils d'ariane lorsqu'on parcourt
-  "browse.metadata.title.breadcrumbs": "Parcourir par titre",
-  "browse.metadata.dateissued.breadcrumbs": "Parcourir par date de publication",
-  "browse.metadata.author.breadcrumbs": "Parcourir par auteur",
-  "browse.metadata.advisor.breadcrumbs": "Parcourir par directeur de recherche",
-  "browse.metadata.subject.breadcrumbs": "Parcourir par sujet",
-  "browse.metadata.discipline.breadcrumbs": "Parcourir par programme",
-  "browse.metadata.affiliation.breadcrumbs": "Parcourir par affiliation",
+  "browse.metadata.title.breadcrumbs": "Parcourir les titres",
+  "browse.metadata.dateissued.breadcrumbs": "Parcourir les dates de publication",
+  "browse.metadata.author.breadcrumbs": "Parcourir les auteurs",
+  "browse.metadata.advisor.breadcrumbs": "Parcourir les directeurs de recherche",
+  "browse.metadata.subject.breadcrumbs": "Parcourir les sujets",
+  "browse.metadata.discipline.breadcrumbs": "Parcourir les programmes",
+  "browse.metadata.affiliation.breadcrumbs": "Parcourir les affiliations",
   "browse.metadata.titleindex.breadcrumbs": "Parcourir l'index des titres",
 
   // Le titre de page lorsqu'on parcourt... c'était "Parcourir la collection"
   "browse.title": "Parcourir {{ collection }} par {{ field }} {{ value }}",
   "browse.title.page": "Parcourir {{ collection }} par {{ field }} {{ value }}",
 
-
+  // Les intitulés pour les filtres / facettes
+  "search.filters.filter.degreeDiscipline.head": "Programme",
+  "search.filters.filter.degreeDiscipline.placeholder": "Nom du programme",
+  "search.filters.filter.degreeDiscipline.label": "Recherche d'un programme",
+  "search.filters.filter.advisor.head": "Directeur de recherche",
+  "search.filters.filter.advisor.placeholder": "Nom d'un directeur de recherche",
+  "search.filters.filter.advisor.label": "Recherche d'un directeur de recherche",
+  "search.filters.filter.degreeLevel.head": "Cycle d'études",
+  "search.filters.filter.degreeLevel.placeholder": "Nom du cycle d'études",
+  "search.filters.filter.degreeLevel.label": "Recherche d'un cycle d'études",
+  "search.filters.filter.language.head": "Langue",
+  "search.filters.filter.language.placeholder": "Nom de la langue",
+  "search.filters.filter.language.label": "Recherche d'une langue",
+  "search.filters.filter.affiliation.head": "Affiliation",
+  "search.filters.filter.affiliation.placeholder": "Nom de l'affiliation",
+  "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
+  
 }
