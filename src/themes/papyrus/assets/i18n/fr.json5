@@ -13,7 +13,6 @@
   "menu.section.browse_global_by_affiliation": "Affiliation",
   "menu.section.browse_global_by_titleindex": "Index des titres",
 
-  // Les libellés pour parcourir dans une collection
   "browse.comcol.head": "Parcourir",
   "browse.comcol.by.title": "Titres",
   "browse.comcol.by.dateissued": "Dates de publication",
@@ -64,5 +63,4 @@
   "search.filters.filter.affiliation.head": "Affiliation",
   "search.filters.filter.affiliation.placeholder": "Nom de l'affiliation",
   "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
-  
 }
