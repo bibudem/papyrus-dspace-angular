@@ -63,4 +63,7 @@
   "search.filters.filter.affiliation.head": "Affiliation",
   "search.filters.filter.affiliation.placeholder": "Nom de l'affiliation",
   "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
+
+  // Les intitués de section des formulaires de soumission
+  "submission.sections.papyrus-TME.page-01": "Décrire",
 }
