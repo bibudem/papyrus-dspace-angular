@@ -64,6 +64,7 @@
   "search.filters.filter.affiliation.placeholder": "Nom de l'affiliation",
   "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
 
-  // Les intitués de section des formulaires de soumission
-  "submission.sections.papyrus-TME.page-01": "Décrire",
+  // Les intitués de section des formulaires de dépôt
+  "submission.sections.papyrus-TME.page-01": "Description: titre, contributeurs, programme, date, langue",
+  "submission.sections.papyrus-TME.page-02": "Description: sujet, résumé",
 }
