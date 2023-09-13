@@ -3,4 +3,8 @@
   // Les intitués de section des formulaires de dépôt
   "submission.sections.papyrus-TME.page-01": "Description: title, contributors, programme, date, language",
   "submission.sections.papyrus-TME.page-02": "Description: subject, abstract",
+
+  "submission.sections.papyrus-TP.page-01": "Document type and affiliatio",
+  "submission.sections.papyrus-TP.page-02": "Document description",
+
 }
