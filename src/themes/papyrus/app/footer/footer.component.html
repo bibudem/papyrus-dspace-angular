@@ -2,61 +2,65 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <p class="text-bib">Les bibliothèques de l’Université de Montréal</p>
+        <p class="text-bib">{{ 'papyrus.footer.bibliotheque' | translate }}</p>
       </div>
       <div class="col-md-3 col-sm-4 border-r mt-4">
-        <h5>Nous joindre</h5>
+        <h5>{{ 'papyrus.footer.contact.titre' | translate }}</h5>
         <ul class="list-unstyled text-gray">
-          <li class="footer-link-udem"><i class="fas fa-users"></i> Équipe du dépôt</li>
-          <li class="footer-link-udem"><i class="fas fa-envelope"></i> Nous écrire</li>
-          <li class="footer-link-udem"><i class="fas fa-phone"></i> +1 514 343-7643</li>
+          <li class="footer-link-udem"><i class="fas fa-users"></i> {{ 'papyrus.footer.contact.equipe' | translate }}</li>
+          <li class="footer-link-udem"><i class="fas fa-envelope"></i> {{ 'papyrus.footer.contact.ecrire' | translate }}</li>
+          <li class="footer-link-udem"><i class="fas fa-phone"></i> {{ 'papyrus.footer.contact.telephone' | translate }}</li>
         </ul>
       </div>
       <div class="col-md-5 col-sm-4 pl-5 border-r mt-4">
-        <h5>Infos</h5>
+        <h5>{{ 'papyrus.footer.infos.titre' | translate }}</h5>
         <ul class="list-unstyled text-gray">
-          <li class="footer-link-udem">À propos de Papyrus</li>
-          <li class="footer-link-udem">Dépôt des thèses et mémoires</li>
-          <li class="footer-link-udem">Droit d'auteur et politiques d'éditeurs</li>
-          <li class="footer-link-udem">Interrogation de Papyrus via liens dynamiques et OAI-PMH</li>
+          <li class="footer-link-udem">{{ 'papyrus.footer.infos.a_propos' | translate }}</li>
+          <li class="footer-link-udem">{{ 'papyrus.footer.infos.depot_memoires' | translate }}</li>
+          <li class="footer-link-udem">{{ 'papyrus.footer.infos.droits_politique' | translate }}</li>
+          <li class="footer-link-udem">{{ 'papyrus.footer.infos.liens_dynamiques' | translate }}</li>
         </ul>
       </div>
       <div class="col-md-4 col-sm-4 pl-5 mt-4">
-        <img src="assets/papyrus/images/Sceau_logo-Biblio_UdeM-RVB_inverse 1.png" alt="Logo des bibliothèques de l'Université de Montréal" class="footer-logo-bib">
+        <img src="assets/papyrus/images/Sceau_logo-Biblio_UdeM-RVB_inverse 1.png" alt="{{ 'papyrus.footer.bibliotheque' | translate }}" class="footer-logo-bib">
       </div>
     </div>
     <div class="row p-3 mt-4">
       <div class="col-md-12 text-center">
         <ul class="footer-info list-unstyled d-flex justify-content-center mb-0">
           <li>
-            <a  class="footer-link-udem" (click)="showCookieSettings()">
-              {{ 'footer.link.cookies' | translate}}
+            <a class="footer-link-udem" (click)="showCookieSettings()">
+              {{ 'papyrus.footer.liens.cookies' | translate }}
             </a><span class="text-blue">|</span>
           </li>
           <li *ngIf="showPrivacyPolicy">
-            <a class="footer-link-udem"
-               routerLink="info/privacy">{{ 'footer.link.privacy-policy' | translate}}
+            <a class="footer-link-udem" routerLink="info/privacy">
+              {{ 'papyrus.footer.liens.confidentialite' | translate }}
             </a><span class="text-blue">|</span>
           </li>
           <li *ngIf="showEndUserAgreement">
-            <a class="footer-link-udem"
-               routerLink="info/end-user-agreement">{{ 'footer.link.end-user-agreement' | translate}}
+            <a class="footer-link-udem" routerLink="info/end-user-agreement">
+              {{ 'papyrus.footer.liens.accord_utilisateur' | translate }}
             </a><span class="text-blue">|</span>
           </li>
           <li *ngIf="showSendFeedback$ | async">
-            <a class="footer-link-udem"
-               routerLink="info/feedback">{{ 'footer.link.feedback' | translate}}</a>
+            <a class="footer-link-udem" routerLink="info/feedback">
+              {{ 'papyrus.footer.liens.commentaires' | translate }}
+            </a>
           </li>
         </ul>
       </div>
     </div>
     <div class="row p-3 mt-2">
       <div class="col-md-12 text-center">
-        <a class="mr-2 text-white"
-           href="http://www.dspace.org/">{{ 'footer.link.dspace' | translate}}</a>
-        <span class="mr-2 "> {{ 'footer.copyright' | translate:{year: dateObj | date:'y'} }}</span>
+        <a class="mr-2 text-white" href="http://www.dspace.org/">
+          {{ 'papyrus.footer.liens.propulse_par' | translate }}
+        </a>
+        <span class="mr-2">
+          {{ 'papyrus.footer.copyright' | translate: { year: dateObj | date:'y' } }}
+        </span>
         <span class="text-blue">|</span>
-        <span class="ml-2">Propulsé par: </span>
+        <span class="ml-2">{{ 'papyrus.footer.propulse_par' | translate }}:</span>
         <img src="assets/papyrus/images/scholaris-logo-light.svg" alt="Logo Scholaris" class="footer-logo">
       </div>
     </div>
@@ -64,7 +68,7 @@
   <section class="bg-primary">
     <div class="text-center p-2">
       <small>
-        © Université de Montréal, 2025. Tous droits réservés
+        {{ 'papyrus.footer.copyright' | translate: { year: '2025' } }}
       </small>
     </div>
   </section>

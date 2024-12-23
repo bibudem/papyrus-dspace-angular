@@ -1,9 +1,9 @@
 /* Section des espaces */
 .espaces-section {
-  background-color: #00407F;
+  background-color: #024244;
   color: #FFFFFF;
   margin-top: -16px;
-  border-top: 10px solid #00407F;
+  border-top: 10px solid #024244;
 
   .section-title {
     font-family: Figtree, sans-serif;
@@ -22,8 +22,8 @@
   }
 
   .btn-primary {
-    background-color: #fff;
-    border-color: #fff;
+    background-color: #E7EBEE;
+    border-color: #E7EBEE;
     border-radius: 60px;
     font-size: 1rem;
     color: #00407F;
@@ -36,10 +36,17 @@
     transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
 
     &:hover {
-      background-color: #0B113A;
-      border-color: #0B113A;
-      transform: translateY(-1px);
-      color: white;
+      background-color: #fff;
+      border-color: #fff;
+      color: #0B113A;
+    }
+    .icon {
+      margin-left: 10px;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: translateX(5px);
+      }
     }
   }
 
@@ -51,7 +58,7 @@
     top: 75%;
     left: 50%;
     transform: translateY(-50%);
-    border: 15px solid #00407F;
+    border: 15px solid #024244;
     border-radius: 5%;
     z-index: 2;
   }

@@ -1,0 +1,47 @@
+{
+  // DSpace default: "All of DSpace"
+  "menu.section.browse_global": "Tout Papyrus",
+
+  // DSpace default: "DSpace Angular :: "
+  "repository.title.prefix": "Papyrus :: ",
+
+  "papyrus.home.new.titre": "Papyrus : Donnez une nouvelle portée à vos travaux",
+
+  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l'Université de Montréal. Il offre aux chercheurs et étudiants une plateforme pour diffuser leurs travaux en libre accès.\n <br>\n Grâce à Papyrus, vos recherches, publications, thèses et mémoires sont accessibles à toute la communauté académique, renforçant leur visibilité et leur impact.",
+
+  "papyrus.home.new.bouton": "Connecter vous",
+
+  "papyrus.footer.bibliotheque": "Les bibliothèques de l’Université de Montréal",
+
+  "papyrus.footer.contact.titre": "Nous joindre",
+
+  "papyrus.footer.contact.equipe": "Équipe du dépôt",
+
+  "papyrus.footer.contact.ecrire": "Nous écrire",
+
+  "papyrus.footer.contact.telephone": "+1 514 343-7643",
+
+  "papyrus.footer.infos.titre": "Infos",
+
+  "papyrus.footer.infos.a_propos": "À propos de Papyrus",
+
+  "papyrus.footer.infos.depot_memoires": "Dépôt des thèses et mémoires",
+
+  "papyrus.footer.infos.droits_politique": "Droit d'auteur et politiques d'éditeurs",
+
+  "papyrus.footer.infos.liens_dynamiques": "Interrogation de Papyrus via liens dynamiques et OAI-PMH",
+
+  "papyrus.footer.liens.cookies": "Gestion des cookies",
+
+  "papyrus.footer.liens.confidentialite": "Politique de confidentialité",
+
+  "papyrus.footer.liens.accord_utilisateur": "Accord de l'utilisateur final",
+
+  "papyrus.footer.liens.commentaires": "Envoyer un commentaire",
+
+  "papyrus.footer.liens.propulse_par": "Propulsé par DSpace",
+
+  "papyrus.footer.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
+
+  "papyrus.footer.propulse_par": "Propulsé par"
+}

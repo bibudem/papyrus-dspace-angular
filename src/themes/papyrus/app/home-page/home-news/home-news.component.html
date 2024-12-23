@@ -13,13 +13,10 @@
 
       <!-- Right side: Text content -->
       <div class="col-lg-6 text-left text-lg-start pl-5 ">
-        <h1 class="section-title mb-4 text-white pt-4">Papyrus : Donnez une nouvelle portée à vos travaux</h1>
-        <p class="section-description mb-4">
-          Papyrus est le dépôt institutionnel de l'Université de Montréal. Il offre aux chercheurs et étudiants une plateforme pour diffuser leurs travaux en libre accès.
-          <br>
-          Grâce à Papyrus, vos recherches, publications, thèses et mémoires sont accessibles à toute la communauté académique, renforçant leur visibilité et leur impact.
-        </p>
-        <a href="#" class="btn btn-primary btn-lg">Connecter vous &rarr;</a>
+        <h1 class="section-title mb-4 text-white pt-4">{{ 'papyrus.home.new.titre' | translate}}</h1>
+        <p class="section-description mb-4" [innerHTML]="'papyrus.home.new.description' | translate"></p>
+        <a href="#" class="btn btn-primary btn-lg">{{ 'papyrus.home.new.bouton' | translate}}
+          <img src="assets/papyrus/images/ArrowRight.svg" alt="Arrow Right" class="icon" /></a>
       </div>
     </div>
   </div>
