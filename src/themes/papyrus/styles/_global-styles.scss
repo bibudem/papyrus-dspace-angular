@@ -68,9 +68,16 @@ h2 {
 
 .lead:hover {
   text-decoration: none!important;
-  font-weight: 350;
+  font-weight: 400;
+  color: #024244;
 }
 
 a:hover{
   text-decoration: none!important;
+  color: #024244;
+  font-weight: 400;
+}
+
+.ds-menu-item {
+  padding: 5px 7px 5px 10px;
 }
