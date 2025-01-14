@@ -1,0 +1,31 @@
+.nav-breadcrumb {
+  background-color: var(--ds-breadcrumb-bg);
+}
+
+.breadcrumb {
+  background-color: var(--ds-breadcrumb-bg);
+}
+
+li.breadcrumb-item {
+  display: flex;
+}
+
+.breadcrumb-item-limiter {
+  display: inline-block;
+  max-width: var(--ds-breadcrumb-max-length);
+  > * {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+li.breadcrumb-item {
+  a {
+    color: var(--ds-breadcrumb-link-color);
+  }
+}
+
+li.breadcrumb-item.active {
+  color: var(--ds-breadcrumb-link-active-color);
+  font-weight: 600;
+}

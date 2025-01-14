@@ -1,0 +1,68 @@
+.footer {
+  background-color:#0B113A;
+  color: #f8f9fa;
+  padding-top: 40px;
+
+  h5 {
+    color:#f8f9fa;
+    margin-bottom: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
+  .footer-link-udem {
+    font-size: 14px;
+    color: #C3CCD5;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #6BA5D1;
+    }
+  }
+
+  .footer-logo {
+    width: 150px;
+  }
+  .footer-logo-bib{
+    width: 175px;
+  }
+
+  .footer-link {
+    color: #f8f9fa;
+    margin: 0 10px;
+
+    &:hover {
+      color: #00407F;
+    }
+  }
+  .text-blue {
+    color: #6BA5D1
+  }
+  .text-gray {
+    color: #C3CCD5;
+  }
+  .border-r {
+    border-right: 1px solid #607386;
+  }
+  .text-bib {
+    color: #FFF;
+    font-family: Figtree;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+  }
+}
