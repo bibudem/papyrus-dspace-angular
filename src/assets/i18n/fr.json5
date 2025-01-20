@@ -676,33 +676,33 @@
 
   "browse.back.all-results": "Tous les résultats",
 
-  "browse.comcol.by.author": "Auteur",
+  "browse.comcol.by.author": "Auteurs",
 
-  "browse.comcol.by.dateissued": "Date de publication",
+  "browse.comcol.by.dateissued": "Dates de publication",
 
-  "browse.comcol.by.subject": "Sujet",
+  "browse.comcol.by.subject": "Sujets",
 
-  "browse.comcol.by.title": "Titre",
+  "browse.comcol.by.title": "Titres",
 
-  "browse.comcol.head": "Parcourir par",
+  "browse.comcol.head": "Parcourir",
 
   "browse.empty": "Aucun résultat.",
 
-  "browse.metadata.author": "Auteur",
+  "browse.metadata.author": "auteur",
 
-  "browse.metadata.dateissued": "Date de publication",
+  "browse.metadata.dateissued": "date de publication",
 
-  "browse.metadata.subject": "Sujet",
+  "browse.metadata.subject": "sujet",
 
-  "browse.metadata.title": "Titre",
+  "browse.metadata.title": "titre",
 
-  "browse.metadata.author.breadcrumbs": "Parcourir par Auteur",
+  "browse.metadata.author.breadcrumbs": "Parcourir les auteurs",
 
-  "browse.metadata.dateissued.breadcrumbs": "Parcourir par Date",
+  "browse.metadata.dateissued.breadcrumbs": "Parcourir les dates de publication",
 
-  "browse.metadata.subject.breadcrumbs": "Parcourir par Sujet",
+  "browse.metadata.subject.breadcrumbs": "Parcourir les sujets",
 
-  "browse.metadata.title.breadcrumbs": "Parcourir par Titre",
+  "browse.metadata.title.breadcrumbs": "Parcourir les titres",
 
   "browse.next.button": "Suivant(e)",
 
@@ -752,9 +752,9 @@
 
   "browse.startsWith.type_text": "Ou saisir les premières lettres puis cliquer sur le bouton « Parcourir »",
 
-  "browse.title": "Parcourir la collection {{ collection }} par {{ field }} {{ value }}",
+  "browse.title": "Parcourir {{ collection }} par {{ field }} {{ value }}",
 
-  "browse.title.page": "Parcourir la collection {{ collection }} par {{ field }} {{ value }}",
+  "browse.title.page": "Parcourir {{ collection }} par {{ field }} {{ value }}",
 
   "search.browse.item-back": "Retour aux résultats",
 
@@ -1390,7 +1390,7 @@
 
   "forgot-email.form.header": "Mot de passe oublié",
 
-  "forgot-email.form.info": "Créer un compte pour vous abonner à des collections afin de recevoir des mises à jour via courrier électronique ainsi que pour déposer de nouveaux Items dans DSpace.",
+  "forgot-email.form.info": "Créer un compte pour vous abonner à des collections afin de recevoir des mises à jour via courrier électronique ainsi que pour déposer de nouveaux Items dans Papyrus.",
 
   "forgot-email.form.email": "Adresse électronique *",
 
@@ -1544,7 +1544,7 @@
 
   "home.title": "Accueil",
 
-  "home.top-level-communities.head": "Communautés dans DSpace",
+  "home.top-level-communities.head": "Communautés dans Papyrus",
 
   "home.top-level-communities.help": "Sélectionner une communauté pour parcourir les collections sous-jacentes.",
 
@@ -1576,7 +1576,7 @@
 
   "info.feedback.title": "Votre avis",
 
-  "info.feedback.info": "Merci de nous faire part de votre avis sur le système DSpace. Vos commentaires sont appréciés !",
+  "info.feedback.info": "Merci de nous faire part de votre avis sur le système Papyrus. Vos commentaires sont appréciés !",
 
   "info.feedback.email_help": "Cette adresse sera utilisée pour donner suite à vos commentaires.",
 
@@ -2024,7 +2024,7 @@
 
   "item.listelement.badge": "Item",
 
-  "item.page.description": "Description",
+  "item.page.description": "Note·s",
 
   "item.page.journal-issn": "ISSN de la revue",
 
@@ -2044,9 +2044,9 @@
 
   "item.truncatable-part.show-less": "Réduire",
 
-  "item.page.abstract": "Résumé",
+  "item.page.abstract": "Résumé·s",
 
-  "item.page.author": "Auteurs",
+  "item.page.author": "Auteur·e·s",
 
   "item.page.citation": "Citation",
 
@@ -2350,7 +2350,7 @@
 
   "login.form.forgot-password": "Mot de passe oublié?",
 
-  "login.form.header": "Se connecter à DSpace",
+  "login.form.header": "Se connecter à Papyrus",
 
   "login.form.new-user": "Pas encore de compte? Cliquer ici pour vous enregistrer.",
 
@@ -2368,7 +2368,7 @@
 
   "login.breadcrumbs": "Connexion",
 
-  "logout.form.header": "Se déconnecter de DSpace",
+  "logout.form.header": "Se déconnecter de Papyrus",
 
   "logout.form.submit": "Se déconnecter",
 
@@ -2398,15 +2398,15 @@
 
   "menu.section.browse_community_by_title": "Titre",
 
-  "menu.section.browse_global": "Tout Papyrus",
+  "menu.section.browse_global": "Parcourir Papyrus",
 
-  "menu.section.browse_global_by_author": "Auteur",
+  "menu.section.browse_global_by_author": "Auteurs",
 
-  "menu.section.browse_global_by_dateissued": "Date de publication",
+  "menu.section.browse_global_by_dateissued": "Dates de publication",
 
-  "menu.section.browse_global_by_subject": "Sujet",
+  "menu.section.browse_global_by_subject": "Sujets",
 
-  "menu.section.browse_global_by_title": "Titre",
+  "menu.section.browse_global_by_title": "Titres",
 
   "menu.section.browse_global_communities_and_collections": "Communautés et collections",
 
@@ -2522,7 +2522,7 @@
 
   "menu.section.workflow": "Workflow Administrateur",
 
-  "mydspace.breadcrumbs": "Mon compte DSpace",
+  "mydspace.breadcrumbs": "Mon compte Papyrus",
 
   "mydspace.description": "",
 
@@ -2576,7 +2576,7 @@
 
   "mydspace.results.no-uri": "Aucune URL",
 
-  "mydspace.search-form.placeholder": "Rechercher dans mon compte DSpace...",
+  "mydspace.search-form.placeholder": "Rechercher dans mon compte Papyrus...",
 
   "mydspace.show.workflow": "Tableau de suivi",
 
@@ -2594,7 +2594,7 @@
 
   "mydspace.status.mydspaceWorkspace": "Dépôts en cours",
 
-  "mydspace.title": "Mon compte DSpace",
+  "mydspace.title": "Mon compte Papyrus",
 
   "mydspace.upload.upload-failed": "Erreur à la création de l'espace de travail. Veuillez vérifier le contenu téléchargé avant de réessayer.",
 
@@ -2606,7 +2606,7 @@
 
   "mydspace.view-btn": "Afficher",
 
-  "nav.browse.header": "Tout Dspace",
+  "nav.browse.header": "Tout Papyrus",
 
   "nav.community-browse.header": "Par communauté",
 
@@ -2618,7 +2618,7 @@
 
   "nav.main.description": "Barre de navigation principale",
 
-  "nav.mydspace": "Mon compte DSpace",
+  "nav.mydspace": "Mon compte Papyrus",
 
   "nav.profile": "Profil",
 
@@ -3008,7 +3008,7 @@
 
   "repository.title.prefix": "Papyrus :: ",
 
-  "repository.title.prefixDSpace": "DSpace Angular :: ",
+  "repository.title.prefixDSpace": "Papyrus :: ",
 
   "resource-policies.add.button": "Ajouter",
 
@@ -3316,9 +3316,9 @@
 
   "search.form.search": "Recherche",
 
-  "search.form.search_dspace": "Recherche dans DSpace",
+  "search.form.search_dspace": "Recherche dans Papyrus",
 
-  "search.form.scope.all": "Tout le dépôt DSpace",
+  "search.form.scope.all": "Tout le dépôt Papyrus",
 
   "search.results.head": "Résultats de recherche",
 
@@ -3448,9 +3448,9 @@
 
   "submission.import-external.title.none": "Importer les métadonnées depuis une source externe",
 
-  "submission.import-external.page.hint": "Entrer votre recherche ci-dessus pour rechercher des éléments du web à importer dans DSpace",
+  "submission.import-external.page.hint": "Entrer votre recherche ci-dessus pour rechercher des éléments du web à importer dans Papyrus",
 
-  "submission.import-external.back-to-my-dspace": "Retour à mon compte DSpace",
+  "submission.import-external.back-to-my-dspace": "Retour à mon compte Papyrus",
 
   "submission.import-external.search.placeholder": "Recherche de la source externe",
 
@@ -4036,9 +4036,9 @@
 
   "submission.workflow.tasks.pool.show-detail": "Afficher le détail",
 
-  "submission.workspace.generic.view": "Voir",
+  "submission.workspace.generic.view": "Afficher",
 
-  "submission.workspace.generic.view-help": "Sélectionner cette option pour voir les métadonnées de l'item.",
+  "submission.workspace.generic.view-help": "Sélectionner cette option pour afficher les métadonnées de l'item.",
 
   "thumbnail.default.alt": "Vignette d'image",
 
@@ -4056,7 +4056,7 @@
 
   "thumbnail.person.placeholder": "Aucune photo de profil disponible",
 
-  title: "DSpace",
+  title: "Papyrus",
 
   "vocabulary-treeview.header": "Arborescence hiérarchique",
 
@@ -4271,4 +4271,358 @@
   "papyrus.footer.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
 
   "papyrus.footer.propulse_par": "Propulsé par",
+
+  "home.recent-submissions.head": "Soumissions récentes",
+
+  "montreal.home.page.title": "Papyrus: Dépôt institutionnel",
+
+  "footer.text.scholaris": "Propulsé par",
+
+  "item.page.contributor.advisor": "Directeur·trice·s de recherche",
+
+  "item.page.contributor.affiliation": "Affiliation",
+
+  "item.page.degree.discipline": "Programmes",
+
+  "item.page.uri.permalink": "Permalien",
+
+  "admin.reports.collections.title": "Rapport de collections filtrées",
+
+  "admin.reports.collections.breadcrumbs": "Collections filtrées",
+
+  "admin.reports.collections.head": "Rapport de collections filtrées",
+
+  "admin.reports.button.show-collections": "Afficher les collections",
+
+  "admin.reports.collections.collections-report": "Rapport des collections",
+
+  "admin.reports.collections.item-results": "Éléments résultants",
+
+  "admin.reports.collections.community": "Communauté",
+
+  "admin.reports.collections.collection": "Collection",
+
+  "admin.reports.collections.nb_items": "Nb. d'éléments",
+
+  "admin.reports.collections.match_all_selected_filters": "Correspondant à tous les filtres sélectionnés",
+
+  "admin.reports.items.breadcrumbs": "Requête de métadonnées",
+
+  "admin.reports.items.head": "Rapport de requête de métadonnées",
+
+  "admin.reports.items.run": "Exécuter la requête",
+
+  "admin.reports.items.section.collectionSelector": "Sélecteur de collections",
+
+  "admin.reports.items.section.metadataFieldQueries": "Requêtes sur les champs de métadonnées",
+
+  "admin.reports.items.predefinedQueries": "Requêtes prédéfinies",
+
+  "admin.reports.items.section.limitPaginateQueries": "Limiter/paginer les résultats",
+
+  "admin.reports.items.limit": "Limite",
+
+  "admin.reports.items.offset": "À partir de",
+
+  "admin.reports.items.wholeRepo": "Tout le dépôt",
+
+  "admin.reports.items.anyField": "Tous les champs",
+
+  "admin.reports.items.predicate.exists": "existe",
+
+  "admin.reports.items.predicate.doesNotExist": "n'existe pas",
+
+  "admin.reports.items.predicate.equals": "est égal à",
+
+  "admin.reports.items.predicate.doesNotEqual": "n'est pas égal à",
+
+  "admin.reports.items.predicate.like": "est de forme (like)",
+
+  "admin.reports.items.predicate.notLike": "n'est pas de forme (not like)",
+
+  "admin.reports.items.predicate.contains": "contient",
+
+  "admin.reports.items.predicate.doesNotContain": "ne contient pas",
+
+  "admin.reports.items.predicate.matches": "correspond à (matches)",
+
+  "admin.reports.items.predicate.doesNotMatch": "ne correspond pas à (does not match)",
+
+  "admin.reports.items.preset.new": "Nouvelle requête",
+
+  "admin.reports.items.preset.hasNoTitle": "Sans titre",
+
+  "admin.reports.items.preset.hasNoIdentifierUri": "Sans dc.identifier.uri",
+
+  "admin.reports.items.preset.hasCompoundSubject": "A un sujet composite",
+
+  "admin.reports.items.preset.hasCompoundAuthor": "A un dc.contributor.author composite",
+
+  "admin.reports.items.preset.hasCompoundCreator": "A un dc.creator composite",
+
+  "admin.reports.items.preset.hasUrlInDescription": "A un URL dans dc.description",
+
+  "admin.reports.items.preset.hasFullTextInProvenance": "A des documents texte dans dc.description.provenance",
+
+  "admin.reports.items.preset.hasNonFullTextInProvenance": "N'a pas de document texte dans dc.description.provenance",
+
+  "admin.reports.items.preset.hasEmptyMetadata": "A des métadonnées vides",
+
+  "admin.reports.items.preset.hasUnbreakingDataInDescription": "A du contenu insécable dans la description",
+
+  "admin.reports.items.preset.hasXmlEntityInMetadata": "A des entités XML dans les métadonnées",
+
+  "admin.reports.items.preset.hasNonAsciiCharInMetadata": "A des caractères non ASCII dans les métadonnées",
+
+  "admin.reports.items.number": "Nº",
+
+  "admin.reports.items.id": "UUID",
+
+  "admin.reports.items.collection": "Collection",
+
+  "admin.reports.items.handle": "URI",
+
+  "admin.reports.items.title": "Titre",
+
+  "admin.reports.commons.filters": "Filtres",
+
+  "admin.reports.commons.additional-data": "Données additionnelles",
+
+  "admin.reports.commons.previous-page": "Page précédente",
+
+  "admin.reports.commons.next-page": "Page suivante",
+
+  "admin.reports.commons.page": "Page",
+
+  "admin.reports.commons.of": "de",
+
+  "admin.reports.commons.export": "Exporter les métadonnées",
+
+  "admin.reports.commons.filters.deselect_all": "Désélectionner tous les filtres",
+
+  "admin.reports.commons.filters.select_all": "Sélectionner tous les filtres",
+
+  "admin.reports.commons.filters.matches_all": "Tous les filtres spécifiés",
+
+  "admin.reports.commons.filters.property": "Filtres de propriétés d'éléments",
+
+  "admin.reports.commons.filters.property.is_item": "Est un élément - toujours vrai",
+
+  "admin.reports.commons.filters.property.is_withdrawn": "Éléments retirés",
+
+  "admin.reports.commons.filters.property.is_not_withdrawn": "Éléments disponibles - Non retirés",
+
+  "admin.reports.commons.filters.property.is_discoverable": "Éléments découvrables - Non privés",
+
+  "admin.reports.commons.filters.property.is_not_discoverable": "Éléments non découvrables - Privés",
+
+  "admin.reports.commons.filters.bitstream": "Filtres Bitstream de base",
+
+  "admin.reports.commons.filters.bitstream.has_multiple_originals": "L'élément a plusieurs Bitstreams originaux",
+
+  "admin.reports.commons.filters.bitstream.has_no_originals": "L'élément n'a pas de Bitstreams originaux",
+
+  "admin.reports.commons.filters.bitstream.has_one_original": "L'élément a un seul Bitstream original",
+
+  "admin.reports.commons.filters.bitstream_mime": "Filtres Bitstream par type MIME",
+
+  "admin.reports.commons.filters.bitstream_mime.has_doc_original": "L'élément a un Bitstream original de type document (PDF, Office, Text, HTML, XML, etc.)",
+
+  "admin.reports.commons.filters.bitstream_mime.has_image_original": "L'élément a un Bitstream original de type image",
+
+  "admin.reports.commons.filters.bitstream_mime.has_unsupp_type": "L'élément a d'autres types de Bitstream (ni document ni image)",
+
+  "admin.reports.commons.filters.bitstream_mime.has_mixed_original": "L'élément a des Bitstreams originaux de types multiples (document, image, autres)",
+
+  "admin.reports.commons.filters.bitstream_mime.has_pdf_original": "L'élément a un Bitstream original PDF",
+
+  "admin.reports.commons.filters.bitstream_mime.has_jpg_original": "L'élément a un Bitstream original JPG",
+
+  "admin.reports.commons.filters.bitstream_mime.has_small_pdf": "L'élément a un PDF anormalement petit",
+
+  "admin.reports.commons.filters.bitstream_mime.has_large_pdf": "L'élément a un PDF anormalement grand",
+
+  "admin.reports.commons.filters.bitstream_mime.has_doc_without_text": "L'élément a un Bitstream sans élément TEXT",
+
+  "admin.reports.commons.filters.mime": "Filtres de types MIME pris en charge",
+
+  "admin.reports.commons.filters.mime.has_only_supp_image_type": "L'élément a des Bitstreams image pris en charge",
+
+  "admin.reports.commons.filters.mime.has_unsupp_image_type": "L'élément a des Bitstreams image non pris en charge",
+
+  "admin.reports.commons.filters.mime.has_only_supp_doc_type": "Les Bitstreams document de l'élément sont pris en charge",
+
+  "admin.reports.commons.filters.mime.has_unsupp_doc_type": "L'élément a des Bitstreams document non pris en charge",
+
+  "admin.reports.commons.filters.bundle": "Filtres de Bitstreams de type Bundle",
+
+  "admin.reports.commons.filters.bundle.has_unsupported_bundle": "L'élément a un Bitstream dans un Bundle non pris en charge",
+
+  "admin.reports.commons.filters.bundle.has_small_thumbnail": "L'élément a une vignette anormalement petite",
+
+  "admin.reports.commons.filters.bundle.has_original_without_thumbnail": "L'élément a un Bitstream original sans vignette",
+
+  "admin.reports.commons.filters.bundle.has_invalid_thumbnail_name": "L'élément a une vignette ayant un nom invalide (une vignette par original)",
+
+  "admin.reports.commons.filters.bundle.has_non_generated_thumb": "L'élément a une vignette non générée",
+
+  "admin.reports.commons.filters.bundle.no_license": "L'élément n'a pas de licence",
+
+  "admin.reports.commons.filters.bundle.has_license_documentation": "L'élément a de la documentation dans le Bundle de licence",
+
+  "admin.reports.commons.filters.permission": "Filtres de permissions",
+
+  "admin.reports.commons.filters.permission.has_restricted_original": "L'élément a un Bitstream original à accès restreint",
+
+  "admin.reports.commons.filters.permission.has_restricted_original.tooltip": "L'élément a au moins un Bitstream original non accessible aux utilisateurs anonymes",
+
+  "admin.reports.commons.filters.permission.has_restricted_thumbnail": "L'élément a une vignette à accès restreint",
+
+  "admin.reports.commons.filters.permission.has_restricted_thumbnail.tooltip": "L'élément a au moins une vignette non accessible aux utilisateurs anonymes",
+
+  "admin.reports.commons.filters.permission.has_restricted_metadata": "L'élément a des métadonnées à accès restreint",
+
+  "admin.reports.commons.filters.permission.has_restricted_metadata.tooltip": "L'élément a des métadonnées non accessibles aux utilisateurs anonymes",
+
+  "collection.logo": "Logo de collection",
+
+  "collection.page.browse.search.head": "Recherche",
+
+  "collection.search.results.head": "Résultats de recherche",
+
+  "community.search.results.head": "Résultats de recherche",
+
+  "dropdown.clear": "Effacer la sélection",
+
+  "dropdown.clear.tooltip": "Effacer l'option sélectionnée",
+
+  "dso-selector.placeholder.type.community": "communauté",
+
+  "dso-selector.placeholder.type.collection": "collection",
+
+  "dso-selector.placeholder.type.item": "item",
+
+  "item.page.affiliation": "Affiliation",
+
+  "item.page.hasVersion": "Autre·s version·s linguistique·s)",
+
+  "item.page.OrcidIdentifiant": "Identifiant ORCID de l’auteur·e",
+
+  "item.page.tableOfContents": "Table des matières ",
+
+  "item.page.contributor": "Contributeur·trice·s",
+
+  "item.page.degree-discipline": "Programme",
+
+  "item.page.degree-level": "Cycle d'études",
+
+  "item.page.relation": "Ensemble·s de données lié·s",
+
+  "item.page.sponsorship": "Organisme·s subventionnaire·s",
+
+  "item.page.title-alternative": "Autre·s titre·s",
+
+  "item.page.doi": "Autre·s localisation·s",
+
+  "item.page.advisor": "Directeur·trice·s de recherche",
+
+  "item.page.type": "Type de document",
+
+  "menu.section.reports": "Rapports",
+
+  "menu.section.reports.collections": "Collections filtrées",
+
+  "menu.section.reports.queries": "Requête de métadonnées",
+
+  "menu.section.icon.reports": "Section du menu d'accès aux rapports",
+
+  "menu.section.toggle.reports": "Ouvrir/Fermer section Rapports",
+
+  "browse.comcol.by.titleindex": "Index des titres",
+
+  "item.page.cc.license.title": "Licence Creative Commons",
+
+  "item.page.cc.license.disclaimer": "Sauf indication contraire, la licence de cet article est décrite comme",
+
+  "menu.section.browse_global_by_advisor": "Directeurs de recherche",
+
+  "menu.section.browse_global_by_discipline": "Programmes",
+
+  "menu.section.browse_global_by_affiliation": "Affiliation",
+
+  "menu.section.browse_global_by_titleindex": "Index des titres",
+
+  "browse.comcol.by.advisor": "Directeurs de recherche",
+
+  "browse.comcol.by.discipline": "Programmes",
+
+  "browse.comcol.by.affiliation": "Affiliation",
+
+  "browse.metadata.advisor": "directeur de recherche",
+
+  "browse.metadata.discipline": "programme",
+
+  "browse.metadata.affiliation": "affiliation",
+
+  "browse.metadata.titleindex": "l'index des titres",
+
+  "browse.metadata.advisor.breadcrumbs": "Parcourir les directeurs de recherche",
+
+  "browse.metadata.discipline.breadcrumbs": "Parcourir les programmes",
+
+  "browse.metadata.affiliation.breadcrumbs": "Parcourir les affiliations",
+
+  "browse.metadata.titleindex.breadcrumbs": "Parcourir l'index des titres",
+
+  "search.filters.filter.degreeDiscipline.head": "Programme",
+
+  "search.filters.filter.degreeDiscipline.placeholder": "Nom du programme",
+
+  "search.filters.filter.degreeDiscipline.label": "Recherche d'un programme",
+
+  "search.filters.filter.advisor.head": "Directeur de recherche",
+
+  "search.filters.filter.advisor.placeholder": "Nom d'un directeur de recherche",
+
+  "search.filters.filter.advisor.label": "Recherche d'un directeur de recherche",
+
+  "search.filters.filter.degreeLevel.head": "Cycle d'études",
+
+  "search.filters.filter.degreeLevel.placeholder": "Nom du cycle d'études",
+
+  "search.filters.filter.degreeLevel.label": "Recherche d'un cycle d'études",
+
+  "search.filters.filter.language.head": "Langue",
+
+  "search.filters.filter.language.placeholder": "Nom de la langue",
+
+  "search.filters.filter.language.label": "Recherche d'une langue",
+
+  "search.filters.filter.affiliation.head": "Affiliation",
+
+  "search.filters.filter.affiliation.placeholder": "Nom de l'affiliation",
+
+  "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
+
+  "submission.sections.papyrus-TME.page-01": "Description: titre, contributeurs, programme, date, langue",
+
+  "submission.sections.papyrus-TME.page-02": "Description: sujet, résumé",
+
+  "submission.sections.papyrus-TP.page-01": "Type de document et affiliation",
+
+  "submission.sections.papyrus-TP.page-02": "Description du document",
+
+  "submission.sections.papyrus-PE.page-01": "Type de document",
+
+  "submission.sections.papyrus-PE.page-02": "Description du document",
+
+  "vocabulary-treeview.info": "Faites une recherche puis sélectionner un terme à insérer",
+
+  "papyrus.footer.dspace.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
+
+  "papyrus.info.feedback.head": "Soumettre un commentaire",
+
+  "papyrus.info.feedback.info": "Merci de prendre quelques minutes pour nous faire part de vos commentaires à propos du dépôt institutionnel Papyrus.",
+
+  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
 }

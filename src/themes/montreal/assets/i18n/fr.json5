@@ -237,5 +237,10 @@
   "papyrus.footer.liens.propulse_par": "Propulsé par DSpace",
   "papyrus.footer.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
   "papyrus.footer.dspace.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
-  "papyrus.footer.propulse_par": "Propulsé par"
-  }
+  "papyrus.footer.propulse_par": "Propulsé par",
+
+  "papyrus.info.feedback.head": "Soumettre un commentaire",
+  "papyrus.info.feedback.info": "Merci de prendre quelques minutes pour nous faire part de vos commentaires à propos du dépôt institutionnel Papyrus.",
+  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>"
+
+}

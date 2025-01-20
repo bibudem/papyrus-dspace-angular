@@ -61,9 +61,17 @@ import { SharedBrowseByModule } from '../../app/shared/browse-by/shared-browse-b
 import { ItemVersionsModule } from '../../app/item-page/versions/item-versions.module';
 import { ItemSharedModule } from 'src/app/item-page/item-shared.module';
 import { HomePageComponent } from './app/home-page/home-page.component';
+import { EndUserAgreementComponent } from './app/info/end-user-agreement/end-user-agreement.component';
+import { PrivacyComponent } from './app/info/privacy/privacy.component';
+import { FeedbackComponent } from './app/info/feedback/feedback.component';
+import { FeedbackFormComponent } from './app/info/feedback/feedback-form/feedback-form.component';
 
 const DECLARATIONS = [
   HomePageComponent,
+  EndUserAgreementComponent,
+  PrivacyComponent,
+  FeedbackComponent,
+  FeedbackFormComponent
 ];
 
 @NgModule({

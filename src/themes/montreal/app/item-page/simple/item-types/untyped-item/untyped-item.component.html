@@ -74,8 +74,21 @@
         </li>
       </ul>
     </ng-container>
+
+    <!-- dc.contributor.advisor -->
+    <ds-generic-item-page-field [item]="object"
+                                [fields]="['dc.contributor.advisor']"
+                                [label]="'item.page.contributor.advisor'">
+    </ds-generic-item-page-field>
+
+    <!-- dc.contributor.affiliation -->
+    <ds-generic-item-page-field [item]="object"
+                                [fields]="['dc.contributor.affiliation']"
+                                [label]="'item.page.contributor.affiliation'">
+    </ds-generic-item-page-field>
+
   </div>
-  
+
   <div class="col-xs-12 col-md-8">
 
     <!-- U de M custom abstract metadata field dcterms.abstract -->
@@ -90,16 +103,6 @@
       [label]="'item.page.description'">
     </ds-generic-item-page-field>
 
-    <!-- dc.contributor.advisor -->
-    <ds-generic-item-page-field [item]="object"
-      [fields]="['dc.contributor.advisor']"
-      [label]="'item.page.contributor.advisor'">
-    </ds-generic-item-page-field>
-    <!-- dc.contributor.affiliation -->
-    <ds-generic-item-page-field [item]="object"
-      [fields]="['dc.contributor.affiliation']"
-      [label]="'item.page.contributor.affiliation'">
-    </ds-generic-item-page-field>
     <!-- etd.degree.discipline -->
     <ds-generic-item-page-field [item]="object"
         [fields]="['etd.degree.discipline']"
