@@ -821,8 +821,8 @@
   "papyrus.footer.library": "Université de Montréal Libraries",
   "papyrus.footer.contact.title": "Contact Us",
   "papyrus.footer.contact.team": "Repository Team",
-  "papyrus.footer.contact.write": "Write to Us",
-  "papyrus.footer.contact.phone": "+1 514 343-7643",
+  "papyrus.footer.contact.write": "depot@bib.umontreal.ca",
+  "papyrus.footer.contact.phone": "+514-343-6111 x33345",
   "papyrus.footer.info.title": "Information",
   "papyrus.footer.info.about": "About Papyrus",
   "papyrus.footer.info.submit_theses": "Theses and Dissertations Submission",
@@ -834,6 +834,13 @@
   "papyrus.footer.links.feedback": "Send Feedback",
   "papyrus.footer.links.powered_by": "Powered by DSpace",
   "papyrus.footer.copyright": "© Université de Montréal, {{year}}. All rights reserved",
-  "papyrus.footer.dspace.copyright": "© Université de Montréal, {{year}}. All rights reserved",
-  "papyrus.footer.powered_by": "Powered by"
+  "papyrus.footer.dspace.copyright": "Logiciel DSpace copyright © 2002-{{year}}",
+  "papyrus.footer.liens.lyrasis": "LYRASIS",
+  "papyrus.footer.powered_by": "Powered by",
+
+  "papyrus.info.feedback.head": "Submit Feedback",
+  "papyrus.info.feedback.info": "Thank you for taking a few minutes to share your feedback about the Papyrus institutional repository.",
+  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Mandatory Submission of Theses and Dissertations</strong>:<br>\n  For any information or support regarding the electronic submission of theses and dissertations, please refer to the website \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">UdeM Theses and Dissertations</a> and especially its section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Need Help</a>.\n</span>",
+  "papyrus.menu.principale.info": "Infos",
+  "papyrus.menu.principale.a_propos": "About Papyrus"
 }

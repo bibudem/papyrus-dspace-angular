@@ -223,8 +223,8 @@
   "papyrus.footer.bibliotheque": "Les bibliothèques de l’Université de Montréal",
   "papyrus.footer.contact.titre": "Nous joindre",
   "papyrus.footer.contact.equipe": "Équipe du dépôt",
-  "papyrus.footer.contact.ecrire": "Nous écrire",
-  "papyrus.footer.contact.telephone": "+1 514 343-7643",
+  "papyrus.footer.contact.ecrire": "depot@bib.umontreal.ca",
+  "papyrus.footer.contact.telephone": "+514-343-6111 x33345",
   "papyrus.footer.infos.titre": "Infos",
   "papyrus.footer.infos.a_propos": "À propos de Papyrus",
   "papyrus.footer.infos.depot_memoires": "Dépôt des thèses et mémoires",
@@ -234,13 +234,14 @@
   "papyrus.footer.liens.confidentialite": "Politique de confidentialité",
   "papyrus.footer.liens.accord_utilisateur": "Accord de l'utilisateur final",
   "papyrus.footer.liens.commentaires": "Envoyer un commentaire",
-  "papyrus.footer.liens.propulse_par": "Propulsé par DSpace",
+  "papyrus.footer.liens.lyrasis": "LYRASIS",
   "papyrus.footer.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
-  "papyrus.footer.dspace.copyright": "© Université de Montréal, {{year}}. Tous droits réservés",
+  "papyrus.footer.dspace.copyright": "Logiciel DSpace copyright © 2002-{{year}}",
   "papyrus.footer.propulse_par": "Propulsé par",
 
   "papyrus.info.feedback.head": "Soumettre un commentaire",
   "papyrus.info.feedback.info": "Merci de prendre quelques minutes pour nous faire part de vos commentaires à propos du dépôt institutionnel Papyrus.",
-  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>"
-
+  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
+  "papyrus.menu.principale.info": "Infos",
+  "papyrus.menu.principale.a_propos": "À propos de Papyrus"
 }
