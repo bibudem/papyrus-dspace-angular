@@ -816,7 +816,7 @@
   "search.filters.filter.notifyEndorsement.placeholder": "Notify Endorsement",
   "search.filters.filter.notifyEndorsement.label": "Search Notify Endorsement",
   "papyrus.home.new.title": "Papyrus: Give a New Reach to Your Work",
-  "papyrus.home.new.description": "Papyrus is the institutional repository of the Université de Montréal. It provides researchers and students with a platform to share their work through open access.\n <br>\n With Papyrus, your research, publications, theses, and dissertations are accessible to the entire academic community, enhancing their visibility and impact.",
+  "papyrus.home.new.description": "Papyrus is the institutional repository of the Université de Montréal. It provides open access to theses and dissertations submitted at UdeM, as well as research work from the UdeM community (scholarly journal articles, book chapters, etc.). It serves as the platform for preserving and disseminating the scholarly output of the UdeM community.",
   "papyrus.home.new.button": "Log in",
   "papyrus.footer.library": "Université de Montréal Libraries",
   "papyrus.footer.contact.title": "Contact Us",
@@ -842,5 +842,9 @@
   "papyrus.info.feedback.info": "Thank you for taking a few minutes to share your feedback about the Papyrus institutional repository.",
   "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Mandatory Submission of Theses and Dissertations</strong>:<br>\n  For any information or support regarding the electronic submission of theses and dissertations, please refer to the website \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">UdeM Theses and Dissertations</a> and especially its section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Need Help</a>.\n</span>",
   "papyrus.menu.principale.info": "Infos",
-  "papyrus.menu.principale.a_propos": "About Papyrus"
+  "papyrus.menu.principale.a_propos": "About",
+  "papyrus.menu.principale.a_propos_papyrus": "About Papyrus",
+  "papyrus.menu.principale.sous_menu_1": "Thesis or dissertation deposit",
+  "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections"
+
 }

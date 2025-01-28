@@ -5,9 +5,10 @@
 $redorange: #f04e24;
 $rose: #fee1de;
 $green: #024244;
+$greensecondary: #04696c;
 $darkgreen: #01282AFF;
 $lightgreen: #52b782;
-$extralightgreen: #C2F5DB;
+$extralightgreen: #ecf7ec;
 $gray: #c4ced3;
 
 :root {
@@ -92,7 +93,7 @@ $gray: #c4ced3;
   --ds-thumbnail-max-width: 125px;
   --ds-thumbnail-placeholder-background: #{$gray-100};
   --ds-thumbnail-placeholder-border: 1px solid #{$gray-300};
-  --ds-thumbnail-placeholder-color: #{lighten($gray-800, 7%)};
+  --ds-thumbnail-placeholder-color: #{lighten($greensecondary, 7%)};
 
   --ds-dso-selector-list-max-height: 475px;
   --ds-dso-selector-current-background-color: #eeeeee;

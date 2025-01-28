@@ -15,9 +15,10 @@ $lightblue: #e5f0f8 !default;
 $redorange: #f04e24;
 $rose: #fee1de;
 $green: #024244;
+$greensecondary: #04696c;
 $darkgreen: #01282AFF;
 $lightgreen: #52b782;
-$extralightgreen: #C2F5DB;
+$extralightgreen: #ecf7ec;
 
 $white: #ffffff !default;
 $yellow: #FFCA40 !default;
@@ -25,20 +26,22 @@ $red: #F04E24 !default;
 $dark: darken($green, 17%) !default;
 
 $gray-800: #343a40 !default;
-$gray-700: #495057 !default;
-$gray-400: #ced4da !default;
-$gray-100: #f8f9fa !default;
+$gray-700: #37424D !default;
+$gray-600: #37424D !default;
+$gray-500: #607386 !default;
+$gray-400: #607386 !default;
+$gray-100: #E7EBEE !default;
 
-$body-color: $gray-800 !default;  // Bootstrap $gray-800
+$body-color: $gray-800 !default;
 
-$table-accent-bg: $gray-100 !default; // Bootstrap $gray-100
-$table-hover-bg: $gray-400 !default; // Bootstrap $gray-400
+$table-accent-bg: $gray-100 !default;
+$table-hover-bg: $gray-400 !default;
 
 $yiq-contrasted-threshold:  170 !default;
 
 $theme-colors: (
   primary: $green,
-  secondary: $darkgreen,
+  secondary: $greensecondary,
   success: $lightgreen,
   info: $blue,
   warning: $yellow,

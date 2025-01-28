@@ -12,4 +12,9 @@ import { slideMobileNav } from '../../../../app/shared/animations/slide';
   animations: [slideMobileNav]
 })
 export class NavbarComponent extends BaseComponent {
+  isDropdownOpen = false;
+
+  toggleDropdown(state?: boolean): void {
+    this.isDropdownOpen = state !== undefined ? state : !this.isDropdownOpen;
+  }
 }
