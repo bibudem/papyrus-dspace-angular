@@ -1,7 +1,47 @@
-// Add any global css for the theme here
+// Import the custom fonts
+@import 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap';
 
-// imports the base global style
+// Configure Bootstrap to use these fonts
+$font-family-sans-serif: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif !default;
+$font-family-serif: 'Lora', serif !default;
+
+// Assign the fonts to specific Bootstrap components or SCSS variables
+$headings-font-family: $font-family-sans-serif;
+$h4-font-family: $font-family-serif;
+$body-font-family: $font-family-sans-serif;
+/* -------------------------------------------------------
+   Variables pour le thème vert
+---------------------------------------------------------- */
+$green: #024244;
+$darkgreen: #01282AFF;
+$lightgreen: #52b782;
+$extralightgreen: #fbfcfb;
+$ligthblue: #4290c5;
+
+/* -------------------------------------------------------
+   Importation des styles globaux
+---------------------------------------------------------- */
+// Importation des styles globaux de base
 @import '../../../styles/_global-styles.scss';
+
+/* -------------------------------------------------------
+   Styles theme UdeM
+---------------------------------------------------------- */
+.logo-udem{
+  vertical-align: bottom;
+  border-style: none;
+  width: 45%;
+  padding: 5px;
+}
+.text-logo {
+  font-weight: 600;
+  font-size: 28px;
+}
+
+ds-system-wide-alert-banner {
+  display: none;
+}
 
 
 .facet-filter, .setting-option {
@@ -9,137 +49,277 @@
   border-radius: var(--bs-border-radius);
 
   &.p-3 {
-    // Needs !important because the original bootstrap class uses it
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
 
   h4 {
-    font-size: 1.1rem
+    font-size: 1.1rem!important;
+    font-family: Lora;
   }
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h5, h6 {
   font-weight: 600;
+  font-family: Figtree;
+  color: $gray-800;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.5rem!important;
 }
 
 a {
-  color: #{$blue};
+  color: $darkgreen;
 }
 
+/* Styles pour les badges */
 .badge-secondary {
   background-color: var(--bs-primary);
 }
 
+/* Texte principal */
 .lead {
   font-size: 1.2rem;
+  &:hover {
+    text-decoration: none !important;
+    font-weight: 400;
+    color: $green;
+  }
 }
 
-.submission-form-hint {
-  padding: 2px;
-  border: 1px solid lightcoral;
-  border-image: none;
-  background-color: seashell;
+/* -------------------------------------------------------
+   Styles pour les paragraphes et le texte
+---------------------------------------------------------- */
+p, .dont-break-out {
+  color: var(--Neutre-700, #222930);
+  font-family: Figtree;
+  font-size: 16px;
+  line-height: 120%;
 }
 
-.submission-form-hint-title {
-  margin-right: 0.3em;
-  margin-left: 0.3em;
-  font-family: monospace;
-  border: 1pt darkkhaki solid;
+/* -------------------------------------------------------
+   Titres
+---------------------------------------------------------- */
+h1 {
+  font-family: Figtree;
+  font-size: 55px;
+  font-weight: 500;
+  line-height: 52px;
+  margin-bottom: 24px;
+}
+
+h1, h2 {
+  color: $darkgreen;
+}
+
+h2 {
+  font-family: Lora;
+  font-size: 42px;
+  line-height: 120%;
+}
+
+/* -------------------------------------------------------
+   Styles pour les menus et alertes
+---------------------------------------------------------- */
+.ds-menu-item {
+  padding: 5px 10px 5px 10px;
+}
+
+.alert-info {
+  color: $darkgreen;
+  background-color: #EEF4F7;
+  border-color: #b8d0e8;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: $darkgreen;
+}
+
+.bg-papyrus-menu {
+  background: #EEF4F7;
+}
+
+.nav-udem a {
+  margin-right: 20px !important;
+}
+
+/* -------------------------------------------------------
+   Pied de page
+---------------------------------------------------------- */
+.footer {
+  background-color: $darkgreen;
+  color: #f8f9fa;
+  padding-top: 40px;
+
+  h5 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-family: Figtree;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .footer-link-udem {
+    font-size: 14px;
+    color: $extralightgreen;
+    margin: 0 10px;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $lightgreen;
+    }
+  }
+
+  .footer-logo {
+    width: 150px;
+    margin-top: -10px;
+  }
+
+  .footer-logo-bib {
+    width: 175px;
+  }
+
+  .footer-link {
+    color: #f8f9fa;
+    margin: 0 10px;
+
+    &:hover {
+      color: $lightgreen;
+    }
+  }
+
+  .text-blue {
+    color: $lightgreen;
+  }
+
+  .text-gray {
+    color: #C3CCD5;
+  }
+
+  .border-r {
+    border-right: 1px solid #607386;
+  }
+
+  .text-bib {
+    color: #FFF;
+    font-family: Figtree;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 150%;
+  }
+}
+
+/* -------------------------------------------------------
+   Section des espaces
+---------------------------------------------------------- */
+.espaces-section {
+  background-color: $green;
+  color: #FFFFFF;
+  margin-top: -16px;
+  border-top: 10px solid $green;
+
+  .section-title {
+    font-family: Figtree, sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: start;
+  }
+
+  .section-description {
+    font-family: Figtree, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: start;
+    color: var(--Neutre-700, #EAEAEA);
+  }
+
+  .btn-primary {
+    background-color: $extralightgreen;
+    border-color: $extralightgreen;
+    border-radius: 60px;
+    font-size: 1rem;
+    color: $darkgreen;
+    height: 40px;
+    padding: 0 25px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: #fff;
+      border-color: #fff;
+      color: $green;
+    }
+
+    .icon {
+      margin-left: 10px;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  .main-image img {
+    border-radius: 16px;
+  }
+
+  .secondary-image {
+    top: 75%;
+    left: 50%;
+    transform: translateY(-50%);
+    border: 15px solid $green;
+    border-radius: 5%;
+    z-index: 2;
+  }
+}
+
+/* -------------------------------------------------------
+   Couleurs de fond personnalisées
+---------------------------------------------------------- */
+.bg-lightgreen {
+  background-color: $lightgreen;
+}
+
+.bg-ligthblue {
+  background-color: $ligthblue;
+}
+
+.bg-darkgreen {
+  background-color: $darkgreen;
+}
+
+.badge-secondary {
+  background-color: $green;
+  color: $extralightgreen;
+}
+
+
+.text-lightgreen {
+  color: $extralightgreen;
 }
 
 // -------------------------------------------------------
 // Button Styles
 // -------------------------------------------------------
 .btn {
-  border-radius: 50px;
-  display: inline-flex;
-  height: 40px;
-  padding: 13px 25px;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-// -------------------------------------------------------
-// Paragraph Styles
-// -------------------------------------------------------
-p {
-  color: var(--Neutre-700, #222930);
-  font-family: Figtree;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-  margin-bottom: 16px;
-}
-
-// Special style for elements requiring word wrapping
-.dont-break-out {
-  color: var(--Neutre-700, #222930);
-  font-family: Figtree;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-  margin-bottom: 16px;
-}
-
-// -------------------------------------------------------
-// Heading Styles
-// -------------------------------------------------------
-h1 {
-  font-family: Figtree;
-  font-size: 55px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 52px;
-  margin-bottom: 24px;
-}
-
-h1, h2{
-  color: var(--blue);
-}
-
-h2 {
-  font-family: Lora;
-  font-size: 42px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-}
-
-.lead:hover {
-  text-decoration: none!important;
-  font-weight: 400;
-  color: #024244;
-}
-
-a:hover{
-  text-decoration: none!important;
-  color: #024244;
-  font-weight: 400;
-}
-
-.ds-menu-item {
-  padding: 5px 7px 5px 10px;
-}
-
-.alert-info {
-  color: #002d59;
-  background-color: #EEF4F7;
-  border-color: #b8d0e8;
-}
-
-.bg-papyrus-menu{
-  background: #EEF4F7;
-}
-
-.nav-udem a {
-  margin-right: 20px!important;
+  border-radius: 60px;
 }

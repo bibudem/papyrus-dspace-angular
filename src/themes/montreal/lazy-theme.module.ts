@@ -65,13 +65,15 @@ import { EndUserAgreementComponent } from './app/info/end-user-agreement/end-use
 import { PrivacyComponent } from './app/info/privacy/privacy.component';
 import { FeedbackComponent } from './app/info/feedback/feedback.component';
 import { FeedbackFormComponent } from './app/info/feedback/feedback-form/feedback-form.component';
+import { AdminSidebarComponent } from './app/admin/admin-sidebar/admin-sidebar.component';
 
 const DECLARATIONS = [
   HomePageComponent,
   EndUserAgreementComponent,
   PrivacyComponent,
   FeedbackComponent,
-  FeedbackFormComponent
+  FeedbackFormComponent,
+  AdminSidebarComponent
 ];
 
 @NgModule({

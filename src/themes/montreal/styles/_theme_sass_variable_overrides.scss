@@ -3,14 +3,6 @@
 // still uses Sass variables internally. So if you want to override bootstrap (or other sass
 // variables) you can do so here. Their CSS counterparts will include the changes you make here
 
-// Import the font via the custom SCSS file
-@import '../assets/fonts/opensans/open-sans';
-@import '../assets/fonts/ubuntu/ubuntu';
-
-// Configure Bootstrap to use this font (and list a number of backup fonts to use on various systems)
-$font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif !default;
-$font-family-sans-serif: 'Ubuntu', -apple-system, BlinkMacSystemFont, sans-serif !default;
-
 /* Reassign color vars to semantic color scheme */
 $blue: #0057ac !default;
 $primary: #0057ac !default;
@@ -22,13 +14,15 @@ $lightblue: #e5f0f8 !default;
 
 $redorange: #f04e24;
 $rose: #fee1de;
-$darkgreen: #024244;
+$green: #024244;
+$darkgreen: #01282AFF;
 $lightgreen: #52b782;
+$extralightgreen: #C2F5DB;
 
 $white: #ffffff !default;
-$yellow: #ffca40 !default;
-$red: #C8102E !default;
-$dark: darken($blue, 17%) !default;
+$yellow: #FFCA40 !default;
+$red: #F04E24 !default;
+$dark: darken($green, 17%) !default;
 
 $gray-800: #343a40 !default;
 $gray-700: #495057 !default;
@@ -43,14 +37,14 @@ $table-hover-bg: $gray-400 !default; // Bootstrap $gray-400
 $yiq-contrasted-threshold:  170 !default;
 
 $theme-colors: (
-        primary: $primary,
-        secondary: $secondary,
-        success: $primary,
-        info: $primary,
-        warning: $yellow,
-        danger: $red,
-        light: $lightblue,
-        dark: $dark
+  primary: $green,
+  secondary: $darkgreen,
+  success: $lightgreen,
+  info: $blue,
+  warning: $yellow,
+  danger: $red,
+  light: $extralightgreen,
+  dark: $dark
 ) !default;
 
 $link-color: map-get($theme-colors, info) !default;
