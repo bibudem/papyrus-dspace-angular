@@ -98,6 +98,7 @@ a {
     text-decoration: none !important;
     font-weight: 600;
     color: $green;
+    font-size: 1.25rem!important;
   }
 }
 
@@ -268,7 +269,7 @@ p, .dont-break-out {
   }
 
   .secondary-image {
-    top: 85%;
+    top: 80%;
     left: 45%;
     transform: translateY(-50%);
     border: 15px solid $green;
