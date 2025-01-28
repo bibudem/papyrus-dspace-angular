@@ -4,3 +4,11 @@
   padding-bottom: 40px;
   width: 35%;
 }
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu.show {
+  display: block !important;
+}
+

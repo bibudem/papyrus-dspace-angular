@@ -217,8 +217,8 @@
   "submission.sections.papyrus-PE.page-02": "Description du document",
   "vocabulary-treeview.info": "Faites une recherche puis sélectionner un terme à insérer",
 
-  "papyrus.home.new.titre": "Papyrus : Donnez une nouvelle portée à vos travaux",
-  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l'Université de Montréal. Il offre aux chercheurs et étudiants une plateforme pour diffuser leurs travaux en libre accès.\n <br>\n Grâce à Papyrus, vos recherches, publications, thèses et mémoires sont accessibles à toute la communauté académique, renforçant leur visibilité et leur impact.",
+  "papyrus.home.new.title": "Papyrus : Donnez une nouvelle portée à vos travaux",
+  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l'Université de Montréal. On y retrouve en libre accès les thèses et mémoires déposés à l’UdeM, ainsi que des travaux de recherche de la communauté UdeM (articles de revues savantes, chapitres de livres, etc.). C'est la plateforme de conservation et de diffusion de la production savante de la communauté UdeM",
   "papyrus.home.new.bouton": "Connectez vous",
   "papyrus.footer.bibliotheque": "Les bibliothèques de l’Université de Montréal",
   "papyrus.footer.contact.titre": "Nous joindre",
@@ -243,16 +243,10 @@
   "papyrus.info.feedback.info": "Merci de prendre quelques minutes pour nous faire part de vos commentaires à propos du dépôt institutionnel Papyrus.",
   "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
   "papyrus.menu.principale.info": "Infos",
-  "papyrus.menu.principale.a_propos": "À propos de Papyrus",
-  "home.search-form.placeholder": "Rechercher dans Papyrus",
-  "search.search-form.placeholder": "Rechercher dans Papyrus",
-  "submission.sections.upload.info": "Vous trouverez ici tous les fichiers actuellement associés à l'Item. Vous pouvez éditer les métadonnées et les niveaux d'accès de ce(s) fichier(s) ou <strong>télécharger des fichiers complémentaires simplement en les glissant n'importe où sur cette page</strong>",
-  "mydspace.status.mydspaceValidation": "En cours de validation",
-  "mydspace.status.mydspaceWaitingController": "En attente d'assignation",
-  "browse.search-form.placeholder": "Chercher dans Papyrus",
-  "browse.startsWith.type_text": "Ou saisir les premières lettres puis cliquer sur le bouton « Valider »",
-  "submitter.empty": "S/O",
-  "search.form.scope.all": "Tout papyrus",
-  "submission.sections.upload.delete.confirm.title": "Supprimer le Fichier",
+
+  "papyrus.menu.principale.a_propos": "À propos",
+  "papyrus.menu.principale.a_propos_papyrus": "À propos de Papyrus",
+  "papyrus.menu.principale.sous_menu_1": "Dépôt de thèse ou mémoire",
+  "papyrus.menu.principale.sous_menu_2": "Guide pour le dépôt dans les collections"
 
 }

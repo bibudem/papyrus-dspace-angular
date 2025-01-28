@@ -16,8 +16,10 @@ $body-font-family: $font-family-sans-serif;
 $green: #024244;
 $darkgreen: #01282AFF;
 $lightgreen: #52b782;
-$extralightgreen: #fbfcfb;
+$extralightgreen: #ecf7ec;
 $ligthblue: #4290c5;
+$greensecondary: #04696c;
+$gray-800: #343a40 !default;
 
 /* -------------------------------------------------------
    Importation des styles globaux
@@ -37,6 +39,8 @@ $ligthblue: #4290c5;
 .text-logo {
   font-weight: 600;
   font-size: 28px;
+  color:$gray-800;
+  font-family: Lora;
 }
 
 ds-system-wide-alert-banner {
@@ -54,23 +58,31 @@ ds-system-wide-alert-banner {
   }
 
   h4 {
-    font-size: 1.1rem!important;
+    font-size: 1.25rem!important;
     font-family: Lora;
   }
 }
 
+/* -------------------------------------------------------
+   Titres
+---------------------------------------------------------- */
+
+
 h1, h2, h3, h5, h6 {
   font-weight: 600;
   font-family: Figtree;
-  color: $gray-800;
+  color: $greensecondary;
 }
 
-h2 {
-  font-size: 1.5rem!important;
+h4 {
+  font-family: Lora;
 }
-
+h2{
+  font-size: 46px;
+  font-weight: 600;
+}
 a {
-  color: $darkgreen;
+  color: $greensecondary;
 }
 
 /* Styles pour les badges */
@@ -80,11 +92,13 @@ a {
 
 /* Texte principal */
 .lead {
-  font-size: 1.2rem;
+  font-weight: 450;
+  font-size: 1.25rem!important;
   &:hover {
     text-decoration: none !important;
-    font-weight: 400;
+    font-weight: 600;
     color: $green;
+    font-size: 1.25rem!important;
   }
 }
 
@@ -95,27 +109,6 @@ p, .dont-break-out {
   color: var(--Neutre-700, #222930);
   font-family: Figtree;
   font-size: 16px;
-  line-height: 120%;
-}
-
-/* -------------------------------------------------------
-   Titres
----------------------------------------------------------- */
-h1 {
-  font-family: Figtree;
-  font-size: 55px;
-  font-weight: 500;
-  line-height: 52px;
-  margin-bottom: 24px;
-}
-
-h1, h2 {
-  color: $darkgreen;
-}
-
-h2 {
-  font-family: Lora;
-  font-size: 42px;
   line-height: 120%;
 }
 
@@ -154,7 +147,6 @@ h2 {
   padding-top: 40px;
 
   h5 {
-    color: #fff;
     margin-bottom: 20px;
     font-family: Figtree;
   }
@@ -245,7 +237,6 @@ h2 {
     font-size: 1rem;
     line-height: 1.5;
     text-align: start;
-    color: var(--Neutre-700, #EAEAEA);
   }
 
   .btn-primary {
@@ -254,13 +245,8 @@ h2 {
     border-radius: 60px;
     font-size: 1rem;
     color: $darkgreen;
-    height: 40px;
-    padding: 0 25px;
-    display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
 
     &:hover {
       background-color: #fff;
@@ -283,8 +269,8 @@ h2 {
   }
 
   .secondary-image {
-    top: 75%;
-    left: 50%;
+    top: 80%;
+    left: 45%;
     transform: translateY(-50%);
     border: 15px solid $green;
     border-radius: 5%;
@@ -313,10 +299,13 @@ h2 {
 }
 
 
-.text-lightgreen {
+.text-extralightgreen {
   color: $extralightgreen;
 }
 
+.text-lightgreen {
+  color: $lightgreen;
+}
 // -------------------------------------------------------
 // Button Styles
 // -------------------------------------------------------

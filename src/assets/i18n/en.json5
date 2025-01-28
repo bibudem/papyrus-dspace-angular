@@ -6920,7 +6920,7 @@
 
   "papyrus.home.new.title": "Papyrus: Give a New Reach to Your Work",
 
-  "papyrus.home.new.description": "Papyrus is the institutional repository of the Université de Montréal. It provides researchers and students with a platform to share their work through open access.\n <br>\n With Papyrus, your research, publications, theses, and dissertations are accessible to the entire academic community, enhancing their visibility and impact.",
+  "papyrus.home.new.description": "Papyrus is the institutional repository of the Université de Montréal. It provides open access to theses and dissertations submitted at UdeM, as well as research work from the UdeM community (scholarly journal articles, book chapters, etc.). It serves as the platform for preserving and disseminating the scholarly output of the UdeM community.",
 
   "papyrus.home.new.button": "Log in",
 
@@ -6968,7 +6968,13 @@
 
   "papyrus.menu.principale.info": "Infos",
 
-  "papyrus.menu.principale.a_propos": "About Papyrus",
+  "papyrus.menu.principale.a_propos": "About",
 
   "papyrus.footer.liens.lyrasis": "LYRASIS",
+
+  "papyrus.menu.principale.a_propos_papyrus": "About Papyrus",
+
+  "papyrus.menu.principale.sous_menu_1": "Thesis or dissertation deposit",
+
+  "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections",
 }
