@@ -3,41 +3,11 @@
 // still uses Sass variables internally. So if you want to override bootstrap (or other sass
 // variables) you can do so here. Their CSS counterparts will include the changes you make here
 
-/* Reassign color vars to semantic color scheme */
-$blue: #0057ac !default;
-$primary: #0057ac !default;
+/* -------------------------------------------------------
+   Variables pour le thème vert
+---------------------------------------------------------- */
+@import './_variables_papyrus.scss';
 
-$secondary: #0b113a !default;
-$darkblue: #0b113a !default;
-
-$lightblue: #e5f0f8 !default;
-
-$redorange: #f04e24;
-$rose: #fee1de;
-$green: #024244;
-$greensecondary: #04696c;
-$darkgreen: #01282AFF;
-$lightgreen: #52b782;
-$extralightgreen: #ecf7ec;
-
-$white: #ffffff !default;
-$yellow: #FFCA40 !default;
-$red: #F04E24 !default;
-$dark: darken($green, 17%) !default;
-
-$gray-800: #343a40 !default;
-$gray-700: #37424D !default;
-$gray-600: #37424D !default;
-$gray-500: #607386 !default;
-$gray-400: #607386 !default;
-$gray-100: #E7EBEE !default;
-
-$body-color: $gray-800 !default;
-
-$table-accent-bg: $gray-100 !default;
-$table-hover-bg: $gray-400 !default;
-
-$yiq-contrasted-threshold:  170 !default;
 
 $theme-colors: (
   primary: $green,
@@ -51,4 +21,3 @@ $theme-colors: (
 ) !default;
 
 $link-color: map-get($theme-colors, info) !default;
-

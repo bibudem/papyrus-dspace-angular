@@ -2,14 +2,7 @@
 /* -------------------------------------------------------
    Variables pour le thème vert
 ---------------------------------------------------------- */
-$redorange: #f04e24;
-$rose: #fee1de;
-$green: #024244;
-$greensecondary: #04696c;
-$darkgreen: #01282AFF;
-$lightgreen: #52b782;
-$extralightgreen: #ecf7ec;
-$gray: #c4ced3;
+@import './_variables_papyrus.scss';
 
 :root {
   --ds-content-spacing: #{$spacer}; // equivalent to Bootstrap spaces of size 3
@@ -150,4 +143,3 @@ $gray: #c4ced3;
   --green1: $green;
   --button-text-color-cookie: #333;
 }
-
