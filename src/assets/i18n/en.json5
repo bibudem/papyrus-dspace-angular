@@ -6977,4 +6977,36 @@
   "papyrus.menu.principale.sous_menu_1": "Thesis or dissertation deposit",
 
   "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections",
+
+  "papyrus.home.new.bouton": "Log in",
+
+  "papyrus.footer.bibliotheque": "Université de Montréal Libraries",
+
+  "papyrus.footer.contact.titre": "Contact Us",
+
+  "papyrus.footer.contact.equipe": "Repository Team",
+
+  "papyrus.footer.contact.ecrire": "depot@bib.umontreal.ca",
+
+  "papyrus.footer.contact.telephone": "+514-343-6111 x33345",
+
+  "papyrus.footer.infos.titre": "Information",
+
+  "papyrus.footer.infos.a_propos": "About Papyrus",
+
+  "papyrus.footer.infos.depot_memoires": "Theses and Dissertations Submission",
+
+  "papyrus.footer.infos.droits_politique": "Copyright and Publisher Policies",
+
+  "papyrus.footer.infos.liens_dynamiques": "Papyrus Querying via Dynamic Links and OAI-PMH",
+
+  "papyrus.footer.liens.cookies": "Cookie Management",
+
+  "papyrus.footer.liens.confidentialite": "Privacy Policy",
+
+  "papyrus.footer.liens.accord_utilisateur": "End User Agreement",
+
+  "papyrus.footer.liens.commentaires": "Send Feedback",
+
+  "papyrus.footer.propulse_par": "Powered by",
 }

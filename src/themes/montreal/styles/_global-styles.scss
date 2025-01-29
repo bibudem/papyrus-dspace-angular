@@ -10,16 +10,6 @@ $font-family-serif: 'Lora', serif !default;
 $headings-font-family: $font-family-sans-serif;
 $h4-font-family: $font-family-serif;
 $body-font-family: $font-family-sans-serif;
-/* -------------------------------------------------------
-   Variables pour le thème vert
----------------------------------------------------------- */
-$green: #024244;
-$darkgreen: #01282AFF;
-$lightgreen: #52b782;
-$extralightgreen: #ecf7ec;
-$ligthblue: #4290c5;
-$greensecondary: #04696c;
-$gray-800: #343a40 !default;
 
 /* -------------------------------------------------------
    Importation des styles globaux
@@ -28,12 +18,16 @@ $gray-800: #343a40 !default;
 @import '../../../styles/_global-styles.scss';
 
 /* -------------------------------------------------------
+   Variables pour le thème vert
+---------------------------------------------------------- */
+@import './_variables_papyrus.scss';
+
+/* -------------------------------------------------------
    Styles theme UdeM
 ---------------------------------------------------------- */
 .logo-udem{
   vertical-align: bottom;
   border-style: none;
-  width: 45%;
   padding: 5px;
 }
 .text-logo {
@@ -88,6 +82,19 @@ a {
 /* Styles pour les badges */
 .badge-secondary {
   background-color: var(--bs-primary);
+}
+
+
+.outer > .inner > .thumbnail-placeholder {
+  font-size: 12px !important;
+  color: $gray-800!important;
+  line-height: 1.1!important;
+  font-weight: 500;
+}
+
+nav#admin-sidebar a {
+  color: $extralightgreen!important;
+  text-decoration: none!important;
 }
 
 /* Texte principal */
