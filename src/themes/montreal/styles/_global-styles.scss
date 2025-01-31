@@ -71,12 +71,27 @@ h1, h2, h3, h5, h6 {
 h4 {
   font-family: Lora;
 }
+
 h2{
   font-size: 46px;
   font-weight: 600;
 }
+
 a {
   color: $greensecondary;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+a.lead {
+  font-weight: 450 !important;
+  color: $greensecondary;
+}
+
+a.lead:hover {
+  color: $darkgreen !important;
 }
 
 /* Styles pour les badges */
@@ -84,38 +99,20 @@ a {
   background-color: var(--bs-primary);
 }
 
-
-.outer > .inner > .thumbnail-placeholder {
-  font-size: 12px !important;
-  color: $gray-800!important;
-  line-height: 1.1!important;
-  font-weight: 500;
-}
-
 nav#admin-sidebar a {
   color: $extralightgreen!important;
   text-decoration: none!important;
 }
 
-/* Texte principal */
-.lead {
-  font-weight: 450;
-  font-size: 1.25rem!important;
-  &:hover {
-    text-decoration: none !important;
-    font-weight: 600;
-    color: $green;
-    font-size: 1.25rem!important;
-  }
-}
-
 /* -------------------------------------------------------
    Styles pour les paragraphes et le texte
 ---------------------------------------------------------- */
+p, span, a {
+  font-family: Figtree;
+}
+
 p, .dont-break-out {
   color: var(--Neutre-700, #222930);
-  font-family: Figtree;
-  font-size: 16px;
   line-height: 120%;
 }
 
@@ -246,31 +243,6 @@ p, .dont-break-out {
     text-align: start;
   }
 
-  .btn-primary {
-    background-color: $extralightgreen;
-    border-color: $extralightgreen;
-    border-radius: 60px;
-    font-size: 1rem;
-    color: $darkgreen;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      background-color: #fff;
-      border-color: #fff;
-      color: $green;
-    }
-
-    .icon {
-      margin-left: 10px;
-      transition: transform 0.3s ease-in-out;
-
-      &:hover {
-        transform: translateX(5px);
-      }
-    }
-  }
-
   .main-image img {
     border-radius: 16px;
   }
@@ -318,4 +290,21 @@ p, .dont-break-out {
 // -------------------------------------------------------
 .btn {
   border-radius: 60px;
+}
+
+
+.cm-btn-success{
+  background-color: $green!important;
+  color: $extralightgreen!important;
+}
+
+.navbar-nav .dropdown-menu {
+  background: $white !important;
+}
+
+.outer>.inner>.thumbnail-placeholder {
+  border: 1px solid #5c5c5c1f !important;
+  color: $gray-800!important;
+  line-height: 1.1!important;
+  font-weight: 450;
 }
