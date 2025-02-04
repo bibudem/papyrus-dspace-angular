@@ -17,7 +17,7 @@ $theme-colors: (
   warning: $yellow,
   danger: $red,
   light: $extralightgreen,
-  dark: $dark
+  dark: $gray-600
 ) !default;
 
 $link-color: map-get($theme-colors, info) !default;

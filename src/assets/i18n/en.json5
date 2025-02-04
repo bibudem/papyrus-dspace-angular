@@ -5698,7 +5698,7 @@
 
   "item.page.title-alternative": "Other title(s)",
 
-  "item.page.doi": "Other location(s)",
+  "item.page.doi": "DOI",
 
   "item.page.advisor": "Advisor(s)",
 
@@ -6984,7 +6984,7 @@
 
   "papyrus.footer.contact.titre": "Contact Us",
 
-  "papyrus.footer.contact.equipe": "Repository Team",
+  "papyrus.footer.contact.equipe": "Papyrus Team",
 
   "papyrus.footer.contact.ecrire": "depot@bib.umontreal.ca",
 

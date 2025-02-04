@@ -1,6 +1,6 @@
 // _variables_papyrus.scss
 /* Reassign color vars to semantic color scheme */
-$blue: #0057ac !default;
+$blue: #12a6b7 !default;
 $primary: #0057ac !default;
 
 $secondary: #0b113a !default;
@@ -9,16 +9,17 @@ $darkblue: #0b113a !default;
 $redorange: #f04e24;
 $rose: #fee1de;
 $green: #024244;
+$autregreen: #249194;
 $greensecondary: #04696c;
 $darkgreen: #01282AFF;
-$lightgreen: #52b782;
-$extralightgreen: #ecf7ec;
+$lightgreen: #4aa28b;
+$extralightgreen: #e5fdf0;
 $gray: #37424D;
 $ligthblue:#E7EBEE;
 
 $white: #ffffff !default;
 $yellow: #FFCA40 !default;
-$red: #F04E24 !default;
+$red: #c52f08 !default;
 $dark: darken($green, 17%) !default;
 
 $gray-800: #343a40 !default;
@@ -27,12 +28,5 @@ $gray-600: #37424D !default;
 $gray-500: #607386 !default;
 $gray-400: #607386 !default;
 $gray-100: #E7EBEE !default;
-
-$body-color: $gray-800 !default;
-
-$table-accent-bg: $gray-100 !default;
-$table-hover-bg: $gray-400 !default;
-
-$yiq-contrasted-threshold:  170 !default;
 
 

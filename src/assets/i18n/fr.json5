@@ -676,7 +676,7 @@
 
   "browse.back.all-results": "Tous les résultats",
 
-  "browse.comcol.by.author": "Auteurs",
+  "browse.comcol.by.author": "Autrices et auteurs",
 
   "browse.comcol.by.dateissued": "Dates de publication",
 
@@ -688,7 +688,7 @@
 
   "browse.empty": "Aucun résultat.",
 
-  "browse.metadata.author": "auteur",
+  "browse.metadata.author": "Autrices et auteurs",
 
   "browse.metadata.dateissued": "date de publication",
 
@@ -696,7 +696,7 @@
 
   "browse.metadata.title": "titre",
 
-  "browse.metadata.author.breadcrumbs": "Parcourir les auteurs",
+  "browse.metadata.author.breadcrumbs": "Parcourir les autrices et auteurs",
 
   "browse.metadata.dateissued.breadcrumbs": "Parcourir les dates de publication",
 
@@ -750,7 +750,7 @@
 
   "browse.startsWith.type_date.label": "Ou saisir une date (année-mois) puis cliquer sur le bouton « Parcourir »",
 
-  "browse.startsWith.type_text": "Ou saisir les premières lettres puis cliquer sur le bouton « Parcourir »",
+  "browse.startsWith.type_text": "Ou saisir les premières lettres puis cliquer sur le bouton « Valider »",
 
   "browse.title": "Parcourir {{ collection }} par {{ field }} {{ value }}",
 
@@ -2024,7 +2024,7 @@
 
   "item.listelement.badge": "Item",
 
-  "item.page.description": "Note·s",
+  "item.page.description": "Notes",
 
   "item.page.journal-issn": "ISSN de la revue",
 
@@ -2046,7 +2046,7 @@
 
   "item.page.abstract": "Résumé·s",
 
-  "item.page.author": "Auteur·e·s",
+  "item.page.author": "Autrices et auteurs",
 
   "item.page.citation": "Citation",
 
@@ -2400,7 +2400,7 @@
 
   "menu.section.browse_global": "Parcourir Papyrus",
 
-  "menu.section.browse_global_by_author": "Auteurs",
+  "menu.section.browse_global_by_author": "Autrices et auteurs",
 
   "menu.section.browse_global_by_dateissued": "Dates de publication",
 
@@ -3318,7 +3318,7 @@
 
   "search.form.search_dspace": "Recherche dans Papyrus",
 
-  "search.form.scope.all": "Tout le dépôt Papyrus",
+  "search.form.scope.all": "Tout Papyrus",
 
   "search.results.head": "Résultats de recherche",
 
@@ -3838,7 +3838,7 @@
 
   "submission.sections.upload.delete.confirm.submit": "Oui, je suis certain(e)",
 
-  "submission.sections.upload.delete.confirm.title": "Supprimer le Bitstream",
+  "submission.sections.upload.delete.confirm.title": "Supprimer le Fichier",
 
   "submission.sections.upload.delete.submit": "Supprimer",
 
@@ -3878,7 +3878,7 @@
 
   "submission.sections.upload.header.policy.default.withlist": "Veuillez noter que, en complément des accès spécifiquement accordés pour le fichier, les fichiers téléchargés dans la collection {{collectionName}} seront accessibles par défaut au(x) groupe(s) suivant(s):",
 
-  "submission.sections.upload.info": "Vous trouverez ici tous les fichiers actuellement associés à l'Item. Vous pouvez éditer les métadonnés et les niveaux d'accès de ce(s) fichier(s) ou <strong>télécharger des fichiers complémentaires simplement en les glissant n'importe où sur cette page</strong>",
+  "submission.sections.upload.info": "Vous trouverez ici tous les fichiers actuellement associés à l'Item. Vous pouvez éditer les métadonnées et les niveaux d'accès de ce(s) fichier(s) ou <strong>télécharger des fichiers complémentaires simplement en les glissant n'importe où sur cette page</strong>",
 
   "submission.sections.upload.no-entry": "Non",
 
@@ -4234,15 +4234,15 @@
 
   "papyrus.home.new.titre": "Papyrus : Donnez une nouvelle portée à vos travaux",
 
-  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l'Université de Montréal. On y retrouve en libre accès les thèses et mémoires déposés à l’UdeM, ainsi que des travaux de recherche de la communauté UdeM (articles de revues savantes, chapitres de livres, etc.). C'est la plateforme de conservation et de diffusion de la production savante de la communauté UdeM",
+  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l'Université de Montréal. On y retrouve en libre accès les thèses et mémoires déposés à l’UdeM, ainsi que des travaux de recherche de la communauté UdeM (articles de revues savantes, chapitres de livres, etc.). C'est la plateforme de conservation et de diffusion de la production savante de la communauté UdeM.",
 
-  "papyrus.home.new.bouton": "Connectez vous",
+  "papyrus.home.new.bouton": "Connectez-vous",
 
   "papyrus.footer.bibliotheque": "Les bibliothèques de l’Université de Montréal",
 
   "papyrus.footer.contact.titre": "Nous joindre",
 
-  "papyrus.footer.contact.equipe": "Équipe du dépôt",
+  "papyrus.footer.contact.equipe": "Équipe Papyrus",
 
   "papyrus.footer.contact.ecrire": "depot@bib.umontreal.ca",
 
@@ -4262,7 +4262,7 @@
 
   "papyrus.footer.liens.confidentialite": "Politique de confidentialité",
 
-  "papyrus.footer.liens.accord_utilisateur": "Accord de l'utilisateur final",
+  "papyrus.footer.liens.accord_utilisateur": "Conditions d'utilisation de l'UdeM",
 
   "papyrus.footer.liens.commentaires": "Envoyer un commentaire",
 
@@ -4278,7 +4278,7 @@
 
   "footer.text.scholaris": "Propulsé par",
 
-  "item.page.contributor.advisor": "Directeur·trice·s de recherche",
+  "item.page.contributor.advisor": "Direction de recherche",
 
   "item.page.contributor.affiliation": "Affiliation",
 
@@ -4504,27 +4504,27 @@
 
   "item.page.affiliation": "Affiliation",
 
-  "item.page.hasVersion": "Autre·s version·s linguistique·s)",
+  "item.page.hasVersion": "Autre version linguistique",
 
   "item.page.OrcidIdentifiant": "Identifiant ORCID de l’auteur·e",
 
   "item.page.tableOfContents": "Table des matières ",
 
-  "item.page.contributor": "Contributeur·trice·s",
+  "item.page.contributor": "Contributrices et contributeurs",
 
   "item.page.degree-discipline": "Programme",
 
   "item.page.degree-level": "Cycle d'études",
 
-  "item.page.relation": "Ensemble·s de données lié·s",
+  "item.page.relation": "Ensemble de données lié",
 
-  "item.page.sponsorship": "Organisme·s subventionnaire·s",
+  "item.page.sponsorship": "Organisme subventionnaire",
 
-  "item.page.title-alternative": "Autre·s titre·s",
+  "item.page.title-alternative": "Autre titre",
 
-  "item.page.doi": "Autre·s localisation·s",
+  "item.page.doi": "DOI",
 
-  "item.page.advisor": "Directeur·trice·s de recherche",
+  "item.page.advisor": "Direction de recherche",
 
   "item.page.type": "Type de document",
 
@@ -4544,7 +4544,7 @@
 
   "item.page.cc.license.disclaimer": "Sauf indication contraire, la licence de cet article est décrite comme",
 
-  "menu.section.browse_global_by_advisor": "Directeurs de recherche",
+  "menu.section.browse_global_by_advisor": "Direction de recherche",
 
   "menu.section.browse_global_by_discipline": "Programmes",
 
@@ -4552,21 +4552,21 @@
 
   "menu.section.browse_global_by_titleindex": "Index des titres",
 
-  "browse.comcol.by.advisor": "Directeurs de recherche",
+  "browse.comcol.by.advisor": "Direction de recherche",
 
   "browse.comcol.by.discipline": "Programmes",
 
   "browse.comcol.by.affiliation": "Affiliation",
 
-  "browse.metadata.advisor": "directeur de recherche",
+  "browse.metadata.advisor": "Direction de recherche",
 
-  "browse.metadata.discipline": "programme",
+  "browse.metadata.discipline": "Programme",
 
-  "browse.metadata.affiliation": "affiliation",
+  "browse.metadata.affiliation": "Affiliation",
 
-  "browse.metadata.titleindex": "l'index des titres",
+  "browse.metadata.titleindex": "L'index des titres",
 
-  "browse.metadata.advisor.breadcrumbs": "Parcourir les directeurs de recherche",
+  "browse.metadata.advisor.breadcrumbs": "Parcourir les directeurs(trices) de recherche",
 
   "browse.metadata.discipline.breadcrumbs": "Parcourir les programmes",
 
@@ -4580,11 +4580,11 @@
 
   "search.filters.filter.degreeDiscipline.label": "Recherche d'un programme",
 
-  "search.filters.filter.advisor.head": "Directeur de recherche",
+  "search.filters.filter.advisor.head": "Direction de recherche",
 
-  "search.filters.filter.advisor.placeholder": "Nom d'un directeur de recherche",
+  "search.filters.filter.advisor.placeholder": "Nom d'un(e) directeur(trice) de recherche",
 
-  "search.filters.filter.advisor.label": "Recherche d'un directeur de recherche",
+  "search.filters.filter.advisor.label": "Recherche d'un(e) directeur(trice) de recherche",
 
   "search.filters.filter.degreeLevel.head": "Cycle d'études",
 
@@ -4604,9 +4604,9 @@
 
   "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
 
-  "submission.sections.papyrus-TME.page-01": "Description: titre, contributeurs, programme, date, langue",
+  "submission.sections.papyrus-TME.page-01": "Description du document",
 
-  "submission.sections.papyrus-TME.page-02": "Description: sujet, résumé",
+  "submission.sections.papyrus-TME.page-02": "Description du document (suite)",
 
   "submission.sections.papyrus-TP.page-01": "Type de document et affiliation",
 
@@ -4628,15 +4628,19 @@
 
   "papyrus.menu.principale.info": "Infos",
 
-  "papyrus.menu.principale.a_propos": "À propos",
+  "papyrus.menu.principale.a_propos": "À propos de Papyrus",
 
   "papyrus.footer.liens.lyrasis": "LYRASIS",
 
-  "papyrus.home.new.title": "Papyrus : Donnez une nouvelle portée à vos travaux",
+  "papyrus.home.new.title": "Papyrus : donnez une nouvelle portée à vos travaux",
 
   "papyrus.menu.principale.a_propos_papyrus": "À propos de Papyrus",
 
   "papyrus.menu.principale.sous_menu_1": "Dépôt de thèse ou mémoire",
 
   "papyrus.menu.principale.sous_menu_2": "Guide pour le dépôt dans les collections",
+
+  "browse.search-form.placeholder": "Chercher dans Papyrus",
+
+  "submitter.empty": "S/O",
 }

@@ -91,7 +91,7 @@ a.lead {
 }
 
 a.lead:hover {
-  color: $darkgreen !important;
+  color: $darkgreen;
 }
 
 /* Styles pour les badges */
@@ -111,7 +111,7 @@ p, span, a {
   font-family: Figtree;
 }
 
-p, .dont-break-out {
+.dont-break-out {
   color: var(--Neutre-700, #222930);
   line-height: 120%;
 }
@@ -292,6 +292,10 @@ p, .dont-break-out {
   border-radius: 60px;
 }
 
+.bg-footer-dark {
+  background-color: #262525;
+}
+
 
 .cm-btn-success{
   background-color: $green!important;
@@ -302,9 +306,6 @@ p, .dont-break-out {
   background: $white !important;
 }
 
-.outer>.inner>.thumbnail-placeholder {
-  border: 1px solid #5c5c5c1f !important;
-  color: $gray-800!important;
-  line-height: 1.1!important;
-  font-weight: 450;
+#user-menu-dropdown{
+  padding: 10px;
 }
