@@ -251,5 +251,12 @@
   "browse.startsWith.type_text": "Ou saisir les premières lettres puis cliquer sur le bouton « Valider »",
   "submitter.empty": "S/O",
   "submission.sections.upload.delete.confirm.title": "Supprimer le Fichier",
+  "login.form.email": "Courriel",
+  "person.page.email": "Courriel",
+  "register-page.create-profile.identification.email": "Courriel",
+  "register-page.registration.email": "Courriel *",
+  "register-page.registration.email.error.required": "Veuillez saisir un courriel",
+  "register-page.registration.email.error.pattern": "Veuillez saisir un courriel valid",
+  ""register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
 
 }
