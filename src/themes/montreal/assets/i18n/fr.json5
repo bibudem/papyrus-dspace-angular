@@ -257,6 +257,6 @@
   "register-page.registration.email": "Courriel *",
   "register-page.registration.email.error.required": "Veuillez saisir un courriel",
   "register-page.registration.email.error.pattern": "Veuillez saisir un courriel valid",
-  ""register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
+  "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
 
 }
