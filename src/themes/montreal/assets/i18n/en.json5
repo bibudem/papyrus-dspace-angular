@@ -845,7 +845,7 @@
   "papyrus.menu.principale.a_propos": "About",
   "papyrus.menu.principale.a_propos_papyrus": "About Papyrus",
   "papyrus.menu.principale.sous_menu_1": "Thesis or dissertation deposit",
-  "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections"
+  "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections",
   "login.form.oidc": "UdeM Authentication",
 
 }
