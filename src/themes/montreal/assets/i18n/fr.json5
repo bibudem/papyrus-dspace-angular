@@ -261,5 +261,6 @@
   "access-status.embargo.listelement.badge": "Embargo",
   "forgot-email.form.info": "Saisissez le courriel associée au votre compte.",
   "login.form.oidc": "Authentification UdeM",
+  "home.search-form.placeholder": "Rechercher dans Papyrus",
 
 }
