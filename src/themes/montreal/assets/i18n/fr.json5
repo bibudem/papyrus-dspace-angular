@@ -150,7 +150,7 @@
   "item.page.affiliation": "Affiliation",
   "item.page.description": "Notes",
   "item.page.hasVersion": "Autre version linguistique",
-  "item.page.OrcidIdentifiant": "Identifiant ORCID de l’auteur·e",
+  "item.page.OrcidIdentifiant": "Identifiant ORCID de l’auteur",
   "item.page.tableOfContents": "Table des matières ",
   "item.page.abstract": "Résumé·s",
   "item.page.author": "Autrices et auteurs",
@@ -258,5 +258,8 @@
   "register-page.registration.email.error.required": "Veuillez saisir un courriel",
   "register-page.registration.email.error.pattern": "Veuillez saisir un courriel valid",
   "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
+  "access-status.embargo.listelement.badge": "Embargo",
+  "forgot-email.form.info": "Saisissez le courriel associée au votre compte.",
+  "login.form.oidc": "Authentification UdeM",
 
 }
