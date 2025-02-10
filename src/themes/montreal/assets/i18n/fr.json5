@@ -260,7 +260,10 @@
   "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
   "access-status.embargo.listelement.badge": "Embargo",
   "forgot-email.form.info": "Saisissez le courriel associée au votre compte.",
+  "forgot-email.form.email": "Courriel *",
   "login.form.oidc": "Authentification UdeM",
   "home.search-form.placeholder": "Rechercher dans Papyrus",
+  "register-page.registration.info": "Créer un compte <strong>seulement si ne l'en avez pas déjà ou vous n'êtes pas en mesure de vous identifier par l'authentification UdeM (https://umontreal.scholaris.ca/login)</strong> pour pouvoir vous abonner aux collections et recevoir les nouveautés via courriel ainsi que déposer de nouveaux Items dans DSpace.",
+",
 
 }
