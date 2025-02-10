@@ -848,6 +848,6 @@
   "papyrus.menu.principale.sous_menu_2": "Guide for depositing in collections",
   "login.form.oidc": "UdeM Authentication",
   "home.search-form.placeholder": "Search in Papyrus...",
-  "register-page.registration.info": "Register an account <strong>only if you haven't already created one and you are not able to login using the UdeM Authentication ((https://umontreal.scholaris.ca/login)</strong> to subscribe to collections for email updates, and submit new items to DSpace.",
+  "register-page.registration.info": "Register an account ONLY if you haven't already created one and you are not able to login using the UdeM Authentication ((https://umontreal.scholaris.ca/login) to subscribe to collections for email updates, and submit new items to DSpace.",
 
 }
