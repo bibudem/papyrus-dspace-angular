@@ -1,5 +1,4 @@
 {
-  "forgot-email.form.info": "Créer un compte pour vous abonner à des collections afin de recevoir des mises à jour via courrier électronique ainsi que pour déposer de nouveaux Items dans Papyrus.",
   "home.top-level-communities.head": "Communautés dans Papyrus",
   "info.feedback.info": "Merci de nous faire part de votre avis sur le système Papyrus. Vos commentaires sont appréciés !",
   "login.form.header": "Se connecter à Papyrus",
@@ -211,6 +210,7 @@
   "search.filters.filter.affiliation.label": "Recherche d'une affiliation",
   "submission.sections.papyrus-TME.page-01": "Description du document",
   "submission.sections.papyrus-TME.page-02": "Description du document (suite)",
+  "submission.sections.papyrus-TME.page-03": "Demande de délai de diffusion (Embargo)",
   "submission.sections.papyrus-TP.page-01": "Type de document et affiliation",
   "submission.sections.papyrus-TP.page-02": "Description du document",
   "submission.sections.papyrus-PE.page-01": "Type de document",
@@ -256,13 +256,13 @@
   "register-page.create-profile.identification.email": "Courriel",
   "register-page.registration.email": "Courriel *",
   "register-page.registration.email.error.required": "Veuillez saisir un courriel",
-  "register-page.registration.email.error.pattern": "Veuillez saisir un courriel valid",
+  "register-page.registration.email.error.pattern": "Veuillez saisir un courriel valide",
   "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
   "access-status.embargo.listelement.badge": "Embargo",
-  "forgot-email.form.info": "Saisissez le courriel associée au votre compte.",
   "forgot-email.form.email": "Courriel *",
   "login.form.oidc": "Authentification UdeM",
   "home.search-form.placeholder": "Rechercher dans Papyrus",
-  "register-page.registration.info": "Créer un compte UNIQUEMENT si vous n'en avez pas déjà un ou vous n'êtes pas en mesure de vous identifier par l'authentification UdeM (https://umontreal.scholaris.ca/login) pour pouvoir vous abonner aux collections et recevoir les nouveautés via courriel ainsi que déposer de nouveaux Items dans DSpace.",
-
+  "register-page.registration.info": "Créez un compte Papyrus UNIQUEMENT si vous n'êtes pas en mesure de vous identifier par l'authentification UdeM (https://umontreal.scholaris.ca/login), soit parce que vous n'êtes pas membre de la communauté UdeM ou que vous devez utiliser une adresse courriel partagée pour accéder à Papyrus. Votre compte vous permettra de déposer des documents dans Papyrus, de valider des soumissions s'il y a lieu et de vous abonner à des collections sélectionnées pour recevoir les nouveautés via courriel.",
+  "forgot-email.form.info": "Si vous êtes membre de la communauté UdeM, veuillez plutôt utiliser l'authentification UdeM pour vous connecter à Papyrus. En cas de problème avec votre mot de passe UdeM, référez-vous aux pages d'aide des TI : https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie. Si vous n'êtes pas en mesure d'utiliser l'authentification UdeM ou si vous devez utiliser une adresse courriel partagée pour accéder à votre compte Papyrus, entrez l'adresse courriel associée au compte pour réinitialiser le mot de passe.",
 }
+F
