@@ -244,7 +244,7 @@
   "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
   "papyrus.menu.principale.info": "Infos",
   "papyrus.menu.principale.a_propos": "À propos de Papyrus",
-  "submission.sections.upload.info": "Vous trouverez ici tous les fichiers actuellement associés à la soumission. Vous pouvez <strong>télécharger des fichiers complémentaires simplement en les glissant n'importe où sur cette page</strong>",
+  "submission.sections.upload.info": "Vous trouverez ici tous les fichiers actuellement associés à la soumission. Vous pouvez télécharger des fichiers complémentaires simplement en les glissant n'importe où sur cette page",
   "mydspace.status.mydspaceValidation": "En cours de validation",
   "mydspace.status.mydspaceWaitingController": "En attente d'assignation",
   "browse.search-form.placeholder": "Chercher dans Papyrus",
