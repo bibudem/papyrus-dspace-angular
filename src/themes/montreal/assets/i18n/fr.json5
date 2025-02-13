@@ -270,6 +270,10 @@
   "register-page.registration.email.hint": "Cette adresse sera vérifiée et utilisée en tant qu'identifiant de connexion.",
   "person.page.orcid.link.error.message": "Quelque chose a échoué lors de la connexion du profil avec ORCID. Si le problème persiste, contacter la personne administratice.",
   "person.page.orcid.orcid-not-linked-message": "L'identifiant ORCID du profil ({{ orcid }}) n'a pas encore été connecté à une compte du registre ORCID ou la connexion a expiré.",
+  "bitstream-request-a-copy.email.label": "Votre courriel *",
+  "bitstream-request-a-copy.email.hint": "Ce courriel est utilisé pour l'envoi du fichier.",
+  "bitstream-request-a-copy.email.error": "Veuillez saisir un courriel valide.",
+  "access-control-no-access-conditions-warning-message": "Aucune condition d'accès n'est spécifiée ci-dessous pour l'instant. Si exécuté, ceci remplacera les conditions d'accès actuelles par les conditions d'accès par défaut héritées de celles de la collection.",
 
 }
 
