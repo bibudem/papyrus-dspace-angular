@@ -266,6 +266,10 @@
   "forgot-email.form.info": "Si vous êtes membre de la communauté UdeM, veuillez plutôt utiliser l'authentification UdeM pour vous connecter à Papyrus. En cas de problème avec votre mot de passe UdeM, référez-vous aux pages d'aide des TI (https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie). Si vous n'êtes pas en mesure d'utiliser l'authentification UdeM ou si vous devez utiliser une adresse courriel partagée pour accéder à votre compte Papyrus, entrez l'adresse courriel associée au compte pour réinitialiser le mot de passe.",
   "login.form.new-user": "Si vous n'êtes pas membre de la communauté UdeM et que vous voulez vous créer un nouveau compte Papyrus, cliquez ici.",
   "forgot-email.form.email.hint": "Un courriel sera envoyé à cette adresse avec des instructions supplémentaires.",
+  "forgot-email.form.submit": "Réinitialiser le mot de passe",
+  "register-page.registration.email.hint": "Cette adresse sera vérifiée et utilisée en tant qu'identifiant de connexion.",
+  "person.page.orcid.link.error.message": "Quelque chose a échoué lors de la connexion du profil avec ORCID. Si le problème persiste, contacter la personne administratice.",
+  "person.page.orcid.orcid-not-linked-message": "L'identifiant ORCID du profil ({{ orcid }}) n'a pas encore été connecté à une compte du registre ORCID ou la connexion a expiré.",
 
 }
 
