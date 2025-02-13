@@ -6,8 +6,8 @@
         <ng-container *ngFor="let section of (sections | async)">
           <ng-container *ngComponentOutlet="(sectionMap$ | async).get(section.id)?.component; injector: (sectionMap$ | async).get(section.id)?.injector;"></ng-container>
         </ng-container>
-        <!-- Ajout du menu déroulant -->
-        <li class="nav-item dropdown mt-1" >
+        <!-- Ajout du menu bib -->
+        <li class="mt-1" >
           <a class="ds-menu-item " href="https://bib.umontreal.ca/guides/bd/depot-institutionnel-papyrus" target="_blank">
             {{ 'papyrus.menu.principale.a_propos' | translate }}
           </a>

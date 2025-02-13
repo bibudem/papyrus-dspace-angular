@@ -136,6 +136,7 @@ p, span, a {
 
 .bg-papyrus-menu {
   background: #EEF4F7;
+  z-index: 100;
 }
 
 .nav-udem a {
@@ -308,4 +309,12 @@ p, span, a {
 
 #user-menu-dropdown{
   padding: 10px;
+}
+
+/* style pour les petits écrans */
+@media (max-width: 600px) {
+  .navbar-right-bib {
+    margin-top: 5rem;
+    padding-bottom: 2.5rem;
+  }
 }
