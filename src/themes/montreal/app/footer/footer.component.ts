@@ -7,5 +7,4 @@ import { FooterComponent as BaseComponent } from '../../../../app/footer/footer.
   templateUrl: './footer.component.html'
 })
 export class FooterComponent extends BaseComponent {
-  showTopFooter = false;
 }

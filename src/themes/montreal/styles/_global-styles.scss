@@ -220,6 +220,7 @@ p, span, a {
   }
 }
 
+
 /* -------------------------------------------------------
    Section des espaces
 ---------------------------------------------------------- */
@@ -311,10 +312,16 @@ p, span, a {
   padding: 10px;
 }
 
-/* organize logo with menu on small screens */
+/* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
+#main-content {
+  min-height: 80vh!important;
+}
+
 @media (max-width: 600px) {
+  /* Organisation du logo avec le menu sur petits écrans */
   .navbar-right-bib {
     margin-top: 5rem!important;
     padding-bottom: 2.5rem!important;
   }
 }
+
