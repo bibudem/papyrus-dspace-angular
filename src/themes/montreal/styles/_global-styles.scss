@@ -244,11 +244,7 @@ p, span, a {
     line-height: 1.5;
     text-align: start;
   }
-
-  .main-image img {
-    border-radius: 16px;
-  }
-
+  
   .secondary-image {
     top: 80%;
     left: 45%;
@@ -256,6 +252,7 @@ p, span, a {
     border: 15px solid $green;
     border-radius: 5%;
     z-index: 2;
+    background: $green!important;
   }
 }
 
@@ -310,6 +307,10 @@ p, span, a {
 
 #user-menu-dropdown{
   padding: 10px;
+}
+
+.img-radius-bib {
+  border-radius: 12px!important;
 }
 
 /* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
