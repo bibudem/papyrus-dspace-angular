@@ -244,7 +244,7 @@ p, span, a {
     line-height: 1.5;
     text-align: start;
   }
-  
+
   .secondary-image {
     top: 80%;
     left: 45%;
@@ -316,6 +316,14 @@ p, span, a {
 /* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
 #main-content {
   min-height: 80vh!important;
+}
+
+p.section-description a {
+  color: #3fc5c9!important;
+}
+
+p.section-description a:hover {
+  color: #ffffff!important;
 }
 
 @media (max-width: 600px) {
