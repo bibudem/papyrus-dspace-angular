@@ -15,6 +15,10 @@ export class NavbarComponent extends BaseComponent {
   isDropdownOpen = false;
 
   toggleDropdown(state?: boolean): void {
-    this.isDropdownOpen = state !== undefined ? state : !this.isDropdownOpen;
+    if (state !== undefined) {
+      this.isDropdownOpen = state;
+    } else {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    }
   }
 }

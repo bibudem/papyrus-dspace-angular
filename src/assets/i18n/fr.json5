@@ -4234,7 +4234,7 @@
 
   "papyrus.home.new.titre": "Papyrus : Donnez une nouvelle portée à vos travaux",
 
-  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l’Université de Montréal. On y retrouve, en libre accès, les thèses et mémoires déposés à l’UdeM, ainsi que des travaux de recherche de la communauté universitaire (articles de revues savantes, chapitres de livres, etc.). Il s’agit de la plateforme de conservation et de diffusion de la production savante de l’UdeM. <br> Vous souhaitez déposer facilement un article dans Papyrus ? Utilisez notre <a href=\"https://depot-libre-acces.bib.umontreal.ca\" target=\"_blank\">interface simplifiée</a>.",
+  "papyrus.home.new.description": "Papyrus est le dépôt institutionnel de l’Université de Montréal. On y retrouve, en libre accès, les thèses et mémoires déposés à l’UdeM, ainsi que des travaux de recherche de la communauté universitaire (articles de revues savantes, chapitres de livres, etc.). Il s’agit de la plateforme de conservation et de diffusion de la production savante de l’UdeM. <br> Contribuez à la production savante de l’UdeM en déposant vos publications et travaux universitaires dans Papyrus.",
 
   "papyrus.home.new.bouton": "Connectez-vous",
 
@@ -4636,9 +4636,15 @@
 
   "papyrus.menu.principale.a_propos_papyrus": "À propos de Papyrus",
 
-  "papyrus.menu.principale.sous_menu_1": "Dépôt de thèse ou mémoire",
+  "papyrus.menu.principale.deposer": "Déposer dans Papyrus",
 
-  "papyrus.menu.principale.sous_menu_2": "Guide pour le dépôt dans les collections",
+  "papyrus.menu.principale.articles_publications": "Articles et publications",
+
+  "papyrus.menu.principale.theses_memoires": "Thèses, mémoires, travaux étudiants",
+
+  "papyrus.bouton.principale.articles_publications": "Partager vos articles",
+
+  "papyrus.bouton.principale.theses_memoires": "Soumettre un travail académique",
 
   "browse.search-form.placeholder": "Chercher dans Papyrus",
 
