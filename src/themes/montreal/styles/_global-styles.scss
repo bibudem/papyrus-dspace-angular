@@ -144,15 +144,19 @@ p, span, a {
   margin-right: 20px !important;
 }
 
-ds-file-download-link a.dont-break-out
-{
+ds-file-download-link a.dont-break-out {
   color: #0057AC;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 ds-file-download-link a.dont-break-out:hover {
   color: #00407F;
+  text-decoration: underline!important;
 }
+
+
+
 
 /* -------------------------------------------------------
    Pied de page
