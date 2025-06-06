@@ -7009,4 +7009,14 @@
   "papyrus.footer.liens.commentaires": "Send Feedback",
 
   "papyrus.footer.propulse_par": "Powered by",
+
+  "papyrus.menu.principale.deposer": "Submit to Papyrus",
+
+  "papyrus.menu.principale.articles_publications": "Articles and publications",
+
+  "papyrus.menu.principale.theses_memoires": "Theses, dissertations, student works",
+
+  "papyrus.bouton.principale.articles_publications": "Share your articles",
+  
+  "papyrus.bouton.principale.theses_memoires": "Submit an academic work"
 }
