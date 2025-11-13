@@ -1,0 +1,42 @@
+<nav [ngClass]="{'open': !(menuCollapsed | async)}" [@slideMobileNav]="!(windowService.isXsOrSm() | async) ? 'default' : ((menuCollapsed | async) ? 'collapsed' : 'expanded')"
+     class="navbar navbar-light navbar-expand-md p-md-0 navbar-container bg-papyrus-menu" role="navigation" [attr.aria-label]="'nav.main.description' | translate">
+  <div class="container h-100 mt-2 p-2">
+    <div id="collapsingNav" class="w-100 h-100">
+      <ul class="navbar-nav navbar-navigation mr-auto shadow-none mb-lg-0 h-100 nav-udem">
+        <ng-container *ngFor="let section of (sections | async)">
+          <ng-container *ngComponentOutlet="(sectionMap$ | async).get(section.id)?.component; injector: (sectionMap$ | async).get(section.id)?.injector;"></ng-container>
+        </ng-container>
+        <!-- Menu principal "Déposer dans Papyrus" -->
+        <li class="nav-item dropdown mt-1"
+            [class.show]="isDropdownOpen"
+            (mouseenter)="toggleDropdown(true)"
+            (mouseleave)="toggleDropdown(false)">
+          <a class="ds-menu-item dropdown-toggle"
+             href="#"
+             (click)="toggleDropdown(); $event.preventDefault()"
+             role="button"
+             aria-haspopup="true"
+             [attr.aria-expanded]="isDropdownOpen">
+            {{ 'papyrus.menu.principale.deposer' | translate }}
+          </a>
+          <div class="dropdown-menu"
+               [class.show]="isDropdownOpen"
+               [@dropdownAnimation]="isDropdownOpen ? 'visible' : 'hidden'">
+            <a class="dropdown-item" href="https://depot-libre-acces.bib.umontreal.ca/" target="_blank">
+              {{ 'papyrus.menu.principale.articles_publications' | translate }}
+            </a>
+            <a class="dropdown-item" href="https://umontreal.scholaris.ca/mydspace?configuration=workspace" target="_blank">
+              {{ 'papyrus.menu.principale.theses_memoires' | translate }}
+            </a>
+          </div>
+        </li>
+        <!-- Ajout du menu bib -->
+        <li class="mt-1" >
+          <a class="ds-menu-item " href="https://bib.umontreal.ca/guides/bd/depot-institutionnel-papyrus" target="_blank">
+            {{ 'papyrus.menu.principale.a_propos' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

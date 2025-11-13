@@ -1,0 +1,145 @@
+// Figtree Font (using TTF files with unicode-range)
+
+// Regular Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Bold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Black Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// ExtraBold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Light Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Medium Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// SemiBold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic Regular Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic Bold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic Black Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic ExtraBold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic Light Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic Medium Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Italic SemiBold Weight
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Variable Font (normal weight range)
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}
+
+// Variable Font (italic)
+@font-face {
+  font-family: 'Figtree';
+  src: url('/assets/montreal/fonts/figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  unicode-range: U+0000-00FF; /* Basic Latin */
+}

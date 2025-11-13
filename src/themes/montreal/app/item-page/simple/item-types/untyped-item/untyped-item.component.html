@@ -1,0 +1,227 @@
+<!-- MONTREAL -->
+<ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
+
+<div class="row" *ngIf="iiifEnabled">
+  <div class="col-12">
+    <ds-mirador-viewer id="iiif-viewer"
+      [object]="object"
+      [searchable]="iiifSearchEnabled"
+      [query]="iiifQuery$ | async">
+    </ds-mirador-viewer>
+  </div>
+</div>
+
+  <div class="d-flex flex-row">
+    <ds-item-page-title-field [item]="object" class="mr-auto">
+    </ds-item-page-title-field>
+    <ds-dso-edit-menu></ds-dso-edit-menu>
+  </div>
+  
+  <hr>
+  
+  <!-- dcterms.alternative -->
+  <div class="d-flex flex-row">
+    <div class="alternative_title">
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['dcterms.alternative']"
+      [label]="''">
+      </ds-generic-item-page-field>
+    </div>
+  </div>
+
+  <ds-generic-item-page-field [item]="object"
+    [fields]="['dc.type']"
+    [label]="''" class="item-type">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['UdeM.VersionRioxx']"
+  [label]="''">
+  </ds-generic-item-page-field>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <ng-container *ngIf="!(mediaViewer.image || mediaViewer.video)">
+      <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+        <ds-thumbnail [thumbnail]="object?.thumbnail | async"></ds-thumbnail>
+      </ds-metadata-field-wrapper>
+    </ng-container>
+
+    <div *ngIf="mediaViewer.image || mediaViewer.video" class="mb-2">
+      <ds-media-viewer [item]="object"></ds-media-viewer>
+    </div>
+    <ds-item-page-file-section [item]="object"></ds-item-page-file-section>
+   
+    <!-- dc.date.issued-->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.date.issued']"
+      [label]="'item.page.date.issued' | translate">
+    </ds-generic-item-page-field>
+
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.author', 'dc.creator']"
+      [label]="'item.page.author' | translate">
+    </ds-metadata-representation-list>
+
+    <ng-container *ngIf="object.metadata['UdeM.ORCIDAuteurThese']">
+      <div class="simple-view-element">
+        <h2 class="simple-view-element-header">{{ "item.page.orcid" | translate }}</h2>
+        <span *ngFor="let orcid of object.metadata['UdeM.ORCIDAuteurThese'] | keyvalue">
+          <a href="https://orcid.org/{{ orcid.value.value }}" target="_blank">{{ orcid.value.value }}</a>
+        </span>
+      </div>
+    </ng-container>
+
+    <!-- dc.contributor -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.contributor']"
+      [label]="'item.page.contributor'">
+    </ds-generic-item-page-field>
+    <!-- dc.contributor.advisor -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.contributor.advisor']"
+      [label]="'item.page.advisor' | translate">
+    </ds-generic-item-page-field>
+
+
+    <!-- openaire metadata fields -->
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['oaire.citationTitle']"
+    [label]="'item.page.citationTitle' | translate">
+    </ds-generic-item-page-field>
+
+    <div class="side-by-side">
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['oaire.citation.conferenceDate']"
+      [label]="'item.page.citationConferenceDate' | translate">
+      </ds-generic-item-page-field>
+
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['oaire.citation.conferencePlace']"
+      [label]="'item.page.citationConferencePlace' | translate">
+      </ds-generic-item-page-field>
+    </div>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.publisher']"
+      [label]="'item.page.publisher' | translate">
+    </ds-generic-item-page-field>
+    
+    <!-- etd.degree.level -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['etd.degree.level']"
+      [label]="'item.page.degree.level' | translate">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['etd.degree.discipline']"
+      [label]="'item.page.degree-discipline' | translate">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.contributor.affiliation']"
+      [label]="'item.page.affiliation' | translate">
+    </ds-generic-item-page-field>
+
+    <ng-container *ngIf="object.metadata['dc.subject']">
+      <h2 class="simple-view-element-header">{{ "item.page.subject" | translate }}</h2>
+      <ul class="simple-view-element list-unstyled">
+        <li *ngFor="let subject of object.metadata['dc.subject'] | keyvalue">
+          {{ subject.value.value }}
+        </li>
+      </ul>
+    </ng-container>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description.sponsorship']"
+      [label]="'item.page.sponsorship' | translate">
+    </ds-generic-item-page-field>
+
+  </div>
+  
+  <div class="col-xs-12 col-md-8">
+    
+    <ds-item-page-abstract-field [item]="object" id="abstract"></ds-item-page-abstract-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['dcterms.tableOfContents']"
+    [label]="'item.page.tableOfContents'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['dcterms.description']"
+    [label]="'item.page.description'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description']"
+      [label]="'item.page.description'">
+    </ds-generic-item-page-field>
+
+
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['dc.identifier.uri']"
+      [label]="'item.page.uri'">
+    </ds-item-page-uri-field>
+
+    <ng-container *ngIf="object.metadata['dc.identifier.doi']">
+      <div class="simple-view-element">
+        <h2 class="simple-view-element-header">{{ "item.page.doi" | translate }}</h2>
+        <span *ngFor="let dois of object.metadata['dc.identifier.doi'] | keyvalue">
+          <a href="https://doi.org/{{ dois.value.value }}" target="_blank">{{ dois.value.value }}</a>
+        </span>
+      </div>
+    </ng-container>
+
+    <ds-item-page-uri-field [item]="object"
+    [fields]="['dcterms.hasVersion']"
+    [label]="'item.page.hasVersion'">
+    </ds-item-page-uri-field>
+
+    <ds-item-page-uri-field [item]="object"
+    [fields]="['dcterms.relation']"
+    [label]="'item.page.relation'">
+    </ds-item-page-uri-field>
+
+    <!--U de M request for non-URI field for license -->
+    <ds-item-page-collections [item]="object">
+    </ds-item-page-collections>
+
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['coar.notify.endorsedBy']"
+      [label]="'item.page.endorsement'">
+    </ds-item-page-uri-field>
+
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReviewedBy']"
+      [label]="'item.page.review'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isSupplementedBy']"
+      [label]="'item.page.supplemented'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReferencedBy']"
+      [label]="'item.page.referenced'">
+    </ds-item-page-uri-field>
+
+    <ds-item-page-cc-license-field [item]="object" [variant]="'full'">
+    </ds-item-page-cc-license-field>
+
+    <div>
+      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="button">
+        <i class="fas fa-info-circle"></i> {{"item.page.link.full" | translate}}
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="my-4 font-italic">
+      {{"item.page.copyright" | translate}}
+    </div>
+  </div>
+</div>

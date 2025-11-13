@@ -1,0 +1,33 @@
+<section class="espaces-section py-4 mb-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left side: Images -->
+      <div class="col-lg-6 d-flex flex-column position-relative">
+        <div class="main-image mb-3">
+          <img src="assets/montreal/images/espaces-main.png" alt="Main espace img" class="img-fluid img-radius-bib">
+        </div>
+        <div class="secondary-image position-absolute">
+          <img src="assets/montreal/images/lib-home2.jpg" alt="Secondary espace img" class="img-fluid img-radius-bib">
+        </div>
+      </div>
+
+      <!-- Right side: Text content -->
+      <div class="col-lg-6 text-left text-lg-start pl-4 ">
+        <h1 class="section-title mb-4 text-white pt-4">{{ 'papyrus.home.new.title' | translate}}</h1>
+        <p class="section-description mb-4" [innerHTML]="'papyrus.home.new.description' | translate"></p>
+        <div class="d-flex flex-wrap gap-3">
+          <!-- Bouton principal -->
+          <a class="btn btn-dark bib-home" href="https://depot-libre-acces.bib.umontreal.ca/" target="_blank">
+            {{ 'papyrus.bouton.principale.articles_publications' | translate }}
+            <i class="fas fa-external-link-alt fa-lg fa-fw ml-2" aria-hidden="true"></i>
+          </a>
+
+          <!-- Bouton externe avec icône -->
+          <a class="btn btn-outline-light" href="https://umontreal.scholaris.ca/mydspace?configuration=workspace" target="_blank">
+            {{ 'papyrus.bouton.principale.theses_memoires' | translate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

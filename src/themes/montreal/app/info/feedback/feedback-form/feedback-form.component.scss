@@ -1,0 +1,11 @@
+.btn-bib {
+  border-radius: 60px;
+  border-color: #0057AC;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: #0B113A;
+    color: white;
+  }
+}

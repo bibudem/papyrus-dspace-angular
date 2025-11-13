@@ -1,0 +1,50 @@
+:host {
+  #main-site-header {
+    min-height: var(--ds-header-height);
+
+    @include media-breakpoint-up(md) {
+      height: var(--ds-header-height);
+    }
+
+    background-color: var(--ds-header-bg);
+
+    &-container {
+      min-height: var(--ds-header-height);
+    }
+  }
+
+  img#header-logo {
+    height: var(--ds-header-logo-height);
+
+    @include media-breakpoint-down(sm) {
+      max-height: var(--ds-header-logo-height-xs);
+    }
+  }
+
+  button#navbar-toggler {
+    color: var(--ds-header-icon-color);
+
+    &:hover, &:focus {
+      color: var(--ds-header-icon-color-hover);
+    }
+  }
+
+  #header-right {
+    // @include media-breakpoint-up(md) {
+    padding-top: 38px;
+    // }
+  }
+
+  ::ng-deep .loginLink,
+  ::ng-deep .dropdownLogin,
+  ::ng-deep .logoutLink,
+  ::ng-deep .dropdownLogout {
+    color: var(--ds-navbar-link-color);
+
+    &:hover, &:focus {
+      text-decoration: none;
+      color: var(--ds-navbar-link-color-hover);
+    }
+  }
+
+}
