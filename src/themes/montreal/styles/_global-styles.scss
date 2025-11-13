@@ -1,18 +1,12 @@
-// Import the custom fonts
-// @import 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&display=swap';
-// @import 'https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap';
-@import '../assets/fonts/figtree/fig-tree';
-@import '../assets/fonts/lora/lora-font';
+@charset "UTF-8";
+
+// Import the custom fonts avec support des caractères français
+@import 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&subset=latin,latin-ext&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Lora:wght@400;600&subset=latin,latin-ext&display=swap';
 
 // Configure Bootstrap to use these fonts
-$font-family-sans-serif: 'Noto Sans', 'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-family-serif: 'Lora', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-
-// Assign the fonts to specific Bootstrap components or SCSS variables
-$headings-font-family: $font-family-sans-serif;
-$h4-font-family: $font-family-serif;
-$body-font-family: $font-family-sans-serif;
-
+$font-family-sans-serif: 'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+$font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 /* -------------------------------------------------------
    Importation des styles globaux
 ---------------------------------------------------------- */
@@ -27,6 +21,7 @@ $body-font-family: $font-family-sans-serif;
 /* -------------------------------------------------------
    Styles theme UdeM
 ---------------------------------------------------------- */
+
 .logo-udem{
   vertical-align: bottom;
   border-style: none;
@@ -36,8 +31,13 @@ $body-font-family: $font-family-sans-serif;
   font-weight: 600;
   font-size: 28px;
   color:$gray-800;
-  font-family: Lora;
+  font-family: $font-family-serif;
 }
+
+ds-system-wide-alert-banner {
+  display: none;
+}
+
 
 .facet-filter, .setting-option {
   background-color: var(--bs-light);
@@ -50,7 +50,7 @@ $body-font-family: $font-family-sans-serif;
 
   h4 {
     font-size: 1.25rem!important;
-    font-family: Lora;
+    font-family: $font-family-serif;
   }
 }
 
@@ -61,12 +61,12 @@ $body-font-family: $font-family-sans-serif;
 
 h1, h2, h3, h5, h6 {
   font-weight: 600;
-  font-family: Figtree;
+  font-family: $font-family-sans-serif;
   color: $greensecondary;
 }
 
 h4 {
-  font-family: Lora;
+  font-family: $font-family-serif;
 }
 
 h2{
@@ -105,7 +105,7 @@ nav#admin-sidebar a {
    Styles pour les paragraphes et le texte
 ---------------------------------------------------------- */
 p, span, a {
-  font-family: Figtree;
+  font-family: $font-family-sans-serif;
 }
 
 .dont-break-out {
@@ -133,11 +133,26 @@ p, span, a {
 
 .bg-papyrus-menu {
   background: #EEF4F7;
+  z-index: 10;
 }
 
 .nav-udem a {
   margin-right: 20px !important;
 }
+
+ds-file-download-link a.dont-break-out {
+  color: #0057AC;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ds-file-download-link a.dont-break-out:hover {
+  color: #00407F;
+  text-decoration: underline!important;
+}
+
+
+
 
 /* -------------------------------------------------------
    Pied de page
@@ -149,7 +164,7 @@ p, span, a {
 
   h5 {
     margin-bottom: 20px;
-    font-family: Figtree;
+    font-family: $font-family-sans-serif;
   }
 
   ul {
@@ -209,24 +224,24 @@ p, span, a {
 
   .text-bib {
     color: #FFF;
-    font-family: Figtree;
+    font-family: $font-family-sans-serif;
     font-size: 24px;
     font-weight: 600;
     line-height: 150%;
   }
 }
 
+
 /* -------------------------------------------------------
    Section des espaces
 ---------------------------------------------------------- */
 .espaces-section {
   background-color: $green;
-  color: #FFFFFF;
   margin-top: -16px;
   border-top: 10px solid $green;
 
   .section-title {
-    font-family: Figtree, sans-serif;
+    font-family: $font-family-sans-serif;
     font-size: 2.5rem;
     font-style: normal;
     font-weight: 550;
@@ -234,10 +249,10 @@ p, span, a {
   }
 
   .section-description {
-    font-family: Figtree, sans-serif;
+    font-family: $font-family-sans-serif;
     font-size: 1rem;
     line-height: 1.5;
-    text-align: start;  
+    text-align: start;
     color: #d9dbdb!important;
 
     span {
@@ -255,10 +270,6 @@ p, span, a {
     }
   }
 
-  .main-image img {
-    border-radius: 16px;
-  }
-
   .secondary-image {
     top: 80%;
     left: 45%;
@@ -268,24 +279,8 @@ p, span, a {
     z-index: 2;
     background: $green!important;
   }
-  
-  .img-radius-bib {
-    border-radius: 12px!important;
-  }
-}
 
-.bib-home {
-  border-color: $gray-100!important;
-  background-color:white!important;
-  color: $green!important;
 }
-
-.bib-home:hover {
-  border-color: white!important;
-  background-color:transparent!important;
-  color: white!important;
-}
-
 
 /* -------------------------------------------------------
    Couleurs de fond personnalisées
@@ -318,6 +313,7 @@ p, span, a {
 // -------------------------------------------------------
 // Button Styles
 // -------------------------------------------------------
+
 .btn {
   border-radius: 60px;
 }
@@ -326,9 +322,22 @@ p, span, a {
   background-color: #262525;
 }
 
+
 .cm-btn-success{
   background-color: $green!important;
   color: $extralightgreen!important;
+}
+
+.bib-home {
+  border-color: $gray-100!important;
+  background-color:white!important;
+  color: $green!important;
+}
+
+.bib-home:hover {
+  border-color: white!important;
+  background-color:transparent!important;
+  color: white!important;
 }
 
 .navbar-nav .dropdown-menu {
@@ -339,101 +348,19 @@ p, span, a {
   padding: 10px;
 }
 
-/* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
-#main-content {
-  min-height: 80vh !important;
+.img-radius-bib {
+  border-radius: 12px!important;
 }
 
-/* organize logo with menu on small screens */
+/* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
+#main-content {
+  min-height: 80vh!important;
+}
+
 @media (max-width: 600px) {
+  /* Organisation du logo avec le menu sur petits écrans */
   .navbar-right-bib {
     margin-top: 5rem!important;
     padding-bottom: 2.5rem!important;
   }
-}
-// -------------------------------------------------------
-// Submission Form Styling - Added by Scholaris Team
-// -------------------------------------------------------
-.submission-form-hint {
-  padding: 2px;
-  border: 1px solid lightcoral;
-  border-image: none;
-  background-color: seashell;
-}
-
-.submission-form-hint-title {
-  margin-right: 0.3em;
-  margin-left: 0.3em;
-  font-family: monospace;
-  border: 1pt darkkhaki solid;
-}
-
-// Submission form spacing
-ds-dynamic-form-control-container[class*="col-sm"] {
-  margin-bottom: 25px;
-}
-
-ds-dynamic-form-control-container[class*="col-sm"] ds-dynamic-form-control-container[class*="col-sm"] {
-  margin-bottom: unset !important;
-}
-
-.form-group {
-  margin-bottom: 35px;
-  ds-dynamic-form-control-container[class*="col-sm"] {
-    margin-bottom: unset !important;
-   }
-}
-
-ds-dynamic-form-control-container[class*="d-none"],
-ds-dynamic-form-control-container[hidden] {
-  margin-bottom: unset !important;
-}
-
-@media (min-width: 992px) {
-  .modal-dialog:has(ds-create-item-parent-selector),
-  .modal-dialog:has(ds-create-collection-parent-selector),
-  .modal-dialog:has(ds-create-community-parent-selector),
-  .modal-dialog:has(ds-edit-collection-selector),
-  .modal-dialog:has(ds-edit-item-selector),
-  .modal-dialog:has(ds-edit-community-selector) {
-    max-width: 800px;
-  }
-}
-
-// -------------------------------------------------------
-// Expand the Pop-up Collection Box on the Search Results
-// Search Results Page  - Added by Scholaris Team
-// Example URL: http://localhost:4000/search?query=TEST&spc.page=1
-// -------------------------------------------------------
-@media (min-width: 1024px) {
-  .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
-    width: 150%;
-  }
-}
-
-// UdeM Addition For Description Changes
-p.section-description a {
-  color: #3fc5c9!important;
-}
-
-p.section-description a:hover {
-  color: #ffffff!important;
-}
-
-ds-file-download-link a.dont-break-out
-{
-  color: #0057AC;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-ds-file-download-link a.dont-break-out:hover {
-  color: #00407F;
-  text-decoration: underline!important;
-}
-
-ds-item-page-full-file-section {
-  .file-section {
-    word-break: break-all;
- }
 }
