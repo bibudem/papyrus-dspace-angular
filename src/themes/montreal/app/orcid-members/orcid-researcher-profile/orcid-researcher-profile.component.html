@@ -1,0 +1,255 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     Page : Profil chercheur ORCID
+     Thème Montréal — Papyrus
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<ng-container *ngIf="vm$ | async as vm">
+
+  <!-- ── État : chargement ───────────────────────────────────────────────── -->
+  <div *ngIf="vm.status === 'loading'" class="container py-5">
+    <div class="profile-banner-skeleton mb-4">
+      <div class="d-flex align-items-center gap-4 p-4">
+        <div class="skeleton sk-avatar"></div>
+        <div class="flex-grow-1">
+          <div class="skeleton sk-title mb-2"></div>
+          <div class="skeleton sk-line short mb-2"></div>
+          <div class="skeleton sk-line medium"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="skeleton sk-block mb-3"></div>
+        <div class="skeleton sk-block"></div>
+      </div>
+      <div class="col-lg-8">
+        <div class="skeleton sk-block mb-3"></div>
+        <div class="skeleton sk-block tall"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── État : erreur ───────────────────────────────────────────────────── -->
+  <div *ngIf="vm.status === 'error'" class="container py-5">
+    <a routerLink="/orcid-members" class="back-link d-inline-flex align-items-center gap-2 mb-4">
+      <i class="fas fa-arrow-left fa-sm"></i>
+      {{ 'papyrus.orcid-profile.back' | translate }}
+    </a>
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="fas fa-exclamation-triangle fa-lg" aria-hidden="true"></i>
+      <span>{{ 'papyrus.orcid-profile.error' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- ── État : profil chargé ────────────────────────────────────────────── -->
+  <ng-container *ngIf="vm.status === 'loaded' && vm.profile as profile">
+
+    <!-- Bannière d'identité ──────────────────────────────────────────────── -->
+    <div class="profile-banner">
+      <div class="container py-4">
+
+        <!-- Lien de retour vers la liste -->
+        <a routerLink="/orcid-members" class="back-link d-inline-flex align-items-center gap-2 mb-4">
+          <i class="fas fa-arrow-left fa-sm"></i>
+          {{ 'papyrus.orcid-profile.back' | translate }}
+        </a>
+
+        <div class="d-flex flex-wrap align-items-start gap-4">
+
+          <!-- Avatar initiales (généré côté client, pas de photo ORCID) -->
+          <div class="researcher-avatar" aria-hidden="true">
+            {{ initials(profile) }}
+          </div>
+
+          <div class="researcher-identity">
+            <!-- Nom principal -->
+            <h1 class="researcher-name">{{ displayName(profile) }}</h1>
+
+            <!-- Poste et organisation actuels (première affiliation active) -->
+            <p class="current-position" *ngIf="profile.employments.length > 0">
+              <ng-container *ngIf="profile.employments[0].roleTitle">
+                {{ profile.employments[0].roleTitle }}&nbsp;—&nbsp;
+              </ng-container>
+              {{ profile.employments[0].organizationName }}
+            </p>
+
+            <!-- Identifiant ORCID avec lien vers le profil public -->
+            <a
+              [href]="profile.orcidUri"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="orcid-id-link d-inline-flex align-items-center gap-2 mt-1"
+              [attr.aria-label]="('papyrus.orcid-profile.view-orcid' | translate) + ' ' + displayName(profile)"
+            >
+              <span class="orcid-dot" aria-hidden="true">iD</span>
+              <span class="font-monospace orcid-id-text">{{ profile.orcidId }}</span>
+              <i class="fas fa-external-link-alt fa-xs" aria-hidden="true"></i>
+            </a>
+
+            <!-- Mots-clés (domaines de recherche déclarés sur ORCID) -->
+            <div class="d-flex flex-wrap gap-2 mt-3" *ngIf="profile.keywords.length > 0">
+              <span
+                *ngFor="let kw of profile.keywords | slice:0:8"
+                class="keyword-pill"
+              >{{ kw }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corps : barre latérale + contenu principal ───────────────────────── -->
+    <div class="container py-4">
+      <div class="row g-4">
+
+        <!-- ── Barre latérale ─────────────────────────────────────────────── -->
+        <aside class="col-lg-4 order-lg-1 order-2">
+
+          <!-- Affiliations professionnelles -->
+          <div class="info-card mb-3">
+            <h2 class="info-card-title">
+              <i class="fas fa-building me-2" aria-hidden="true"></i>
+              {{ 'papyrus.orcid-profile.employment' | translate }}
+            </h2>
+
+            <div *ngIf="profile.employments.length > 0">
+              <div
+                *ngFor="let emp of profile.employments"
+                class="employment-item"
+              >
+                <!-- Nom de l'organisation -->
+                <div class="emp-org">{{ emp.organizationName }}</div>
+
+                <!-- Titre du poste -->
+                <div class="emp-role" *ngIf="emp.roleTitle">{{ emp.roleTitle }}</div>
+
+                <!-- Département -->
+                <div class="emp-dept" *ngIf="emp.department">{{ emp.department }}</div>
+
+                <!-- Période : année début – fin ou « présent » -->
+                <div class="emp-period" *ngIf="emp.startYear || emp.isCurrent">
+                  <ng-container *ngIf="emp.startYear">{{ emp.startYear }}</ng-container>
+                  <ng-container *ngIf="emp.startYear && (emp.isCurrent || emp.endYear)"> — </ng-container>
+                  <span *ngIf="emp.isCurrent" class="current-badge">
+                    {{ 'papyrus.orcid-profile.employment.present' | translate }}
+                  </span>
+                  <span *ngIf="!emp.isCurrent && emp.endYear">{{ emp.endYear }}</span>
+                </div>
+              </div>
+            </div>
+
+            <p *ngIf="profile.employments.length === 0" class="text-muted small mb-0">
+              {{ 'papyrus.orcid-profile.employment.empty' | translate }}
+            </p>
+          </div>
+
+          <!-- Liens externes déclarés par le chercheur -->
+          <div class="info-card" *ngIf="profile.researcherUrls.length > 0">
+            <h2 class="info-card-title">
+              <i class="fas fa-link me-2" aria-hidden="true"></i>
+              {{ 'papyrus.orcid-profile.links' | translate }}
+            </h2>
+            <ul class="links-list">
+              <li *ngFor="let link of profile.researcherUrls">
+                <a
+                  [href]="link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="external-link"
+                >
+                  <i class="fas fa-external-link-alt fa-xs me-1" aria-hidden="true"></i>
+                  {{ link.name || link.url }}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </aside>
+
+        <!-- ── Contenu principal ───────────────────────────────────────────── -->
+        <main class="col-lg-8 order-lg-2 order-1">
+
+          <!-- Biographie (masquée si absente du profil ORCID) -->
+          <section class="content-card mb-4" *ngIf="profile.biography">
+            <h2 class="section-title">
+              <i class="fas fa-user me-2" aria-hidden="true"></i>
+              {{ 'papyrus.orcid-profile.biography' | translate }}
+            </h2>
+            <p class="bio-text">{{ profile.biography }}</p>
+          </section>
+
+          <!-- Liste des publications ─────────────────────────────────────── -->
+          <section class="content-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="section-title mb-0">
+                <i class="fas fa-book-open me-2" aria-hidden="true"></i>
+                {{ 'papyrus.orcid-profile.publications' | translate }}
+              </h2>
+              <!-- Compteur total de publications déclaré par ORCID -->
+              <span *ngIf="profile.worksTotal > 0" class="publications-count-badge">
+                {{ 'papyrus.orcid-profile.publications.total' | translate:{ count: profile.worksTotal } }}
+              </span>
+            </div>
+
+            <!-- État vide : aucune publication enregistrée -->
+            <p *ngIf="profile.works.length === 0" class="text-muted">
+              {{ 'papyrus.orcid-profile.publications.empty' | translate }}
+            </p>
+
+            <!-- Liste des travaux triés par année décroissante -->
+            <div class="works-list">
+              <article
+                *ngFor="let work of profile.works; trackBy: trackByPutCode"
+                class="work-item"
+              >
+                <!-- En-tête : type de publication + année -->
+                <div class="work-meta d-flex align-items-center gap-2 mb-1">
+                  <span class="work-type-badge {{ workTypeClass(work.type) }}">
+                    {{ workTypeKey(work.type) | translate }}
+                  </span>
+                  <span *ngIf="work.publicationYear" class="work-year">
+                    {{ work.publicationYear }}
+                  </span>
+                </div>
+
+                <!-- Titre de la publication (lié au DOI ou à l'URL déclarée) -->
+                <h3 class="work-title">
+                  <a
+                    *ngIf="work.doiUrl || work.workUrl"
+                    [href]="work.doiUrl || work.workUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {{ work.title }}
+                    <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+                  </a>
+                  <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
+                </h3>
+
+                <!-- Revue ou source de publication -->
+                <p *ngIf="work.journalTitle" class="work-journal">
+                  {{ work.journalTitle }}
+                </p>
+
+                <!-- DOI cliquable -->
+                <p *ngIf="work.doi" class="work-doi">
+                  DOI :
+                  <a
+                    [href]="work.doiUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="doi-link"
+                  >{{ work.doi }}</a>
+                </p>
+
+              </article>
+            </div>
+
+          </section>
+        </main>
+
+      </div>
+    </div>
+
+  </ng-container>
+</ng-container>

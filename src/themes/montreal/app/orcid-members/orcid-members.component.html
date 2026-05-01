@@ -1,0 +1,123 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     Page : Chercheurs UdeM sur ORCID
+     Thème Montréal — Papyrus
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="container py-5">
+
+  <!-- En-tête de page (fond extralightgreen + bordure gauche verte) ─────── -->
+  <div class="page-header mb-4">
+    <div class="d-flex align-items-center gap-3 mb-2">
+      <!-- Icône ORCID couleur officielle à côté du titre -->
+      <span class="orcid-header-badge" aria-hidden="true">iD</span>
+      <h1 class="page-title mb-0">{{ 'papyrus.orcid-members.page.title' | translate }}</h1>
+    </div>
+    <p class="page-description">{{ 'papyrus.orcid-members.page.description' | translate }}</p>
+  </div>
+
+  <!-- Barre de recherche par nom ──────────────────────────────────────────── -->
+  <!-- Déclenche une requête debouncée (400 ms) vers l'API ORCID              -->
+  <div class="search-wrapper mb-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-5">
+        <div class="input-group">
+          <span class="input-group-text" aria-hidden="true">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="search"
+            class="form-control"
+            [placeholder]="'papyrus.orcid-members.search.placeholder' | translate"
+            [attr.aria-label]="'papyrus.orcid-members.search.placeholder' | translate"
+            (input)="onSearchInput($any($event.target).value)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone principale pilotée par le ViewModel (`vm$`) ───────────────────── -->
+  <ng-container *ngIf="vm$ | async as vm">
+
+    <!-- État : chargement — squelettes animés en attendant la réponse ORCID -->
+    <div
+      *ngIf="vm.status === 'loading'"
+      class="row g-3"
+      aria-busy="true"
+      [attr.aria-label]="'papyrus.orcid-members.loading' | translate"
+    >
+      <div *ngFor="let i of skeletons" class="col-md-6 col-lg-4">
+        <div class="card skeleton-card">
+          <div class="card-body">
+            <div class="d-flex gap-2 mb-2">
+              <!-- Squelette du badge ORCID circulaire -->
+              <div class="skeleton skeleton-circle"></div>
+              <div class="flex-grow-1">
+                <!-- Squelette du nom du chercheur -->
+                <div class="skeleton skeleton-title mb-1"></div>
+                <!-- Squelette de l'identifiant ORCID -->
+                <div class="skeleton skeleton-line short"></div>
+              </div>
+            </div>
+            <!-- Squelettes des lignes de biographie -->
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line medium"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- État : erreur — l'API ORCID est inaccessible ou a renvoyé une erreur -->
+    <div
+      *ngIf="vm.status === 'error'"
+      class="alert alert-danger d-flex align-items-center gap-2"
+      role="alert"
+    >
+      <i class="fas fa-exclamation-triangle fa-lg" aria-hidden="true"></i>
+      <span>{{ 'papyrus.orcid-members.error' | translate }}</span>
+    </div>
+
+    <!-- État : données chargées ─────────────────────────────────────────── -->
+    <ng-container *ngIf="vm.status === 'loaded'">
+
+      <!-- Compteur de résultats total renvoyé par ORCID -->
+      <p *ngIf="vm.totalResults > 0" class="results-count mb-3">
+        {{ 'papyrus.orcid-members.total' | translate:{ count: vm.totalResults } }}
+      </p>
+
+      <!-- Aucun résultat : recherche sans correspondance ou page vide -->
+      <div *ngIf="vm.members.length === 0" class="text-center py-5 empty-state">
+        <i class="fas fa-user-slash fa-3x mb-3 d-block" aria-hidden="true"></i>
+        <p class="mb-0">{{ 'papyrus.orcid-members.empty' | translate }}</p>
+      </div>
+
+      <!-- Grille de cartes — une carte par chercheur de la page courante -->
+      <!-- `trackByOrcidId` évite le re-rendu des cartes déjà affichées   -->
+      <div *ngIf="vm.members.length > 0" class="row g-3 mb-4">
+        <div
+          *ngFor="let member of vm.members; trackBy: trackByOrcidId"
+          class="col-md-6 col-lg-4"
+        >
+          <ds-orcid-member-card [member]="member"></ds-orcid-member-card>
+        </div>
+      </div>
+
+      <!-- Pagination NgBootstrap — visible uniquement si plus d'une page    -->
+      <!-- Note : NgbPagination est 1-based ; la conversion est dans goToPage -->
+      <div *ngIf="vm.totalPages > 1" class="d-flex justify-content-center mt-3">
+        <ngb-pagination
+          [collectionSize]="vm.totalResults"
+          [pageSize]="PAGE_SIZE"
+          [page]="vm.page + 1"
+          [maxSize]="7"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="goToPage($event)"
+          [attr.aria-label]="'papyrus.orcid-members.pagination' | translate"
+        ></ngb-pagination>
+      </div>
+
+    </ng-container>
+  </ng-container>
+
+</div>

@@ -269,6 +269,24 @@ export const APP_ROUTES: Route[] = [
           .then((m) => m.ROUTES),
         canActivate: [authenticatedGuard],
       },
+      {
+        path: 'orcid-members',
+        loadComponent: () =>
+          import('../themes/montreal/app/orcid-members/orcid-members.component').then(
+            (m) => m.OrcidMembersComponent,
+          ),
+        canActivate: [endUserAgreementCurrentUserGuard],
+        data: { title: 'papyrus.orcid-members.page.title' },
+      },
+      {
+        path: 'orcid-members/:orcidId',
+        loadComponent: () =>
+          import('../themes/montreal/app/orcid-members/orcid-researcher-profile/orcid-researcher-profile.component').then(
+            (m) => m.OrcidResearcherProfileComponent,
+          ),
+        canActivate: [endUserAgreementCurrentUserGuard],
+        data: { title: 'papyrus.orcid-profile.page.title' },
+      },
       { path: '**', pathMatch: 'full', component: ThemedPageNotFoundComponent },
     ],
   },

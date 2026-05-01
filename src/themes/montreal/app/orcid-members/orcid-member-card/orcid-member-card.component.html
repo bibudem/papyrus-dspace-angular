@@ -1,0 +1,41 @@
+<!-- Carte de présentation d'un chercheur UdeM sur ORCID -->
+<div class="orcid-card card">
+  <div class="card-body d-flex flex-column">
+
+    <!-- En-tête : badge ORCID + nom + lien vers le profil -->
+    <div class="d-flex align-items-start gap-2 mb-2">
+
+      <!-- Badge circulaire imitant l'icône officielle ORCID (iD vert) -->
+      <span class="orcid-badge flex-shrink-0" aria-hidden="true">iD</span>
+
+      <div class="min-width-0">
+        <!-- Nom : stretched-link vers la page de profil interne -->
+        <h3 class="card-title h6 mb-1 text-truncate" [title]="displayName">
+          <a
+            [routerLink]="['/orcid-members', member.orcidId]"
+            class="stretched-link text-decoration-none"
+            [attr.aria-label]="('papyrus.orcid-members.card.view-profile' | translate) + ' ' + displayName"
+          >{{ displayName }}</a>
+        </h3>
+
+        <!-- Lien direct vers le profil public ORCID (z-index > stretched-link) -->
+        <a
+          [href]="member.orcidUri"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="orcid-id-link font-monospace small"
+          [attr.aria-label]="('papyrus.orcid-members.card.profile-link' | translate) + ' ' + displayName"
+        >
+          {{ member.orcidId }}
+          <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Extrait de biographie (masqué si le chercheur n'en a pas saisi) -->
+    <p *ngIf="biographyExcerpt" class="card-text text-muted small flex-grow-1 mb-0">
+      {{ biographyExcerpt }}
+    </p>
+
+  </div>
+</div>
