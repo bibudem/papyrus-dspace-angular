@@ -1,0 +1,32 @@
+<header>
+  <div class="container">
+    <div class="d-flex flex-row justify-content-between">
+      <div class="navbar-brand my-2 align-items-center">
+        <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer" class="logo-link">
+          <img src="assets/montreal/images/logo_udem-officiel.svg" 
+              [attr.alt]="'menu.header.image.logo' | translate" 
+              class="logo-udem"/>
+        </a> |
+        <a routerLink="/home" class="text-logo-link">
+          <span class="text-logo">  Papyrus</span>
+        </a>
+      </div>
+
+      <nav role="navigation" [attr.aria-label]="'nav.user.description' | translate" class="navbar navbar-light navbar-expand-md flex-shrink-0 px-0 navbar-right-bib">
+        <ds-search-navbar></ds-search-navbar>
+        <ds-lang-switch></ds-lang-switch>
+        <ds-context-help-toggle></ds-context-help-toggle>
+        <ds-auth-nav-menu></ds-auth-nav-menu>
+        <ds-impersonate-navbar></ds-impersonate-navbar>
+        <div *ngIf="isMobile$ | async" class="pl-2">
+          <button class="navbar-toggler px-0" type="button" (click)="toggleNavbar()"
+                  aria-controls="collapsingNav"
+                  aria-expanded="false" [attr.aria-label]="'nav.toggle' | translate">
+            <span class="fas fa-bars fa-fw toggler-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <ds-navbar *ngIf="(isMobile$ | async) === false"></ds-navbar>
+</header>

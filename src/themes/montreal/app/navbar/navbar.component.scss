@@ -1,0 +1,61 @@
+.nav-bib {
+  margin-left: 35%;
+  margin-top: -50px;
+  padding-bottom: 40px;
+  width: 35%;
+}
+
+.btn-dark {
+  border-color: #dae0e5 !important;
+
+  &:hover {
+    border-color: #8a8f96 !important;
+  }
+}
+
+.nav-item.dropdown {
+  position: relative;
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 0.25rem 0.25rem;
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out, opacity 0.2s ease;
+    opacity: 0;
+
+    &.show {
+      max-height: 200px; /* Ajustez selon le contenu */
+      opacity: 1;
+      padding: 0.5rem 0;
+    }
+  }
+}
+
+.dropdown-item {
+  color: #000;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: block;
+  clear: both;
+  white-space: nowrap;
+  transform: translateY(-10px);
+  transition: transform 0.3s ease;
+
+  .show & {
+    transform: translateY(0);
+  }
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}

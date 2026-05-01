@@ -1,0 +1,147 @@
+<!-- MONTREAL -->
+<ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
+
+<div class="row" *ngIf="iiifEnabled">
+  <div class="col-12">
+    <ds-mirador-viewer id="iiif-viewer"
+      [object]="object"
+      [searchable]="iiifSearchEnabled"
+      [query]="iiifQuery$ | async">
+    </ds-mirador-viewer>
+  </div>
+</div>
+
+  <div class="d-flex flex-row">
+    <ds-item-page-title-field [item]="object" class="mr-auto">
+    </ds-item-page-title-field>
+    <ds-dso-edit-menu></ds-dso-edit-menu>
+  </div>
+
+  <!-- dcterms.alternative -->
+  <div class="d-flex flex-row">
+    <div class="alternative_title">
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['dcterms.alternative']"
+      [label]="''">
+      </ds-generic-item-page-field>
+    </div>
+  </div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <ng-container *ngIf="!(mediaViewer.image || mediaViewer.video)">
+      <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+        <ds-thumbnail [thumbnail]="object?.thumbnail | async"></ds-thumbnail>
+      </ds-metadata-field-wrapper>
+    </ng-container>
+
+    <div *ngIf="mediaViewer.image || mediaViewer.video" class="mb-2">
+      <ds-media-viewer [item]="object"></ds-media-viewer>
+    </div>
+    <ds-item-page-file-section [item]="object"></ds-item-page-file-section>
+    <ds-item-page-date-field [item]="object"></ds-item-page-date-field>
+
+    <ds-metadata-representation-list class="ds-item-page-mixed-author-field"
+      [parentItem]="object"
+      [itemType]="'Person'"
+      [metadataFields]="['dc.contributor.author', 'dc.creator']"
+      [label]="'relationships.isAuthorOf' | translate">
+    </ds-metadata-representation-list>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['journal.title']"
+      [label]="'item.page.journal-title'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['journal.identifier.issn']"
+      [label]="'item.page.journal-issn'">
+    </ds-generic-item-page-field>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['journalvolume.identifier.name']"
+      [label]="'item.page.volume-title'">
+    </ds-generic-item-page-field>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.publisher']"
+      [label]="'item.page.publisher'">
+    </ds-generic-item-page-field>
+
+    <ng-container *ngIf="object.metadata['dc.subject']">
+      <h2 class="simple-view-element-header">{{ "item.page.subject" | translate }}</h2>
+      <ul class="simple-view-element list-unstyled">
+        <li *ngFor="let subject of object.metadata['dc.subject'] | keyvalue">
+          {{ subject.value.value }}
+        </li>
+      </ul>
+    </ng-container>
+
+    <!-- dc.contributor.advisor -->
+    <ds-generic-item-page-field [item]="object"
+                                [fields]="['dc.contributor.advisor']"
+                                [label]="'item.page.contributor.advisor'">
+    </ds-generic-item-page-field>
+
+    <!-- dc.contributor.affiliation -->
+    <ds-generic-item-page-field [item]="object"
+                                [fields]="['dc.contributor.affiliation']"
+                                [label]="'item.page.contributor.affiliation'">
+    </ds-generic-item-page-field>
+
+  </div>
+
+  <div class="col-xs-12 col-md-8">
+
+    <!-- U de M custom abstract metadata field dcterms.abstract -->
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dcterms.abstract']"
+      [label]="'item.page.abstract'"
+      class="text-justify" id="abstract">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description']"
+      [label]="'item.page.description'">
+    </ds-generic-item-page-field>
+
+    <!-- etd.degree.discipline -->
+    <ds-generic-item-page-field [item]="object"
+        [fields]="['etd.degree.discipline']"
+        [label]="'item.page.degree.discipline'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.citation']"
+      [label]="'item.page.citation'">
+    </ds-generic-item-page-field>
+
+    <!-- dc.identifier.uri -->
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['dc.identifier.uri']"
+      [label]="'item.page.uri'">
+    </ds-item-page-uri-field>
+
+    <ds-item-page-collections [item]="object"></ds-item-page-collections>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['coar.notify.endorsedBy']"
+      [label]="'item.page.endorsement'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReviewedBy']"
+      [label]="'item.page.review'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isSupplementedBy']"
+      [label]="'item.page.supplemented'">
+    </ds-item-page-uri-field>
+    <ds-item-page-uri-field [item]="object"
+      [fields]="['datacite.relation.isReferencedBy']"
+      [label]="'item.page.referenced'">
+    </ds-item-page-uri-field>
+
+    <div>
+      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="button">
+        <i class="fas fa-info-circle"></i> {{"item.page.link.full" | translate}}
+      </a>
+    </div>
+  </div>
+</div>

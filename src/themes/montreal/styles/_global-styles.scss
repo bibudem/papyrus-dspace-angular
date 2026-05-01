@@ -1,0 +1,366 @@
+@charset "UTF-8";
+
+// Import the custom fonts avec support des caractères français
+@import 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&subset=latin,latin-ext&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Lora:wght@400;600&subset=latin,latin-ext&display=swap';
+
+// Configure Bootstrap to use these fonts
+$font-family-sans-serif: 'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+$font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+/* -------------------------------------------------------
+   Importation des styles globaux
+---------------------------------------------------------- */
+// Importation des styles globaux de base
+@import '../../../styles/_global-styles.scss';
+
+/* -------------------------------------------------------
+   Variables pour le thème vert
+---------------------------------------------------------- */
+@import './_variables_papyrus.scss';
+
+/* -------------------------------------------------------
+   Styles theme UdeM
+---------------------------------------------------------- */
+
+.logo-udem{
+  vertical-align: bottom;
+  border-style: none;
+  padding: 5px;
+}
+.text-logo {
+  font-weight: 600;
+  font-size: 28px;
+  color:$gray-800;
+  font-family: $font-family-serif;
+}
+
+ds-system-wide-alert-banner {
+  display: none;
+}
+
+
+.facet-filter, .setting-option {
+  background-color: var(--bs-light);
+  border-radius: var(--bs-border-radius);
+
+  &.p-3 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  h4 {
+    font-size: 1.25rem!important;
+    font-family: $font-family-serif;
+  }
+}
+
+/* -------------------------------------------------------
+   Titres
+---------------------------------------------------------- */
+
+
+h1, h2, h3, h5, h6 {
+  font-weight: 600;
+  font-family: $font-family-sans-serif;
+  color: $greensecondary;
+}
+
+h4 {
+  font-family: $font-family-serif;
+}
+
+h2{
+  font-size: 46px;
+  font-weight: 600;
+}
+
+a {
+  color: $greensecondary;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+a.lead {
+  font-weight: 450 !important;
+  color: $greensecondary;
+}
+
+a.lead:hover {
+  color: $darkgreen;
+}
+
+/* Styles pour les badges */
+.badge-secondary {
+  background-color: var(--bs-primary);
+}
+
+nav#admin-sidebar a {
+  color: $extralightgreen!important;
+  text-decoration: none!important;
+}
+
+/* -------------------------------------------------------
+   Styles pour les paragraphes et le texte
+---------------------------------------------------------- */
+p, span, a {
+  font-family: $font-family-sans-serif;
+}
+
+.dont-break-out {
+  color: var(--Neutre-700, #222930);
+  line-height: 120%;
+}
+
+/* -------------------------------------------------------
+   Styles pour les menus et alertes
+---------------------------------------------------------- */
+.ds-menu-item {
+  padding: 5px 10px 5px 10px;
+}
+
+.alert-info {
+  color: $darkgreen;
+  background-color: #EEF4F7;
+  border-color: #b8d0e8;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: $darkgreen;
+}
+
+.bg-papyrus-menu {
+  background: #EEF4F7;
+  z-index: 10;
+}
+
+.nav-udem a {
+  margin-right: 20px !important;
+}
+
+ds-file-download-link a.dont-break-out {
+  color: #0057AC;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ds-file-download-link a.dont-break-out:hover {
+  color: #00407F;
+  text-decoration: underline!important;
+}
+
+
+
+
+/* -------------------------------------------------------
+   Pied de page
+---------------------------------------------------------- */
+.footer {
+  background-color: $darkgreen;
+  color: #f8f9fa;
+  padding-top: 40px;
+
+  h5 {
+    margin-bottom: 20px;
+    font-family: $font-family-sans-serif;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .footer-link-udem {
+    font-size: 14px;
+    color: $extralightgreen;
+    margin: 0 10px;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $lightgreen;
+    }
+  }
+
+  .footer-logo {
+    width: 150px;
+    margin-top: -10px;
+  }
+
+  .footer-logo-bib {
+    width: 175px;
+  }
+
+  .footer-link {
+    color: #f8f9fa;
+    margin: 0 10px;
+
+    &:hover {
+      color: $lightgreen;
+    }
+  }
+
+  .text-blue {
+    color: $lightgreen;
+  }
+
+  .text-gray {
+    color: #C3CCD5;
+  }
+
+  .border-r {
+    border-right: 1px solid #607386;
+  }
+
+  .text-bib {
+    color: #FFF;
+    font-family: $font-family-sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 150%;
+  }
+}
+
+
+/* -------------------------------------------------------
+   Section des espaces
+---------------------------------------------------------- */
+.espaces-section {
+  background-color: $green;
+  margin-top: -16px;
+  border-top: 10px solid $green;
+
+  .section-title {
+    font-family: $font-family-sans-serif;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 550;
+    color: #FFFFFF;
+  }
+
+  .section-description {
+    font-family: $font-family-sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: start;
+    color: #d9dbdb!important;
+
+    span {
+      color: #d9dbdb!important;
+      margin-top: .25rem !important;
+      display: block;
+    }
+    a {
+      color: #ffffff!important;
+      text-decoration: underline;
+    }
+    a:hover {
+      color: #e5fdf0!important;
+      text-decoration: underline!important;
+    }
+  }
+
+  .secondary-image {
+    top: 80%;
+    left: 45%;
+    transform: translateY(-50%);
+    border: 15px solid $green;
+    border-radius: 5%;
+    z-index: 2;
+    background: $green!important;
+  }
+
+}
+
+/* -------------------------------------------------------
+   Couleurs de fond personnalisées
+---------------------------------------------------------- */
+.bg-lightgreen {
+  background-color: $lightgreen;
+}
+
+.bg-ligthblue {
+  background-color: $ligthblue;
+}
+
+.bg-darkgreen {
+  background-color: $darkgreen;
+}
+
+.badge-secondary {
+  background-color: $green;
+  color: $extralightgreen;
+}
+
+
+.text-extralightgreen {
+  color: $extralightgreen;
+}
+
+.text-lightgreen {
+  color: $lightgreen;
+}
+// -------------------------------------------------------
+// Button Styles
+// -------------------------------------------------------
+
+.btn {
+  border-radius: 60px;
+}
+
+.bg-footer-dark {
+  background-color: #262525;
+}
+
+
+.cm-btn-success{
+  background-color: $green!important;
+  color: $extralightgreen!important;
+}
+
+.bib-home {
+  border-color: $gray-100!important;
+  background-color:white!important;
+  color: $green!important;
+}
+
+.bib-home:hover {
+  border-color: white!important;
+  background-color:transparent!important;
+  color: white!important;
+}
+
+.navbar-nav .dropdown-menu {
+  background: $white !important;
+}
+
+#user-menu-dropdown{
+  padding: 10px;
+}
+
+.img-radius-bib {
+  border-radius: 12px!important;
+}
+
+/* Définir une hauteur minimale pour le contenu principal afin d'éviter que le footer ne remonte trop haut*/
+#main-content {
+  min-height: 80vh!important;
+}
+
+@media (max-width: 600px) {
+  /* Organisation du logo avec le menu sur petits écrans */
+  .navbar-right-bib {
+    margin-top: 5rem!important;
+    padding-bottom: 2.5rem!important;
+  }
+}

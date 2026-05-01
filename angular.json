@@ -30,6 +30,7 @@
               "lodash",
               "jwt-decode",
               "uuid",
+              "webfontloader",
               "zone.js"
             ],
             "outputPath": "dist/browser",
@@ -53,6 +54,11 @@
                 "input": "src/themes/custom/styles/theme.scss",
                 "inject": false,
                 "bundleName": "custom-theme"
+              },
+              {
+                "input": "src/themes/montreal/styles/theme.scss",
+                "inject": false,
+                "bundleName": "montreal-theme"
               },
               {
                 "input": "src/themes/dspace/styles/theme.scss",
