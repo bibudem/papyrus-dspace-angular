@@ -375,7 +375,6 @@ export class OrcidPublicApiService {
   private mapEmployments(resp: OrcidEmploymentsResponse | null): OrcidEmployment[] {
     if (!resp?.['affiliation-group']) return [];
 
-    // flatMap n'est pas disponible avant ES2019 — on utilise une boucle explicite
     const result: OrcidEmployment[] = [];
     for (const group of resp['affiliation-group']) {
       for (const s of group.summaries) {
@@ -392,13 +391,11 @@ export class OrcidPublicApiService {
           roleTitle: summary['role-title'] ?? undefined,
           startYear,
           endYear,
-          // Poste actif si end-date est absent dans la réponse ORCID
           isCurrent: !summary['end-date'],
         });
       }
     }
 
-    // Postes actuels d'abord, puis par année de début décroissante
     return result.sort((a: OrcidEmployment, b: OrcidEmployment) => {
       if (a.isCurrent !== b.isCurrent) return a.isCurrent ? -1 : 1;
       return (b.startYear ?? 0) - (a.startYear ?? 0);
@@ -410,7 +407,6 @@ export class OrcidPublicApiService {
 
     return resp.group
       .map((group) => {
-        // Premier résumé du groupe = source préférée (ex : Crossref)
         const summary = group['work-summary']?.[0];
         if (!summary || !summary.title?.title?.value) return null;
 
@@ -434,7 +430,6 @@ export class OrcidPublicApiService {
         } as OrcidWork;
       })
       .filter((w): w is OrcidWork => w !== null)
-      // Tri par année de publication décroissante (publications récentes en tête)
       .sort((a, b) => (b.publicationYear ?? 0) - (a.publicationYear ?? 0));
   }
 
@@ -444,11 +439,6 @@ export class OrcidPublicApiService {
 
   // ── Utilitaires ───────────────────────────────────────────────────────────
 
-  /**
-   * Construit la requête Lucene ORCID.
-   * Caractère générique de préfixe (*) pour la recherche partielle par nom.
-   * Guillemets et barres obliques retirés pour éviter toute injection Lucene.
-   */
   private buildQuery(nameFilter: string): string {
     const safe = nameFilter.trim().replace(/["\\]/g, '');
     if (!safe) return AFFIL_QUERY;

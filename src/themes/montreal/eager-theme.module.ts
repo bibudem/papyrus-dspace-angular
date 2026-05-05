@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RootModule } from '../../app/root.module';
 import { AdminSidebarComponent } from './app/admin/admin-sidebar/admin-sidebar.component';
 import { BreadcrumbsComponent } from './app/breadcrumbs/breadcrumbs.component';
+import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 import { FooterComponent } from './app/footer/footer.component';
 import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-navbar-wrapper.component';
 import { HeaderComponent } from './app/header/header.component';
@@ -18,10 +19,15 @@ import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-
 import { NavbarComponent } from './app/navbar/navbar.component';
 import { ItemSearchResultListElementComponent } from './app/shared/object-list/search-result-list-element/item-search-result/item-types/item/item-search-result-list-element.component';
 
+/**
+ * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
+ * This will ensure that decorator gets picked up when the app loads.
+ */
 const ENTRY_COMPONENTS = [
   UntypedItemComponent,
   ItemSearchResultListElementComponent,
   TopLevelCommunityListComponent,
+  PersonComponent,
 ];
 
 const DECLARATIONS = [

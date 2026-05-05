@@ -1,0 +1,90 @@
+<ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
+
+<div class="person-page">
+
+  <!-- Titre + menu édition ───────────────────────────────────────────────── -->
+  <div class="d-flex align-items-start justify-content-between mb-4">
+    <ds-item-page-title-field class="flex-grow-1 me-2" [item]="object">
+    </ds-item-page-title-field>
+    <ds-dso-edit-menu class="flex-shrink-0"></ds-dso-edit-menu>
+  </div>
+
+  <!-- Grille principale ──────────────────────────────────────────────────── -->
+  <div class="row g-4 align-items-start">
+
+    <!-- ── Barre latérale : photo + métadonnées DSpace (col-md-4) ────────── -->
+    <aside class="col-12 col-md-4">
+
+      <!-- Photo -->
+      <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+        <ds-thumbnail [thumbnail]="object?.thumbnail | async"
+                      [defaultImage]="'assets/images/person-placeholder.svg'"
+                      [alt]="'thumbnail.person.alt'"
+                      [placeholder]="'thumbnail.person.placeholder'">
+        </ds-thumbnail>
+      </ds-metadata-field-wrapper>
+
+      <!-- Carte identité DSpace -->
+      <div class="mt-3 border-start border-3 ps-3" style="border-color: #04696c !important;">
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['person.jobTitle']"
+          [label]="'person.page.jobtitle'">
+        </ds-generic-item-page-field>
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['person.familyName']"
+          [label]="'person.page.lastname'">
+        </ds-generic-item-page-field>
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['person.givenName']"
+          [label]="'person.page.firstname'">
+        </ds-generic-item-page-field>
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['dc.title']"
+          [label]="'person.page.name'">
+        </ds-generic-item-page-field>
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['person.email']"
+          [label]="'person.page.email'">
+        </ds-generic-item-page-field>
+        <ds-generic-item-page-field [item]="object"
+          [fields]="['person.birthDate']"
+          [label]="'person.page.birthdate'">
+        </ds-generic-item-page-field>
+      </div>
+
+      
+
+    </aside>
+
+    <!-- ── Contenu principal : enrichissement ORCID (col-md-8) ───────────── -->
+    <main class="col-12 col-md-8">
+      <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
+
+      <!-- Relations DSpace -->
+      <div class="mt-3">
+        <ds-related-items
+          [parentItem]="object"
+          [relationType]="'isProjectOfPerson'"
+          [label]="'relationships.isProjectOf' | translate">
+        </ds-related-items>
+        <ds-related-items
+          [parentItem]="object"
+          [relationType]="'isOrgUnitOfPerson'"
+          [label]="'relationships.isOrgUnitOf' | translate">
+        </ds-related-items>
+      </div>
+
+      <!-- Lien page complète -->
+      <div class="mt-3">
+        <a class="btn btn-outline-primary btn-sm w-100"
+           [routerLink]="[itemPageRoute + '/full']"
+           role="link" tabindex="0">
+          {{"item.page.link.full" | translate}}
+        </a>
+      </div>
+    </main>
+
+
+  </div>
+
+</div>

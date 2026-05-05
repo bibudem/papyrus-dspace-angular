@@ -854,21 +854,9 @@
   "forgot-email.form.info": "If you are a member of the UdeM community, please use UdeM authentication to log in to Papyrus instead. If you have a problem with your UdeM password, refer to the IT help pages (https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie). If you are unable to use UdeM authentication or if you must use a shared email address to access your Papyrus account, enter the email address associated with the account to reset the password.",
   "login.form.new-user": "If you are not part of the UdeM community and want to create a new Papyrus account, click here.",
 
-  "papyrus.orcid-members.page.title": "UdeM Researchers on ORCID",
-  "papyrus.orcid-members.page.description": "List of Université de Montréal researchers registered on ORCID.",
-  "papyrus.orcid-members.search.placeholder": "Search by name…",
-  "papyrus.orcid-members.loading": "Loading members…",
-  "papyrus.orcid-members.error": "Unable to load ORCID data. Please try again later.",
-  "papyrus.orcid-members.empty": "No researchers found.",
-  "papyrus.orcid-members.total": "{{count}} researchers found",
-  "papyrus.orcid-members.card.profile-link": "View ORCID profile of",
-  "papyrus.orcid-members.card.view-profile": "View researcher profile of",
-  "papyrus.orcid-members.pagination": "Researchers pagination",
-
-  "papyrus.orcid-profile.page.title": "Researcher Profile",
-  "papyrus.orcid-profile.back": "Back to the list",
-  "papyrus.orcid-profile.error": "Unable to load this researcher's profile. Please try again later.",
+  "papyrus.orcid-profile.error": "Unable to load ORCID data for this researcher.",
   "papyrus.orcid-profile.biography": "Biography",
+  "papyrus.orcid-profile.biography.empty": "No biography provided on this ORCID profile.",
   "papyrus.orcid-profile.employment": "Affiliations",
   "papyrus.orcid-profile.employment.present": "Present",
   "papyrus.orcid-profile.employment.empty": "No affiliation listed.",
@@ -877,6 +865,8 @@
   "papyrus.orcid-profile.publications": "Publications",
   "papyrus.orcid-profile.publications.total": "{{count}} publications",
   "papyrus.orcid-profile.publications.empty": "No publications listed on this ORCID profile.",
+  "papyrus.orcid-profile.publications.show-more": "Show {{count}} more publications",
+  "papyrus.orcid-profile.publications.show-less": "Show fewer publications",
   "papyrus.orcid-profile.view-orcid": "View ORCID profile of",
   "papyrus.orcid-profile.work-type.journal-article": "Journal article",
   "papyrus.orcid-profile.work-type.book": "Book",
@@ -886,4 +876,5 @@
   "papyrus.orcid-profile.work-type.report": "Report",
   "papyrus.orcid-profile.work-type.preprint": "Preprint",
   "papyrus.orcid-profile.work-type.other": "Other",
+
 }
