@@ -263,7 +263,7 @@ export const APP_ROUTES: Route[] = [
         loadChildren: () => import('./access-control/access-control-routes').then((m) => m.ROUTES),
         canActivate: [groupAdministratorGuard, endUserAgreementCurrentUserGuard],
       },
-      {
+{
         path: 'subscriptions',
         loadChildren: () => import('./subscriptions-page/subscriptions-page-routes')
           .then((m) => m.ROUTES),
