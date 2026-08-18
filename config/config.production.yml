@@ -9,7 +9,7 @@ ui:
   host: localhost
   port: 4010
   # NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
-  nameSpace: /papyrus-8-orchid/
+  nameSpace: /papyrus-8-orcid/
   # The rateLimiter settings limit each IP to a 'max' of 500 requests per 'windowMs' (1 minute).
   rateLimiter:
     windowMs: 60000 # 1 minute
