@@ -67,7 +67,7 @@
               }
             ],
             "scripts": [],
-            "baseHref": "/"
+            "baseHref": "/papyrus-8-orcid/"
           },
           "configurations": {
             "development": {
