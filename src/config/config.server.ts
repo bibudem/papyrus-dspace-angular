@@ -228,6 +228,12 @@ export const buildAppConfig = (destConfigPath?: string): AppConfig => {
     overrideWithConfig(appConfig, papyrusConfigPath);
   }
 
+  // reappliquer config.[dev|prod].yml en tout dernier (dev -> demo.dspace.org, prod -> scholaris) :
+  // sinon un DSPACE_APP_CONFIG_PATH externe (charge apres, plus haut) peut ecraser rest.host
+  if (existsSync(localConfigPath)) {
+    overrideWithConfig(appConfig, localConfigPath);
+  }
+
   // override with environment variables
   overrideWithEnvironment(appConfig);
 
