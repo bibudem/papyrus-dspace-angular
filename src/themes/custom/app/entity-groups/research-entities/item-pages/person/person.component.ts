@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +14,7 @@ import { ThemedThumbnailComponent } from 'src/app/thumbnail/themed-thumbnail.com
 import { Context } from '../../../../../../../app/core/shared/context.model';
 import { ViewMode } from '../../../../../../../app/core/shared/view-mode.model';
 import { PersonComponent as BaseComponent } from '../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component';
+import { ItemPageOrcidFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/orcid/item-page-orcid-field.component';
 import { listableObjectComponent } from '../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
 
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'custom')
@@ -26,8 +24,20 @@ import { listableObjectComponent } from '../../../../../../../app/shared/object-
   styleUrls: ['../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component.scss'],
   // templateUrl: './person.component.html',
   templateUrl: '../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component.html',
-  standalone: true,
-  imports: [NgIf, ThemedResultsBackButtonComponent, ThemedItemPageTitleFieldComponent, DsoEditMenuComponent, MetadataFieldWrapperComponent, ThemedThumbnailComponent, GenericItemPageFieldComponent, RelatedItemsComponent, RouterLink, TabbedRelatedEntitiesSearchComponent, AsyncPipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    DsoEditMenuComponent,
+    GenericItemPageFieldComponent,
+    ItemPageOrcidFieldComponent,
+    MetadataFieldWrapperComponent,
+    RelatedItemsComponent,
+    RouterLink,
+    TabbedRelatedEntitiesSearchComponent,
+    ThemedItemPageTitleFieldComponent,
+    ThemedResultsBackButtonComponent,
+    ThemedThumbnailComponent,
+    TranslateModule,
+  ],
 })
 export class PersonComponent extends BaseComponent {
 }

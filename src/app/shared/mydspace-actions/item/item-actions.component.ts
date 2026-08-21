@@ -8,7 +8,7 @@ import {
   Router,
   RouterLink,
 } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule,
   TranslateService,
@@ -29,8 +29,11 @@ import { MyDSpaceActionsComponent } from '../mydspace-actions';
   selector: 'ds-item-actions',
   styleUrls: ['./item-actions.component.scss'],
   templateUrl: './item-actions.component.html',
-  standalone: true,
-  imports: [NgbTooltipModule, RouterLink, TranslateModule],
+  imports: [
+    NgbTooltip,
+    RouterLink,
+    TranslateModule,
+  ],
 })
 
 export class ItemActionsComponent extends MyDSpaceActionsComponent<Item, ItemDataService> implements OnInit {

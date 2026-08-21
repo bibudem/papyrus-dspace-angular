@@ -1,6 +1,9 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -97,8 +100,11 @@ import { CommunityStatisticsPageComponent } from './app/statistics-page/communit
 import { ItemStatisticsPageComponent } from './app/statistics-page/item-statistics-page/item-statistics-page.component';
 import { SiteStatisticsPageComponent } from './app/statistics-page/site-statistics-page/site-statistics-page.component';
 import { SubmissionEditComponent } from './app/submission/edit/submission-edit.component';
+import { SubmissionFormFooterComponent } from './app/submission/form/footer/submission-form-footer.component';
+import { SubmissionFormComponent } from './app/submission/form/submission-form.component';
 import { SubmissionUploadFilesComponent } from './app/submission/form/submission-upload-files/submission-upload-files.component';
 import { SubmissionImportExternalComponent } from './app/submission/import-external/submission-import-external.component';
+import { SubmissionSectionContainerComponent } from './app/submission/sections/container/section-container.component';
 import { SubmissionSectionUploadFileComponent } from './app/submission/sections/upload/file/section-upload-file.component';
 import { SubmissionSubmitComponent } from './app/submission/submit/submission-submit.component';
 import { ThumbnailComponent } from './app/thumbnail/thumbnail.component';
@@ -197,18 +203,19 @@ const DECLARATIONS = [
   ProfilePageMetadataFormComponent,
   SubmissionUploadFilesComponent,
   ComcolPageContentComponent,
-  SearchResultsSkeletonComponent,
   AdminSearchPageComponent,
   AdminWorkflowPageComponent,
+  SearchResultsSkeletonComponent,
+  SubmissionSectionContainerComponent,
+  SubmissionFormFooterComponent,
+  SubmissionFormComponent,
 ];
 
 @NgModule({
-  imports: [
-    RootModule,
+  imports: [RootModule,
     CommonModule,
     DragDropModule,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     RouterModule,
     ScrollToModule,
@@ -217,7 +224,9 @@ const DECLARATIONS = [
     TranslateModule,
     FormsModule,
     NgxGalleryModule,
-    ...DECLARATIONS,
+    ...DECLARATIONS],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 

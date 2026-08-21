@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -90,16 +87,14 @@ import { ValidateGroupExists } from './validators/group-exists.validator';
   selector: 'ds-group-form',
   templateUrl: './group-form.component.html',
   imports: [
-    FormComponent,
     AlertComponent,
-    NgIf,
     AsyncPipe,
-    TranslateModule,
     ContextHelpDirective,
+    FormComponent,
     MembersListComponent,
     SubgroupsListComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 /**
  * A form used for creating and editing groups
@@ -419,6 +414,16 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       getFirstCompletedRemoteData(),
     ).subscribe((rd: RemoteData<Group>) => {
       if (rd.hasSucceeded) {
+
+        const updatedGroup = rd.payload;
+
+        this.groupDataService.editGroup(updatedGroup);
+
+        this.formGroup.patchValue({
+          groupName: updatedGroup.name,
+          groupDescription: updatedGroup.firstMetadataValue('dc.description'),
+        });
+
         this.notificationsService.success(this.translateService.get(this.messagePrefix + '.notification.edited.success', { name: this.dsoNameService.getName(rd.payload) }));
         this.submitForm.emit(rd.payload);
       } else {
@@ -504,7 +509,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
     this.groupDataService.cancelEditGroup();
     this.subs.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
 
-    if (hasValue(this.groupNameValueChangeSubscribe)) {
+    if ( hasValue(this.groupNameValueChangeSubscribe) ) {
       this.groupNameValueChangeSubscribe.unsubscribe();
     }
 

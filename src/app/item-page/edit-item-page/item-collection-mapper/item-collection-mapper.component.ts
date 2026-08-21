@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +9,13 @@ import {
   ActivatedRoute,
   Router,
 } from '@angular/router';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbNav,
+  NgbNavContent,
+  NgbNavItem,
+  NgbNavLink,
+  NgbNavOutlet,
+} from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule,
   TranslateService,
@@ -61,6 +64,7 @@ import { NotificationsService } from '../../../shared/notifications/notification
 import { CollectionSelectComponent } from '../../../shared/object-select/collection-select/collection-select.component';
 import { PaginatedSearchOptions } from '../../../shared/search/models/paginated-search-options.model';
 import { ThemedSearchFormComponent } from '../../../shared/search-form/themed-search-form.component';
+import { BrowserOnlyPipe } from '../../../shared/utils/browser-only.pipe';
 import { getItemPageRoute } from '../../item-page-routing-paths';
 
 @Component({
@@ -73,14 +77,17 @@ import { getItemPageRoute } from '../../item-page-routing-paths';
     fadeInOut,
   ],
   imports: [
-    NgbNavModule,
-    CollectionSelectComponent,
-    ThemedSearchFormComponent,
     AsyncPipe,
+    BrowserOnlyPipe,
+    CollectionSelectComponent,
+    NgbNav,
+    NgbNavContent,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavOutlet,
+    ThemedSearchFormComponent,
     TranslateModule,
-    NgIf,
   ],
-  standalone: true,
 })
 /**
  * Component for mapping collections to an item
@@ -280,14 +287,28 @@ export class ItemCollectionMapperComponent implements OnInit {
         this.shouldUpdate$.next(true);
       }
       if (unsuccessful.length > 0) {
-        const unsuccessMessages = observableCombineLatest([
-          this.translateService.get(`${messagePrefix}.error.head`),
-          this.translateService.get(`${messagePrefix}.error.content`, { amount: unsuccessful.length }),
-        ]);
+        const forbidden = unsuccessful.filter((response: RemoteData<NoContent>) => response.statusCode === 403);
+        const otherErrors = unsuccessful.filter((response: RemoteData<NoContent>) => response.statusCode !== 403);
 
-        unsuccessMessages.subscribe(([head, content]) => {
-          this.notificationsService.error(head, content);
-        });
+        if (forbidden.length > 0) {
+          const forbiddenMessages = observableCombineLatest([
+            this.translateService.get(`${messagePrefix}.error.forbidden.head`),
+            this.translateService.get(`${messagePrefix}.error.forbidden.content`),
+          ]);
+          forbiddenMessages.subscribe(([head, content]) => {
+            this.notificationsService.error(head, content);
+          });
+        }
+
+        if (otherErrors.length > 0) {
+          const unsuccessMessages = observableCombineLatest([
+            this.translateService.get(`${messagePrefix}.error.head`),
+            this.translateService.get(`${messagePrefix}.error.content`, { amount: otherErrors.length }),
+          ]);
+          unsuccessMessages.subscribe(([head, content]) => {
+            this.notificationsService.error(head, content);
+          });
+        }
       }
       this.switchToFirstTab();
     });

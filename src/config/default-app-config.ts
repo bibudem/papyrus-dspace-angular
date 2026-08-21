@@ -15,11 +15,13 @@ import { CommunityPageConfig } from './community-page-config.interface';
 import { DiscoverySortConfig } from './discovery-sort.config';
 import { FilterVocabularyConfig } from './filter-vocabulary-config';
 import { FormConfig } from './form-config.interfaces';
+import { GeospatialMapConfig } from './geospatial-map-config';
 import { HomeConfig } from './homepage-config.interface';
 import { InfoConfig } from './info-config.interface';
 import { ItemConfig } from './item-config.interface';
 import { LangConfig } from './lang-config.interface';
 import { MarkdownConfig } from './markdown-config.interface';
+import { MatomoConfig } from './matomo-config.interface';
 import { MediaViewerConfig } from './media-viewer-config.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
 import { QualityAssuranceConfig } from './quality-assurance.config';
@@ -44,6 +46,9 @@ export class DefaultAppConfig implements AppConfig {
     port: 4000,
     // NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
     nameSpace: '/',
+    // Specify the public URL that this user interface responds to. This corresponds to the "dspace.ui.url" property in your backend's local.cfg.
+    // SSR is only enabled when the client's "Host" HTTP header matches this baseUrl. The baseUrl is also used for redirects and SEO links (in robots.txt).
+    baseUrl: 'http://localhost:4000',
 
     // The rateLimiter settings limit each IP to a 'max' of 500 requests per 'windowMs' (1 minute).
     rateLimiter: {
@@ -77,6 +82,10 @@ export class DefaultAppConfig implements AppConfig {
     },
     // Cache-Control HTTP Header
     control: 'max-age=604800', // revalidate browser
+    // These static files should not be cached (paths relative to dist/browser, including the leading slash)
+    noCacheFiles: [
+      '/index.html',  // see https://web.dev/articles/http-cache#unversioned-urls
+    ],
     autoSync: {
       defaultTime: 0,
       maxBufferSize: 100,
@@ -251,8 +260,8 @@ export class DefaultAppConfig implements AppConfig {
     },
   };
 
-  // Default Language in which the UI will be rendered if the user's browser language is not an active language
-  defaultLanguage = 'en';
+  // Fallback language in which the UI will be rendered if the user's browser language is not an active language
+  fallbackLanguage = 'en';
 
   // Languages. DSpace Angular holds a message catalog for each of the following languages.
   // When set to active, users will be able to switch to the use of this language in the user interface.
@@ -265,24 +274,30 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'de', label: 'Deutsch', active: true },
     { code: 'el', label: 'Ελληνικά', active: true },
     { code: 'es', label: 'Español', active: true },
+    { code: 'fa', label: 'فارسی', active: true },
     { code: 'fi', label: 'Suomi', active: true },
     { code: 'fr', label: 'Français', active: true },
     { code: 'gd', label: 'Gàidhlig', active: true },
+    { code: 'gu', label: 'ગુજરાતી', active: true },
     { code: 'hi', label: 'हिंदी', active: true },
     { code: 'hu', label: 'Magyar', active: true },
     { code: 'it', label: 'Italiano', active: true },
     { code: 'kk', label: 'Қазақ', active: true },
     { code: 'lv', label: 'Latviešu', active: true },
+    { code: 'mr', label: 'मराठी', active: true },
     { code: 'nl', label: 'Nederlands', active: true },
     { code: 'pl', label: 'Polski', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
+    { code: 'ru', label: 'Русский', active: true },
     { code: 'sr-lat', label: 'Srpski (lat)', active: true },
     { code: 'sr-cyr', label: 'Српски', active: true },
     { code: 'sv', label: 'Svenska', active: true },
+    { code: 'ta', label: 'தமிழ்', active: true },
     { code: 'tr', label: 'Türkçe', active: true },
     { code: 'uk', label: 'Yкраї́нська', active: true },
     { code: 'vi', label: 'Tiếng Việt', active: true },
+    { code: 'zh-TW', label: '繁体中文', active: true },
   ];
 
   // Browse-By Pages
@@ -330,6 +345,8 @@ export class DefaultAppConfig implements AppConfig {
       // Rounded to the nearest size in the list of selectable sizes on the
       // settings menu.  See pageSizeOptions in 'pagination-component-options.model.ts'.
       pageSize: 5,
+      // Show the bitstream access status label
+      showAccessStatuses: false,
     },
   };
 
@@ -602,6 +619,29 @@ export class DefaultAppConfig implements AppConfig {
   liveRegion: LiveRegionConfig = {
     messageTimeOutDurationMs: 30000,
     isVisible: false,
+  };
+
+  matomo: MatomoConfig = {};
+
+  // Leaflet tile providers and other configurable attributes
+  geospatialMapViewer: GeospatialMapConfig = {
+    spatialMetadataFields: [
+      'dcterms.spatial',
+    ],
+    spatialFacetDiscoveryConfiguration: 'geospatial',
+    spatialPointFilterName: 'point',
+    enableItemPageFields: false,
+    enableSearchViewMode: false,
+    enableBrowseMap: false,
+    tileProviders: [
+      'OpenStreetMap.Mapnik',
+    ],
+    // Starting centre point for maps (before drawing and zooming to markers)
+    // Defaults to Istanbul
+    defaultCentrePoint: {
+      lat: 41.015137,
+      lng: 28.979530,
+    },
   };
 
   // Accessibility settings configuration, used by the AccessibilitySettingsService

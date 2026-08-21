@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import {
   Component,
   Input,
@@ -30,10 +30,8 @@ import { SubmissionImportExternalCollectionComponent } from '../import-external-
   styleUrls: ['./submission-import-external-preview.component.scss'],
   templateUrl: './submission-import-external-preview.component.html',
   imports: [
-    NgFor,
     TranslateModule,
   ],
-  standalone: true,
 })
 export class SubmissionImportExternalPreviewComponent implements OnInit {
   /**

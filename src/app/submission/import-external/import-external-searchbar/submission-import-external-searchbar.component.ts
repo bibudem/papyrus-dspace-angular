@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {
   Observable,
-  of as observableOf,
+  of,
   Subscription,
 } from 'rxjs';
 import {
@@ -66,14 +66,13 @@ export interface ExternalSourceData {
   styleUrls: ['./submission-import-external-searchbar.component.scss'],
   templateUrl: './submission-import-external-searchbar.component.html',
   imports: [
+    BtnDisabledDirective,
     CommonModule,
-    TranslateModule,
+    FormsModule,
     InfiniteScrollModule,
     NgbDropdownModule,
-    FormsModule,
-    BtnDisabledDirective,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class SubmissionImportExternalSearchbarComponent implements OnInit, OnDestroy {
   /**
@@ -143,7 +142,7 @@ export class SubmissionImportExternalSearchbarComponent implements OnInit, OnDes
     this.searchString = '';
     this.sourceList = [];
     this.findListOptions = Object.assign({}, new FindListOptions(), {
-      elementsPerPage: 5,
+      elementsPerPage: 20,
       currentPage: 1,
       searchParams: [
         new RequestParam('entityType', this.initExternalSourceData.entity),
@@ -154,7 +153,7 @@ export class SubmissionImportExternalSearchbarComponent implements OnInit, OnDes
         const pageInfo = new PageInfo();
         const paginatedList = buildPaginatedList(pageInfo, []);
         const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
-        return observableOf(paginatedListRD);
+        return of(paginatedListRD);
       }),
       getFirstSucceededRemoteDataPayload(),
     ).subscribe((externalSource: PaginatedList<ExternalSource>) => {
@@ -188,7 +187,7 @@ export class SubmissionImportExternalSearchbarComponent implements OnInit, OnDes
     if (!this.sourceListLoading && ((this.pageInfo.currentPage + 1) <= this.pageInfo.totalPages)) {
       this.sourceListLoading = true;
       this.findListOptions = Object.assign({}, new FindListOptions(), {
-        elementsPerPage: 5,
+        elementsPerPage: 20,
         currentPage: this.findListOptions.currentPage + 1,
         searchParams: [
           new RequestParam('entityType', this.initExternalSourceData.entity),
@@ -199,7 +198,7 @@ export class SubmissionImportExternalSearchbarComponent implements OnInit, OnDes
           const pageInfo = new PageInfo();
           const paginatedList = buildPaginatedList(pageInfo, []);
           const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
-          return observableOf(paginatedListRD);
+          return of(paginatedListRD);
         }),
         getFirstSucceededRemoteData(),
         tap(() => this.sourceListLoading = false),

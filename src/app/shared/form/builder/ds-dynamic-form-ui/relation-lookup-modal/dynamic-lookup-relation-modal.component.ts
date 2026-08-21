@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -14,7 +10,11 @@ import {
 import { Router } from '@angular/router';
 import {
   NgbActiveModal,
-  NgbNavModule,
+  NgbNav,
+  NgbNavContent,
+  NgbNavItem,
+  NgbNavLink,
+  NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -83,18 +83,19 @@ import { DsDynamicLookupRelationSelectionTabComponent } from './selection-tab/dy
     },
   ],
   imports: [
-    ThemedDynamicLookupRelationExternalSourceTabComponent,
-    TranslateModule,
-    ThemedLoadingComponent,
-    NgIf,
-    NgbNavModule,
-    ThemedDynamicLookupRelationSearchTabComponent,
     AsyncPipe,
-    NgForOf,
-    DsDynamicLookupRelationSelectionTabComponent,
     BtnDisabledDirective,
+    DsDynamicLookupRelationSelectionTabComponent,
+    NgbNav,
+    NgbNavContent,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavOutlet,
+    ThemedDynamicLookupRelationExternalSourceTabComponent,
+    ThemedDynamicLookupRelationSearchTabComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 
 /**

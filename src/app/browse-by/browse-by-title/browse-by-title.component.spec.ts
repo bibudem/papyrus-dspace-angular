@@ -17,7 +17,7 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { of as observableOf } from 'rxjs';
+import { of } from 'rxjs';
 
 import { APP_CONFIG } from '../../../config/app-config.interface';
 import { environment } from '../../../environments/environment';
@@ -82,10 +82,10 @@ describe('BrowseByTitleComponent', () => {
     findById: () => createSuccessfulRemoteDataObject$(mockCommunity),
   };
 
-  const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
-    params: observableOf({}),
-    queryParams: observableOf({}),
-    data: observableOf({ metadata: 'title' }),
+  const activatedRouteStub = Object.assign(new ActivatedRouteStub({ id: 'title' }), {
+    params: of({ id: 'title' }),
+    queryParams: of({}),
+    data: of({ metadata: 'title' }),
   });
 
   const paginationService = new PaginationServiceStub();

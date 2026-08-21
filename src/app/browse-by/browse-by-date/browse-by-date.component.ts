@@ -1,7 +1,6 @@
 import {
   AsyncPipe,
   isPlatformServer,
-  NgIf,
 } from '@angular/common';
 import {
   ChangeDetectorRef,
@@ -19,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   combineLatest as observableCombineLatest,
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -59,13 +58,11 @@ import {
   selector: 'ds-browse-by-date',
   styleUrls: ['../browse-by-metadata/browse-by-metadata.component.scss'],
   templateUrl: '../browse-by-metadata/browse-by-metadata.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
-    NgIf,
-    TranslateModule,
-    ThemedLoadingComponent,
     ThemedBrowseByComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
   ],
 })
 /**
@@ -96,7 +93,7 @@ export class BrowseByDateComponent extends BrowseByMetadataComponent implements 
 
   ngOnInit(): void {
     if (!this.renderOnServerSide && !environment.ssr.enableBrowseComponent && isPlatformServer(this.platformId)) {
-      this.loading$ = observableOf(false);
+      this.loading$ = of(false);
       return;
     }
     const sortConfig = new SortOptions('default', SortDirection.ASC);
@@ -118,7 +115,7 @@ export class BrowseByDateComponent extends BrowseByMetadataComponent implements 
         this.currentSort$,
       ]).subscribe(([params, scope, currentPage, currentSort]: [Params, string, PaginationComponentOptions, SortOptions]) => {
         const metadataKeys = params.browseDefinition ? params.browseDefinition.metadataKeys : this.defaultMetadataKeys;
-        this.browseId = params.id || this.defaultBrowseId;
+        this.browseId = params.id;
         this.startsWith = +params.startsWith || params.startsWith;
         const searchOptions = browseParamsToOptions(params, scope, currentPage, currentSort, this.browseId, this.fetchThumbnails);
         this.updatePageWithItems(searchOptions, this.value, undefined);

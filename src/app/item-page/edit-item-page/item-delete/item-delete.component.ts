@@ -1,9 +1,5 @@
 // eslint-disable-next-line max-classes-per-file
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -28,7 +24,7 @@ import {
   combineLatest,
   combineLatest as observableCombineLatest,
   Observable,
-  of as observableOf,
+  of,
   Subscription,
 } from 'rxjs';
 import {
@@ -102,17 +98,14 @@ class RelationshipDTO {
   selector: 'ds-item-delete',
   templateUrl: '../item-delete/item-delete.component.html',
   imports: [
-    TranslateModule,
-    ListableObjectComponentLoaderComponent,
-    NgIf,
-    ModifyItemOverviewComponent,
     AsyncPipe,
-    VarDirective,
-    NgForOf,
-    RouterLink,
     BtnDisabledDirective,
+    ListableObjectComponentLoaderComponent,
+    ModifyItemOverviewComponent,
+    RouterLink,
+    TranslateModule,
+    VarDirective,
   ],
-  standalone: true,
 })
 /**
  * Component responsible for rendering the item delete page
@@ -207,7 +200,7 @@ export class ItemDeleteComponent
         map((relationshipTypes) => relationshipTypes.page),
         switchMap((types) => {
           if (types.length === 0) {
-            return observableOf(types);
+            return of(types);
           }
           return combineLatest(types.map((type) => this.getRelationships(type))).pipe(
             map((relationships) =>

@@ -2,8 +2,6 @@ import {
   AsyncPipe,
   KeyValuePipe,
   Location,
-  NgForOf,
-  NgIf,
 } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -64,24 +62,21 @@ import { ThemedFullFileSectionComponent } from './field-components/file-section/
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInOut],
   imports: [
-    ErrorComponent,
-    ThemedLoadingComponent,
-    TranslateModule,
-    ThemedFullFileSectionComponent,
-    CollectionsComponent,
-    ItemVersionsComponent,
-    NgIf,
-    NgForOf,
     AsyncPipe,
+    CollectionsComponent,
+    DsoEditMenuComponent,
+    ErrorComponent,
+    ItemVersionsComponent,
+    ItemVersionsNoticeComponent,
     KeyValuePipe,
     RouterLink,
-    ThemedItemPageTitleFieldComponent,
-    DsoEditMenuComponent,
-    ItemVersionsNoticeComponent,
+    ThemedFullFileSectionComponent,
     ThemedItemAlertsComponent,
+    ThemedItemPageTitleFieldComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
     VarDirective,
   ],
-  standalone: true,
 })
 export class FullItemPageComponent extends ItemPageComponent implements OnInit, OnDestroy {
 

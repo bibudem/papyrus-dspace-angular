@@ -63,11 +63,13 @@ There are a few exceptions where the base class can still be used:
       [Message.BASE_IN_MODULE]: 'Base themeable components shouldn\'t be declared in modules',
     },
   },
+  optionDocs: [],
   defaultOptions: [],
 } as DSpaceESLintRuleInfo;
 
 export const rule = ESLintUtils.RuleCreator.withoutDocs({
-  ...info,
+  meta: info.meta,
+  defaultOptions: info.defaultOptions,
   create(context: RuleContext<Message, unknown[]>) {
     const filename = getFilename(context);
 
@@ -118,10 +120,10 @@ export const rule = ESLintUtils.RuleCreator.withoutDocs({
       const importedNode = specifierNode.imported;
       const declarationNode = specifierNode.parent as TSESTree.ImportDeclaration;
 
-      const entry = getThemeableComponentByBaseClass(importedNode.name);
+      const entry = getThemeableComponentByBaseClass((importedNode as TSESTree.Identifier).name ?? (importedNode as TSESTree.StringLiteral).value);
       if (entry === undefined) {
         // this should never happen
-        throw new Error(`No such themeable component in registry: '${importedNode.name}'`);
+        throw new Error(`No such themeable component in registry: '${(importedNode as TSESTree.Identifier).name ?? (importedNode as TSESTree.StringLiteral).value}'`);
       }
 
       context.report({
@@ -429,7 +431,6 @@ import { Context } from './app/core/shared/context.model';
 import { TestThemeableComponent } from '../../../../app/test/test-themeable.component';
 
 @Component({
-  standalone: true,
   imports: [TestThemeableComponent],
 })
 export class UsageComponent {
@@ -450,7 +451,6 @@ import { Context } from './app/core/shared/context.model';
 import { ThemedTestThemeableComponent } from '../../../../app/test/themed-test-themeable.component';
 
 @Component({
-  standalone: true,
   imports: [ThemedTestThemeableComponent],
 })
 export class UsageComponent {
@@ -468,7 +468,6 @@ import { TestThemeableComponent } from '../../../../app/test/test-themeable.comp
 import { ThemedTestThemeableComponent } from '../../../../app/test/themed-test-themeable.component';
 
 @Component({
-  standalone: true,
   imports: [TestThemeableComponent, ThemedTestThemeableComponent],
 })
 export class UsageComponent {
@@ -489,7 +488,6 @@ import { Context } from './app/core/shared/context.model';
 import { ThemedTestThemeableComponent } from '../../../../app/test/themed-test-themeable.component';
 
 @Component({
-  standalone: true,
   imports: [ThemedTestThemeableComponent],
 })
 export class UsageComponent {

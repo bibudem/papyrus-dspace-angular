@@ -18,7 +18,7 @@ import {
 } from 'jasmine-marbles';
 import {
   Observable,
-  of as observableOf,
+  of,
   throwError as observableThrow,
 } from 'rxjs';
 
@@ -156,7 +156,7 @@ describe('AuthEffects', () => {
 
     describe('when token is valid', () => {
       it('should return a AUTHENTICATED_SUCCESS action in response to a AUTHENTICATED action', () => {
-        actions = hot('--a-', { a: { type: AuthActionTypes.AUTHENTICATED, payload: token } });
+        actions = hot('--a-', { a: new AuthenticatedAction(token) });
 
         const expected = cold('--b-', { b: new AuthenticatedSuccessAction(true, token, EPersonMock._links.self.href) });
 
@@ -164,13 +164,25 @@ describe('AuthEffects', () => {
       });
     });
 
-    describe('when token is not valid', () => {
+    describe('when token is expired', () => {
       it('should return a AUTHENTICATED_ERROR action in response to a AUTHENTICATED action', () => {
         spyOn((authEffects as any).authService, 'authenticatedUser').and.returnValue(observableThrow(new Error('Message Error test')));
 
-        actions = hot('--a-', { a: { type: AuthActionTypes.AUTHENTICATED, payload: token } });
+        actions = hot('--a-', { a: new AuthenticatedAction(token) });
 
         const expected = cold('--b-', { b: new AuthenticatedErrorAction(new Error('Message Error test')) });
+
+        expect(authEffects.authenticated$).toBeObservable(expected);
+      });
+    });
+
+    describe('when token is not valid but also not expired (~ cookie)', () => {
+      it('should return a AUTHENTICATED_ERROR action in response to a AUTHENTICATED action', () => {
+        spyOn((authEffects as any).authService, 'authenticatedUser').and.returnValue(observableThrow(new Error('Message Error test')));
+
+        actions = hot('--a-', { a: new AuthenticatedAction(token, true) });
+
+        const expected = cold('--b-', { b: new CheckAuthenticationTokenCookieAction() });
 
         expect(authEffects.authenticated$).toBeObservable(expected);
       });
@@ -210,7 +222,7 @@ describe('AuthEffects', () => {
 
         actions = hot('--a-', { a: { type: AuthActionTypes.CHECK_AUTHENTICATION_TOKEN } });
 
-        const expected = cold('--b-', { b: new AuthenticatedAction(token) });
+        const expected = cold('--b-', { b: new AuthenticatedAction(token, true) });
 
         expect(authEffects.checkToken$).toBeObservable(expected);
       });
@@ -234,7 +246,7 @@ describe('AuthEffects', () => {
     describe('when check token succeeded', () => {
       it('should return a RETRIEVE_TOKEN action in response to a CHECK_AUTHENTICATION_TOKEN_COOKIE action when authenticated is true', () => {
         spyOn((authEffects as any).authService, 'checkAuthenticationCookie').and.returnValue(
-          observableOf(
+          of(
             {
               authenticated: true,
             }),
@@ -254,7 +266,7 @@ describe('AuthEffects', () => {
 
       it('should return a RETRIEVE_AUTH_METHODS action in response to a CHECK_AUTHENTICATION_TOKEN_COOKIE action when authenticated is false', () => {
         spyOn((authEffects as any).authService, 'checkAuthenticationCookie').and.returnValue(
-          observableOf(
+          of(
             { authenticated: false }),
         );
         actions = hot('--a-', { a: { type: AuthActionTypes.CHECK_AUTHENTICATION_TOKEN_COOKIE } });
@@ -426,7 +438,7 @@ describe('AuthEffects', () => {
     describe('when auth loaded is false', () => {
       it('should not call removeToken method', fakeAsync(() => {
         store.overrideSelector(isAuthenticatedLoaded, false);
-        actions = observableOf({ type: StoreActionTypes.REHYDRATE });
+        actions = of({ type: StoreActionTypes.REHYDRATE });
         spyOn(authServiceStub, 'removeToken');
 
         authEffects.clearInvalidTokenOnRehydrate$.subscribe(() => {
@@ -442,7 +454,7 @@ describe('AuthEffects', () => {
         spyOn(console, 'log').and.callThrough();
 
         store.overrideSelector(isAuthenticatedLoaded, true);
-        actions = observableOf({ type: StoreActionTypes.REHYDRATE });
+        actions = of({ type: StoreActionTypes.REHYDRATE });
         spyOn(authServiceStub, 'removeToken');
 
         authEffects.clearInvalidTokenOnRehydrate$.subscribe(() => {
@@ -455,7 +467,7 @@ describe('AuthEffects', () => {
 
   describe('invalidateAuthorizationsRequestCache$', () => {
     it('should call invalidateAuthorizationsRequestCache method in response to a REHYDRATE action', (done) => {
-      actions = observableOf({ type: StoreActionTypes.REHYDRATE });
+      actions = of({ type: StoreActionTypes.REHYDRATE });
 
       authEffects.invalidateAuthorizationsRequestCache$.subscribe(() => {
         expect((authEffects as  any).authorizationsService.invalidateAuthorizationsRequestCache).toHaveBeenCalled();

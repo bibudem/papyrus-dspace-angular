@@ -1,3 +1,5 @@
+import 'altcha';
+
 import {
   HttpClient,
   provideHttpClient,
@@ -5,11 +7,12 @@ import {
 } from '@angular/common/http';
 import {
   APP_ID,
-  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
+  inject,
   makeStateKey,
   mergeApplicationConfig,
+  provideAppInitializer,
   TransferState,
 } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -21,14 +24,22 @@ import {
   StoreModule,
 } from '@ngrx/store';
 import {
-  MissingTranslationHandler,
+  provideMissingTranslationHandler,
+  provideTranslateService,
   TranslateLoader,
-  TranslateModule,
 } from '@ngx-translate/core';
 import {
   Angulartics2GoogleTagManager,
   Angulartics2RouterlessModule,
 } from 'angulartics2';
+import {
+  MATOMO_SCRIPT_FACTORY,
+  provideMatomo,
+  withRouteData,
+  withRouter,
+} from 'ngx-matomo-client';
+import { customMatomoScriptFactory } from 'src/app/statistics/matomo.factory';
+import { MatomoService } from 'src/app/statistics/matomo.service';
 
 import { commonAppConfig } from '../../app/app.config';
 import { storeModuleConfig } from '../../app/app.reducer';
@@ -53,8 +64,8 @@ import { ClientMathService } from '../../app/core/shared/client-math.service';
 import { MathService } from '../../app/core/shared/math.service';
 import { BrowserXSRFService } from '../../app/core/xsrf/browser-xsrf.service';
 import { XSRFService } from '../../app/core/xsrf/xsrf.service';
-import { BrowserKlaroService } from '../../app/shared/cookies/browser-klaro.service';
-import { KlaroService } from '../../app/shared/cookies/klaro.service';
+import { BrowserOrejimeService } from '../../app/shared/cookies/browser-orejime.service';
+import { OrejimeService } from '../../app/shared/cookies/orejime.service';
 import { MissingTranslationHelper } from '../../app/shared/translate/missing-translation.helper';
 import { GoogleAnalyticsService } from '../../app/statistics/google-analytics.service';
 import { SubmissionService } from '../../app/submission/submission.service';
@@ -82,16 +93,15 @@ export const browserAppConfig: ApplicationConfig = mergeApplicationConfig({
       Angulartics2RouterlessModule.forRoot(),
       StoreModule.forFeature('core', coreReducers, storeModuleConfig as StoreConfig<CoreState, Action>),
       EffectsModule.forFeature(coreEffects),
-      TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [TransferState, HttpClient],
-        },
-        missingTranslationHandler: { provide: MissingTranslationHandler, useClass: MissingTranslationHelper },
-        useDefaultLang: true,
-      }),
     ),
+    provideTranslateService({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [TransferState, HttpClient],
+      },
+      missingTranslationHandler: provideMissingTranslationHandler(MissingTranslationHelper),
+    }),
     ...BrowserInitService.providers(),
     { provide: APP_ID, useValue: 'dspace-angular' },
     {
@@ -99,12 +109,10 @@ export const browserAppConfig: ApplicationConfig = mergeApplicationConfig({
       useFactory: getRequest,
       deps: [TransferState],
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (xsrfService: XSRFService, httpClient: HttpClient) => xsrfService.initXSRFToken(httpClient),
-      deps: [ XSRFService, HttpClient ],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = ((xsrfService: XSRFService, httpClient: HttpClient) => xsrfService.initXSRFToken(httpClient))(inject(XSRFService), inject(HttpClient));
+      return initializerFn();
+    }),
     {
       provide: XSRFService,
       useClass: BrowserXSRFService,
@@ -118,8 +126,8 @@ export const browserAppConfig: ApplicationConfig = mergeApplicationConfig({
       useClass: ClientCookieService,
     },
     {
-      provide: KlaroService,
-      useClass: BrowserKlaroService,
+      provide: OrejimeService,
+      useClass: BrowserOrejimeService,
     },
     {
       provide: SubmissionService,
@@ -156,6 +164,18 @@ export const browserAppConfig: ApplicationConfig = mergeApplicationConfig({
     {
       provide: MathService,
       useClass: ClientMathService,
+    },
+    provideMatomo(
+      {
+        mode: 'deferred',
+      },
+      withRouter(),
+      withRouteData(),
+    ),
+    {
+      provide: MATOMO_SCRIPT_FACTORY,
+      useFactory: customMatomoScriptFactory,
+      deps: [MatomoService],
     },
   ],
 }, commonAppConfig);

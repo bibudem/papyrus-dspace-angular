@@ -23,7 +23,6 @@ import {
   DynamicFormsCoreModule,
   DynamicFormValidationService,
 } from '@ng-dynamic-forms/core';
-import { DynamicFormsNGBootstrapUIModule } from '@ng-dynamic-forms/ui-ng-bootstrap';
 
 import { ConfigurationDataService } from '../../../../../../core/data/configuration-data.service';
 import { ConfigurationProperty } from '../../../../../../core/shared/configuration-property.model';
@@ -104,7 +103,6 @@ describe('DsDynamicListComponent test suite', () => {
     TestBed.configureTestingModule({
       imports: [
         DynamicFormsCoreModule,
-        DynamicFormsNGBootstrapUIModule,
         FormsModule,
         ReactiveFormsModule,
         NgbModule,
@@ -179,8 +177,8 @@ describe('DsDynamicListComponent test suite', () => {
       });
 
       it('should set model value properly when a checkbox option is selected', () => {
-        const de = listFixture.debugElement.queryAll(By.css('div.custom-checkbox'));
-        const items = de[0].queryAll(By.css('input.custom-control-input'));
+        const de = listFixture.debugElement.queryAll(By.css('div.form-check'));
+        const items = de[0].queryAll(By.css('input.form-check-input'));
         const item = items[0];
         modelValue = [Object.assign(new VocabularyEntry(), { authority: 1, display: 'one', value: 1 })];
 
@@ -229,8 +227,8 @@ describe('DsDynamicListComponent test suite', () => {
       });
 
       it('should set model value properly when a checkbox option is deselected', () => {
-        const de = listFixture.debugElement.queryAll(By.css('div.custom-checkbox'));
-        const items = de[0].queryAll(By.css('input.custom-control-input'));
+        const de = listFixture.debugElement.queryAll(By.css('div.form-check'));
+        const items = de[0].queryAll(By.css('input.form-check-input'));
         const item = items[0];
         modelValue = [];
 
@@ -267,8 +265,8 @@ describe('DsDynamicListComponent test suite', () => {
       });
 
       it('should set model value when a radio option is selected', () => {
-        const de = listFixture.debugElement.queryAll(By.css('div.custom-radio'));
-        const items = de[0].queryAll(By.css('input.custom-control-input'));
+        const de = listFixture.debugElement.queryAll(By.css('div.form-check'));
+        const items = de[0].queryAll(By.css('input.form-check-input'));
         const item = items[0];
         modelValue = Object.assign(new VocabularyEntry(), { authority: 1, display: 'one', value: 1 });
 
@@ -311,8 +309,6 @@ describe('DsDynamicListComponent test suite', () => {
 @Component({
   selector: 'ds-test-cmp',
   template: ``,
-  standalone: true,
-  imports: [DsDynamicListComponent],
 })
 class TestComponent {
 

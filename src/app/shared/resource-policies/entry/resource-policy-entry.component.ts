@@ -5,10 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -30,6 +27,7 @@ import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { RemoteData } from '../../../core/data/remote-data';
 import { GroupDataService } from '../../../core/eperson/group-data.service';
 import { Group } from '../../../core/eperson/models/group.model';
+import { ActionType } from '../../../core/resource-policy/models/action-type.model';
 import { ResourcePolicy } from '../../../core/resource-policy/models/resource-policy.model';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import {
@@ -58,12 +56,10 @@ export interface ResourcePolicyCheckboxEntry {
   templateUrl: './resource-policy-entry.component.html',
   imports: [
     AsyncPipe,
-    TranslateModule,
     FormsModule,
-    NgIf,
     HasValuePipe,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class ResourcePolicyEntryComponent implements OnInit {
   @Input()
@@ -108,6 +104,20 @@ export class ResourcePolicyEntryComponent implements OnInit {
    */
   formatDate(date: string): string {
     return isNotEmpty(date) ? dateToString(stringToNgbDateStruct(date)) : '';
+  }
+
+  /**
+   * Returns the display label for the action type.
+   * Shows 'DELETE' instead of 'OBSOLETE (DELETE)' for better UX.
+   *
+   * @param action the ActionType value
+   * @return a string with the display label
+   */
+  getActionDisplayLabel(action: ActionType): string {
+    if (action === ActionType.DELETE) {
+      return 'DELETE';
+    }
+    return String(action);
   }
 
   /**

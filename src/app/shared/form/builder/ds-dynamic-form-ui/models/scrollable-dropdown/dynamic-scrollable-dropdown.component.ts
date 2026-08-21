@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -28,7 +24,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {
   Observable,
-  of as observableOf,
   of,
 } from 'rxjs';
 import {
@@ -54,7 +49,6 @@ import { lazyDataService } from '../../../../../../core/lazy-data-service';
 import { getFirstSucceededRemoteDataPayload } from '../../../../../../core/shared/operators';
 import { PageInfo } from '../../../../../../core/shared/page-info.model';
 import { VocabularyService } from '../../../../../../core/submission/vocabularies/vocabulary.service';
-import { BtnDisabledDirective } from '../../../../../btn-disabled.directive';
 import {
   hasValue,
   isEmpty,
@@ -71,15 +65,11 @@ import { DynamicScrollableDropdownModel } from './dynamic-scrollable-dropdown.mo
   styleUrls: ['./dynamic-scrollable-dropdown.component.scss'],
   templateUrl: './dynamic-scrollable-dropdown.component.html',
   imports: [
-    NgbDropdownModule,
-    NgIf,
     AsyncPipe,
     InfiniteScrollModule,
-    NgForOf,
+    NgbDropdownModule,
     TranslateModule,
-    BtnDisabledDirective,
   ],
-  standalone: true,
 })
 export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyComponent implements OnInit {
   @ViewChild('dropdownMenu', { read: ElementRef }) dropdownMenu: ElementRef;
@@ -158,11 +148,11 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
     }
   }
 
-  loadOptions(fromInit: boolean) {
+  loadOptions(fromInit: boolean, scrollAfterLoad: boolean = false) {
     this.loading = true;
     this.getDataFromService().pipe(
       getFirstSucceededRemoteDataPayload(),
-      catchError(() => observableOf(buildPaginatedList(new PageInfo(), []))),
+      catchError(() => of(buildPaginatedList(new PageInfo(), []))),
       tap(() => this.loading = false),
     ).subscribe((list: PaginatedList<CacheableObject>) => {
       this.optionsList = list.page;
@@ -176,7 +166,11 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
         list.pageInfo.totalElements,
         list.pageInfo.totalPages,
       );
-      this.selectedIndex = 0;
+
+      if (!fromInit) {
+        this.setSelectedIndexToCurrentValue(scrollAfterLoad);
+      }
+
       this.cdr.detectChanges();
     });
   }
@@ -194,15 +188,49 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
     if (!this.model.readOnly) {
       this.group.markAsUntouched();
       this.inputText = null;
-      this.updatePageInfo(this.model.maxOptions, 1);
-      this.loadOptions(false);
+
+      const pageSize = Math.min(this.pageInfo.totalElements, 200);
+      this.updatePageInfo(pageSize, 1);
+
+      this.loadOptions(false, true);
+      this.setSelectedIndexToCurrentValue(true);
       sdRef.open();
     }
   }
 
+  /**
+   * Set the selectedIndex to match the current value when dropdown opens
+   * @param shouldScroll Whether to scroll to the selected item after setting the index
+   */
+  private setSelectedIndexToCurrentValue(shouldScroll: boolean = false): void {
+    if (this.currentValue) {
+      this.currentValue.pipe(take(1)).subscribe(currentVal => {
+        if (currentVal && this.optionsList.length > 0) {
+          const foundIndex = this.optionsList.findIndex(entry =>
+            this.inputFormatter(entry) === currentVal,
+          );
+          this.selectedIndex = foundIndex >= 0 ? foundIndex + 1 : 0;
+        } else {
+          this.selectedIndex = 0;
+        }
+
+        if (shouldScroll && this.selectedIndex > 0) {
+          // Ensure DOM is updated before scrolling
+          this.cdr.detectChanges();
+          // Use setTimeout to ensure the active class is applied and rendered
+          setTimeout(() => this.scrollToSelected(), 0);
+        }
+      });
+    } else {
+      this.selectedIndex = 0;
+    }
+  }
+
   navigateDropdown(event: KeyboardEvent) {
+    const totalItems = this.optionsList.length + 1;
+
     if (event.key === 'ArrowDown') {
-      this.selectedIndex = Math.min(this.selectedIndex + 1, this.optionsList.length - 1);
+      this.selectedIndex = Math.min(this.selectedIndex + 1, totalItems - 1);
     } else if (event.key === 'ArrowUp') {
       this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
     }
@@ -210,10 +238,10 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
   }
 
   scrollToSelected() {
-    const dropdownItems = this.dropdownMenu.nativeElement.querySelectorAll('.dropdown-item');
+    const dropdownItems = this.dropdownMenu.nativeElement.querySelectorAll('.dropdown-item:not(.disabled)');
     const selectedItem = dropdownItems[this.selectedIndex];
     if (selectedItem) {
-      selectedItem.scrollIntoView({ block: 'nearest' });
+      selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   }
 
@@ -229,7 +257,11 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
       event.preventDefault();
       event.stopPropagation();
       if (sdRef.isOpen()) {
-        this.onSelect(this.optionsList[this.selectedIndex]);
+        if (this.selectedIndex === 0) {
+          this.onSelect(undefined);
+        } else {
+          this.onSelect(this.optionsList[this.selectedIndex - 1]);
+        }
         sdRef.close();
       } else {
         sdRef.open();
@@ -289,7 +321,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
       );
       this.getDataFromService().pipe(
         getFirstSucceededRemoteDataPayload(),
-        catchError(() => observableOf(buildPaginatedList(
+        catchError(() => of(buildPaginatedList(
           new PageInfo(),
           [],
         )),
@@ -332,13 +364,13 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
       );
     } else {
       if (isEmpty(value)) {
-        result = observableOf('');
+        result = of('');
       } else if (typeof value === 'string') {
-        result = observableOf(value);
+        result = of(value);
       } else if (this.useFindAllService) {
-        result = observableOf(value[this.model.displayKey]);
+        result = of(value[this.model.displayKey]);
       } else {
-        result = observableOf(value.display);
+        result = of(value.display);
       }
     }
 

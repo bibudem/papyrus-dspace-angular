@@ -7,7 +7,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { cold } from 'jasmine-marbles';
-import { of as observableOf } from 'rxjs';
+import { of } from 'rxjs';
 import { FormBuilderService } from 'src/app/shared/form/builder/form-builder.service';
 
 import { ConfigurationDataService } from '../../../core/data/configuration-data.service';
@@ -151,7 +151,7 @@ describe('SubmissionSectionCcLicensesComponent', () => {
 
   const sectionService = {
     getSectionState: () => {
-      return observableOf({});
+      return of({});
     },
     setSectionStatus: () => undefined,
     updateSectionData: (submissionId, sectionId, updatedData) => {
@@ -241,7 +241,8 @@ describe('SubmissionSectionCcLicensesComponent', () => {
     });
 
     it('should have section status incomplete', () => {
-      expect(component.getSectionStatus()).toBeObservable(cold('(a|)', { a: false }));
+      component.required$.next(true);
+      expect(component.getSectionStatus()).toBeObservable(cold('(a)', { a: false }));
     });
 
     describe('when all options have a value selected', () => {
@@ -271,7 +272,13 @@ describe('SubmissionSectionCcLicensesComponent', () => {
       });
 
       it('should have section status incomplete', () => {
-        expect(component.getSectionStatus()).toBeObservable(cold('(a|)', { a: false }));
+        component.required$.next(true);
+        expect(component.getSectionStatus()).toBeObservable(cold('(a)', { a: false }));
+      });
+
+      it('should have section status complete if not required', () => {
+        component.required$.next(false);
+        expect(component.getSectionStatus()).toBeObservable(cold('(a)', { a: true }));
       });
 
       describe('when the cc license is accepted', () => {
@@ -282,7 +289,8 @@ describe('SubmissionSectionCcLicensesComponent', () => {
         });
 
         it('should have section status complete', () => {
-          expect(component.getSectionStatus()).toBeObservable(cold('(a|)', { a: true }));
+          component.required$.next(false);
+          expect(component.getSectionStatus()).toBeObservable(cold('(a)', { a: true })); // first true is because the section is not required
         });
       });
     });

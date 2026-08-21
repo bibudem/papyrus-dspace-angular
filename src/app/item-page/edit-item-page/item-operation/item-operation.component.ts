@@ -1,10 +1,10 @@
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   Input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { BtnDisabledDirective } from '../../../shared/btn-disabled.directive';
@@ -14,13 +14,11 @@ import { ItemOperation } from './itemOperation.model';
   selector: 'ds-item-operation',
   templateUrl: './item-operation.component.html',
   imports: [
-    TranslateModule,
-    RouterLink,
-    NgbTooltipModule,
-    NgIf,
     BtnDisabledDirective,
+    NgbTooltip,
+    RouterLink,
+    TranslateModule,
   ],
-  standalone: true,
 })
 /**
  * Operation that can be performed on an item

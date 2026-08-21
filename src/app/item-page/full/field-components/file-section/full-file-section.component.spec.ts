@@ -11,11 +11,12 @@ import {
   TranslateLoader,
   TranslateModule,
 } from '@ngx-translate/core';
-import { of as observableOf } from 'rxjs';
+import { of } from 'rxjs';
 import { APP_CONFIG } from 'src/config/app-config.interface';
 import { environment } from 'src/environments/environment';
 
 import { BitstreamDataService } from '../../../../core/data/bitstream-data.service';
+import { LocaleService } from '../../../../core/locale/locale.service';
 import { PaginationService } from '../../../../core/pagination/pagination.service';
 import { Bitstream } from '../../../../core/shared/bitstream.model';
 import { SearchConfigurationService } from '../../../../core/shared/search/search-configuration.service';
@@ -37,12 +38,18 @@ import { FullFileSectionComponent } from './full-file-section.component';
 describe('FullFileSectionComponent', () => {
   let comp: FullFileSectionComponent;
   let fixture: ComponentFixture<FullFileSectionComponent>;
+  let localeService: any;
+  const languageList = ['en;q=1', 'de;q=0.8'];
+  const mockLocaleService = jasmine.createSpyObj('LocaleService', {
+    getCurrentLanguageCode: jasmine.createSpy('getCurrentLanguageCode'),
+    getLanguageCodeList: of(languageList),
+  });
 
   const mockBitstream: Bitstream = Object.assign(new Bitstream(),
     {
       sizeBytes: 10201,
       content: 'https://dspace7.4science.it/dspace-spring-rest/api/core/bitstreams/cf9b0c8e-a1eb-4b65-afd0-567366448713/content',
-      format: observableOf(MockBitstreamFormat1),
+      format: of(MockBitstreamFormat1),
       bundleName: 'ORIGINAL',
       _links: {
         self: {
@@ -93,6 +100,7 @@ describe('FullFileSectionComponent', () => {
         { provide: NotificationsService, useValue: new NotificationsServiceStub() },
         { provide: SearchConfigurationService, useValue: jasmine.createSpyObj(['getCurrentConfiguration']) },
         { provide: PaginationService, useValue: paginationService },
+        { provide: LocaleService, useValue: mockLocaleService },
         { provide: APP_CONFIG, useValue: environment },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -104,6 +112,8 @@ describe('FullFileSectionComponent', () => {
   }));
 
   beforeEach(waitForAsync(() => {
+    localeService = TestBed.inject(LocaleService);
+    localeService.getCurrentLanguageCode.and.returnValue(of('en'));
     fixture = TestBed.createComponent(FullFileSectionComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,7 +1,4 @@
-import {
-  NgClass,
-  NgFor,
-} from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,10 +16,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import differenceWith from 'lodash/differenceWith';
 import {
   BehaviorSubject,
-  of as observableOf,
+  of,
   Subscription,
-  take,
 } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { INotificationBoardOptions } from '../../../../config/notifications-config.interfaces';
 import { AccessibilitySettingsService } from '../../../accessibility/accessibility-settings.service';
@@ -44,8 +41,10 @@ import { notificationsStateSelector } from '../selectors';
   templateUrl: './notifications-board.component.html',
   styleUrls: ['./notifications-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgClass, NgFor, NotificationComponent],
+  imports: [
+    NgClass,
+    NotificationComponent,
+  ],
 })
 export class NotificationsBoardComponent implements OnInit, OnDestroy {
 
@@ -148,7 +147,7 @@ export class NotificationsBoardComponent implements OnInit, OnDestroy {
     }
 
     if (typeof content === 'string') {
-      content = observableOf(content);
+      content = of(content);
     }
 
     content.pipe(
