@@ -40,7 +40,7 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 // }
 
 .facet-filter, .setting-option {
-  background-color: var(--bs-light);
+  background-color: rgba($gray-100, 0.5);
   border-radius: var(--bs-border-radius);
 
   &.p-3 {
@@ -55,6 +55,29 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 }
 
 /* -------------------------------------------------------
+   Onglets "Parcourir" (communauté/collection) et pagination
+   Bootstrap calcule la couleur active de .list-group-item et .page-item
+   à partir de la variable $primary "brute" (restée bleue), pas de la map
+   $theme-colors (verte) : on force donc explicitement notre teinte.
+---------------------------------------------------------- */
+.comcol-browse .list-group-item.active {
+  background-color: $darkgreen;
+  border-color: $darkgreen;
+  color: $white;
+}
+
+// Survol des autres onglets (non actifs) : gris très pâle
+.comcol-browse .list-group-item:not(.active):hover {
+  background-color: $gray-100;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: $darkgreen;
+  border-color: $darkgreen;
+  color: $white;
+}
+
+/* -------------------------------------------------------
    Titres
 ---------------------------------------------------------- */
 
@@ -62,7 +85,7 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 h1, h2, h3, h5, h6 {
   font-weight: 600;
   font-family: $font-family-sans-serif;
-  color: $greensecondary;
+  color: $gray;
 }
 
 h4 {
@@ -316,6 +339,27 @@ ds-file-download-link a.dont-break-out:hover {
 
 .btn {
   border-radius: 60px;
+  // Texte à 90% d'opacité par défaut, 100% au survol/actif
+  color: color-mix(in srgb, var(--bs-btn-color) 90%, transparent);
+  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  // Respecte les couleurs de survol/actif propres à chaque variante Bootstrap
+  // (ex. texte blanc sur fond plein pour les boutons outline), au lieu de
+  // toujours revenir à la couleur "au repos".
+  &:hover:not(:disabled) {
+    color: var(--bs-btn-hover-color, var(--bs-btn-color));
+    filter: brightness(0.75);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--bs-btn-active-color, var(--bs-btn-color));
+    filter: brightness(0.7);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $darkgreen;
+    outline-offset: 2px;
+  }
 }
 
 .bg-footer-dark {
@@ -510,4 +554,55 @@ ds-dynamic-form-control-container[hidden] {
   .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
     width: 150%;
   }
+}
+
+// Bouton "Afficher" : même lisibilité (fond foncé + texte blanc) sur
+// toutes les cartes en vue grille (items, projets, collections, communautés...)
+// !important : nécessaire pour prévaloir sur .btn-primary de Bootstrap
+.viewButton, a.viewButton {
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
+
+  &:hover, &:focus, &:active {
+    color: $white !important;
+  }
+}
+
+// -------------------------------------------------------
+// Badge de type de ressource (ex. "Item", "Collection", "Projet de recherche")
+// -------------------------------------------------------
+.badge.bg-info {
+  // Bootstrap construit bg-info avec rgba(var(--bs-info-rgb), ...), pas --bs-info :
+  // c'est le triplet R,G,B qu'il faut réécrire pour que ça s'applique vraiment.
+  --bs-info-rgb: #{red($gray-600)}, #{green($gray-600)}, #{blue($gray-600)};
+  font-weight: 500;
+}
+
+// -------------------------------------------------------
+// Popup de consentement aux cookies (Orejime)
+// -------------------------------------------------------
+.orejime-Button {
+  border-radius: 60px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: filter 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    color: $white;
+  }
+
+  &:hover:not([disabled]) {
+    filter: brightness(0.75);
+  }
+
+  &:active:not([disabled]) {
+    filter: brightness(0.7);
+  }
+}
+
+// Couleur codée en dur (#666) dans Orejime, pas surchargeable via variable SASS
+.orejime-Button--decline {
+  background: $gray-600;
 }

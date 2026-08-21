@@ -32,3 +32,11 @@ $theme-custom-semantic-colors: (
   ligthblue:  $ligthblue,
   gray:       $gray,
 ) !default;
+
+/* -------------------------------------------------------
+   Popup de consentement aux cookies (bibliothèque Orejime)
+   Ces variables sont définies "!default" par Orejime lui-même ;
+   comme ce fichier est importé avant lui, nos valeurs l'emportent.
+---------------------------------------------------------- */
+$orejime-green: $green;       // bouton "Accepter"
+$orejime-blue: $greensecondary; // bouton "Personnaliser"
