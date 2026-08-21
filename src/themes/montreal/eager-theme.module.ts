@@ -16,12 +16,17 @@ import { FeedbackFormComponent } from './app/info/feedback/feedback-form/feedbac
 import { HomePageComponent } from './app/home-page/home-page.component';
 import { FeedbackComponent } from './app/info/feedback/feedback.component';
 import { AdminSidebarComponent } from './app/admin/admin-sidebar/admin-sidebar.component';
+import { EndUserAgreementComponent } from './app/info/end-user-agreement/end-user-agreement.component';
+import { PrivacyComponent } from './app/info/privacy/privacy.component';
+import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
  * This will ensure that decorator gets picked up when the app loads
  */
-const ENTRY_COMPONENTS = [];
+const ENTRY_COMPONENTS = [
+  PersonComponent,
+];
 
 const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
@@ -39,7 +44,9 @@ const DECLARATIONS = [
   FeedbackFormComponent,
   HomePageComponent,
   FeedbackComponent,
-  AdminSidebarComponent
+  AdminSidebarComponent,
+  EndUserAgreementComponent,
+  PrivacyComponent,
 ];
 
 @NgModule({

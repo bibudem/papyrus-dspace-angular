@@ -31,8 +31,8 @@ const DECLARATIONS = [
     StoreRouterConnectingModule,
     TranslateModule,
     FormsModule,
+    ...DECLARATIONS,
   ],
-  declarations: DECLARATIONS,
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
   ],
