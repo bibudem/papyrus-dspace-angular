@@ -29,7 +29,6 @@ const DECLARATIONS = [
   BreadcrumbsComponent,
   HomeNewsComponent,
   TopLevelCommunityListComponent,
-  HeaderComponent,
   HeaderNavbarWrapperComponent,
   NavbarComponent,
   FooterComponent,

@@ -21,3 +21,14 @@ $theme-colors: (
 ) !default;
 
 $link-color: map-get($theme-colors, info) !default;
+
+// Ajoutez ici de nouvelles couleurs sémantiques (inutile d'y remettre celles déjà définies plus haut)
+// Couleurs propres à la palette Papyrus, déjà utilisées ailleurs dans le thème (badges,
+// liens, textes, etc.) : on les rend disponibles comme vraies couleurs Bootstrap
+// (ex. .bg-darkgreen, .text-redorange, .btn-ligthblue) plutôt que codées en dur partout.
+$theme-custom-semantic-colors: (
+  darkgreen:  $darkgreen,
+  redorange:  $redorange,
+  ligthblue:  $ligthblue,
+  gray:       $gray,
+) !default;
