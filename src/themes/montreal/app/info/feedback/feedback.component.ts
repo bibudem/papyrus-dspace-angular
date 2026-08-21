@@ -5,10 +5,15 @@ import { ThemedFeedbackFormComponent } from '../../../../../app/info/feedback/fe
 
 @Component({
   selector: 'ds-themed-feedback',
+  // styleUrls: ['./feedback.component.scss'],
   styleUrls: ['../../../../../app/info/feedback/feedback.component.scss'],
+  // templateUrl: './feedback.component.html'
   templateUrl: '../../../../../app/info/feedback/feedback.component.html',
   standalone: true,
   imports: [ThemedFeedbackFormComponent],
 })
-export class FeedbackComponent extends BaseComponent {
-}
+
+/**
+ * Component displaying the feedback Statement
+ */
+export class FeedbackComponent extends BaseComponent { }

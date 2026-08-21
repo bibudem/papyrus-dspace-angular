@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { HomeNewsComponent as BaseComponent } from '../../../../../app/home-page/home-news/home-news.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-themed-home-news',
@@ -10,5 +9,9 @@ import { HomeNewsComponent as BaseComponent } from '../../../../../app/home-page
   standalone: true,
   imports: [TranslateModule],
 })
-export class HomeNewsComponent extends BaseComponent {
-}
+
+/**
+ * Component to render the news section on the home page
+ */
+export class HomeNewsComponent extends BaseComponent {}
+

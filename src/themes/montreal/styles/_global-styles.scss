@@ -34,10 +34,10 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
   font-family: $font-family-serif;
 }
 
-ds-system-wide-alert-banner {
-  display: none;
-}
-
+// Ability to hide the alert banner
+// ds-system-wide-alert-banner {
+//   display: none;
+// }
 
 .facet-filter, .setting-option {
   background-color: var(--bs-light);
@@ -362,5 +362,152 @@ ds-file-download-link a.dont-break-out:hover {
   .navbar-right-bib {
     margin-top: 5rem!important;
     padding-bottom: 2.5rem!important;
+  }
+}
+
+// -------------------------------------------------------
+// Submission Form Styling - Added by Scholaris Team
+// -------------------------------------------------------
+.submission-form-hint {
+  padding: 2px;
+  border: 1px solid lightcoral;
+  border-image: none;
+  background-color: seashell;
+}
+
+.submission-form-hint-title {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+  font-family: monospace;
+  border: 1pt darkkhaki solid;
+}
+
+// Submission form spacing
+ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: 25px;
+}
+
+ds-dynamic-form-control-container[class*="col-sm"] ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: unset !important;
+}
+
+.form-group {
+  margin-bottom: 35px;
+  ds-dynamic-form-control-container[class*="col-sm"] {
+    margin-bottom: unset !important;
+   }
+}
+
+ds-dynamic-form-control-container[class*="d-none"],
+ds-dynamic-form-control-container[hidden] {
+  margin-bottom: unset !important;
+}
+
+@media (min-width: 992px) {
+  .modal-dialog:has(ds-create-item-parent-selector),
+  .modal-dialog:has(ds-create-collection-parent-selector),
+  .modal-dialog:has(ds-create-community-parent-selector),
+  .modal-dialog:has(ds-edit-collection-selector),
+  .modal-dialog:has(ds-edit-item-selector),
+  .modal-dialog:has(ds-edit-community-selector) {
+    max-width: 800px;
+  }
+}
+
+// -------------------------------------------------------
+// Expand the Pop-up Collection Box on the Search Results
+// Search Results Page  - Added by Scholaris Team
+// Example URL: http://localhost:4000/search?query=TEST&spc.page=1
+// -------------------------------------------------------
+@media (min-width: 1024px) {
+  .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
+    width: 150%;
+  }
+}
+
+// UdeM Addition For Description Changes
+p.section-description a {
+  color: #3fc5c9!important;
+}
+
+p.section-description a:hover {
+  color: #ffffff!important;
+}
+
+ds-file-download-link a.dont-break-out
+{
+  color: #0057AC;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ds-file-download-link a.dont-break-out:hover {
+  color: #00407F;
+  text-decoration: underline!important;
+}
+
+ds-item-page-full-file-section {
+  .file-section {
+    word-break: break-all;
+ }
+}
+
+// -------------------------------------------------------
+// Submission Form Styling - Added by Scholaris Team
+// -------------------------------------------------------
+.submission-form-hint {
+  padding: 2px;
+  border: 1px solid lightcoral;
+  border-image: none;
+  background-color: seashell;
+}
+
+.submission-form-hint-title {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+  font-family: monospace;
+  border: 1pt darkkhaki solid;
+}
+
+// Submission form spacing
+ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: 25px;
+}
+
+ds-dynamic-form-control-container[class*="col-sm"] ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: unset !important;
+}
+
+.form-group {
+  margin-bottom: 35px;
+  ds-dynamic-form-control-container[class*="col-sm"] {
+    margin-bottom: unset !important;
+   }
+}
+
+ds-dynamic-form-control-container[class*="d-none"],
+ds-dynamic-form-control-container[hidden] {
+  margin-bottom: unset !important;
+}
+
+@media (min-width: 992px) {
+  .modal-dialog:has(ds-create-item-parent-selector),
+  .modal-dialog:has(ds-create-collection-parent-selector),
+  .modal-dialog:has(ds-create-community-parent-selector),
+  .modal-dialog:has(ds-edit-collection-selector),
+  .modal-dialog:has(ds-edit-item-selector),
+  .modal-dialog:has(ds-edit-community-selector) {
+    max-width: 800px;
+  }
+}
+
+// -------------------------------------------------------
+// Expand the Pop-up Collection Box on the Search Results
+// Search Results Page  - Added by Scholaris Team
+// Example URL: http://localhost:4000/search?query=TEST&spc.page=1
+// -------------------------------------------------------
+@media (min-width: 1024px) {
+  .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
+    width: 150%;
   }
 }

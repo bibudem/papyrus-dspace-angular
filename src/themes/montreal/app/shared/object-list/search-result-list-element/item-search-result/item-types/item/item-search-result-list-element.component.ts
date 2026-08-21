@@ -25,6 +25,7 @@ import { ThemedThumbnailComponent } from '../../../../../../../../../app/thumbna
   templateUrl: './item-search-result-list-element.component.html',
   standalone: true,
   imports: [NgIf, RouterLink, ThemedThumbnailComponent, NgClass, ThemedBadgesComponent, TruncatableComponent, TruncatablePartComponent, NgFor, AsyncPipe],
+
 })
 export class ItemSearchResultListElementComponent extends BaseComponent {
 }
