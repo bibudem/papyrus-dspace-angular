@@ -222,18 +222,6 @@ export const buildAppConfig = (destConfigPath?: string): AppConfig => {
     }
   }
 
-  // toujours appliquer config.papyrus.yml, meme si DSPACE_APP_CONFIG_PATH pointe vers un autre projet
-  const papyrusConfigPath = join(CONFIG_PATH, 'config.papyrus.yml');
-  if (existsSync(papyrusConfigPath)) {
-    overrideWithConfig(appConfig, papyrusConfigPath);
-  }
-
-  // reappliquer config.[dev|prod].yml en tout dernier (dev -> demo.dspace.org, prod -> scholaris) :
-  // sinon un DSPACE_APP_CONFIG_PATH externe (charge apres, plus haut) peut ecraser rest.host
-  if (existsSync(localConfigPath)) {
-    overrideWithConfig(appConfig, localConfigPath);
-  }
-
   // override with environment variables
   overrideWithEnvironment(appConfig);
 

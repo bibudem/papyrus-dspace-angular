@@ -8,18 +8,16 @@
 # 3) Fichier config/config.[prod|dev|test].yml
 # 4) Fichier config/config.yml
 #
-# Ce fichier est toujours chargé par config/config.server.ts, indépendamment
-# de DSPACE_APP_CONFIG_PATH.
+# À noter qu'une variable d'environnement est nécessaire pour que le fichier
+# .local soit lu:
+#
+# export DSPACE_APP_CONFIG_PATH=config/config.papyrus.yml
 #
 # Voir config/config.server.ts pour les détails
 #############################################################################
 
 # On va définir dans ce fichier tout ce qui est commun à l'application
 # Papyrus, peu importe son environnement d'exécution
-
-# réaffirmé ici pour ne pas dépendre d'une config externe qui le remettrait à "/"
-ui:
-  nameSpace: /papyrus-8-orcid/
 
 # Form settings
 form:
