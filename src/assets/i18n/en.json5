@@ -4536,6 +4536,8 @@
 
   "search.filters.filter.discoverable.head": "Non-discoverable",
 
+  "search.filters.filter.access_status.head": "Access status",
+
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
   "search.filters.filter.entityType.head": "Item Type",
@@ -7204,6 +7206,8 @@
 
   "papyrus.orcid-profile.biography": "Biography",
 
+  "papyrus.orcid-profile.biography.empty": "No biography listed.",
+
   "papyrus.orcid-profile.employment": "Affiliations",
 
   "papyrus.orcid-profile.employment.present": "Present",
@@ -7237,4 +7241,10 @@
   "papyrus.orcid-profile.work-type.preprint": "Preprint",
 
   "papyrus.orcid-profile.work-type.other": "Other",
+
+  "papyrus.orcid-profile.publications.show-more": "Show {{count}} more publications",
+
+  "papyrus.orcid-profile.publications.show-less": "Show less",
+
+  "papyrus.directory.orcid-badge": "Verified ORCID profile",
 }

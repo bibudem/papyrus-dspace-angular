@@ -4530,6 +4530,8 @@
 
   "search.filters.filter.discoverable.head": "Privé",
 
+  "search.filters.filter.access_status.head": "Statut d'accès",
+
   "search.filters.filter.withdrawn.head": "Retiré",
 
   "search.filters.filter.entityType.head": "Type",
@@ -7248,6 +7250,8 @@
 
   "papyrus.orcid-profile.biography": "Biographie",
 
+  "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
+
   "papyrus.orcid-profile.employment": "Affiliations",
 
   "papyrus.orcid-profile.employment.present": "Présent",
@@ -7281,4 +7285,10 @@
   "papyrus.orcid-profile.work-type.preprint": "Prépublication",
 
   "papyrus.orcid-profile.work-type.other": "Autre",
+
+  "papyrus.orcid-profile.publications.show-more": "Voir {{count}} publications de plus",
+
+  "papyrus.orcid-profile.publications.show-less": "Voir moins",
+
+  "papyrus.directory.orcid-badge": "Profil ORCID vérifié",
 }

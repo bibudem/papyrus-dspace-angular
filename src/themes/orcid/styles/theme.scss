@@ -1,0 +1,16 @@
+// This file combines the other scss files into one. You usually shouldn't edit this file directly
+//
+// Ce thème hérite de "montreal" (voir config/config.papyrus.yml, "extends: montreal") : on réutilise
+// donc les mêmes variables/branding que montreal, et on ajoute par-dessus les styles propres à
+// l'annuaire des chercheurs (cartes personne / unité académique).
+
+@import '../../montreal/styles/_theme_sass_variable_overrides.scss';
+@import '../../../styles/_variables.scss';
+@import '../../../styles/_mixins.scss';
+@import '../../../styles/helpers/font_awesome_imports.scss';
+@import '../../../styles/_vendor.scss';
+@import '../../montreal/styles/_theme_css_variable_overrides.scss';
+@import '../../../styles/bootstrap_variables_mapping.scss';
+@import '../../../styles/_truncatable-part.component.scss';
+@import '../../montreal/styles/_global-styles.scss';
+@import './_directory-styles.scss';

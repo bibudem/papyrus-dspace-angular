@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { RootModule } from '../../app/root.module';
 import { AdminSidebarComponent } from './app/admin/admin-sidebar/admin-sidebar.component';
 import { BreadcrumbsComponent } from './app/breadcrumbs/breadcrumbs.component';
-import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 import { FooterComponent } from './app/footer/footer.component';
 import { HeaderNavbarWrapperComponent } from './app/header-nav-wrapper/header-navbar-wrapper.component';
 import { HeaderComponent } from './app/header/header.component';
@@ -27,7 +26,6 @@ const ENTRY_COMPONENTS = [
   UntypedItemComponent,
   ItemSearchResultListElementComponent,
   TopLevelCommunityListComponent,
-  PersonComponent,
 ];
 
 const DECLARATIONS = [

@@ -217,15 +217,16 @@ $orcid-green: #a6ce39;
 
 // ── Publications ─────────────────────────────────────────────────────────────
 
+// Neutre pour se distinguer des badges de type (colorés) ci-dessous
 .publications-count-badge {
   display: inline-block;
   padding: 0.2rem 0.75rem;
   border-radius: 60px;
-  background-color: $extralightgreen;
-  color: $greensecondary;
+  background-color: $gray-100;
+  color: $gray-600;
   font-size: 0.8rem;
   font-weight: 600;
-  border: 1px solid rgba($greensecondary, 0.2);
+  border: 1px solid rgba($gray-600, 0.15);
 }
 
 .oe-works-list { display: flex; flex-direction: column; gap: 0; }
@@ -254,8 +255,6 @@ $orcid-green: #a6ce39;
   border-radius: 60px;
   font-size: 0.7rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 
   &.badge-article    { background-color: $extralightgreen;         color: $greensecondary;        border: 1px solid rgba($greensecondary, 0.3); }
   &.badge-book       { background-color: rgba($blue, 0.1);         color: darken($blue, 15%);     border: 1px solid rgba($blue, 0.3); }
@@ -282,6 +281,19 @@ $orcid-green: #a6ce39;
 .work-journal { font-size: 0.84rem; color: $gray-500; font-style: italic; margin-bottom: 0.12rem; }
 .work-doi     { font-size: 0.78rem; color: $gray-400; margin-bottom: 0; }
 .doi-link     { color: $blue; text-decoration: none; &:hover { text-decoration: underline; } }
+
+// Bouton voir plus / voir moins : distinct des liens (bleu) et des badges (vert clair)
+.oe-toggle-btn {
+  color: $darkgreen;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: $greensecondary;
+    text-decoration: underline;
+  }
+}
 
 // ── Message vide ─────────────────────────────────────────────────────────────
 

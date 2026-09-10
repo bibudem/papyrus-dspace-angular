@@ -147,6 +147,14 @@ themes:
   # in this list will get priority. It is advisable to always have a theme that matches
   # every route as the last one
   #
+  # Annuaire des chercheurs et chercheuses de l'UdeM : communauté "Corps professoral et unités
+  # académiques de l'Université de Montréal". Le match par uuid s'applique en cascade à ses
+  # 2 sous-collections ("Corps professoral" et "Unités académiques") et à leurs items.
+  # Doit rester AVANT l'entrée "montreal" ci-dessous (premier match = priorité).
+  - name: orcid
+    extends: montreal
+    uuid: 1acd99a0-6ffb-42f8-a261-30b96f3f2405
+  #
   # # A theme with a handle property will match the community, collection or item with the given
   # # handle, and all collections and/or items within it
   # - name: 'papyrus',

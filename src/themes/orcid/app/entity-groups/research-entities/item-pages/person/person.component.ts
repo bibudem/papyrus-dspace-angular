@@ -17,7 +17,7 @@ import { ThemedResultsBackButtonComponent } from '../../../../../../../app/share
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
 
-@listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'montreal')
+@listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'orcid')
 @Component({
   selector: 'ds-person',
   styleUrls: [
