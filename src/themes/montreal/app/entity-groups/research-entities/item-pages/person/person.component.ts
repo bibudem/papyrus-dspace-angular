@@ -15,7 +15,6 @@ import { DsoEditMenuComponent } from '../../../../../../../app/shared/dso-page/d
 import { MetadataFieldWrapperComponent } from '../../../../../../../app/shared/metadata-field-wrapper/metadata-field-wrapper.component';
 import { ThemedResultsBackButtonComponent } from '../../../../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
-import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
 
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'montreal')
 @Component({
@@ -41,8 +40,6 @@ import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-
     GenericItemPageFieldComponent,
     RelatedItemsComponent,
     TabbedRelatedEntitiesSearchComponent,
-    // Local
-    OrcidPersonEnrichmentComponent,
   ],
 })
 export class PersonComponent extends BaseComponent {}
