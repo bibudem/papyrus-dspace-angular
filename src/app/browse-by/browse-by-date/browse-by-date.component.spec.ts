@@ -20,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { cold } from 'jasmine-marbles';
-import { of as observableOf } from 'rxjs';
+import { of } from 'rxjs';
 
 import { APP_CONFIG } from '../../../config/app-config.interface';
 import { environment } from '../../../environments/environment';
@@ -95,10 +95,10 @@ describe('BrowseByDateComponent', () => {
     findById: () => createSuccessfulRemoteDataObject$(mockCommunity),
   };
 
-  const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
-    params: observableOf({}),
-    queryParams: observableOf({}),
-    data: observableOf({ metadata: 'dateissued', metadataField: 'dc.date.issued' }),
+  const activatedRouteStub = Object.assign(new ActivatedRouteStub({ id: 'dateissued' }), {
+    params: of({ id: 'dateissued' }),
+    queryParams: of({}),
+    data: of({ metadata: 'dateissued', metadataField: 'dc.date.issued' }),
   });
 
   const mockCdRef = Object.assign({
@@ -151,9 +151,8 @@ describe('BrowseByDateComponent', () => {
     fixture = TestBed.createComponent(BrowseByDateComponent);
     const browseService = fixture.debugElement.injector.get(BrowseService);
     spyOn(browseService, 'getFirstItemFor')
-      // ok to expect the default browse as first param since we just need the mock items obtained via sort direction.
-      .withArgs('author', undefined, SortDirection.ASC).and.returnValue(createSuccessfulRemoteDataObject$(firstItem))
-      .withArgs('author', undefined, SortDirection.DESC).and.returnValue(createSuccessfulRemoteDataObject$(lastItem));
+      .withArgs('dateissued', undefined, SortDirection.ASC).and.returnValue(createSuccessfulRemoteDataObject$(firstItem))
+      .withArgs('dateissued', undefined, SortDirection.DESC).and.returnValue(createSuccessfulRemoteDataObject$(lastItem));
     comp = fixture.componentInstance;
     route = (comp as any).route;
     fixture.detectChanges();

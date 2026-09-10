@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   OnInit,
@@ -10,6 +10,7 @@ import {
 } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ActionType } from 'src/app/core/resource-policy/models/action-type.model';
 
 import { environment } from '../../../../../environments/environment';
 import {
@@ -35,13 +36,16 @@ import {
 @Component({
   selector: 'ds-base-create-collection-parent-selector',
   templateUrl: './create-collection-parent-selector.component.html',
-  standalone: true,
-  imports: [NgIf, AuthorizedCommunitySelectorComponent, TranslateModule],
+  imports: [
+    AuthorizedCommunitySelectorComponent,
+    TranslateModule,
+  ],
 })
 export class CreateCollectionParentSelectorComponent extends DSOSelectorModalWrapperComponent implements OnInit {
   objectType = DSpaceObjectType.COLLECTION;
   selectorTypes = [DSpaceObjectType.COMMUNITY];
   action = SelectorActionType.CREATE;
+  rpActionType = ActionType.ADD;
   header = 'dso-selector.create.collection.sub-level';
   defaultSort = new SortOptions(environment.comcolSelectionSort.sortField, environment.comcolSelectionSort.sortDirection as SortDirection);
 

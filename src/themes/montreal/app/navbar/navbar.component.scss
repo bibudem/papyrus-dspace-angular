@@ -5,6 +5,12 @@
   width: 35%;
 }
 
+.dropdown-menu.show {
+  display: block !important;
+}
+
+// UdeM Additions
+
 .btn-dark {
   border-color: #dae0e5 !important;
 
@@ -14,8 +20,8 @@
 }
 
 .nav-item.dropdown {
-  position: relative;
 
+  position: relative;
   .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -39,10 +45,10 @@
       padding: 0.5rem 0;
     }
   }
+
 }
 
 .dropdown-item {
-  color: #000;
   padding: 0.5rem 1rem;
   text-decoration: none;
   display: block;
@@ -59,3 +65,59 @@
     background-color: #f8f9fa;
   }
 }
+
+
+
+// Browse By Navbar Code Added by Team Scholaris
+.dropdown-menu {
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  overflow: hidden;
+  @include media-breakpoint-down(sm) {
+    border: 0;
+    background-color: var(--ds-expandable-navbar-bg);
+  }
+  @include media-breakpoint-up(md) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: var(--ds-navbar-dropdown-bg);
+  }
+}
+
+.ds-menu-item-wrapper {
+  position: relative; // align dropdown menu with respect to this element
+}
+
+.dropdown-item {
+  color: var(--ds-navbar-link-color);
+}
+
+.dropdown-item:hover {
+  background-color: transparent !important;
+}
+
+.toggle-menu-icon {
+  &, &:hover {
+    text-decoration: none;
+  }
+}
+
+nav {
+  min-height: var(--ds-header-height);
+
+  @include media-breakpoint-up(md) {
+    height: var(--ds-header-height);
+  }
+}
+
+::ng-deep {
+  .ds-menu-item, .ds-menu-toggler-wrapper, .ds-menu-item-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+}
+//End of Browse By Navbar Code Added by Team Scholaris

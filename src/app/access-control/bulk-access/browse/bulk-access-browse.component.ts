@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -11,7 +7,11 @@ import {
 } from '@angular/core';
 import {
   NgbAccordionModule,
-  NgbNavModule,
+  NgbNav,
+  NgbNavContent,
+  NgbNavItem,
+  NgbNavLink,
+  NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -55,20 +55,21 @@ import { BrowserOnlyPipe } from '../../../shared/utils/browser-only.pipe';
     },
   ],
   imports: [
-    PaginationComponent,
     AsyncPipe,
-    NgbAccordionModule,
-    TranslateModule,
-    NgIf,
-    NgbNavModule,
-    ThemedSearchComponent,
     BrowserOnlyPipe,
-    NgForOf,
-    NgxPaginationModule,
-    SelectableListItemControlComponent,
     ListableObjectComponentLoaderComponent,
+    NgbAccordionModule,
+    NgbNav,
+    NgbNavContent,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavOutlet,
+    NgxPaginationModule,
+    PaginationComponent,
+    SelectableListItemControlComponent,
+    ThemedSearchComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class BulkAccessBrowseComponent implements OnInit, OnDestroy {
 

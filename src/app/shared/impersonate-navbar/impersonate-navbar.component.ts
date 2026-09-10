@@ -1,13 +1,10 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnInit,
 } from '@angular/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   select,
   Store,
@@ -26,8 +23,11 @@ import { isAuthenticated } from '../../core/auth/selectors';
 @Component({
   selector: 'ds-impersonate-navbar',
   templateUrl: 'impersonate-navbar.component.html',
-  standalone: true,
-  imports: [NgIf, NgbTooltipModule, AsyncPipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    NgbTooltip,
+    TranslateModule,
+  ],
 })
 /**
  * Navbar component for actions to take concerning impersonating users

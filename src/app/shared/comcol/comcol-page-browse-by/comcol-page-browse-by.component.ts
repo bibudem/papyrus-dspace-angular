@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Inject,
@@ -16,7 +12,6 @@ import {
   NavigationEnd,
   Router,
   RouterLink,
-  RouterLinkActive,
   Scroll,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -63,15 +58,11 @@ export interface ComColPageNavOption {
   styleUrls: ['./comcol-page-browse-by.component.scss'],
   templateUrl: './comcol-page-browse-by.component.html',
   imports: [
-    FormsModule,
-    NgForOf,
-    RouterLink,
-    RouterLinkActive,
-    TranslateModule,
     AsyncPipe,
-    NgIf,
+    FormsModule,
+    RouterLink,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class ComcolPageBrowseByComponent implements OnDestroy, OnInit {
   /**

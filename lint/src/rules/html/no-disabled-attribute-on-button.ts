@@ -33,11 +33,13 @@ export const info = {
       [Message.USE_DSBTN_DISABLED]: 'Buttons should use the `dsBtnDisabled` directive instead of the `disabled` attribute.',
     },
   },
+  optionDocs: [],
   defaultOptions: [],
 } as DSpaceESLintRuleInfo;
 
 export const rule = ESLintUtils.RuleCreator.withoutDocs({
-  ...info,
+  meta: info.meta,
+  defaultOptions: info.defaultOptions,
   create(context: TSESLint.RuleContext<Message, unknown[]>) {
     const parserServices = getSourceCode(context).parserServices as TemplateParserServices;
 

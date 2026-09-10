@@ -6,9 +6,11 @@
  * http://www.dspace.org/license/
  */
 import {
-  APP_INITIALIZER,
+  EnvironmentProviders,
   Inject,
+  inject,
   makeStateKey,
+  provideAppInitializer,
   Provider,
   TransferState,
   Type,
@@ -42,18 +44,18 @@ import { HeadTagService } from './core/metadata/head-tag.service';
 import { CorrelationIdService } from './correlation-id/correlation-id.service';
 import { dsDynamicFormControlMapFn } from './shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-control-map-fn';
 import { MenuService } from './shared/menu/menu.service';
+import { MenuProviderService } from './shared/menu/menu-provider.service';
 import { ThemeService } from './shared/theme-support/theme.service';
 import { Angulartics2DSpace } from './statistics/angulartics/dspace-provider';
-
 
 /**
  * Performs the initialization of the app.
  *
  * Should be extended to implement server- & browser-specific functionality.
- * Initialization steps shared between the server and brower implementations
+ * Initialization steps shared between the server and browser implementations
  * can be included in this class.
  *
- * Note that the service cannot (indirectly) depend on injection tokens that are only available _after_ APP_INITIALIZER.
+ * Note that the service cannot (indirectly) depend on injection tokens that are only available _after_ provideAppInitializer.
  * For example, NgbModal depends on ApplicationRef and can therefore not be used during initialization.
  */
 export abstract class InitService {
@@ -74,6 +76,7 @@ export abstract class InitService {
     protected breadcrumbsService: BreadcrumbsService,
     protected themeService: ThemeService,
     protected menuService: MenuService,
+    protected menuProviderService: MenuProviderService,
 
   ) {
   }
@@ -82,11 +85,11 @@ export abstract class InitService {
    * The initialization providers to use in `*AppModule`
    * - this concrete {@link InitService}
    * - {@link APP_CONFIG} with optional pre-initialization hook
-   * - {@link APP_INITIALIZER}
+   * - {@link provideAppInitializer} function-based app initializer
    * <br>
    * Should only be called on concrete subclasses of InitService for the initialization hooks to work
    */
-  public static providers(): Provider[] {
+  public static providers(): (Provider | EnvironmentProviders)[] {
     if (!InitService.isPrototypeOf(this)) {
       throw new Error(
         'Initalization providers should only be generated from concrete subclasses of InitService',
@@ -105,12 +108,7 @@ export abstract class InitService {
         },
         deps: [ TransferState ],
       },
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (initService: InitService) => initService.init(),
-        deps: [ InitService ],
-        multi: true,
-      },
+      provideAppInitializer(() => inject(InitService).init()()),
       {
         provide: APP_DATA_SERVICES_MAP,
         useValue: LAZY_DATA_SERVICES,
@@ -127,14 +125,14 @@ export abstract class InitService {
    *
    * For example, Router depends on APP_BASE_HREF, which in turn depends on APP_CONFIG.
    * In production mode, APP_CONFIG is resolved from the TransferState when the app is initialized.
-   * If we want to use Router within APP_INITIALIZER, we have to make sure APP_BASE_HREF is resolved beforehand.
+   * If we want to use Router within provideAppInitializer, we have to make sure APP_BASE_HREF is resolved beforehand.
    * In this case that means that we must transfer the configuration from the SSR state during pre-initialization.
    * @protected
    */
   protected static resolveAppConfig(
     transferState: TransferState,
   ): void {
-    // overriden in subclasses if applicable
+    // overridden in subclasses if applicable
   }
 
   /**
@@ -191,8 +189,8 @@ export abstract class InitService {
         .map((a) => a.code),
     );
 
-    // Load the default language from the config file
-    // translate.setDefaultLang(environment.defaultLanguage);
+    // Load the fallback language from the config file
+    // translate.setFallbackLang(environment.fallbackLanguage);
 
     this.localeService.setCurrentLanguageCode();
   }
@@ -216,7 +214,6 @@ export abstract class InitService {
     this.headTagService.listenForRouteChange();
     this.breadcrumbsService.listenForRouteChanges();
     this.themeService.listenForRouteChanges();
-    this.menuService.listenForRouteChanges();
   }
 
   /**

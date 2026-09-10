@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +10,13 @@ import {
   ActivatedRoute,
   Router,
 } from '@angular/router';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbNav,
+  NgbNavContent,
+  NgbNavItem,
+  NgbNavLink,
+  NgbNavOutlet,
+} from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule,
   TranslateService,
@@ -62,6 +65,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { ItemSelectComponent } from '../../shared/object-select/item-select/item-select.component';
 import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
 import { ThemedSearchFormComponent } from '../../shared/search-form/themed-search-form.component';
+import { BrowserOnlyPipe } from '../../shared/utils/browser-only.pipe';
 import { followLink } from '../../shared/utils/follow-link-config.model';
 
 @Component({
@@ -80,14 +84,17 @@ import { followLink } from '../../shared/utils/follow-link-config.model';
     },
   ],
   imports: [
-    ThemedSearchFormComponent,
-    NgbNavModule,
-    TranslateModule,
     AsyncPipe,
+    BrowserOnlyPipe,
     ItemSelectComponent,
-    NgIf,
+    NgbNav,
+    NgbNavContent,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavOutlet,
+    ThemedSearchFormComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 /**
  * Component used to map items to a collection

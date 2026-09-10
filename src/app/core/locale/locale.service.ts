@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import {
+  DOCUMENT,
   Inject,
   Injectable,
   OnDestroy,
@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   combineLatest,
   Observable,
-  of as observableOf,
+  of,
   Subscription,
 } from 'rxjs';
 import {
@@ -83,11 +83,11 @@ export class LocaleService implements OnDestroy {
               .map(browserLang => browserLang.split(';')[0])
               .find(browserLang =>
                 this.translate.getLangs().some(userLang => userLang.toLowerCase() === browserLang.toLowerCase()),
-              ) || environment.defaultLanguage;
+              ) || environment.fallbackLanguage;
           }),
         );
     }
-    return observableOf(lang);
+    return of(lang);
   }
 
   /**
@@ -103,7 +103,7 @@ export class LocaleService implements OnDestroy {
 
     return obs$.pipe(
       mergeMap(([isAuthenticated, isLoaded]) => {
-        let epersonLang$: Observable<string[]> = observableOf([]);
+        let epersonLang$: Observable<string[]> = of([]);
         if (isAuthenticated && isLoaded && !ignoreEPersonSettings) {
           epersonLang$ = this.authService.getAuthenticatedUserFromStore().pipe(
             take(1),
@@ -114,7 +114,7 @@ export class LocaleService implements OnDestroy {
                 languages.push(...this.setQuality(
                   [ePersonLang],
                   LANG_ORIGIN.EPERSON,
-                  !isEmpty(this.translate.currentLang)));
+                  !isEmpty(this.translate.getCurrentLang())));
               }
               return languages;
             }),
@@ -128,7 +128,7 @@ export class LocaleService implements OnDestroy {
             }
             if (this.translate.currentLang) {
               languages.push(...this.setQuality(
-                [this.translate.currentLang],
+                [this.translate.getCurrentLang()],
                 LANG_ORIGIN.UI,
                 false));
             }
@@ -136,7 +136,7 @@ export class LocaleService implements OnDestroy {
               languages.push(...this.setQuality(
                 Object.assign([], navigator.languages),
                 LANG_ORIGIN.BROWSER,
-                !isEmpty(this.translate.currentLang)),
+                !isEmpty(this.translate.getCurrentLang())),
               );
             }
             return languages;

@@ -7,7 +7,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule,
   TranslateService,
@@ -48,14 +48,13 @@ import { PaginationComponentOptions } from '../../../shared/pagination/paginatio
   templateUrl: './orcid-queue.component.html',
   styleUrls: ['./orcid-queue.component.scss'],
   imports: [
-    CommonModule,
-    NgbTooltipModule,
-    TranslateModule,
-    ThemedLoadingComponent,
     AlertComponent,
+    CommonModule,
+    NgbTooltip,
     PaginationComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class OrcidQueueComponent implements OnInit, OnDestroy, OnChanges {
 

@@ -3,10 +3,7 @@ import {
   CdkDragDrop,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
-import {
-  AsyncPipe,
-  CommonModule,
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -18,7 +15,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   NgbDropdownModule,
-  NgbTooltipModule,
+  NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -78,19 +75,17 @@ import {
   styleUrls: ['../item-bitstreams.component.scss', './item-edit-bitstream-bundle.component.scss'],
   templateUrl: './item-edit-bitstream-bundle.component.html',
   imports: [
-    CommonModule,
-    TranslateModule,
-    RouterLink,
-    AsyncPipe,
-    PaginationComponent,
-    NgbTooltipModule,
-    CdkDropList,
-    NgbDropdownModule,
-    CdkDrag,
     BrowserOnlyPipe,
     BtnDisabledDirective,
+    CdkDrag,
+    CdkDropList,
+    CommonModule,
+    NgbDropdownModule,
+    NgbTooltip,
+    PaginationComponent,
+    RouterLink,
+    TranslateModule,
   ],
-  standalone: true,
 })
 /**
  * Component that displays a single bundle of an item on the item bitstreams edit page

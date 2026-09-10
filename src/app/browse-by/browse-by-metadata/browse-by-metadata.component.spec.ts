@@ -21,7 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { cold } from 'jasmine-marbles';
 import {
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 import { RouteService } from 'src/app/core/services/route.service';
 import { DsoEditMenuComponent } from 'src/app/shared/dso-page/dso-edit-menu/dso-edit-menu.component';
@@ -123,8 +123,8 @@ describe('BrowseByMetadataComponent', () => {
     findById: () => createSuccessfulRemoteDataObject$(mockCommunity),
   };
 
-  const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
-    params: observableOf({}),
+  const activatedRouteStub = Object.assign(new ActivatedRouteStub({ id: 'author' }), {
+    params: of({ id: 'author' }),
   });
 
   paginationService = new PaginationServiceStub();
@@ -170,7 +170,7 @@ describe('BrowseByMetadataComponent', () => {
     fixture.detectChanges();
     browseService = (comp as any).browseService;
     route = (comp as any).route;
-    route.params = observableOf({});
+    route.params = of({});
     comp.ngOnInit();
     fixture.detectChanges();
   });
@@ -190,7 +190,7 @@ describe('BrowseByMetadataComponent', () => {
         value: 'John Doe',
       };
 
-      route.params = observableOf(paramsWithValue);
+      route.params = of(paramsWithValue);
       comp.ngOnInit();
       fixture.detectChanges();
     });

@@ -1,8 +1,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgFor,
-  NgIf,
 } from '@angular/common';
 import {
   Component,
@@ -37,14 +35,11 @@ import { TruncatablePartComponent } from '../../../truncatable/truncatable-part/
   styleUrls: ['item-list-preview.component.scss'],
   templateUrl: 'item-list-preview.component.html',
   animations: [fadeInOut],
-  standalone: true,
   imports: [
     AsyncPipe,
     ItemCollectionComponent,
     ItemSubmitterComponent,
     NgClass,
-    NgFor,
-    NgIf,
     ThemedBadgesComponent,
     ThemedThumbnailComponent,
     TranslateModule,

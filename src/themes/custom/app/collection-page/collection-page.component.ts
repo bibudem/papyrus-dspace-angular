@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +19,6 @@ import { ComcolPageLogoComponent } from '../../../../app/shared/comcol/comcol-pa
 import { DsoEditMenuComponent } from '../../../../app/shared/dso-page/dso-edit-menu/dso-edit-menu.component';
 import { ErrorComponent } from '../../../../app/shared/error/error.component';
 import { ThemedLoadingComponent } from '../../../../app/shared/loading/themed-loading.component';
-import { ObjectCollectionComponent } from '../../../../app/shared/object-collection/object-collection.component';
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
 
 @Component({
@@ -36,26 +32,20 @@ import { VarDirective } from '../../../../app/shared/utils/var.directive';
     fadeIn,
     fadeInOut,
   ],
-  standalone: true,
   imports: [
-    ThemedComcolPageContentComponent,
-    ErrorComponent,
-    NgIf,
-    ThemedLoadingComponent,
-    TranslateModule,
-    VarDirective,
     AsyncPipe,
     ComcolPageHeaderComponent,
     ComcolPageLogoComponent,
-    ThemedComcolPageHandleComponent,
     DsoEditMenuComponent,
-    ThemedComcolPageBrowseByComponent,
-    ObjectCollectionComponent,
+    ErrorComponent,
     RouterOutlet,
+    ThemedComcolPageBrowseByComponent,
+    ThemedComcolPageContentComponent,
+    ThemedComcolPageHandleComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
+    VarDirective,
   ],
 })
-/**
- * This component represents a detail page for a single collection
- */
 export class CollectionPageComponent extends BaseComponent {
 }

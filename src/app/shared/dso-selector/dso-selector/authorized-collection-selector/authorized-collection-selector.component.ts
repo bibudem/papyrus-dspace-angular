@@ -1,8 +1,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgFor,
-  NgIf,
 } from '@angular/common';
 import {
   Component,
@@ -19,6 +17,7 @@ import {
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ActionType } from 'src/app/core/resource-policy/models/action-type.model';
 
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { CollectionDataService } from '../../../../core/data/collection-data.service';
@@ -46,8 +45,17 @@ import { DSOSelectorComponent } from '../dso-selector.component';
   selector: 'ds-authorized-collection-selector',
   styleUrls: ['../dso-selector.component.scss'],
   templateUrl: '../dso-selector.component.html',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, InfiniteScrollModule, NgIf, NgFor, HoverClassDirective, NgClass, ListableObjectComponentLoaderComponent, ThemedLoadingComponent, AsyncPipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    HoverClassDirective,
+    InfiniteScrollModule,
+    ListableObjectComponentLoaderComponent,
+    NgClass,
+    ReactiveFormsModule,
+    ThemedLoadingComponent,
+    TranslateModule,
+  ],
 })
 /**
  * Component rendering a list of collections to select from
@@ -59,10 +67,9 @@ export class AuthorizedCollectionSelectorComponent extends DSOSelectorComponent 
   @Input() entityType: string;
 
   /**
-   * Search endpoint to use for finding authorized collections.
-   * Defaults to 'findSubmitAuthorized', but can be overridden (e.g. to 'findAdminAuthorized')
+   * The action type to determine which authorized collections to fetch, defaults to ADMIN
    */
-  @Input() searchHref = 'findSubmitAuthorized';
+  @Input() action: ActionType = ActionType.ADMIN;
 
   constructor(
     protected searchService: SearchService,
@@ -94,15 +101,24 @@ export class AuthorizedCollectionSelectorComponent extends DSOSelectorComponent 
       elementsPerPage: this.defaultPagination.pageSize,
     };
 
-    if (this.entityType) {
+    if (this.action === ActionType.WRITE) {
       searchListService$ = this.collectionDataService
-        .getAuthorizedCollectionByEntityType(
-          query,
-          this.entityType,
-          findOptions);
+        .getEditAuthorizedCollection(query, findOptions, useCache, false, followLink('parentCommunity'));
+    } else if (this.action === ActionType.ADD) {
+      if (this.entityType) {
+        searchListService$ = this.collectionDataService
+          .getAuthorizedCollectionByEntityType(
+            query,
+            this.entityType,
+            findOptions);
+      } else {
+        searchListService$ = this.collectionDataService
+          .getSubmitAuthorizedCollection(query, findOptions, useCache, false, followLink('parentCommunity'));
+      }
     } else {
+      // By default, search for admin authorized collections
       searchListService$ = this.collectionDataService
-        .getAuthorizedCollection(query, findOptions, useCache, false, this.searchHref, followLink('parentCommunity'));
+        .getAdminAuthorizedCollection(query, findOptions, useCache, false, followLink('parentCommunity'));
     }
     return searchListService$.pipe(
       getFirstCompletedRemoteData(),

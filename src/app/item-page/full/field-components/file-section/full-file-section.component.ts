@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Inject,
@@ -56,18 +52,15 @@ import { FileSectionComponent } from '../../../simple/field-components/file-sect
   styleUrls: ['./full-file-section.component.scss'],
   templateUrl: './full-file-section.component.html',
   imports: [
-    PaginationComponent,
-    NgIf,
-    TranslateModule,
     AsyncPipe,
-    VarDirective,
-    ThemedThumbnailComponent,
-    NgForOf,
-    ThemedFileDownloadLinkComponent,
     FileSizePipe,
     MetadataFieldWrapperComponent,
+    PaginationComponent,
+    ThemedFileDownloadLinkComponent,
+    ThemedThumbnailComponent,
+    TranslateModule,
+    VarDirective,
   ],
-  standalone: true,
 })
 export class FullFileSectionComponent extends FileSectionComponent implements OnDestroy, OnInit {
 
@@ -115,6 +108,7 @@ export class FullFileSectionComponent extends FileSectionComponent implements On
         true,
         followLink('format'),
         followLink('thumbnail'),
+        followLink('accessStatus'),
       )),
       tap((rd: RemoteData<PaginatedList<Bitstream>>) => {
         if (hasValue(rd.errorMessage)) {
@@ -133,6 +127,7 @@ export class FullFileSectionComponent extends FileSectionComponent implements On
         true,
         followLink('format'),
         followLink('thumbnail'),
+        followLink('accessStatus'),
       )),
       tap((rd: RemoteData<PaginatedList<Bitstream>>) => {
         if (hasValue(rd.errorMessage)) {

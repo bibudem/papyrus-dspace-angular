@@ -17,7 +17,7 @@ import {
   TranslateModule,
   TranslateService,
 } from '@ngx-translate/core';
-import { of as observableOf } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   SortDirection,
@@ -74,7 +74,7 @@ describe('ItemCollectionMapperComponent', () => {
     name: 'test-item',
   });
   const mockItemRD: RemoteData<Item> = createSuccessfulRemoteDataObject(mockItem);
-  const mockSearchOptions = observableOf(new PaginatedSearchOptions({
+  const mockSearchOptions = of(new PaginatedSearchOptions({
     pagination: Object.assign(new PaginationComponentOptions(), {
       id: 'search-page-configuration',
       pageSize: 10,
@@ -96,37 +96,37 @@ describe('ItemCollectionMapperComponent', () => {
   const itemDataServiceStub = {
     mapToCollection: () => createSuccessfulRemoteDataObject$({}),
     removeMappingFromCollection: () => createSuccessfulRemoteDataObject$({}),
-    getMappedCollectionsEndpoint: () => observableOf('rest/api/mappedCollectionsEndpoint'),
-    getMappedCollections: () => observableOf(mockCollectionsRD),
+    getMappedCollectionsEndpoint: () => of('rest/api/mappedCollectionsEndpoint'),
+    getMappedCollections: () => of(mockCollectionsRD),
     /* eslint-disable no-empty,@typescript-eslint/no-empty-function */
     clearMappedCollectionsRequests: () => {},
     /* eslint-enable no-empty,@typescript-eslint/no-empty-function */
   };
   const collectionDataServiceStub = {
-    findListByHref: () => observableOf(mockCollectionsRD),
+    findListByHref: () => of(mockCollectionsRD),
   };
   const searchServiceStub = Object.assign(new SearchServiceStub(), {
-    search: () => observableOf(mockCollectionsRD),
+    search: () => of(mockCollectionsRD),
     /* eslint-disable no-empty,@typescript-eslint/no-empty-function */
     clearDiscoveryRequests: () => {},
     /* eslint-enable no-empty, @typescript-eslint/no-empty-function */
   });
   const activatedRouteStub = {
     parent: {
-      data: observableOf({
+      data: of({
         dso: mockItemRD,
       }),
     },
   };
   const translateServiceStub = {
-    get: () => observableOf('test-message of item ' + mockItem.name),
+    get: () => of('test-message of item ' + mockItem.name),
     onLangChange: new EventEmitter(),
     onTranslationChange: new EventEmitter(),
-    onDefaultLangChange: new EventEmitter(),
+    onFallbackLangChange: new EventEmitter(),
   };
 
   const authorizationDataService = jasmine.createSpyObj('authorizationDataService', {
-    isAuthorized: observableOf(true),
+    isAuthorized: of(true),
   });
 
   beforeEach(waitForAsync(() => {
@@ -180,6 +180,13 @@ describe('ItemCollectionMapperComponent', () => {
       expect(notificationsService.success).not.toHaveBeenCalled();
       expect(notificationsService.error).toHaveBeenCalled();
     });
+
+    it('should display a permission error message if mapping returns 403', () => {
+      spyOn(itemDataService, 'mapToCollection').and.returnValue(createFailedRemoteDataObject$('Forbidden', 403));
+      comp.mapCollections(ids);
+      expect(notificationsService.success).not.toHaveBeenCalled();
+      expect(notificationsService.error).toHaveBeenCalled();
+    });
   });
 
   describe('removeMappings', () => {
@@ -193,6 +200,13 @@ describe('ItemCollectionMapperComponent', () => {
 
     it('should display an error message if the removal of at least one mapping was unsuccessful', () => {
       spyOn(itemDataService, 'removeMappingFromCollection').and.returnValue(createFailedRemoteDataObject$('Not Found', 404));
+      comp.removeMappings(ids);
+      expect(notificationsService.success).not.toHaveBeenCalled();
+      expect(notificationsService.error).toHaveBeenCalled();
+    });
+
+    it('should display a permission error message if removal returns 403', () => {
+      spyOn(itemDataService, 'removeMappingFromCollection').and.returnValue(createFailedRemoteDataObject$('Forbidden', 403));
       comp.removeMappings(ids);
       expect(notificationsService.success).not.toHaveBeenCalled();
       expect(notificationsService.error).toHaveBeenCalled();

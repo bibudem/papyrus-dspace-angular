@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,11 +23,9 @@ import { SearchResultsSkeletonComponent } from '../../../../../../app/shared/sea
     fadeIn,
     fadeInOut,
   ],
-  standalone: true,
   imports: [
     AsyncPipe,
     ErrorComponent,
-    NgIf,
     NgxSkeletonLoaderModule,
     ObjectCollectionComponent,
     RouterLink,
@@ -40,5 +35,4 @@ import { SearchResultsSkeletonComponent } from '../../../../../../app/shared/sea
   ],
 })
 export class SearchResultsComponent extends BaseComponent {
-
 }

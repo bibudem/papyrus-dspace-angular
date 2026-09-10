@@ -1,8 +1,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgFor,
-  NgIf,
 } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,14 +21,11 @@ import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/the
   // templateUrl: './item-list-preview.component.html',
   templateUrl: '../../../../../../../app/shared/object-list/my-dspace-result-list-element/item-list-preview/item-list-preview.component.html',
   animations: [fadeInOut],
-  standalone: true,
   imports: [
     AsyncPipe,
     ItemCollectionComponent,
     ItemSubmitterComponent,
     NgClass,
-    NgFor,
-    NgIf,
     ThemedBadgesComponent,
     ThemedThumbnailComponent,
     TranslateModule,

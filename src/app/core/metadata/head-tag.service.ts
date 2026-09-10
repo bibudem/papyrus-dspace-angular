@@ -24,7 +24,7 @@ import {
   concat as observableConcat,
   EMPTY,
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 import {
   filter,
@@ -324,7 +324,7 @@ export class HeadTagService {
     if (this.currentObject.value instanceof Item) {
       let url = this.getMetaTagValue('dc.identifier.uri');
       if (hasNoValue(url)) {
-        url = new URLCombiner(this.hardRedirectService.getCurrentOrigin(), this.router.url).toString();
+        url = new URLCombiner(this.hardRedirectService.getBaseUrl(), this.router.url).toString();
       }
       this.addMetaTag('citation_abstract_html_url', url);
     }
@@ -407,14 +407,14 @@ export class HeadTagService {
         // Use the found link to set the <meta> tag
         this.addMetaTag(
           'citation_pdf_url',
-          new URLCombiner(this.hardRedirectService.getCurrentOrigin(), link).toString(),
+          new URLCombiner(this.hardRedirectService.getBaseUrl(), link).toString(),
         );
       });
     }
   }
 
   getBitLinkIfDownloadable(bitstream: Bitstream, bitstreamRd: RemoteData<PaginatedList<Bitstream>>): Observable<string> {
-    return observableOf(bitstream).pipe(
+    return of(bitstream).pipe(
       getDownloadableBitstream(this.authorizationService),
       switchMap((bit: Bitstream) => {
         if (hasValue(bit)) {
@@ -451,7 +451,7 @@ export class HeadTagService {
         )),
       ).pipe(
         // Verify that the bitstream is downloadable
-        mergeMap(([bitstream, format]: [Bitstream, BitstreamFormat]) => observableOf(bitstream).pipe(
+        mergeMap(([bitstream, format]: [Bitstream, BitstreamFormat]) => of(bitstream).pipe(
           getDownloadableBitstream(this.authorizationService),
           map((bit: Bitstream) => [bit, format]),
         )),

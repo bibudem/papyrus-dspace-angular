@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   combineLatest,
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 import {
   map,
@@ -62,7 +62,7 @@ export class ServerLocaleService extends LocaleService {
     return obs$.pipe(
       take(1),
       mergeMap(([isAuthenticated, isLoaded]) => {
-        let epersonLang$: Observable<string[]> = observableOf([]);
+        let epersonLang$: Observable<string[]> = of([]);
         if (isAuthenticated && isLoaded && !ignoreEPersonSettings) {
           epersonLang$ = this.authService.getAuthenticatedUserFromStore().pipe(
             take(1),
@@ -73,7 +73,7 @@ export class ServerLocaleService extends LocaleService {
                 languages.push(...this.setQuality(
                   [ePersonLang],
                   LANG_ORIGIN.EPERSON,
-                  !isEmpty(this.translate.currentLang)));
+                  !isEmpty(this.translate.getCurrentLang())));
               }
               return languages;
             }),
@@ -82,9 +82,9 @@ export class ServerLocaleService extends LocaleService {
         return epersonLang$.pipe(
           map((epersonLang: string[]) => {
             const languages: string[] = [];
-            if (this.translate.currentLang) {
+            if (this.translate.getCurrentLang()) {
               languages.push(...this.setQuality(
-                [this.translate.currentLang],
+                [this.translate.getCurrentLang()],
                 LANG_ORIGIN.UI,
                 false));
             }

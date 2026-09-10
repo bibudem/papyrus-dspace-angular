@@ -25,7 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
@@ -91,7 +91,7 @@ describe('EPersonFormComponent', () => {
       activeEPerson: null,
       allEpeople: mockEPeople,
       getActiveEPerson(): Observable<EPerson> {
-        return observableOf(this.activeEPerson);
+        return of(this.activeEPerson);
       },
       searchByScope(scope: string, query: string, options: FindListOptions = {}): Observable<RemoteData<PaginatedList<EPerson>>> {
         if (scope === 'email') {
@@ -115,7 +115,7 @@ describe('EPersonFormComponent', () => {
         this.allEpeople = this.allEpeople.filter((ePerson2: EPerson) => {
           return (ePerson2.uuid !== ePerson.uuid);
         });
-        return observableOf(true);
+        return of(true);
       },
       create(ePerson: EPerson): Observable<RemoteData<EPerson>> {
         this.allEpeople = [...this.allEpeople, ePerson];
@@ -210,7 +210,7 @@ describe('EPersonFormComponent', () => {
     });
     authService = new AuthServiceStub();
     authorizationService = jasmine.createSpyObj('authorizationService', {
-      isAuthorized: observableOf(true),
+      isAuthorized: of(true),
 
     });
     groupsDataService = jasmine.createSpyObj('groupsDataService', {
@@ -316,15 +316,28 @@ describe('EPersonFormComponent', () => {
       });
     });
 
+    describe('with uppercased email specified', () => {
+      beforeEach(() => {
+        component.formGroup.controls.firstName.setValue('test');
+        component.formGroup.controls.lastName.setValue('test');
+        component.formGroup.controls.email.setValue('TEST@test.com');
+        fixture.detectChanges();
+      });
+
+      it('passes validation check', () => {
+        expect(component.formGroup.controls.email.valid).toBeTrue();
+        expect(component.formGroup.controls.email.errors).toBeNull();
+      });
+    });
 
     describe('after inserting email wrong should show pattern validation error', () => {
       beforeEach(() => {
-        component.formGroup.controls.email.setValue('test@test');
+        component.formGroup.controls.email.setValue('test');
         fixture.detectChanges();
       });
       it('email should not be valid because the email pattern', () => {
         expect(component.formGroup.controls.email.valid).toBeFalse();
-        expect(component.formGroup.controls.email.errors.pattern).toBeTruthy();
+        expect(component.formGroup.controls.email.errors.email).toBeTruthy();
       });
     });
 
@@ -389,7 +402,7 @@ describe('EPersonFormComponent', () => {
     });
     describe('without active EPerson', () => {
       beforeEach(() => {
-        spyOn(ePersonDataServiceStub, 'getActiveEPerson').and.returnValue(observableOf(undefined));
+        spyOn(ePersonDataServiceStub, 'getActiveEPerson').and.returnValue(of(undefined));
         component.onSubmit();
         fixture.detectChanges();
       });
@@ -429,7 +442,7 @@ describe('EPersonFormComponent', () => {
             },
           },
         });
-        spyOn(ePersonDataServiceStub, 'getActiveEPerson').and.returnValue(observableOf(expectedWithId));
+        spyOn(ePersonDataServiceStub, 'getActiveEPerson').and.returnValue(of(expectedWithId));
         component.ngOnInit();
         component.onSubmit();
         fixture.detectChanges();
@@ -485,10 +498,10 @@ describe('EPersonFormComponent', () => {
       spyOn(authService, 'impersonate').and.callThrough();
       eperson = EPersonMock;
       component.epersonInitial = eperson;
-      component.canDelete$ = observableOf(true);
-      spyOn(component.epersonService, 'getActiveEPerson').and.returnValue(observableOf(eperson));
+      component.canDelete$ = of(true);
+      spyOn(component.epersonService, 'getActiveEPerson').and.returnValue(of(eperson));
       modalService = (component as any).modalService;
-      spyOn(modalService, 'open').and.returnValue(Object.assign({ componentInstance: Object.assign({ response: observableOf(true) }) }));
+      spyOn(modalService, 'open').and.returnValue(Object.assign({ componentInstance: Object.assign({ response: of(true) }) }));
       component.ngOnInit();
       fixture.detectChanges();
     });
@@ -499,7 +512,7 @@ describe('EPersonFormComponent', () => {
     });
 
     it('the delete button should be hidden if the ePerson cannot be deleted', () => {
-      component.canDelete$ = observableOf(false);
+      component.canDelete$ = of(false);
       fixture.detectChanges();
       const deleteButton = fixture.debugElement.query(By.css('.delete-button'));
       expect(deleteButton).toBeNull();

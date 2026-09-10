@@ -1,8 +1,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgForOf,
-  NgIf,
 } from '@angular/common';
 import {
   ChangeDetectorRef,
@@ -20,7 +18,6 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   DynamicCheckboxModel,
   DynamicFormControlComponent,
@@ -67,16 +64,12 @@ export interface ListItem {
   styleUrls: ['./dynamic-list.component.scss'],
   templateUrl: './dynamic-list.component.html',
   imports: [
-    NgClass,
-    NgIf,
-    NgbButtonsModule,
-    NgForOf,
-    ReactiveFormsModule,
     AsyncPipe,
-    TranslateModule,
+    NgClass,
+    ReactiveFormsModule,
     ThemedLoadingComponent,
+    TranslateModule,
   ],
-  standalone: true,
 })
 export class DsDynamicListComponent extends DynamicFormControlComponent implements OnInit, OnDestroy {
 

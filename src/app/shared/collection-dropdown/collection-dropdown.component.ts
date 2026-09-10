@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -25,7 +21,7 @@ import {
   BehaviorSubject,
   from as observableFrom,
   Observable,
-  of as observableOf,
+  of,
   Subscription,
 } from 'rxjs';
 import {
@@ -75,8 +71,14 @@ export interface CollectionListEntry {
   selector: 'ds-base-collection-dropdown',
   templateUrl: './collection-dropdown.component.html',
   styleUrls: ['./collection-dropdown.component.scss'],
-  standalone: true,
-  imports: [NgIf, FormsModule, ReactiveFormsModule, InfiniteScrollModule, NgFor, ThemedLoadingComponent, AsyncPipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    InfiniteScrollModule,
+    ReactiveFormsModule,
+    ThemedLoadingComponent,
+    TranslateModule,
+  ],
 })
 export class CollectionDropdownComponent implements OnInit, OnDestroy {
 
@@ -278,7 +280,7 @@ export class CollectionDropdownComponent implements OnInit, OnDestroy {
           );
         } else {
           this.hasNextPage = false;
-          return observableOf([]);
+          return of([]);
         }
       }),
     );

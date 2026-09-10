@@ -1,0 +1,89 @@
+// Regular Weight
+@font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Bold Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // SemiBold Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Medium Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Italic Regular Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Italic Bold Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Italic SemiBold Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Italic Medium Weight
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Variable Font (normal weight range)
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }
+  
+  // Variable Font (italic)
+  @font-face {
+    font-family: 'Lora';
+    src: url('/assets/montreal/fonts/lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    unicode-range: U+0000-00FF; /* Basic Latin */
+  }

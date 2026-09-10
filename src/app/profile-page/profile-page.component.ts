@@ -1,7 +1,5 @@
 import {
   AsyncPipe,
-  NgForOf,
-  NgIf,
   NgTemplateOutlet,
 } from '@angular/common';
 import {
@@ -43,7 +41,7 @@ import {
   getFirstCompletedRemoteData,
   getRemoteDataPayload,
 } from '../core/shared/operators';
-import { SuggestionsNotificationComponent } from '../notifications/suggestions-notification/suggestions-notification.component';
+import { SuggestionsNotificationComponent } from '../notifications/suggestions/notification/suggestions-notification.component';
 import { AlertComponent } from '../shared/alert/alert.component';
 import {
   hasValue,
@@ -65,23 +63,20 @@ import { ProfilePageSecurityFormComponent } from './profile-page-security-form/p
   styleUrls: ['./profile-page.component.scss'],
   templateUrl: './profile-page.component.html',
   imports: [
-    ThemedProfilePageMetadataFormComponent,
-    ProfilePageSecurityFormComponent,
+    AlertComponent,
     AsyncPipe,
-    TranslateModule,
-    ProfilePageResearcherFormComponent,
-    VarDirective,
-    NgIf,
-    NgForOf,
-    SuggestionsNotificationComponent,
+    ErrorComponent,
     NgTemplateOutlet,
     PaginationComponent,
-    ThemedLoadingComponent,
-    ErrorComponent,
+    ProfilePageResearcherFormComponent,
+    ProfilePageSecurityFormComponent,
     RouterModule,
-    AlertComponent,
+    SuggestionsNotificationComponent,
+    ThemedLoadingComponent,
+    ThemedProfilePageMetadataFormComponent,
+    TranslateModule,
+    VarDirective,
   ],
-  standalone: true,
 })
 /**
  * Component for a user to edit their profile information

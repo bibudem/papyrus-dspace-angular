@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import {
   AfterViewChecked,
   Component,
@@ -18,8 +18,10 @@ import { TruncatableService } from '../truncatable.service';
   selector: 'ds-truncatable-part',
   templateUrl: './truncatable-part.component.html',
   styleUrls: ['./truncatable-part.component.scss'],
-  standalone: true,
-  imports: [DragClickDirective, NgIf, TranslateModule],
+  imports: [
+    DragClickDirective,
+    TranslateModule,
+  ],
 })
 
 /**
@@ -125,24 +127,10 @@ export class TruncatablePartComponent implements AfterViewChecked, OnInit, OnDes
   public truncateElement() {
     if (this.showToggle) {
       const entry = this.content.nativeElement;
-      if (entry.scrollHeight > entry.offsetHeight) {
-        if (entry.children.length > 0) {
-          if (entry.children[entry.children.length - 1].offsetHeight > entry.offsetHeight) {
-            entry.classList.add('truncated');
-            entry.classList.remove('removeFaded');
-          } else {
-            entry.classList.remove('truncated');
-            entry.classList.add('removeFaded');
-          }
-        } else {
-          if (entry.innerText.length > 0) {
-            entry.classList.add('truncated');
-            entry.classList.remove('removeFaded');
-          } else {
-            entry.classList.remove('truncated');
-            entry.classList.add('removeFaded');
-          }
-        }
+      const isOverflowing = entry.scrollHeight > entry.clientHeight;
+      if (isOverflowing) {
+        entry.classList.add('truncated');
+        entry.classList.remove('removeFaded');
       } else {
         entry.classList.remove('truncated');
         entry.classList.add('removeFaded');

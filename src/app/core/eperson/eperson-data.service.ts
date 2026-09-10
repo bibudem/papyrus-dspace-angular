@@ -10,6 +10,7 @@ import {
   find,
   map,
   take,
+  tap,
 } from 'rxjs/operators';
 
 import { getEPersonEditRoute } from '../../access-control/access-control-routing-paths';
@@ -292,10 +293,10 @@ export class EPersonDataService extends IdentifiableDataService<EPerson> impleme
   /**
    * Method that clears a cached EPerson request
    */
-  public clearEPersonRequests(): void {
-    this.getBrowseEndpoint().pipe(take(1)).subscribe((link: string) => {
-      this.requestService.removeByHrefSubstring(link);
-    });
+  public clearEPersonRequests(): Observable<string> {
+    return this.getBrowseEndpoint().pipe(
+      tap((href: string) => this.requestService.setStaleByHrefSubstring(href)),
+    );
   }
 
   /**
@@ -395,6 +396,32 @@ export class EPersonDataService extends IdentifiableDataService<EPerson> impleme
     return this.rdbService.buildFromRequestUUID(requestId);
   }
 
+  /**
+   * Sends a POST request to merge registration data related to the provided registration-token,
+   * into the eperson related to the provided uuid
+   * @param uuid the user uuid
+   * @param token registration-token
+   * @param metadataKey metadata key of the metadata field that should be overriden
+   */
+  mergeEPersonDataWithToken(uuid: string, token: string, metadataKey?: string): Observable<RemoteData<EPerson>> {
+    const requestId = this.requestService.generateRequestId();
+    const hrefObs = this.getBrowseEndpoint().pipe(
+      map((href: string) =>
+        hasValue(metadataKey)
+          ? `${href}/${uuid}?token=${token}&override=${metadataKey}`
+          : `${href}/${uuid}?token=${token}`,
+      ),
+    );
+
+    hrefObs.pipe(
+      find((href: string) => hasValue(href)),
+    ).subscribe((href: string) => {
+      const request = new PostRequest(requestId, href);
+      this.requestService.send(request);
+    });
+
+    return this.rdbService.buildFromRequestUUID(requestId);
+  }
 
   /**
    * Create a new object on the server, and store the response in the object cache

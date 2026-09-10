@@ -39,8 +39,13 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
   selector: 'ds-base-search-filters',
   styleUrls: ['./search-filters.component.scss'],
   templateUrl: './search-filters.component.html',
-  standalone: true,
-  imports: [SearchFilterComponent, RouterLink, AsyncPipe, TranslateModule, NgxSkeletonLoaderModule],
+  imports: [
+    AsyncPipe,
+    NgxSkeletonLoaderModule,
+    RouterLink,
+    SearchFilterComponent,
+    TranslateModule,
+  ],
 })
 
 /**
@@ -202,7 +207,7 @@ export class SearchFiltersComponent implements OnInit {
           }
           return result;
         }),
-      ).pipe(take(1)).subscribe(); // Execute the pipeline and immediately unsubscribe
+      ).pipe(take(1)).subscribe(); // Execute the pipeline once and complete
     }
   }
 

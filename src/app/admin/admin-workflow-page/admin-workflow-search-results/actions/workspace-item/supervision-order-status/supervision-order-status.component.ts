@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -11,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   BehaviorSubject,
@@ -41,8 +37,12 @@ export interface SupervisionOrderListEntry {
   selector: 'ds-supervision-order-status',
   templateUrl: './supervision-order-status.component.html',
   styleUrls: ['./supervision-order-status.component.scss'],
-  standalone: true,
-  imports: [VarDirective, NgIf, NgFor, NgbTooltipModule, AsyncPipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    NgbTooltip,
+    TranslateModule,
+    VarDirective,
+  ],
 })
 export class SupervisionOrderStatusComponent implements OnChanges {
 

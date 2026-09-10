@@ -34,13 +34,13 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
   font-family: $font-family-serif;
 }
 
-ds-system-wide-alert-banner {
-  display: none;
-}
-
+// Ability to hide the alert banner
+// ds-system-wide-alert-banner {
+//   display: none;
+// }
 
 .facet-filter, .setting-option {
-  background-color: var(--bs-light);
+  background-color: rgba($gray-100, 0.5);
   border-radius: var(--bs-border-radius);
 
   &.p-3 {
@@ -55,6 +55,29 @@ ds-system-wide-alert-banner {
 }
 
 /* -------------------------------------------------------
+   Onglets "Parcourir" (communauté/collection) et pagination
+   Bootstrap calcule la couleur active de .list-group-item et .page-item
+   à partir de la variable $primary "brute" (restée bleue), pas de la map
+   $theme-colors (verte) : on force donc explicitement notre teinte.
+---------------------------------------------------------- */
+.comcol-browse .list-group-item.active {
+  background-color: $darkgreen;
+  border-color: $darkgreen;
+  color: $white;
+}
+
+// Survol des autres onglets (non actifs) : gris très pâle
+.comcol-browse .list-group-item:not(.active):hover {
+  background-color: $gray-100;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: $darkgreen;
+  border-color: $darkgreen;
+  color: $white;
+}
+
+/* -------------------------------------------------------
    Titres
 ---------------------------------------------------------- */
 
@@ -62,7 +85,7 @@ ds-system-wide-alert-banner {
 h1, h2, h3, h5, h6 {
   font-weight: 600;
   font-family: $font-family-sans-serif;
-  color: $greensecondary;
+  color: $gray;
 }
 
 h4 {
@@ -316,6 +339,27 @@ ds-file-download-link a.dont-break-out:hover {
 
 .btn {
   border-radius: 60px;
+  // Texte à 90% d'opacité par défaut, 100% au survol/actif
+  color: color-mix(in srgb, var(--bs-btn-color) 90%, transparent);
+  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  // Respecte les couleurs de survol/actif propres à chaque variante Bootstrap
+  // (ex. texte blanc sur fond plein pour les boutons outline), au lieu de
+  // toujours revenir à la couleur "au repos".
+  &:hover:not(:disabled) {
+    color: var(--bs-btn-hover-color, var(--bs-btn-color));
+    filter: brightness(0.75);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--bs-btn-active-color, var(--bs-btn-color));
+    filter: brightness(0.7);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $darkgreen;
+    outline-offset: 2px;
+  }
 }
 
 .bg-footer-dark {
@@ -363,4 +407,202 @@ ds-file-download-link a.dont-break-out:hover {
     margin-top: 5rem!important;
     padding-bottom: 2.5rem!important;
   }
+}
+
+// -------------------------------------------------------
+// Submission Form Styling - Added by Scholaris Team
+// -------------------------------------------------------
+.submission-form-hint {
+  padding: 2px;
+  border: 1px solid lightcoral;
+  border-image: none;
+  background-color: seashell;
+}
+
+.submission-form-hint-title {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+  font-family: monospace;
+  border: 1pt darkkhaki solid;
+}
+
+// Submission form spacing
+ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: 25px;
+}
+
+ds-dynamic-form-control-container[class*="col-sm"] ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: unset !important;
+}
+
+.form-group {
+  margin-bottom: 35px;
+  ds-dynamic-form-control-container[class*="col-sm"] {
+    margin-bottom: unset !important;
+   }
+}
+
+ds-dynamic-form-control-container[class*="d-none"],
+ds-dynamic-form-control-container[hidden] {
+  margin-bottom: unset !important;
+}
+
+@media (min-width: 992px) {
+  .modal-dialog:has(ds-create-item-parent-selector),
+  .modal-dialog:has(ds-create-collection-parent-selector),
+  .modal-dialog:has(ds-create-community-parent-selector),
+  .modal-dialog:has(ds-edit-collection-selector),
+  .modal-dialog:has(ds-edit-item-selector),
+  .modal-dialog:has(ds-edit-community-selector) {
+    max-width: 800px;
+  }
+}
+
+// -------------------------------------------------------
+// Expand the Pop-up Collection Box on the Search Results
+// Search Results Page  - Added by Scholaris Team
+// Example URL: http://localhost:4000/search?query=TEST&spc.page=1
+// -------------------------------------------------------
+@media (min-width: 1024px) {
+  .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
+    width: 150%;
+  }
+}
+
+// UdeM Addition For Description Changes
+p.section-description a {
+  color: #3fc5c9!important;
+}
+
+p.section-description a:hover {
+  color: #ffffff!important;
+}
+
+ds-file-download-link a.dont-break-out
+{
+  color: #0057AC;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ds-file-download-link a.dont-break-out:hover {
+  color: #00407F;
+  text-decoration: underline!important;
+}
+
+ds-item-page-full-file-section {
+  .file-section {
+    word-break: break-all;
+ }
+}
+
+// -------------------------------------------------------
+// Submission Form Styling - Added by Scholaris Team
+// -------------------------------------------------------
+.submission-form-hint {
+  padding: 2px;
+  border: 1px solid lightcoral;
+  border-image: none;
+  background-color: seashell;
+}
+
+.submission-form-hint-title {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+  font-family: monospace;
+  border: 1pt darkkhaki solid;
+}
+
+// Submission form spacing
+ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: 25px;
+}
+
+ds-dynamic-form-control-container[class*="col-sm"] ds-dynamic-form-control-container[class*="col-sm"] {
+  margin-bottom: unset !important;
+}
+
+.form-group {
+  margin-bottom: 35px;
+  ds-dynamic-form-control-container[class*="col-sm"] {
+    margin-bottom: unset !important;
+   }
+}
+
+ds-dynamic-form-control-container[class*="d-none"],
+ds-dynamic-form-control-container[hidden] {
+  margin-bottom: unset !important;
+}
+
+@media (min-width: 992px) {
+  .modal-dialog:has(ds-create-item-parent-selector),
+  .modal-dialog:has(ds-create-collection-parent-selector),
+  .modal-dialog:has(ds-create-community-parent-selector),
+  .modal-dialog:has(ds-edit-collection-selector),
+  .modal-dialog:has(ds-edit-item-selector),
+  .modal-dialog:has(ds-edit-community-selector) {
+    max-width: 800px;
+  }
+}
+
+// -------------------------------------------------------
+// Expand the Pop-up Collection Box on the Search Results
+// Search Results Page  - Added by Scholaris Team
+// Example URL: http://localhost:4000/search?query=TEST&spc.page=1
+// -------------------------------------------------------
+@media (min-width: 1024px) {
+  .modal-content:has(ds-scope-selector-modal[_nghost-dspace-angular-c77]){
+    width: 150%;
+  }
+}
+
+// Bouton "Afficher" : même lisibilité (fond foncé + texte blanc) sur
+// toutes les cartes en vue grille (items, projets, collections, communautés...)
+// !important : nécessaire pour prévaloir sur .btn-primary de Bootstrap
+.viewButton, a.viewButton {
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
+
+  &:hover, &:focus, &:active {
+    color: $white !important;
+  }
+}
+
+// -------------------------------------------------------
+// Badge de type de ressource (ex. "Item", "Collection", "Projet de recherche")
+// -------------------------------------------------------
+.badge.bg-info {
+  // Bootstrap construit bg-info avec rgba(var(--bs-info-rgb), ...), pas --bs-info :
+  // c'est le triplet R,G,B qu'il faut réécrire pour que ça s'applique vraiment.
+  --bs-info-rgb: #{red($gray-600)}, #{green($gray-600)}, #{blue($gray-600)};
+  font-weight: 500;
+}
+
+// -------------------------------------------------------
+// Popup de consentement aux cookies (Orejime)
+// -------------------------------------------------------
+.orejime-Button {
+  border-radius: 60px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: filter 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    color: $white;
+  }
+
+  &:hover:not([disabled]) {
+    filter: brightness(0.75);
+  }
+
+  &:active:not([disabled]) {
+    filter: brightness(0.7);
+  }
+}
+
+// Couleur codée en dur (#666) dans Orejime, pas surchargeable via variable SASS
+.orejime-Button--decline {
+  background: $gray-600;
 }

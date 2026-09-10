@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   Input,
@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ActionType } from 'src/app/core/resource-policy/models/action-type.model';
 
 import { environment } from '../../../../../environments/environment';
 import {
@@ -35,13 +36,16 @@ import {
   // styleUrls: ['./create-item-parent-selector.component.scss'],
   // templateUrl: '../dso-selector-modal-wrapper.component.html',
   templateUrl: './create-item-parent-selector.component.html',
-  standalone: true,
-  imports: [NgIf, AuthorizedCollectionSelectorComponent, TranslateModule],
+  imports: [
+    AuthorizedCollectionSelectorComponent,
+    TranslateModule,
+  ],
 })
 export class CreateItemParentSelectorComponent extends DSOSelectorModalWrapperComponent implements OnInit {
   objectType = DSpaceObjectType.ITEM;
   selectorTypes = [DSpaceObjectType.COLLECTION];
   action = SelectorActionType.CREATE;
+  rpActionType = ActionType.ADD;
   header = 'dso-selector.create.item.sub-level';
   defaultSort = new SortOptions(environment.comcolSelectionSort.sortField, environment.comcolSelectionSort.sortDirection as SortDirection);
 

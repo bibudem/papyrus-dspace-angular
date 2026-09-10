@@ -1,10 +1,11 @@
 import {
   AsyncPipe,
-  CommonModule,
   NgClass,
-  NgIf,
 } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -16,6 +17,7 @@ import {
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ActionType } from 'src/app/core/resource-policy/models/action-type.model';
 
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { CommunityDataService } from '../../../../core/data/community-data.service';
@@ -43,16 +45,13 @@ import { DSOSelectorComponent } from '../dso-selector.component';
   selector: 'ds-authorized-community-selector',
   styleUrls: ['../dso-selector.component.scss'],
   templateUrl: '../dso-selector.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
-    CommonModule,
     FormsModule,
     HoverClassDirective,
     InfiniteScrollModule,
     ListableObjectComponentLoaderComponent,
     NgClass,
-    NgIf,
     ReactiveFormsModule,
     ThemedLoadingComponent,
     TranslateModule,
@@ -62,9 +61,11 @@ import { DSOSelectorComponent } from '../dso-selector.component';
  * Component rendering a list of communities to select from
  */
 export class AuthorizedCommunitySelectorComponent extends DSOSelectorComponent {
+
   /**
-   * If present this value is used to filter community list by entity type
+   * The action type to determine which authorized communities to fetch
    */
+  @Input() action: ActionType = ActionType.ADMIN;
 
   constructor(
     protected searchService: SearchService,
@@ -96,9 +97,17 @@ export class AuthorizedCommunitySelectorComponent extends DSOSelectorComponent {
       elementsPerPage: this.defaultPagination.pageSize,
     };
 
-    searchListService$ = this.communityDataService
-      .getAuthorizedCommunity(query, findOptions, useCache, false, followLink('parentCommunity'));
-
+    if (this.action === ActionType.WRITE) {
+      searchListService$ = this.communityDataService
+        .getEditAuthorizedCommunity(query, findOptions, useCache, false, followLink('parentCommunity'));
+    } else if (this.action === ActionType.ADD) {
+      searchListService$ = this.communityDataService
+        .getAddAuthorizedCommunity(query, findOptions, useCache, false, followLink('parentCommunity'));
+    } else {
+      // By default, search for admin authorized communities
+      searchListService$ = this.communityDataService
+        .getAdminAuthorizedCommunity(query, findOptions, useCache, false, followLink('parentCommunity'));
+    }
     return searchListService$.pipe(
       getFirstCompletedRemoteData(),
       map((rd) => Object.assign(new RemoteData(null, null, null, null), rd, {

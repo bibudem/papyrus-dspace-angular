@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -46,14 +43,12 @@ import { ProfileClaimItemModalComponent } from '../profile-claim-item-modal/prof
   selector: 'ds-profile-page-researcher-form',
   templateUrl: './profile-page-researcher-form.component.html',
   imports: [
-    NgIf,
     AsyncPipe,
+    BtnDisabledDirective,
     TranslateModule,
     UiSwitchModule,
     VarDirective,
-    BtnDisabledDirective,
   ],
-  standalone: true,
 })
 /**
  * Component for a user to create/delete or change their researcher profile.

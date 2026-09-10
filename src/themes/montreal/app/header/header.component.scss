@@ -47,34 +47,4 @@
     }
   }
 
-  // Cibler l'image par sa classe au lieu de l'ID
-  img.logo-udem {
-    height: var(--ds-header-logo-height);
-    max-width: 100%;
-    width: auto;
-
-    @include media-breakpoint-down(sm) {
-      max-height: var(--ds-header-logo-height-xs);
-    }
-  }
-
-  .text-logo-link {
-    text-decoration: none !important;
-    margin-top: 10px;
-    margin-left: 5px;
-    z-index: 1;
-    
-    &:hover {
-      .text-logo {
-        text-decoration: underline !important;
-      }
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    .navbar-brand {
-      display: block;
-    }
-  }
 }
-

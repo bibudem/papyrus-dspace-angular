@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -9,6 +8,7 @@ import {
 } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ActionType } from 'src/app/core/resource-policy/models/action-type.model';
 
 import { environment } from '../../../../../environments/environment';
 import { getCollectionEditRoute } from '../../../../collection-page/collection-page-routing-paths';
@@ -32,13 +32,17 @@ import {
 @Component({
   selector: 'ds-base-edit-collection-selector',
   templateUrl: './edit-collection-selector.component.html',
-  standalone: true,
-  imports: [NgIf, AuthorizedCollectionSelectorComponent, TranslateModule],
+  imports: [
+    AuthorizedCollectionSelectorComponent,
+    TranslateModule,
+  ],
 })
 export class EditCollectionSelectorComponent extends DSOSelectorModalWrapperComponent implements OnInit {
   objectType = DSpaceObjectType.COLLECTION;
   selectorTypes = [DSpaceObjectType.COLLECTION];
   action = SelectorActionType.EDIT;
+  // for editing collections, admin permissions are required
+  rpActionType = ActionType.ADMIN;
   defaultSort = new SortOptions(environment.comcolSelectionSort.sortField, environment.comcolSelectionSort.sortDirection as SortDirection);
 
   constructor(protected activeModal: NgbActiveModal, protected route: ActivatedRoute, private router: Router) {

@@ -12,6 +12,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbsComponent as BaseComponent } from '../../../../app/breadcrumbs/breadcrumbs.component';
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
 
+/**
+ * Component representing the breadcrumbs of a page
+ */
 @Component({
   selector: 'ds-themed-breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',

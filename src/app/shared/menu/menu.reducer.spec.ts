@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-namespace
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 
 import { initialMenusState } from './initial-menus-state';
 import {
@@ -21,7 +21,7 @@ import {
 } from './menu.actions';
 import { menusReducer } from './menu.reducer';
 import { MenuID } from './menu-id.model';
-import { MenuSectionIndex } from './menu-section-Index.model';
+import { MenuSectionIndex } from './menu-section-index.model';
 
 let visibleSection1;
 let dummyState;
@@ -386,6 +386,13 @@ describe('menusReducer', () => {
     const action = new RemoveMenuSectionAction(menuID, childID);
     const newState = menusReducer(state, action);
     expect(newState[menuID].sectionToSubsectionIndex[parentID]).not.toContain(childID);
+  });
+
+  it('should not throw an error when trying to remove an already removed section using the REMOVE_SECTION action', () => {
+    const state = dummyState;
+    const action = new RemoveMenuSectionAction(menuID, 'non-existing-id');
+    const newState = menusReducer(state, action);
+    expect(newState).toEqual(dummyState);
   });
 
   it('should set active to true for the correct menu section in response to the ACTIVATE_SECTION action', () => {

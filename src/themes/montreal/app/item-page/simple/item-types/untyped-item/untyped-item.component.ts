@@ -32,6 +32,9 @@ import { listableObjectComponent } from '../../../../../../../app/shared/object-
 import { ThemedResultsBackButtonComponent } from '../../../../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 
+/**
+ * Component that represents an untyped Item page
+ */
 @listableObjectComponent(Item, ViewMode.StandalonePage, Context.Any, 'montreal')
 @Component({
   selector: 'ds-untyped-item',
@@ -41,8 +44,6 @@ import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/the
   standalone: true,
   imports: [
     NgIf,
-    NgFor,
-    KeyValuePipe,
     ThemedResultsBackButtonComponent,
     MiradorViewerComponent,
     ThemedItemPageTitleFieldComponent,
@@ -61,7 +62,8 @@ import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/the
     AsyncPipe,
     TranslateModule,
     ItemPageCcLicenseFieldComponent,
+    NgFor,
+    KeyValuePipe
   ],
 })
-export class UntypedItemComponent extends BaseComponent {
-}
+export class UntypedItemComponent extends BaseComponent {}

@@ -6,7 +6,6 @@ import {
 } from '@angular/cdk/drag-drop';
 import {
   NgClass,
-  NgForOf,
   NgTemplateOutlet,
 } from '@angular/common';
 import {
@@ -48,17 +47,15 @@ import { DynamicRowArrayModel } from '../ds-dynamic-row-array-model';
   templateUrl: './dynamic-form-array.component.html',
   styleUrls: ['./dynamic-form-array.component.scss'],
   imports: [
-    ReactiveFormsModule,
-    CdkDropList,
-    NgClass,
-    NgForOf,
     CdkDrag,
     CdkDragHandle,
+    CdkDropList,
     forwardRef(() => DsDynamicFormControlContainerComponent),
+    NgClass,
     NgTemplateOutlet,
+    ReactiveFormsModule,
     TranslateModule,
   ],
-  standalone: true,
 })
 export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
 
@@ -90,15 +87,16 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
   }
 
   moveSelection(event: CdkDragDrop<Relationship>) {
+    const prevIndex = event.previousIndex;
+    const index = event.currentIndex;
 
     // prevent propagating events generated releasing on the same position
-    if (event.previousIndex === event.currentIndex) {
+    if (prevIndex === index) {
       return;
     }
 
-    this.model.moveGroup(event.previousIndex, event.currentIndex - event.previousIndex);
-    const prevIndex = event.previousIndex;
-    const index = event.currentIndex;
+    this.model.moveGroup(prevIndex, index - prevIndex);
+    this.moveFormControlToPosition(prevIndex, index);
 
     if (hasValue(this.model.groups[index]) && hasValue((this.control as any).controls[index])) {
       this.onCustomEvent({
@@ -124,19 +122,6 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
    */
   get dragDisabled(): boolean {
     return this.model.groups.length === 1 || !this.model.isDraggable;
-  }
-
-  /**
-   * Gets the control of the specified group model. It adds the startingIndex property to the group model if it does not
-   * already have it. This ensures that the controls are always linked to the correct group model.
-   * @param groupModel The group model to get the control for.
-   * @returns The form control of the specified group model.
-   */
-  getControlOfGroup(groupModel: any) {
-    if (!groupModel.hasOwnProperty('startingIndex')) {
-      groupModel.startingIndex = groupModel.index;
-    }
-    return this.control.get([groupModel.startingIndex]);
   }
 
   /**
@@ -201,6 +186,7 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
 
     if (this.elementBeingSorted) {
       this.model.moveGroup(idx, newIndex - idx);
+      this.moveFormControlToPosition(idx, newIndex);
       if (hasValue(this.model.groups[newIndex]) && hasValue((this.control as any).controls[newIndex])) {
         this.onCustomEvent({
           previousIndex: idx,
@@ -229,6 +215,7 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
 
   cancelKeyboardDragAndDrop(sortableElement: HTMLDivElement, index: number, length: number) {
     this.model.moveGroup(index, this.elementBeingSortedStartingIndex - index);
+    this.moveFormControlToPosition(index, this.elementBeingSortedStartingIndex);
     if (hasValue(this.model.groups[this.elementBeingSortedStartingIndex]) && hasValue((this.control as any).controls[this.elementBeingSortedStartingIndex])) {
       this.onCustomEvent({
         previousIndex: index,
@@ -281,6 +268,21 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
       this.liveRegionService.addMessage(this.translateService.instant('live-region.ordering.instructions', {
         itemName: sortableElement.querySelector('input')?.value,
       }));
+    }
+  }
+
+  private moveFormControlToPosition(fromIndex: number, toIndex: number) {
+    if (!hasValue(fromIndex) || !hasValue(toIndex)) {
+      return;
+    }
+
+    const formArray = this.control as any;
+    if (formArray && formArray.controls) {
+      const movedControl = formArray.at(fromIndex);
+      if (movedControl) {
+        formArray.removeAt(fromIndex,{ emitEvent: false });
+        formArray.insert(toIndex, movedControl, { emitEvent: false });
+      }
     }
   }
 }

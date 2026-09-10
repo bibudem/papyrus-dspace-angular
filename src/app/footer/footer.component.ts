@@ -1,7 +1,6 @@
 import {
   AsyncPipe,
   DatePipe,
-  NgIf,
 } from '@angular/common';
 import {
   Component,
@@ -13,7 +12,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 
 import {
@@ -23,15 +22,19 @@ import {
 import { NotifyInfoService } from '../core/coar-notify/notify-info/notify-info.service';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../core/data/feature-authorization/feature-id';
-import { KlaroService } from '../shared/cookies/klaro.service';
+import { OrejimeService } from '../shared/cookies/orejime.service';
 import { hasValue } from '../shared/empty.util';
 
 @Component({
   selector: 'ds-base-footer',
   styleUrls: ['footer.component.scss'],
   templateUrl: 'footer.component.html',
-  standalone: true,
-  imports: [NgIf, RouterLink, AsyncPipe, DatePipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    DatePipe,
+    RouterLink,
+    TranslateModule,
+  ],
 })
 export class FooterComponent implements OnInit {
   dateObj: number = Date.now();
@@ -47,7 +50,7 @@ export class FooterComponent implements OnInit {
   coarLdnEnabled$: Observable<boolean>;
 
   constructor(
-    @Optional() public cookies: KlaroService,
+    @Optional() public cookies: OrejimeService,
     protected authorizationService: AuthorizationDataService,
     protected notifyInfoService: NotifyInfoService,
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
@@ -58,12 +61,12 @@ export class FooterComponent implements OnInit {
     this.showCookieSettings = this.appConfig.info.enableCookieConsentPopup;
     this.showPrivacyPolicy = this.appConfig.info.enablePrivacyStatement;
     this.showEndUserAgreement = this.appConfig.info.enableEndUserAgreement;
-    this.coarLdnEnabled$ = this.appConfig.info.enableCOARNotifySupport ? this.notifyInfoService.isCoarConfigEnabled() : observableOf(false);
+    this.coarLdnEnabled$ = this.appConfig.info.enableCOARNotifySupport ? this.notifyInfoService.isCoarConfigEnabled() : of(false);
     this.showSendFeedback$ = this.authorizationService.isAuthorized(FeatureID.CanSendFeedback);
   }
 
   openCookieSettings() {
-    if (hasValue(this.cookies)) {
+    if (hasValue(this.cookies) && this.cookies.showSettings instanceof Function) {
       this.cookies.showSettings();
     }
     return false;

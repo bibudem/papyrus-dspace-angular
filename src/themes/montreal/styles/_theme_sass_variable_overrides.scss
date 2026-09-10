@@ -21,3 +21,22 @@ $theme-colors: (
 ) !default;
 
 $link-color: map-get($theme-colors, info) !default;
+
+// Ajoutez ici de nouvelles couleurs sémantiques (inutile d'y remettre celles déjà définies plus haut)
+// Couleurs propres à la palette Papyrus, déjà utilisées ailleurs dans le thème (badges,
+// liens, textes, etc.) : on les rend disponibles comme vraies couleurs Bootstrap
+// (ex. .bg-darkgreen, .text-redorange, .btn-ligthblue) plutôt que codées en dur partout.
+$theme-custom-semantic-colors: (
+  darkgreen:  $darkgreen,
+  redorange:  $redorange,
+  ligthblue:  $ligthblue,
+  gray:       $gray,
+) !default;
+
+/* -------------------------------------------------------
+   Popup de consentement aux cookies (bibliothèque Orejime)
+   Ces variables sont définies "!default" par Orejime lui-même ;
+   comme ce fichier est importé avant lui, nos valeurs l'emportent.
+---------------------------------------------------------- */
+$orejime-green: $green;       // bouton "Accepter"
+$orejime-blue: $greensecondary; // bouton "Personnaliser"

@@ -1,8 +1,6 @@
 import {
   AsyncPipe,
   KeyValuePipe,
-  NgForOf,
-  NgIf,
 } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -24,11 +22,6 @@ import { ErrorComponent } from '../../../../../app/shared/error/error.component'
 import { ThemedLoadingComponent } from '../../../../../app/shared/loading/themed-loading.component';
 import { VarDirective } from '../../../../../app/shared/utils/var.directive';
 
-/**
- * This component renders a full item page.
- * The route parameter 'id' is used to request the item it represents.
- */
-
 @Component({
   selector: 'ds-themed-full-item-page',
   // styleUrls: ['./full-item-page.component.scss'],
@@ -37,23 +30,20 @@ import { VarDirective } from '../../../../../app/shared/utils/var.directive';
   templateUrl: '../../../../../app/item-page/full/full-item-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInOut],
-  standalone: true,
   imports: [
-    ErrorComponent,
-    ThemedLoadingComponent,
-    TranslateModule,
-    ThemedFullFileSectionComponent,
-    CollectionsComponent,
-    ItemVersionsComponent,
-    NgIf,
-    NgForOf,
     AsyncPipe,
+    CollectionsComponent,
+    DsoEditMenuComponent,
+    ErrorComponent,
+    ItemVersionsComponent,
+    ItemVersionsNoticeComponent,
     KeyValuePipe,
     RouterLink,
-    ThemedItemPageTitleFieldComponent,
-    DsoEditMenuComponent,
-    ItemVersionsNoticeComponent,
+    ThemedFullFileSectionComponent,
     ThemedItemAlertsComponent,
+    ThemedItemPageTitleFieldComponent,
+    ThemedLoadingComponent,
+    TranslateModule,
     VarDirective,
   ],
 })

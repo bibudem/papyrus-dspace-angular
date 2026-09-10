@@ -1,8 +1,4 @@
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -57,8 +53,14 @@ const SCRIPT_QUERY_PARAMETER = 'script';
   viewProviders: [{ provide: ControlContainer,
     useFactory: controlContainerFactory,
     deps: [[new Optional(), NgForm]] }],
-  standalone: true,
-  imports: [NgIf, FormsModule, NgFor, AsyncPipe, TranslateModule, InfiniteScrollModule, ThemedLoadingComponent, NgbDropdownModule],
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    InfiniteScrollModule,
+    NgbDropdownModule,
+    ThemedLoadingComponent,
+    TranslateModule,
+  ],
 })
 export class ScriptsSelectComponent implements OnInit, OnDestroy {
   /**
@@ -128,7 +130,9 @@ export class ScriptsSelectComponent implements OnInit, OnDestroy {
    * @param event The scroll event
    */
   onScroll(event: any) {
-    if (event.target.scrollTop + event.target.clientHeight >= event.target.scrollHeight) {
+    // offset to fix issues with zooming in or out in the browser
+    const offset = 5;
+    if (event.target.scrollTop + event.target.clientHeight + offset >= event.target.scrollHeight) {
       if (!this.isLoading$.value && !this._isLastPage) {
         this.scriptOptions.currentPage++;
         this.loadScripts();
