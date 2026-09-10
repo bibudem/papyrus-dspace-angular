@@ -42,6 +42,9 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 .facet-filter, .setting-option {
   background-color: rgba($gray-100, 0.5);
   border-radius: var(--bs-border-radius);
+  // Remplace le --bs-light (mappé sur $extralightgreen, un vert pâle) par la
+  // teinte du fond du bloc, pour une bordure de la même couleur que la section.
+  border-color: $gray-100;
 
   &.p-3 {
     padding-top: 0.5rem !important;
@@ -143,6 +146,18 @@ p, span, a {
 .dont-break-out {
   color: var(--Neutre-700, #222930);
   line-height: 120%;
+}
+
+// Le badge de statut d'accès cumule .badge et .dont-break-out : ce dernier
+// écrase le blanc par défaut de Bootstrap et rend le texte illisible sur fond coloré.
+.badge.dont-break-out {
+  color: $white;
+}
+
+// Tooltip ORCID (et autres tooltips avec .text-muted, ex. survol de l'iD auteur) :
+// le style de base fixe un gris foncé ($gray-600) sur un fond de tooltip quasi noir.
+ngb-tooltip-window > .tooltip-inner > .text-muted {
+  color: $gray-100 !important;
 }
 
 /* -------------------------------------------------------
