@@ -210,19 +210,16 @@ export class OrcidPublicApiService {
   private getCachedOrFetch<T>(key: string, factory: () => Observable<T>): Observable<T> {
     const cached = this.cache.get(key);
     if (cached && cached.expiresAt > Date.now()) {
-      console.log('[ORCID] Cache hit — clé:', key);
       return of(cached.data as T);
     }
 
     const existing = this.inflight.get(key);
     if (existing) {
-      console.log('[ORCID] Requête en vol partagée — clé:', key);
       return existing as Observable<T>;
     }
 
     const req$ = factory().pipe(
       tap((data) => {
-        console.log('[ORCID] Mise en cache — clé:', key);
         this.cache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
       }),
       finalize(() => this.inflight.delete(key)),
@@ -242,18 +239,12 @@ export class OrcidPublicApiService {
       .set('start', String(page * pageSize))
       .set('rows', String(pageSize));
 
-    console.group('[ORCID] Recherche membres UdeM');
-    console.log('Paramètres :', { q: query, start: page * pageSize, rows: pageSize });
-    console.groupEnd();
-
     return this.http
       .get<OrcidSearchResponse>(`${API_BASE}/search`, { headers: HEADERS, params })
       .pipe(
-        tap({ error: (err) => console.warn('[ORCID] Échec de la recherche (retry en cours)', err) }),
         retry(2),
         switchMap(({ result, 'num-found': totalResults }) => {
           const ids = (result ?? []).map((r) => r['orcid-identifier'].path);
-          console.log('[ORCID] Résultats :', totalResults, '— IDs page :', ids);
 
           if (ids.length === 0) return of({ members: [], totalResults });
 
@@ -273,47 +264,28 @@ export class OrcidPublicApiService {
    * Chaque requête échoue silencieusement pour ne pas bloquer les autres.
    */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
-    console.group(`[ORCID] Chargement profil ${orcidId}`);
-    console.log('Requêtes : /person + /employments + /works');
-    console.groupEnd();
-
     return forkJoin({
       person: this.http
         .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
         .pipe(
           retry(2),
-          catchError((err) => {
-            console.warn(`[ORCID] /person inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
+          catchError(() => of(null)),
         ),
       employments: this.http
         .get<OrcidEmploymentsResponse>(`${API_BASE}/${orcidId}/employments`, { headers: HEADERS })
         .pipe(
           retry(1),
-          catchError((err) => {
-            console.warn(`[ORCID] /employments inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
+          catchError(() => of(null)),
         ),
       works: this.http
         .get<OrcidWorksResponse>(`${API_BASE}/${orcidId}/works`, { headers: HEADERS })
         .pipe(
           retry(1),
-          catchError((err) => {
-            console.warn(`[ORCID] /works inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
+          catchError(() => of(null)),
         ),
     }).pipe(
       map(({ person, employments, works }) =>
         this.mapProfile(orcidId, person, employments, works),
-      ),
-      tap((p) =>
-        console.log(
-          `[ORCID] Profil prêt — ${p.givenName} ${p.familyName}, ` +
-          `${p.employments.length} affiliation(s), ${p.works.length} publication(s)`,
-        ),
       ),
     );
   }
@@ -327,13 +299,9 @@ export class OrcidPublicApiService {
       .pipe(
         retry(1),
         map((p) => this.mapPersonLight(orcidId, p)),
-        catchError((err) => {
-          console.warn(`[ORCID] Profil allégé inaccessible — ${orcidId}`, {
-            status: (err as any)?.status,
-            message: (err as any)?.message,
-          });
-          return of({ orcidId, orcidUri: `https://orcid.org/${orcidId}`, givenName: '', familyName: '' });
-        }),
+        catchError(() =>
+          of({ orcidId, orcidUri: `https://orcid.org/${orcidId}`, givenName: '', familyName: '' }),
+        ),
       );
   }
 

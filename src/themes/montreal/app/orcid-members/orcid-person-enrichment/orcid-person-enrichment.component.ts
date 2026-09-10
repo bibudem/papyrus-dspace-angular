@@ -2,7 +2,7 @@ import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, EMPTY } from 'rxjs';
-import { catchError, map, startWith, tap } from 'rxjs/operators';
+import { catchError, map, startWith } from 'rxjs/operators';
 
 import { Item } from '../../../../../app/core/shared/item.model';
 import {
@@ -73,57 +73,15 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   showAllWorks = false;
 
   ngOnInit(): void {
-    const raw   = this.item?.firstMetadataValue('person.identifier.orcid');
     const orcidId = this.extractOrcidId();
-
-    console.group('%c[OrcidEnrichment] Initialisation', 'color:#a6ce39;font-weight:700');
-    console.log('Item UUID        :', this.item?.uuid ?? '⚠ undefined');
-    console.log('Métadonnée brute :', raw             ?? '⚠ absente (person.identifier.orcid)');
-    console.log('ORCID iD extrait :', orcidId         ?? '⛔ null — panneau masqué');
-    console.groupEnd();
 
     if (!orcidId) {
       return; // Pas d'iD → panneau non rendu (vm$ reste EMPTY)
     }
 
     this.vm$ = this.orcidService.getResearcherProfile(orcidId).pipe(
-      tap((profile) => {
-        console.group('%c[OrcidEnrichment] Profil reçu ✅', 'color:#a6ce39;font-weight:700');
-        console.log('Nom             :', `${profile.givenName} ${profile.familyName}`);
-        console.log('Nom crédit      :', profile.creditName     ?? '—');
-        console.log('Biographie      :', profile.biography
-          ? `${profile.biography.slice(0, 80)}…`
-          : '⚠ absente');
-        console.log('Mots-clés       :', profile.keywords.length
-          ? profile.keywords.join(', ')
-          : '⚠ aucun');
-        console.log('Affiliations    :', profile.employments.length,
-          profile.employments.length
-            ? `(courante : ${profile.employments.find(e => e.isCurrent)?.organizationName ?? 'aucune'})`
-            : '⚠ aucune');
-        console.log('Liens externes  :', profile.researcherUrls.length,
-          profile.researcherUrls.map(u => u.name || u.url).join(', ') || '⚠ aucun');
-        console.log('Publications    :', profile.worksTotal,
-          `(${profile.works.length} chargées, dernière : ${profile.works[0]?.publicationYear ?? '?'})`);
-        console.table(
-          profile.works.slice(0, 5).map(w => ({
-            année : w.publicationYear ?? '—',
-            type  : w.type,
-            titre : w.title.slice(0, 60) + (w.title.length > 60 ? '…' : ''),
-            DOI   : w.doi ?? '—',
-          }))
-        );
-        console.groupEnd();
-      }),
       map((profile): OrcidPanelViewModel => ({ status: 'loaded', profile })),
-      catchError((err) => {
-        console.group('%c[OrcidEnrichment] Erreur ⛔', 'color:#e53e3e;font-weight:700');
-        console.error('ORCID iD :', orcidId);
-        console.error('Statut   :', (err as any)?.status ?? 'inconnu');
-        console.error('Message  :', (err as any)?.message ?? err);
-        console.groupEnd();
-        return [VM_ERROR];
-      }),
+      catchError(() => [VM_ERROR]),
       startWith(VM_LOADING),
     );
   }
@@ -180,18 +138,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   private extractOrcidId(): string | null {
     let raw: string | undefined;
-    let foundKey: string | undefined;
 
     for (const key of OrcidPersonEnrichmentComponent.ORCID_METADATA_KEYS) {
       const val = this.item?.firstMetadataValue(key);
-      if (val) { raw = val; foundKey = key; break; }
+      if (val) { raw = val; break; }
     }
-
-    console.log(
-      'Clé métadonnée trouvée :',
-      foundKey
-        ?? `⚠ aucune parmi [${OrcidPersonEnrichmentComponent.ORCID_METADATA_KEYS.join(', ')}]`,
-    );
 
     if (!raw) return null;
 
