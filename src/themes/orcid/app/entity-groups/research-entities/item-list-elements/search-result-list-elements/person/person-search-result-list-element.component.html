@@ -3,7 +3,7 @@
      [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
      [routerLink]="[itemPageRoute]" class="directory-search-result-card__thumbnail" role="link" tabindex="-1">
     <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
-                  [defaultImage]="'assets/images/person-placeholder.svg'"
+                  [defaultImage]="'assets/orcid/images/person-placeholder.svg'"
                   [alt]="'thumbnail.person.alt'"
                   [placeholder]="'thumbnail.person.placeholder'">
     </ds-thumbnail>
@@ -15,7 +15,7 @@
     <ds-truncatable [id]="dso.id">
       <a *ngIf="linkType !== linkTypes.None" [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
          [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
-         [routerLink]="[itemPageRoute]" class="directory-search-result-card__name"
+         [routerLink]="[itemPageRoute]" class="directory-search-result-card__name stretched-link"
          [innerHTML]="dsoTitle || ('person.listelement.no-title' | translate)" role="link" tabindex="0"></a>
       <span *ngIf="linkType === linkTypes.None"
             class="directory-search-result-card__name"
@@ -30,10 +30,11 @@
       </ds-truncatable-part>
     </ds-truncatable>
 
-    <span *ngIf="hasOrcid" class="directory-search-result-card__orcid-badge">
+    <a *ngIf="hasOrcid" [href]="orcidUrl" target="_blank" rel="noopener noreferrer"
+       class="directory-search-result-card__orcid-badge">
       <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16"/>
       {{ 'papyrus.directory.orcid-badge' | translate }}
-    </span>
+    </a>
   </div>
 
   <i *ngIf="linkType !== linkTypes.None" class="fas fa-chevron-right directory-search-result-card__arrow" aria-hidden="true"></i>

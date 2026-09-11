@@ -1,18 +1,20 @@
 // Styles de l'annuaire des chercheurs (thème "orcid" uniquement, cf. config.papyrus.yml).
 
 .directory-search-result-card {
+  position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--bs-border-color, #dee2e6);
   border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
+  // Primary teinté (faible opacité) plutôt que les couleurs pleines, trop foncées.
   &:hover {
-    border-color: var(--bs-primary, #04696c);
-    background-color: var(--bs-tertiary-bg, #f8f9fa);
+    border-color: rgba(4, 105, 108, 0.35);
+    background-color: rgba(4, 105, 108, 0.04);
 
     .directory-search-result-card__arrow {
       transform: translateX(0.25rem);
@@ -52,11 +54,18 @@
   }
 
   &__orcid-badge {
+    position: relative; // au-dessus du .stretched-link (nom) : reste cliquable vers ORCID
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
     font-size: 0.8rem;
     color: #a6ce39; // couleur officielle ORCID
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__arrow {
@@ -68,20 +77,25 @@
 }
 
 .directory-grid-card {
+  border: 1.5px solid var(--bs-border-color, #dee2e6);
   border-radius: 0.75rem;
   overflow: hidden;
   transition: border-color 0.15s ease-in-out;
 
+  // Primary teinté (opacité réduite) plutôt que la couleur pleine, trop foncée au survol.
   &:hover {
-    border-color: var(--bs-primary, #04696c);
+    border-color: rgba(4, 105, 108, 0.35);
   }
 
-  // Cadre la vignette (photo réelle ou image de remplacement) à une hauteur fixe :
-  // .outer/.inner (voir thumbnail.component.scss) simulent normalement un ratio A4
-  // via un padding-top, qu'on annule ici au profit de cette hauteur fixe.
+  // Cadre la vignette (photo réelle ou image de remplacement) via un ratio plutôt qu'une
+  // hauteur fixe, pour rester responsive (proportionnelle à la largeur de la carte).
+  // .outer/.inner (voir thumbnail.component.scss) simulent normalement un ratio A4 via un
+  // padding-top, qu'on annule ici au profit de ce ratio.
   .card-img-top {
-    height: 180px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     overflow: hidden;
+    border: none;
 
     .thumbnail,
     .inner {

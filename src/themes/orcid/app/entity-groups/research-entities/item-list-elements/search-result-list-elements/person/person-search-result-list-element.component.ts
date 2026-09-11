@@ -47,7 +47,18 @@ export class PersonSearchResultListElementComponent extends BaseComponent {
 
   /** Vrai si un ORCID iD est renseigné sur cet item — affiche le badge ORCID sur la carte. */
   get hasOrcid(): boolean {
-    return PersonSearchResultListElementComponent.ORCID_METADATA_KEYS
-      .some((key) => !!this.dso?.firstMetadataValue(key));
+    return !!this.orcidUrl;
+  }
+
+  /** URL complète du profil ORCID (https://orcid.org/0000-...), ou null si absent. */
+  get orcidUrl(): string | null {
+    for (const key of PersonSearchResultListElementComponent.ORCID_METADATA_KEYS) {
+      const raw = this.dso?.firstMetadataValue(key);
+      if (raw) {
+        const id = raw.replace(/^(https?:\/\/)?orcid\.org\//, '').trim();
+        return id ? `https://orcid.org/${id}` : null;
+      }
+    }
+    return null;
   }
 }

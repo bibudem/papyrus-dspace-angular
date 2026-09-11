@@ -3,7 +3,7 @@
      [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
      [routerLink]="[itemPageRoute]" class="directory-search-result-card__thumbnail" role="link" tabindex="-1">
     <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
-                  [defaultImage]="'assets/images/orgunit-placeholder.svg'"
+                  [defaultImage]="'assets/orcid/images/orgunit-placeholder.svg'"
                   [alt]="'thumbnail.orgunit.alt'"
                   [placeholder]="'thumbnail.orgunit.placeholder'">
     </ds-thumbnail>
@@ -15,7 +15,7 @@
     <ds-truncatable [id]="dso.id">
       <a *ngIf="linkType !== linkTypes.None" [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
          [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
-         [routerLink]="[itemPageRoute]" class="directory-search-result-card__name"
+         [routerLink]="[itemPageRoute]" class="directory-search-result-card__name stretched-link"
          [innerHTML]="dsoTitle || ('orgunit.listelement.no-title' | translate)" role="link" tabindex="0"></a>
       <span *ngIf="linkType === linkTypes.None"
             class="directory-search-result-card__name"
