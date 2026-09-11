@@ -52,7 +52,14 @@
         </ds-generic-item-page-field>
       </div>
 
-      
+      <!-- Lien page complète -->
+      <div class="mt-3">
+        <a class="btn btn-outline-primary btn-sm"
+           [routerLink]="[itemPageRoute + '/full']"
+           role="link" tabindex="0">
+          {{"item.page.link.full" | translate}}
+        </a>
+      </div>
 
     </aside>
 
@@ -70,15 +77,6 @@
           [relationType]="'isOrgUnitOfPerson'"
           [label]="'relationships.isOrgUnitOf' | translate">
         </ds-related-items>
-      </div>
-
-      <!-- Lien page complète -->
-      <div class="mt-3">
-        <a class="btn btn-outline-primary btn-sm w-100"
-           [routerLink]="[itemPageRoute + '/full']"
-           role="link" tabindex="0">
-          {{"item.page.link.full" | translate}}
-        </a>
       </div>
     </main>
 
