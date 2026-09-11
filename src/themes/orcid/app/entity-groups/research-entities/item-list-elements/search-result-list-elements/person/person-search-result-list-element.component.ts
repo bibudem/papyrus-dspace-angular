@@ -23,13 +23,7 @@ import { TruncatableService } from '../../../../../../../../app/shared/truncatab
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
 import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/themed-thumbnail.component';
 
-/**
- * Carte "chercheur·euse" utilisée pour lister les items de type Person dans l'annuaire
- * UdeM (communauté 1acd99a0-6ffb-42f8-a261-30b96f3f2405 et ses sous-collections/résultats
- * de recherche scopés dessus). N'affecte pas l'affichage des Person ailleurs sur le site :
- * le thème "montreal" garde son propre rendu (@listableObjectComponent theme: 'montreal'
- * n'existe pas encore pour Person, donc il retombe sur le rendu par défaut de DSpace).
- */
+/** Carte "chercheur·euse" (vue liste) pour l'annuaire UdeM. */
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement, Context.Any, 'orcid')
 @Component({
   selector: 'ds-person-search-result-list-element',

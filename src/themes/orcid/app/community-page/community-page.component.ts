@@ -27,14 +27,10 @@ import { ThemedLoadingComponent } from '../../../../app/shared/loading/themed-lo
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
 
 /**
- * Page communauté pour l'annuaire des chercheurs et chercheuses de l'UdeM
- * (communauté 1acd99a0-6ffb-42f8-a261-30b96f3f2405, cf. config/config.papyrus.yml).
- *
- * Pour l'instant, cette page réutilise le template de base (le nom/description de la communauté
- * et la liste de ses 2 sous-collections — « Corps professoral » et « Unités académiques » —
- * s'affichent tels quels). C'est la carte de résultat (voir ../entity-groups/research-entities/…)
- * qui porte la personnalisation visuelle « annuaire », car elle s'applique aussi bien ici que
- * dans les pages des 2 sous-collections (héritage du thème par UUID).
+ * Page communauté de l'annuaire des chercheurs UdeM (cf. config/config.papyrus.yml).
+ * Réutilise le template de base tel quel — la personnalisation visuelle « annuaire » vient
+ * des cartes de résultat (../entity-groups/research-entities/…), qui s'appliquent ici comme
+ * dans les 2 sous-collections (héritage du thème par UUID).
  */
 @Component({
   selector: 'ds-themed-community-page',

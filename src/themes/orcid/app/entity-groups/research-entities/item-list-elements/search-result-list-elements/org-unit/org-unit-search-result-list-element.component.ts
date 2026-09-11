@@ -16,10 +16,7 @@ import { TruncatableComponent } from '../../../../../../../../app/shared/truncat
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
 import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/themed-thumbnail.component';
 
-/**
- * Carte "unité académique" utilisée pour lister les items de type OrgUnit dans l'annuaire
- * UdeM (collection "Unités académiques", sous-collection de 1acd99a0-6ffb-42f8-a261-30b96f3f2405).
- */
+/** Carte "unité académique" (vue liste) pour l'annuaire UdeM. */
 @listableObjectComponent('OrgUnitSearchResult', ViewMode.ListElement, Context.Any, 'orcid')
 @Component({
   selector: 'ds-org-unit-search-result-list-element',

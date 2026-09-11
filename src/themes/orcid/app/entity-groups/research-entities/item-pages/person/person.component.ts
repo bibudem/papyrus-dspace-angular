@@ -17,6 +17,10 @@ import { ThemedResultsBackButtonComponent } from '../../../../../../../app/share
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
 
+/**
+ * Fiche Person de l'annuaire UdeM : identique à la fiche de base, avec le panneau
+ * d'enrichissement ORCID en plus (voir ../../../orcid-members/).
+ */
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'orcid')
 @Component({
   selector: 'ds-person',

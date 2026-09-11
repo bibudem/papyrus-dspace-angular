@@ -151,6 +151,11 @@ themes:
   # académiques de l'Université de Montréal". Le match par uuid s'applique en cascade à ses
   # 2 sous-collections ("Corps professoral" et "Unités académiques") et à leurs items.
   # Doit rester AVANT l'entrée "montreal" ci-dessous (premier match = priorité).
+  #
+  # Masque aussi des éléments d'UI non pertinents pour un annuaire (filtre "Type", tri,
+  # onglet "Direction de recherche") — fait côté client, config Discovery backend hors de
+  # notre contrôle. Voir src/themes/orcid/app/shared/{search,comcol}/ (commentaire en tête
+  # de chaque fichier).
   - name: orcid
     extends: montreal
     uuid: 1acd99a0-6ffb-42f8-a261-30b96f3f2405
