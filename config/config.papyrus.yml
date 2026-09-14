@@ -153,7 +153,7 @@ themes:
   # Doit rester AVANT l'entrée "montreal" ci-dessous (premier match = priorité).
   #
   # Masque aussi des éléments d'UI non pertinents pour un annuaire (filtre "Type", tri,
-  # onglet "Direction de recherche") — fait côté client, config Discovery backend hors de
+  # onglet "Direction de recherche" — fait côté client, config Discovery backend hors de
   # notre contrôle. Voir src/themes/orcid/app/shared/{search,comcol}/ (commentaire en tête
   # de chaque fichier).
   - name: orcid
