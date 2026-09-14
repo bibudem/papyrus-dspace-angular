@@ -109,6 +109,12 @@ h2{
   font-weight: 600;
 }
 
+// Titres de champs sur la fiche item (Résumé, Fichiers, Autrices et auteurs...) :
+// couleur de la version prod ($greensecondary), au lieu du gris générique des titres.
+.simple-view-element-header {
+  color: $greensecondary;
+}
+
 a {
   color: $greensecondary;
 }
