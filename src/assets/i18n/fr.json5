@@ -250,7 +250,7 @@
 
   "admin.access-control.bulk-access-browse.header": "Étape 1 : Sélectionner les objets",
 
-  "admin.access-control.bulk-access-browse.search.header": "Chercher",
+  "admin.access-control.bulk-access-browse.search.header": "Recherche",
 
   "admin.access-control.bulk-access-browse.selected.header": "Sélection actuelle({{number}})",
 
@@ -362,7 +362,7 @@
 
   "admin.access-control.epeople.form.goToGroups": "Ajouter au(x) groupe(s)",
 
-  "admin.access-control.epeople.notification.deleted.failure": "Erreur lors de la suppression de l'EPerson \"{{name}}\"",
+  "admin.access-control.epeople.notification.deleted.failure": "Une erreur s'est produite lors de la suppression de l'EPerson ayant l'identifiant \"{{id}}\". Code de l'erreur : \"{{statusCode}}\". Message : \"{{restResponse.errorMessage}}\"",
 
   "admin.access-control.epeople.notification.deleted.success": "EPerson \"{{name}}\" supprimé(e) avec succès",
 
@@ -548,9 +548,9 @@
 
   "admin.access-control.groups.form.tooltip.editGroupPage": "Sur cette page, vous pouvez modifier les propriétés et les membres d'un groupe. Dans la section supérieure, vous pouvez éditer le nom et la description du groupe, sauf s'il s'agit d'un groupe d'administrateurs d'une collection ou d'une communauté ; dans ce cas, le nom et la description du groupe sont générés automatiquement et ne peuvent pas être modifiés. Dans les sections suivantes, vous pouvez modifier l'appartenance au groupe. Voir [le wiki](https://wiki.lyrasis.org/display/DSDOC7x/Create+or+manage+a+user+group) pour plus de détails.",
 
-  "admin.access-control.groups.form.tooltip.editGroup.addEpeople": "Pour ajouter ou retirer une EPerson à/de ce groupe, cliquez sur le bouton « Parcourir tout », ou utilisez la barre de recherche ci-dessous pour rechercher des utilisateurs (utilisez le menu déroulant à gauche de la barre de recherche pour choisir si vous souhaitez effectuer la recherche par métadonnées ou par courriel). Ensuite, cliquez sur l'icône + pour chaque utilisateur que vous souhaitez ajouter dans la liste ci-dessous, ou sur l'icône de la corbeille pour chaque utilisateur que vous souhaitez retirer. La liste ci-dessous peut comporter plusieurs pages : utilisez les contrôles de pagination sous la liste pour naviguer vers les pages suivantes.",
+  "admin.access-control.groups.form.tooltip.editGroup.addEpeople": "Pour ajouter ou retirer une EPerson à/de ce groupe, cliquez sur le bouton « Parcourir tout », ou utilisez la barre de recherche ci-dessous pour rechercher des utilisateurs (utilisez le menu déroulant à gauche de la barre de recherche pour choisir si vous souhaitez effectuer la recherche par métadonnées ou par courriel). Ensuite, cliquez sur l'icône + pour chaque utilisateur que vous souhaitez ajouter dans la liste ci-dessous, ou sur l'icône de la corbeille pour chaque utilisateur que vous souhaitez retirer. La liste ci-dessous peut comporter plusieurs pages: utilisez les contrôles de pagination sous la liste pour naviguer vers les pages suivantes.",
 
-  "admin.access-control.groups.form.tooltip.editGroup.addSubgroups": "Pour ajouter ou retirer un sous-groupe à/de ce groupe, cliquez sur le bouton « Parcourir tout », ou utilisez la barre de recherche ci-dessous pour rechercher des groupes. Ensuite, cliquez sur l'icône + pour chaque groupe que vous souhaitez ajouter dans la liste ci-dessous, ou sur l'icône de la corbeille pour chaque groupe que vous souhaitez retirer. La liste ci-dessous peut comporter plusieurs pages : utilisez les contrôles de pagination sous la liste pour naviguer vers les pages suivantes.",
+  "admin.access-control.groups.form.tooltip.editGroup.addSubgroups": "Pour ajouter ou retirer un sous-groupe à/de ce groupe, cliquez sur le bouton « Parcourir tout », ou utilisez la barre de recherche ci-dessous pour rechercher des groupes. Ensuite, cliquez sur l'icône + pour chaque groupe que vous souhaitez ajouter dans la liste ci-dessous, ou sur l'icône de la corbeille pour chaque groupe que vous souhaitez retirer. La liste ci-dessous peut comporter plusieurs pages: utilisez les contrôles de pagination sous la liste pour naviguer vers les pages suivantes.",
 
   "admin.reports.collections.title": "Rapport de collections filtrées",
 
@@ -1114,7 +1114,7 @@
 
   "browse.startsWith.months.september": "Septembre",
 
-  "browse.startsWith.submit": "Valider",
+  "browse.startsWith.submit": "Rechercher",
 
   "browse.startsWith.type_date": "Ou saisir une date (année-mois) puis cliquer sur « Parcourir par »",
 
@@ -1126,7 +1126,7 @@
 
   "browse.taxonomy.button": "Parcourir",
 
-  "browse.title": "Parcourir {{ collection }} par {{ field }} {{ value }}",
+  "browse.title": "Parcourir par {{ field }}{{ startsWith }} {{ value }}",
 
   "browse.taxonomy.show_next_results": "Afficher les résultats suivants",
 
@@ -1642,19 +1642,19 @@
 
   "cookies.consent.save": "Sauvegarder",
 
-  "cookies.consent.content-notice.description": "Nous recueillons et traitons vos renseignements personnels aux fins suivantes : {purposes}",
+  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>. <br/> Pour en savoir plus, veuillez consulter notre {privacyPolicy}.",
 
   "cookies.consent.content-notice.learnMore": "Personnaliser",
 
-  "cookies.consent.content-modal.description": "Vous pouvez voir et personnaliser ici les données que nous recueillons à votre sujet.",
+  "cookies.consent.content-modal.description": "Ici vous pouvez voir et personnaliser les informations que nous collectons à votre sujet.",
 
-  "cookies.consent.content-modal.privacy-policy.name": "politique de protection de la vie privée",
+  "cookies.consent.content-modal.privacy-policy.name": "politique de confidentialité",
 
-  "cookies.consent.content-modal.privacy-policy.text": "Pour plus d'informations, veuillez lire notre {privacyPolicy}.",
+  "cookies.consent.content-modal.privacy-policy.text": "Pour en savoir plus, veuillez consulter notre {privacyPolicy}.",
 
   "cookies.consent.content-modal.no-privacy-policy.text": "",
 
-  "cookies.consent.content-modal.title": "Données collectées",
+  "cookies.consent.content-modal.title": "Informations que nous collectons",
 
   "cookies.consent.app.title.accessibility": "Paramètres d'accessibilité",
 
@@ -1963,6 +1963,7 @@
   "file-download-link.restricted": "Bitstream restreint",
 
   "file-download-link.secure-access": "Bitstream restreint disponible par l'intermédiaire d'un jeton d'accès sécurisé.",
+
   "file-section.error.header": "Erreur lors de la récupération des fichiers liés à cet Item",
 
   "footer.copyright": "copyright © 2002-{{ year }}",
@@ -1985,7 +1986,7 @@
 
   "forgot-email.form.header": "Mot de passe oublié",
 
-  "forgot-email.form.info": "Si vous êtes membre de la communauté UdeM, veuillez plutôt utiliser l'authentification UdeM pour vous connecter à Papyrus. En cas de problème avec votre mot de passe UdeM, référez-vous aux pages d'aide des TI (https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie). Si vous n'êtes pas en mesure d'utiliser l'authentification UdeM ou si vous devez utiliser une adresse courriel partagée pour accéder à votre compte Papyrus, entrez l'adresse courriel associée au compte pour réinitialiser le mot de passe.",
+  "forgot-email.form.info": "Si vous êtes membre de la communauté UdeM, veuillez plutôt utiliser l'authentification UdeM pour vous connecter à Papyrus. En cas de problème avec votre mot de passe UdeM, référez-vous aux pages d'aide des TI: https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie. Si vous n'êtes pas en mesure d'utiliser l'authentification UdeM ou si vous devez utiliser une adresse courriel partagée pour accéder à votre compte Papyrus, entrez l'adresse courriel associée au compte pour réinitialiser le mot de passe.",
 
   "forgot-email.form.email": "Courriel *",
 
@@ -2001,9 +2002,9 @@
 
   "forgot-email.form.success.content": "Un courrier électronique a été envoyé à {{ email }} avec une URL d'activation et de plus amples instructions.",
 
-  "forgot-email.form.error.head": "Erreur lors de l'enregistrement de l'adresse électronique",
+  "forgot-email.form.error.head": "Erreur lors de la réinitialisation du mot de passe",
 
-  "forgot-email.form.error.content": "Une erreur s'est produite au niveau de l'adresse électronique suivante : {{ email }}",
+  "forgot-email.form.error.content": "Une erreur s'est produite lors de la tentative de réinitialisation du mot de passe du compte associé à l'adresse courriel suivante : {{ email }}",
 
   "forgot-password.title": "Mot de passe oublié",
 
@@ -2173,13 +2174,13 @@
 
   "health.breadcrumbs": "Santé du système",
 
-  "health-page.heading": "Santé",
+  "health-page.heading": "Santé du système",
 
   "health-page.info-tab": "Info",
 
   "health-page.status-tab": "Statut",
 
-  "health-page.error.msg": "Le service de vérification de la santé du système n'est pas disponible",
+  "health-page.error.msg": "Le service de bilan de santé est temporairement indisponible",
 
   "health-page.property.status": "Code de statut",
 
@@ -2195,7 +2196,7 @@
 
   "health-page.section.solrStatisticsCore.title": "Solr: statistics core",
 
-  "health-page.section-info.app.title": "Application Backend",
+  "health-page.section-info.app.title": "Backend de l'application",
 
   "health-page.section-info.java.title": "Java",
 
@@ -2205,7 +2206,7 @@
 
   "health-page.status.error.info": "Problèmes détectés",
 
-  "health-page.status.warning.info": "Problèmes éventuels détectés",
+  "health-page.status.warning.info": "Problèmes potentiels détectés",
 
   "health-page.title": "Santé du système",
 
@@ -2551,13 +2552,13 @@
 
   "item.edit.metadata.edit.authority.key": "Modifier la clé d'autorité",
 
-  "item.edit.metadata.edit.buttons.enable-free-text-editing": "Activer l'ajout de texte",
+  "item.edit.metadata.edit.buttons.enable-free-text-editing": "Activer la modification free-text",
 
-  "item.edit.metadata.edit.buttons.disable-free-text-editing": "Déactiver l'ajout de texte",
+  "item.edit.metadata.edit.buttons.disable-free-text-editing": "Désactiver la modification free-text",
 
   "item.edit.metadata.edit.buttons.confirm": "Confirmer",
 
-  "item.edit.metadata.edit.buttons.drag": "Glisser pour changer l'ordre",
+  "item.edit.metadata.edit.buttons.drag": "Glissez pour réorganiser",
 
   "item.edit.metadata.edit.buttons.edit": "Éditer",
 
@@ -2565,9 +2566,9 @@
 
   "item.edit.metadata.edit.buttons.undo": "Annuler les modifications",
 
-  "item.edit.metadata.edit.buttons.unedit": "Arrêter l'édition",
+  "item.edit.metadata.edit.buttons.unedit": "Arrêter la modification",
 
-  "item.edit.metadata.edit.buttons.virtual": "C'est une métadonnée virtuelle (ex: une valeur héritée d'une entité). Elle ne peut être modifiée directement. Supprimer ou retirer la relation correspondante dans l'onglet \"Relationships\"",
+  "item.edit.metadata.edit.buttons.virtual": "Il s'agit d'une valeur de métadonnées virtuelle, c'est-à-dire une valeur héritée d'une entité liée. Elle ne peut pas être modifiée directement. Ajoutez ou supprimez la relation correspondante dans l'onglet \"Relations\" ",
 
   "item.edit.metadata.empty": "Aucune métadonnée n'est associée à cet Item. Cliquer sur « Ajouter » pour commencer à ajouter une métadonnée.",
 
@@ -2657,7 +2658,7 @@
 
   "item.edit.private.error": "Une erreur s'est produite lors de la privatisation de l'Item",
 
-  "item.edit.private.header": "Définir l'Item {{ id }} comme privé",
+  "item.edit.private.header": "Rendre l'item {{ id }} non découvrable.",
 
   "item.edit.private.success": "L'Item est désormais privé",
 
@@ -2669,7 +2670,7 @@
 
   "item.edit.public.error": "Une erreur s'est produite lors de la définition de l'Item en tant qu'Item public",
 
-  "item.edit.public.header": "Définir l'Item {{ id }} comme public",
+  "item.edit.public.header": "Rendre l'item {{ id }} découvrable.",
 
   "item.edit.public.success": "L'Item est désormais public",
 
@@ -2913,7 +2914,7 @@
 
   "item.page.author": "Autrices et auteurs",
 
-  "item.page.authors": "Autrices et auteurs",
+  "item.page.authors": "Auteurs",
 
   "item.page.citation": "Citation",
 
@@ -2953,7 +2954,7 @@
 
   "item.page.orcid-ico": "Icône ORCID",
 
-  "item.page.orcid-profile": "Profil ORCID",
+  "item.page.orcid-profile": "ORCID",
 
   "item.page.person.search.title": "Articles de cet auteur",
 
@@ -3015,7 +3016,7 @@
 
   "item.preview.dc.subject": "Sujets :",
 
-  "item.preview.dc.title": "Title :",
+  "item.preview.dc.title": "Titre",
 
   "item.preview.dc.type": "Type de document :",
 
@@ -3094,6 +3095,7 @@
   "item.preview.dc.identifier.issn": "ISSN",
 
   "item.preview.dc.identifier.openalex": "Identifiant OpenAlex",
+
   "item.select.confirm": "Confirmer la sélection",
 
   "item.select.empty": "Aucun Item à afficher",
@@ -3307,6 +3309,7 @@
   "journal.page.publisher": "Éditeur",
 
   "journal.page.options": "Options",
+
   "journal.page.titleprefix": "Revue: ",
 
   "journal.search.results.head": "Résultats de recherche de revues",
@@ -3332,6 +3335,7 @@
   "journalissue.page.number": "Nombre",
 
   "journalissue.page.options": "Options",
+
   "journalissue.page.titleprefix": "Numéro de revue: ",
 
   "journalissue.search.results.head": "Résultats de la recherche dans les numéros",
@@ -3345,6 +3349,7 @@
   "journalvolume.page.issuedate": "Date de publication",
 
   "journalvolume.page.options": "Options",
+
   "journalvolume.page.titleprefix": "Volume de la revue: ",
 
   "journalvolume.page.volume": "Volume",
@@ -3424,6 +3429,7 @@
   "login.form.password": "Mot de passe",
 
   "login.form.saml": "Se connecter via SAML",
+
   "login.form.shibboleth": "Se connecter via Shibboleth",
 
   "login.form.submit": "Se connecter",
@@ -3480,7 +3486,7 @@
 
   "menu.section.browse_global_by_subject": "Sujets",
 
-  "menu.section.browse_global_by_srsc": "Par catégorie de sujet",
+  "menu.section.browse_global_by_srsc": "Catégories",
 
   "menu.section.browse_global_by_nsi": "Par Norwegian Science Index",
 
@@ -3489,6 +3495,7 @@
   "menu.section.browse_global_communities_and_collections": "Communautés et collections",
 
   "menu.section.browse_global_geospatial_map": "Par géolocalisation (Carte)",
+
   "menu.section.control_panel": "Panneau de configuration",
 
   "menu.section.curation_task": "Tâches de curation",
@@ -3529,7 +3536,7 @@
 
   "menu.section.icon.find": "Section du menu relative à la recherche",
 
-  "menu.section.icon.health": "Section du menu Bilan de santé",
+  "menu.section.icon.health": "Section du menu de contrôle de santé",
 
   "menu.section.icon.import": "Section du menu relative à l'importation",
 
@@ -3665,7 +3672,7 @@
 
   "mydspace.results.no-title": "Aucun titre",
 
-  "mydspace.results.no-uri": "Aucune URL",
+  "mydspace.results.no-uri": "Aucune URI",
 
   "mydspace.search-form.placeholder": "Rechercher dans mon compte Papyrus...",
 
@@ -3748,6 +3755,7 @@
   "publication-claim.title": "Réclamation de publication",
 
   "publication-claim.source.description": "Vous pouvez voir toutes les sources ci-dessous.",
+
   "quality-assurance.title": "Assurance qualité",
 
   "quality-assurance.topics.description": "Vous pouvez voir ci-dessous tous les sujets reçus par votre abonnement à {{source}}.",
@@ -3905,7 +3913,8 @@
   "orgunit.page.id": "ID",
 
   "orgunit.page.options": "Options",
-  "orgunit.page.titleprefix": "Structure Organisationnelle: ",
+
+  "orgunit.page.titleprefix": "",
 
   "orgunit.page.ror": "Identifiant ROR",
 
@@ -3942,11 +3951,12 @@
   "person.page.link.full": "Afficher toutes les métadonnées",
 
   "person.page.options": "Options",
+
   "person.page.orcid": "ORCID",
 
   "person.page.staffid": "Matricule",
 
-  "person.page.titleprefix": "Personne : ",
+  "person.page.titleprefix": "",
 
   "person.search.results.head": "Résultats de recherche de personnes",
 
@@ -3979,6 +3989,7 @@
   "process.new.parameter.file.required": "Veuillez sélectionner un fichier",
 
   "process.new.parameter.integer.required": "Veuillez spécifier un paramètre",
+
   "process.new.parameter.string.required": "Veuillez spécifier un paramètre",
 
   "process.new.parameter.type.value": "valeur",
@@ -4106,6 +4117,7 @@
   "process.bulk.delete.error.head": "Erreur lors de la suppression de processus",
 
   "process.bulk.delete.error.body": "Le processus numéro {{processId}} n'a pu être supprimé. Les processus restants continueront à être supprimés. ",
+
   "process.bulk.delete.success": "{{count}} processus ont été supprimés.",
 
   "profile.breadcrumbs": "Mise à jour profil",
@@ -4191,6 +4203,7 @@
   "project.page.keyword": "Mots-clés",
 
   "project.page.options": "Options",
+
   "project.page.status": "Statut",
 
   "project.page.titleprefix": "Projet de recherche: ",
@@ -4212,6 +4225,7 @@
   "publication.page.publisher": "Éditeur",
 
   "publication.page.options": "Options",
+
   "publication.page.titleprefix": "Publication: ",
 
   "publication.page.volume-title": "Titre du volume",
@@ -4287,6 +4301,7 @@
   "suggestion.source.openaire": "OpenAIRE Graph",
 
   "suggestion.source.openalex": "OpenAlex",
+
   "suggestion.from.source": "du/de la ",
 
   "suggestion.count.missing": "Vous n'avez plus aucune réclamation de publication",
@@ -4359,7 +4374,7 @@
 
   "register-page.registration.error.head": "Erreur lors de l'inscription",
 
-  "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel : {{ email }}",
+  "register-page.registration.error.content": "Une erreur s'est produite lors de l'inscription du courriel: {{ email }}",
 
   "register-page.registration.error.recaptcha": "Erreur lors de la tentative d'authentification avec recaptcha",
 
@@ -4437,7 +4452,7 @@
 
   "repository.image.logo": "Logo du dépôt",
 
-  "repository.title": "Dépôt DSpace",
+  "repository.title": "Papyrus :: ",
 
   "repository.title.prefix": "Papyrus :: ",
 
@@ -4575,7 +4590,7 @@
 
   "search.breadcrumbs": "Recherche",
 
-  "search.search-form.placeholder": "Rechercher dans le dépôt...",
+  "search.search-form.placeholder": "Rechercher dans Papyrus",
 
   "search.filters.remove": "Supprimer le filtre de type {{ type }} avec la valeur {{ value }}",
 
@@ -4598,7 +4613,7 @@
   "search.filters.applied.f.original_bundle_filenames": "Nom du fichier",
 
   "search.filters.applied.f.original_bundle_descriptions": "Description du fichier",
-  // "search.filters.applied.f.has_geospatial_metadata": "Has geographical location",
+
   "search.filters.applied.f.has_geospatial_metadata": "A l'emplacement géographique",
 
   "search.filters.applied.f.itemtype": "Type",
@@ -4633,7 +4648,7 @@
 
   "search.filters.applied.operator.query": "",
 
-  "search.filters.applied.f.point": "Coordonnées",
+  "search.filters.applied.f.point": "Coordonnés",
 
   "search.filters.filter.title.head": "Titre",
 
@@ -4641,7 +4656,7 @@
 
   "search.filters.filter.title.label": "Recherche par titre",
 
-  "search.filters.filter.author.head": "Auteur",
+  "search.filters.filter.author.head": "Autrices et auteurs",
 
   "search.filters.filter.author.placeholder": "Nom de l'auteur",
 
@@ -4703,7 +4718,7 @@
 
   "search.filters.filter.withdrawn.head": "Retiré",
 
-  "search.filters.filter.entityType.head": "Type",
+  "search.filters.filter.entityType.head": "Type d'item",
 
   "search.filters.filter.entityType.placeholder": "Type",
 
@@ -5507,7 +5522,7 @@
 
   "submission.sections.general.add-more": "Ajouter",
 
-  "submission.sections.general.cannot_deposit": "Le dépôt ne peut pas être effectué en raison d'erreurs dans le formulaire.<br>Veuillez remplir tous les champs obligatoires pour finaliser le dépôt.",
+  "submission.sections.general.cannot_deposit": "Le dépôt ne peut pas être complété en raison d'erreurs dans le formulaire.<br>Veuillez remplir tous les champs obligatoires pour finaliser le dépôt.",
 
   "submission.sections.general.collection": "Collection",
 
@@ -5521,7 +5536,7 @@
 
   "submission.sections.general.metadata-extracted": "De nouvelles métadonnées ont été extraites et ajoutées à la section <strong>{{sectionId}}</strong>.",
 
-  "submission.sections.general.metadata-extracted-new-section": "La nouvelle section <strong>{{sectionId}}</strong> a été ajoutée à la soumission.",
+  "submission.sections.general.metadata-extracted-new-section": "La nouvelle section <strong>doublons</strong> a été ajoutée à la soumission.",
 
   "submission.sections.general.no-collection": "Aucune collection disponible",
 
@@ -5537,7 +5552,7 @@
 
   "submission.sections.general.sections_not_valid": "Sections incomplètes.",
 
-  "submission.sections.identifiers.info": "Les identifiants uniques suivants seront attribués à votre document :",
+  "submission.sections.identifiers.info": "Les identifiants uniques suivants seront attribués à votre document. Note : Si vous soumettez un document publié (ex. article ou chapitre de livre) qui a déjà un DOI, Papyrus ne lui en attribuera pas un nouveau; le handle sera le seul identifiant pérenne de cette version diffusée dans Papyrus.",
 
   "submission.sections.identifiers.no_handle": "Aucun handle n'a été crée pour ce document.",
 
@@ -5904,6 +5919,7 @@
   "subscriptions.table.not-available": "Indisponible",
 
   "subscriptions.table.not-available-message": "L'Item auquel vous étiez abonné a été supprimé, ou vous n'êtes pas autorisé à le consulter.",
+
   "subscriptions.table.empty.message": "Vous n'avez aucun abonnement. Pour vous abonnez à des mises à jour par courriel pour une commmunauté ou une collection, utilisez le bouton d'abonnement sur la page de l'Item.",
 
   "thumbnail.default.alt": "Vignette d'image",
@@ -6128,7 +6144,7 @@
 
   "person.page.orcid.missing-authorizations": "Autorisations manquantes",
 
-  "person.page.orcid.missing-authorizations-message": "Les autorisations suivantes sont manquantes :",
+  "person.page.orcid.missing-authorizations-message": "Les autorisations suivantes sont manquantes:",
 
   "person.page.orcid.no-missing-authorizations-message": "Cette boite est vide, vous avez autorisé l'utilisation de toutes les fonctions proposées par votre organisation.",
 
@@ -6318,7 +6334,7 @@
 
   "person.orcid-tooltip.not-authenticated": "{{orcid}} (non-confirmé)",
 
-  "home.recent-submissions.head": "Soumissions récentes",
+  "home.recent-submissions.head": "Dépôts récents",
 
   "listable-notification-object.default-message": "Cet objet n'a pas été trouvé.",
 
@@ -6740,9 +6756,9 @@
 
   "quality-assurance.events.description-with-topic-and-target": "En dessous de la liste des suggestions pour le sujet sélectionné <b>{{topic}}</b>, en relation avec <b>{{source}}</b> and ",
 
-  "quality-assurance.event.table.event.message.serviceUrl": "Acteur-e :",
+  "quality-assurance.event.table.event.message.serviceUrl": "URL du service:",
 
-  "quality-assurance.event.table.event.message.link": "Lien :",
+  "quality-assurance.event.table.event.message.link": "Lien:",
 
   "service.detail.delete.cancel": "Annuler",
 
@@ -6790,7 +6806,7 @@
 
   "submission.section.section-coar-notify.small.notification": "Sélectionner un service pour {{ pattern }} pour cet Item",
 
-  "submission.section.section-coar-notify.selection.description": "Description du service sélectionné :",
+  "submission.section.section-coar-notify.selection.description": "Description du service sélectionné:",
 
   "submission.section.section-coar-notify.selection.no-description": "Aucune autre information n'est disponible",
 
@@ -6880,49 +6896,49 @@
 
   "admin-notify-dashboard.NOTIFY.incoming.accepted.description": "Avis entrant acceptés",
 
-  "admin-notify-logs.NOTIFY.incoming.accepted": "Affiché actuellement : avis acceptés",
+  "admin-notify-logs.NOTIFY.incoming.accepted": "Affiché actuellement: avis acceptés",
 
   "admin-notify-dashboard.NOTIFY.incoming.processed": "LDN traités",
 
   "admin-notify-dashboard.NOTIFY.incoming.processed.description": "Avis entrant traités",
 
-  "admin-notify-logs.NOTIFY.incoming.processed": "Affiché actuellement : LDN traités",
+  "admin-notify-logs.NOTIFY.incoming.processed": "Affiché actuellement: LDN traités",
 
-  "admin-notify-logs.NOTIFY.incoming.failure": "Affiché actuellement : avis en échec",
+  "admin-notify-logs.NOTIFY.incoming.failure": "Affiché actuellement: avis en échec",
 
   "admin-notify-dashboard.NOTIFY.incoming.failure": "Échec",
 
   "admin-notify-dashboard.NOTIFY.incoming.failure.description": "Avis entrant en échec",
 
-  "admin-notify-logs.NOTIFY.outgoing.failure": "Affiché actuellement : avis en échec",
+  "admin-notify-logs.NOTIFY.outgoing.failure": "Affiché actuellement: avis en échec",
 
   "admin-notify-dashboard.NOTIFY.outgoing.failure": "Échec",
 
   "admin-notify-dashboard.NOTIFY.outgoing.failure.description": "Avis sortant en échec",
 
-  "admin-notify-logs.NOTIFY.incoming.untrusted": "Affiché actuellement : avis non fiables",
+  "admin-notify-logs.NOTIFY.incoming.untrusted": "Affiché actuellement: avis non fiables",
 
   "admin-notify-dashboard.NOTIFY.incoming.untrusted": "Non fiable",
 
   "admin-notify-dashboard.NOTIFY.incoming.untrusted.description": "Avis entrant non fiable",
 
-  "admin-notify-logs.NOTIFY.incoming.delivered": "Affiché actuellement : avis livrés",
+  "admin-notify-logs.NOTIFY.incoming.delivered": "Affiché actuellement: avis livrés",
 
   "admin-notify-dashboard.NOTIFY.incoming.delivered.description": "Avis entrants livrés avec succès",
 
   "admin-notify-dashboard.NOTIFY.outgoing.delivered": "Livrés",
 
-  "admin-notify-logs.NOTIFY.outgoing.delivered": "Affiché actuellement : avis livrés",
+  "admin-notify-logs.NOTIFY.outgoing.delivered": "Affiché actuellement: avis livrés",
 
   "admin-notify-dashboard.NOTIFY.outgoing.delivered.description": "Avis sortant livrés avec succès",
 
-  "admin-notify-logs.NOTIFY.outgoing.queued": "Affiché actuellement : avis dans la liste d'attente",
+  "admin-notify-logs.NOTIFY.outgoing.queued": "Affiché actuellement: avis dans la liste d'attente",
 
   "admin-notify-dashboard.NOTIFY.outgoing.queued.description": "Avis actuellement dans la liste d'attente",
 
   "admin-notify-dashboard.NOTIFY.outgoing.queued": "Ajouter à la liste d'attente",
 
-  "admin-notify-logs.NOTIFY.outgoing.queued_for_retry": "Affiché actuellement : Avis en attente pour une nouvelle tentative",
+  "admin-notify-logs.NOTIFY.outgoing.queued_for_retry": "Affiché actuellement: Avis en attente pour une nouvelle tentative",
 
   "admin-notify-dashboard.NOTIFY.outgoing.queued_for_retry": "En file d'attente pour une nouvelle tentative",
 
@@ -6942,7 +6958,7 @@
 
   "admin.notify.dashboard.inbound-logs": "Journaux/Entrant",
 
-  "admin.notify.dashboard.filter": "Filtre : ",
+  "admin.notify.dashboard.filter": "Filtre: ",
 
   "search.filters.applied.f.relateditem": "Items liés",
 
@@ -7204,7 +7220,7 @@
 
   "item.page.cc.license.disclaimer": "Sauf indication contraire, la licence de cet Item est décrite comme",
 
-  "browse.search-form.placeholder": "Chercher dans Papyrus",
+  "browse.search-form.placeholder": "Rechercher dans Papyrus",
 
   "file-download-link.download": "Télécharger ",
 
@@ -7248,7 +7264,7 @@
 
   "external-login.provide-email.header": "Fournir un courriel",
 
-  "external-login.provide-email.button.label": "Envoyer le lien de vérification",
+  "external-login.provide-email.button.label": "SEnvoyer le lien de vérification",
 
   "external-login-validation.review-account-info.header": "Vérifiez les informations de votre compte",
 
@@ -7330,9 +7346,9 @@
 
   "item.preview.organization.url": "URL",
 
-  "item.preview.organization.address.addressLocality": "City",
+  "item.preview.organization.address.addressLocality": "Ville",
 
-  "item.preview.organization.alternateName": "Alternative name",
+  "item.preview.organization.alternateName": "Nom alternatif",
 
   "admin.access-control.groups.form.members-list.search.scope.metadata": "Métadonnées",
 
@@ -7534,7 +7550,7 @@
 
   "papyrus.info.feedback.info": "Merci de prendre quelques minutes pour nous faire part de vos commentaires à propos du dépôt institutionnel Papyrus.",
 
-  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong> :<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
+  "papyrus.info.alert.message": "<span class=\"tme\">\n  <i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>\n  <strong>Dépôt obligatoire des thèses et mémoires</strong>:<br>\n  Pour toute information ou soutien concernant le dépôt électronique de thèses et mémoires, consultez plutôt le site \n  <a href=\"http://www.bib.umontreal.ca/theses\" target=\"_blank\">Thèses et mémoires UdeM</a> et en particulier sa section \n  <a href=\"http://www.bib.umontreal.ca/theses/aide.htm\" target=\"_blank\">Besoin d'aide</a>.\n</span>",
 
   "papyrus.menu.principale.info": "Infos",
 
@@ -7542,7 +7558,7 @@
 
   "papyrus.footer.liens.lyrasis": "LYRASIS",
 
-  "papyrus.home.new.title": "Papyrus : donnez une nouvelle portée à vos travaux",
+  "papyrus.home.new.title": "Papyrus: donnez une nouvelle portée à vos travaux",
 
   "papyrus.menu.principale.a_propos_papyrus": "À propos de Papyrus",
 
@@ -7557,4 +7573,174 @@
   "papyrus.bouton.principale.theses_memoires": "Soumettre un travail académique",
 
   "submission.sections.papyrus-TME.page-03": "Demande de délai de diffusion (Embargo)",
+
+  "item.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
+
+  "mydspace.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
+
+  "repository.title.prefixDSpace": "Papyrus :: ",
+
+  "item.page.date.issued": "Date de publication",
+
+  "item.page.degree.level": "Cycle d'études",
+
+  "item.page.discipline": "Programme",
+
+  "item.page.isPartOf": "Fait Partie De",
+
+  "item.page.citationTitle": "Publié dans",
+
+  "item.page.citationConferenceDate": "Date de la Conférence",
+
+  "item.page.citationConferencePlace": "Lieu de la Conférence",
+
+  "item.page.rights": "Licence CC",
+
+  "item.page.orcid": "ORCID",
+
+  "papyrus.menu.principale.sous_menu_1": "Dépôt de thèse ou mémoire",
+
+  "papyrus.menu.principale.sous_menu_2": "Guide pour le dépôt dans les collections",
+
+  "item.page.copyright": "Ce document diffusé sur Papyrus est la propriété exclusive des titulaires des droits d'auteur et est protégé par la Loi sur le droit d'auteur (L.R.C. (1985), ch. C-42). Sauf si le document est diffusé sous une licence Creative Commons, il ne peut être utilisé que dans le cadre d'une utilisation équitable et non commerciale comme le prévoit la Loi (i.e. à des fins d'étude privée ou de recherche, de critique ou de compte-rendu). Pour toute autre utilisation, une autorisation écrite des titulaires des droits d'auteur sera nécessaire.",
+
+  "menu.section.icon.processes": "Santé des processus",
+
+  "item.page.orcid.id": "ORCID",
+
+  "search.filters.language.fra": "Français",
+
+  "search.filters.language.eng": "Anglais",
+
+  "search.filters.language.spa": "Espagnol",
+
+  "search.filters.language.ita": "Italien",
+
+  "search.filters.language.deu": "Allemand",
+
+  "search.filters.language.por": "Portugais",
+
+  "search.filters.language.ell": "Grec",
+
+  "search.filters.language.lat": "Latin",
+
+  "search.filters.language.zxx": "[Sans objet]",
+
+  "search.filters.itemtype.Thèse ou mémoire / Thesis or Dissertation": "Thèse ou mémoire",
+
+  "search.filters.itemtype.Actes de congrès / Conference proceedings": "Actes de congrès",
+
+  "search.filters.itemtype.Contribution à un congrès / Conference object": "Contribution à un congrès",
+
+  "search.filters.itemtype.Présentation hors congrès / Non-conference presentation": "Présentation hors congrès",
+
+  "search.filters.itemtype.Film ou vidéo / Motion picture or video": "Film, vidéo",
+
+  "search.filters.itemtype.Rapport / Report": "Rapport",
+
+  "search.filters.itemtype.Autre / Other": "Autre",
+
+  "search.filters.itemtype.Revue / Journal": "Revue",
+
+  "search.filters.itemtype.Livre / Book": "Livre",
+
+  "search.filters.itemtype.Chapitre de livre / Book chapter": "Chapitre de livre",
+
+  "search.filters.itemtype.Carte géographique / Map": "Carte géographique",
+
+  "search.filters.itemtype.Ensemble de données / Dataset": "Ensemble de données",
+
+  "search.filters.itemtype.Enregistrement musical / Musical recording": "Enregistrement musical",
+
+  "search.filters.itemtype.Logiciel / Software": "Logiciel",
+
+  "search.filters.itemtype.Matériel didactique / Educational material": "Matériel didactique",
+
+  "search.filters.itemtype.Partition / Musical notation": "Partition",
+
+  "search.filters.itemtype.Travail étudiant / Student work": "Travail étudiant",
+
+  "item.preview.dcterms.isPartOf": "ISSN",
+
+  "item.preview.oaire.citationIssue": "Numéro",
+
+  "item.preview.oaire.citationTitle": "Titre de la revue",
+
+  "item.preview.oaire.citationVolume": "Volume",
+
+  "cookies.consent.app.disable-all.description": "Utilisez ce bouton pour activer ou désactiver tous les services.",
+
+  "cookies.consent.app.disable-all.title": "Activer ou désactiver tous les services",
+
+  "cookies.consent.content-notice.title": "Gestion des témoins de connexion",
+
+  "cookies.consent.content-notice.description.no-privacy": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>.",
+
+  "cookies.consent.content-modal.services": "services",
+
+  "cookies.consent.content-modal.service": "service",
+
+  "form.number-picker.label.Année": "Année",
+
+  "form.number-picker.label.Mois": "Mois",
+
+  "form.number-picker.label.Jour": "Jour",
+
+  "grant-request-copy.intro": "Un message sera envoyé au demandeur de la demande. Le(s) document(s) demandé(s) sera(ont) joint(s).",
+
+  "menu.section.icon.registries": "Section du menu des registres",
+
+  "menu.section.icon.statistics_task": "Section du menu des tâches statistiques",
+
+  "menu.section.icon.workflow": "Section du menu d'administration du flux de travail",
+
+  "relationships.isAuthorOf": "Auteurs",
+
+  "relationships.isAuthorOf.Person": "Auteurs (personnes)",
+
+  "relationships.isAuthorOf.OrgUnit": "Auteurs (structures organisationnelles)",
+
+  "relationships.isIssueOf": "Numéros de revue",
+
+  "relationships.isIssueOf.JournalIssue": "Numéro de revue",
+
+  "relationships.isJournalIssueOf": "Numéro de revue",
+
+  "relationships.isJournalOf": "Revues",
+
+  "relationships.isJournalVolumeOf": "Volume de revue",
+
+  "relationships.isOrgUnitOf": "Structures organisationnelles",
+
+  "relationships.isPersonOf": "Auteurs",
+
+  "relationships.isProjectOf": "Projets de recherche",
+
+  "relationships.isPublicationOf": "Publications",
+
+  "relationships.isPublicationOfJournalIssue": "Articles",
+
+  "relationships.isSingleJournalOf": "Revue",
+
+  "relationships.isSingleVolumeOf": "Volume de revue",
+
+  "relationships.isVolumeOf": "Volumes de revue",
+
+  "relationships.isVolumeOf.JournalVolume": "Volume de revue",
+
+  "relationships.isContributorOf": "Contributeurs",
+
+  "relationships.isContributorOf.OrgUnit": "Contributeur (Structure organisationnelle)",
+
+  "relationships.isContributorOf.Person": "Contributeur",
+
+  "relationships.isFundingAgencyOf.OrgUnit": "Organisme subventionnaire",
+
+  "person.page.discipline": "Discipline",
+
+  "person.page.relation.affiliation": "Affiliation",
+
+  "papyrus.person.page.discipline": "Discipline",
+
+  "papyrus.person.page.relation.affiliation": "Affiliation",
 }

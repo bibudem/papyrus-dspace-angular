@@ -1114,7 +1114,7 @@
 
   "browse.startsWith.months.september": "September",
 
-  "browse.startsWith.submit": "Browse",
+  "browse.startsWith.submit": "Search",
 
   "browse.startsWith.type_date": "Filter results by date",
 
@@ -1502,7 +1502,7 @@
 
   "community.edit.notifications.unauthorized": "You do not have privileges to make this change",
 
-  "community.edit.notifications.error": "An error occured while editing the community",
+  "community.edit.notifications.error": "An error occurred while editing the community",
 
   "community.edit.return": "Back",
 
@@ -1648,7 +1648,7 @@
 
   "cookies.consent.save": "Save",
 
-  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: {purposes}",
+  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our <a href='https://vie-privee.umontreal.ca/confidentialite'>privacy policy.</a>",
 
   "cookies.consent.content-notice.learnMore": "Customize",
 
@@ -1656,7 +1656,7 @@
 
   "cookies.consent.content-modal.privacy-policy.name": "privacy policy",
 
-  "cookies.consent.content-modal.privacy-policy.text": "To learn more, please read our {privacyPolicy}.",
+  "cookies.consent.content-modal.privacy-policy.text": "To learn more, please read our <a href='https://vie-privee.umontreal.ca/confidentialite'>privacy policy.</a>",
 
   "cookies.consent.content-modal.no-privacy-policy.text": "",
 
@@ -1728,7 +1728,7 @@
 
   "curation.form.submit.error.head": "Running the curation task failed",
 
-  "curation.form.submit.error.content": "An error occured when trying to start the curation task.",
+  "curation.form.submit.error.content": "An error occurred when trying to start the curation task.",
 
   "curation.form.submit.error.invalid-handle": "Couldn't determine the handle for this object",
 
@@ -1992,7 +1992,7 @@
 
   "forgot-email.form.header": "Forgot Password",
 
-  "forgot-email.form.info": "If you are a member of the UdeM community, please use UdeM authentication to log in to Papyrus instead. If you have a problem with your UdeM password, refer to the IT help pages (https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie). If you are unable to use UdeM authentication or if you must use a shared email address to access your Papyrus account, enter the email address associated with the account to reset the password.",
+  "forgot-email.form.info": "If you are a member of the UdeM community, please use UdeM authentication to log in to Papyrus instead. If you have a problem with your UdeM password, refer to the IT help pages: https://ti.umontreal.ca/offre-de-services/services-par-categorie/comptes-et-mots-de-passe/authentification-code-dacces-unip/#unip-oublie. If you are unable to use UdeM authentication or if you must use a shared email address to access your Papyrus account, enter the email address associated with the account to reset the password.",
 
   "forgot-email.form.email": "Email Address *",
 
@@ -2010,7 +2010,7 @@
 
   "forgot-email.form.error.head": "Error when trying to reset password",
 
-  "forgot-email.form.error.content": "An error occured when attempting to reset the password for the account associated with the following email address: {{ email }}",
+  "forgot-email.form.error.content": "An error occurred when attempting to reset the password for the account associated with the following email address: {{ email }}",
 
   "forgot-password.title": "Forgot Password",
 
@@ -2960,7 +2960,7 @@
 
   "item.page.orcid-ico": "ORCID icon",
 
-  "item.page.orcid-profile": "ORCID Profile",
+  "item.page.orcid-profile": "ORCID",
 
   "item.page.person.search.title": "Articles by this author",
 
@@ -3012,7 +3012,7 @@
 
   "item.preview.dc.date.issued": "Published date:",
 
-  "item.preview.dc.description": "Description:",
+  "item.preview.dc.description": "Description",
 
   "item.preview.dc.description.abstract": "Abstract:",
 
@@ -3101,8 +3101,6 @@
   "item.preview.dc.identifier.issn": "ISSN",
 
   "item.preview.dc.identifier.openalex": "OpenAlex Identifier",
-
-  "item.preview.dc.description": "Description",
 
   "item.select.confirm": "Confirm selected",
 
@@ -3922,7 +3920,7 @@
 
   "orgunit.page.options": "Options",
 
-  "orgunit.page.titleprefix": "Organizational Unit: ",
+  "orgunit.page.titleprefix": "",
 
   "orgunit.page.ror": "ROR Identifier",
 
@@ -3964,7 +3962,7 @@
 
   "person.page.staffid": "Staff ID",
 
-  "person.page.titleprefix": "Person: ",
+  "person.page.titleprefix": "",
 
   "person.search.results.head": "Person Search Results",
 
@@ -4382,7 +4380,7 @@
 
   "register-page.registration.error.head": "Error when trying to register email",
 
-  "register-page.registration.error.content": "An error occured when registering the following email address: {{ email }}",
+  "register-page.registration.error.content": "An error occurred when registering the following email address: {{ email }}",
 
   "register-page.registration.error.recaptcha": "Error when trying to authenticate with recaptcha",
 
@@ -4621,6 +4619,7 @@
   "search.filters.applied.f.original_bundle_filenames": "File name",
 
   "search.filters.applied.f.original_bundle_descriptions": "File description",
+
   "search.filters.applied.f.has_geospatial_metadata": "Has geographical location",
 
   "search.filters.applied.f.itemtype": "Type",
@@ -5567,7 +5566,7 @@
 
   "submission.sections.general.sections_not_valid": "There are incomplete sections.",
 
-  "submission.sections.identifiers.info": "The following identifiers will be created for your item:",
+  "submission.sections.identifiers.info": "The following identifiers will be created for your item after it's accepted. Note: If you are submitting a published work (e. g. article or book chapter) which already has a DOI, Papyrus will not assign a new DOI; the handle will be the only persistent identifier for this version in Papyrus.",
 
   "submission.sections.identifiers.no_handle": "No handles have been minted for this item.",
 
@@ -6483,7 +6482,7 @@
 
   "item.page.uri.permalink": "Permalink",
 
-  "item.page.cc.license.title": "Creative Commons license",
+  "item.page.cc.license.title": "License",
 
   "item.page.cc.license.disclaimer": "Except where otherwise noted, this item's license is described as",
 
@@ -6508,8 +6507,6 @@
   "browse.metadata.srsc.tree.descrption": "Select a subject to add as search filter",
 
   "browse.metadata.nsi.tree.descrption": "Select an index to add as search filter",
-
-  "error.validation.cclicense.required": "You must grant this cclicense to complete your submission. If you are unable to grant the cclicense at this time, you may save your work and return later or remove the submission.",
 
   "item.page.affiliation": "Affiliation",
 
@@ -6901,13 +6898,13 @@
 
   "error.validation.coarnotify.invalidfilter": "Invalid filter, try to select another service or none.",
 
-  "request-status-alert-box.accepted": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'>{{ serviceName }}</a> has been taken in charge.",
+  "request-status-alert-box.accepted": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'> {{ serviceName }}  </a> has been taken in charge.",
 
-  "request-status-alert-box.rejected": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'>{{ serviceName }}</a> has been rejected.",
+  "request-status-alert-box.rejected": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'> {{ serviceName }}  </a> has been rejected.",
 
   "request-status-alert-box.tentative_rejected": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'>{{ serviceName }}</a> has been tentatively rejected. Revisions are required",
 
-  "request-status-alert-box.requested": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'>{{ serviceName }}</a> is pending.",
+  "request-status-alert-box.requested": "The requested {{ offerType }} for <a href='{{serviceUrl}}' target='_blank'> {{ serviceName }}  </a> is pending.",
 
   "ldn-service-button-mark-inbound-deletion": "Mark supported pattern for deletion",
 
@@ -7301,12 +7298,6 @@
 
   "form.date-picker.placeholder.day": "Day",
 
-  "item.page.cc.license.title": "Creative Commons license",
-
-  "item.page.cc.license.disclaimer": "Except where otherwise noted, this item's license is described as",
-
-  "browse.search-form.placeholder": "Search the repository",
-
   "file-download-link.download": "Download ",
 
   "register-page.registration.aria.label": "Enter your e-mail address",
@@ -7317,7 +7308,7 @@
 
   "live-region.ordering.instructions": "Press spacebar to reorder {{ itemName }}.",
 
-  "live-region.ordering.status": "{{ itemName }}, grabbed. Current position in list: {{ index }} of {{ length }}. Press up and down arrow keys to change position, SpaceBar to drop, Escape to cancel.",
+  "live-region.ordering.status": "{{ itemName }}, grabbed. Current position in list: {{ index }} of  {{ length }}. Press up and down arrow keys to change position, SpaceBar to drop, Escape to cancel.",
 
   "live-region.ordering.moved": "{{ itemName }}, moved to position {{ index }} of {{ length }}. Press up and down arrow keys to change position, SpaceBar to drop, Escape to cancel.",
 
@@ -7538,4 +7529,126 @@
   "papyrus.bouton.principale.theses_memoires": "Submit an academic work",
 
   "submission.sections.papyrus-TME.page-03": "Request for public access delay (Embargo)",
+
+  "item.page.orcid": "ORCID",
+
+  "browse.comcol.by.advisor": "By Advisor",
+
+  "browse.comcol.by.discipline": "By Discipline",
+
+  "browse.comcol.by.affiliation": "By Affiliation",
+
+  "item.page.rights": "CC License",
+
+  "item.qa-event-notification.check.notification-info": "There are {{num}} pending suggestions related to your account",
+
+  "mydspace.qa-event-notification.check.notification-info": "There are {{num}} pending suggestions related to your account",
+
+  "item.page.date.issued": "Date",
+
+  "item.page.degree.level": "Degree Level",
+
+  "item.page.discipline": "Discipline",
+
+  "item.page.citationTitle": "Published in",
+
+  "item.page.citationVolume": "Volume",
+
+  "item.page.citationIssue": "Issue",
+
+  "item.page.citationStartPage": "Start Page",
+
+  "item.page.citationEndPage": "End Page",
+
+  "item.page.citationConferenceDate": "Conference Date",
+
+  "item.page.citationConferencePlace": "Conference Place",
+
+  "menu.section.browse_global_by_advisor": "By Advisor",
+
+  "menu.section.browse_global_by_discipline": "By Discipline",
+
+  "menu.section.browse_global_by_affiliation": "By Affiliation",
+
+  "menu.section.browse_global_by_titleindex": "By Title Index",
+
+  "relationships.isIssueOf.JournalIssue": "Journal Issue",
+
+  "relationships.isJournalVolumeOf": "Journal Volume",
+
+  "relationships.isVolumeOf.JournalVolume": "Journal Volume",
+
+  "item.page.copyright": "This document disseminated on Papyrus is the exclusive property of the copyright holders and is protected by the Copyright Act (R.S.C. 1985, c. C-42). Unless the document is published under a Creative Commons licence, it may be used for fair dealing and non-commercial purposes, for private study or research, criticism and review as provided by law. For any other use, written authorization from the copyright holders is required.",
+
+  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>.",
+
+  "item.page.orcid.id": "ORCID",
+
+  "search.filters.language.fra": "French",
+
+  "search.filters.language.eng": "English",
+
+  "search.filters.language.spa": "Spanish",
+
+  "search.filters.language.ita": "Italian",
+
+  "search.filters.language.deu": "German",
+
+  "search.filters.language.por": "Portuguese",
+
+  "search.filters.language.ell": "Greek",
+
+  "search.filters.language.lat": "Latin",
+
+  "search.filters.language.zxx": "N/A",
+
+  "search.filters.itemtype.Thèse ou mémoire / Thesis or Dissertation": "Thesis or Dissertation",
+
+  "search.filters.itemtype.Actes de congrès / Conference proceedings": "Conference proceedings",
+
+  "search.filters.itemtype.Contribution à un congrès / Conference object": "Conference object",
+
+  "search.filters.itemtype.Présentation hors congrès / Non-conference presentation": "Non-conference presentation",
+
+  "search.filters.itemtype.Film ou vidéo / Motion picture or video": "Motion picture or video",
+
+  "search.filters.itemtype.Rapport / Report": "Report",
+
+  "search.filters.itemtype.Autre / Other": "Other",
+
+  "search.filters.itemtype.Revue / Journal": "Journal",
+
+  "search.filters.itemtype.Livre / Book": "Book",
+
+  "search.filters.itemtype.Chapitre de livre / Book chapter": "Book chapter",
+
+  "search.filters.itemtype.Carte géographique / Map": "Map",
+
+  "search.filters.itemtype.Ensemble de données / Dataset": "Dataset",
+
+  "search.filters.itemtype.Enregistrement musical / Musical recording": "Musical recording",
+
+  "search.filters.itemtype.Logiciel / Software": "Software",
+
+  "search.filters.itemtype.Matériel didactique / Educational material": "Educational material",
+
+  "search.filters.itemtype.Partition / Musical notation": "Musical notation",
+
+  "search.filters.itemtype.Travail étudiant / Student work": "Student work",
+
+  "item.preview.dcterms.isPartOf": "ISSN",
+
+  "item.preview.oaire.citationIssue": "Issue",
+
+  "item.preview.oaire.citationTitle": "Published in",
+
+  "item.preview.oaire.citationVolume": "Volume",
+
+  "person.page.discipline": "Expertise",
+
+  "person.page.relation.affiliation": "Affiliation",
+
+  "papyrus.person.page.discipline": "Expertise",
+
+  "papyrus.person.page.relation.affiliation": "Affiliation",
 }

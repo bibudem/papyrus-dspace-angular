@@ -946,4 +946,11 @@
   "item.preview.oaire.citationIssue": "Issue",
   "item.preview.oaire.citationTitle": "Published in",
   "item.preview.oaire.citationVolume": "Volume",
+
+  "item.page.orcid-profile": "ORCID",
+
+  "papyrus.person.page.discipline": "Expertise",
+  "papyrus.person.page.relation.affiliation": "Affiliation",
+  "person.page.titleprefix": "",
+  "orgunit.page.titleprefix": "",
 }
