@@ -2,20 +2,16 @@
 
 <div class="person-page">
 
-  <!-- Titre + menu édition ───────────────────────────────────────────────── -->
   <div class="d-flex align-items-start justify-content-between mb-4">
     <ds-item-page-title-field class="flex-grow-1 me-2" [item]="object">
     </ds-item-page-title-field>
     <ds-dso-edit-menu class="flex-shrink-0"></ds-dso-edit-menu>
   </div>
 
-  <!-- Grille principale ──────────────────────────────────────────────────── -->
   <div class="row g-3 align-items-start">
 
-    <!-- ── Barre latérale : photo + métadonnées DSpace (col-md-3) ────────── -->
     <aside class="col-12 col-md-3">
 
-      <!-- Photo -->
       <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
         <ds-thumbnail [thumbnail]="object?.thumbnail | async"
                       [defaultImage]="'assets/orcid/images/person-placeholder.svg'"
@@ -24,35 +20,26 @@
         </ds-thumbnail>
       </ds-metadata-field-wrapper>
 
-      <!-- Carte identité DSpace -->
-      <div class="mt-3 border-start border-3 ps-3" style="border-color: #04696c !important;">
+      <div class="mt-3">
         <ds-generic-item-page-field [item]="object"
           [fields]="['person.jobTitle']"
           [label]="'person.page.jobtitle'">
         </ds-generic-item-page-field>
-        <ds-generic-item-page-field [item]="object"
-          [fields]="['person.familyName']"
-          [label]="'person.page.lastname'">
-        </ds-generic-item-page-field>
-        <ds-generic-item-page-field [item]="object"
-          [fields]="['person.givenName']"
-          [label]="'person.page.firstname'">
-        </ds-generic-item-page-field>
-        <ds-generic-item-page-field [item]="object"
-          [fields]="['dc.title']"
-          [label]="'person.page.name'">
-        </ds-generic-item-page-field>
+        <ds-item-page-orcid-field [item]="object"></ds-item-page-orcid-field>
         <ds-generic-item-page-field [item]="object"
           [fields]="['person.email']"
           [label]="'person.page.email'">
         </ds-generic-item-page-field>
         <ds-generic-item-page-field [item]="object"
-          [fields]="['person.birthDate']"
-          [label]="'person.page.birthdate'">
+          [fields]="['dc.subject.discipline']"
+          [label]="'papyrus.person.page.discipline'">
         </ds-generic-item-page-field>
+        <ds-item-page-uri-field [item]="object"
+          [fields]="['dc.identifier.uri']"
+          [label]="'item.page.uri'">
+        </ds-item-page-uri-field>
       </div>
 
-      <!-- Lien page complète -->
       <div class="mt-3">
         <a class="btn btn-outline-primary btn-sm"
            [routerLink]="[itemPageRoute + '/full']"
@@ -63,11 +50,15 @@
 
     </aside>
 
-    <!-- ── Contenu principal : enrichissement ORCID (col-md-9) ───────────── -->
     <main class="col-12 col-md-9">
-      <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment> 
+      <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
 
       <div class="mt-3">
+        <ds-related-items
+          [parentItem]="object"
+          [relationType]="'isOrgUnitOfPerson'"
+          [label]="'papyrus.person.page.relation.affiliation' | translate">
+        </ds-related-items>
         <ds-related-items
           [parentItem]="object"
           [relationType]="'isProjectOfPerson'"
@@ -75,12 +66,16 @@
         </ds-related-items>
         <ds-related-items
           [parentItem]="object"
-          [relationType]="'isOrgUnitOfPerson'"
-          [label]="'relationships.isOrgUnitOf' | translate">
+          [relationType]="'isPublicationOfAuthor'"
+          [label]="'relationships.isPublicationOf' | translate">
+        </ds-related-items>
+        <ds-related-items
+          [parentItem]="object"
+          [relationType]="'isPublicationOfAdvisor'"
+          [label]="'item.page.advisor' | translate">
         </ds-related-items>
       </div>
     </main>
-
 
   </div>
 

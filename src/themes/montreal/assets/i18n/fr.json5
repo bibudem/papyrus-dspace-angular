@@ -1749,5 +1749,12 @@
   "item.preview.organization.address.addressLocality": "Ville",
   "item.preview.organization.alternateName": "Nom alternatif",
   "item.page.orcid-ico": "Icône ORCID",
-  "item.page.orcid-profile": "Profil ORCID",
+  "item.page.orcid-profile": "ORCID",
+
+  "papyrus.person.page.discipline": "Discipline",
+  "papyrus.person.page.relation.affiliation": "Affiliation",
+  "person.page.titleprefix": "",
+  "orgunit.page.titleprefix": "",
+
+  "search.filters.filter.entityType.head": "Type d'item",
   }
