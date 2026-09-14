@@ -292,6 +292,8 @@ ds-file-download-link a.dont-break-out:hover {
   background-color: $green;
   margin-top: -16px;
   border-top: 10px solid $green;
+  // L'image secondaire est en position absolute et peut déborder sous le cadre.
+  overflow: hidden;
 
   .section-title {
     font-family: $font-family-sans-serif;
@@ -390,6 +392,13 @@ ds-file-download-link a.dont-break-out:hover {
     outline: 2px solid $darkgreen;
     outline-offset: 2px;
   }
+}
+
+// Coin décoratif du bouton de menu d'édition (crayon/cloche/...), pensé pour
+// un bouton carré : avec nos boutons en pilule ronde (.btn ci-dessus), ce
+// triangle dépasse du cercle au lieu de rester dans le coin.
+.dso-button-menu .dropdown-toggle::after {
+  display: none;
 }
 
 .bg-footer-dark {
