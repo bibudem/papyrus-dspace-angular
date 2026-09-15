@@ -16,7 +16,7 @@ import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/
 /**
  * Carte "chercheur·euse" (vue grille) pour l'annuaire UdeM : image de remplacement au lieu
  * du texte "Pas de vignette d'image disponible", cadre plus ergonomique (voir
- * .directory-grid-card dans styles/_directory-styles.scss).
+ * .orcid-grid-card dans styles/_orcid-style.scss).
  */
 @listableObjectComponent('PersonSearchResult', ViewMode.GridElement, Context.Any, 'orcid')
 @Component({

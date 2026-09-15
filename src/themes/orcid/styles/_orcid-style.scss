@@ -1,6 +1,6 @@
 // Styles de l'annuaire des chercheurs (thème "orcid" uniquement, cf. config.papyrus.yml).
 
-.directory-search-result-card {
+.orcid-search-result-card {
   position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
   display: flex;
   align-items: center;
@@ -16,7 +16,7 @@
     border-color: rgba(4, 105, 108, 0.35);
     background-color: rgba(4, 105, 108, 0.04);
 
-    .directory-search-result-card__arrow {
+    .orcid-search-result-card__arrow {
       transform: translateX(0.25rem);
       color: var(--bs-primary, #04696c);
     }
@@ -76,7 +76,7 @@
   }
 }
 
-.directory-grid-card {
+.orcid-grid-card {
   border: 1.5px solid var(--bs-border-color, #dee2e6);
   border-radius: 0.75rem;
   overflow: hidden;
@@ -92,7 +92,7 @@
   // .outer/.inner (voir thumbnail.component.scss) simulent normalement un ratio A4 via un
   // padding-top, qu'on annule ici au profit de ce ratio.
   .card-img-top {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 1;
     height: auto;
     overflow: hidden;
     border: none;

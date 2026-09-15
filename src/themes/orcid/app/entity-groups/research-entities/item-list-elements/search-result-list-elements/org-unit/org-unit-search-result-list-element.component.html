@@ -1,7 +1,7 @@
-<div class="directory-search-result-card">
+<div class="orcid-search-result-card">
   <a *ngIf="linkType !== linkTypes.None" [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
      [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
-     [routerLink]="[itemPageRoute]" class="directory-search-result-card__thumbnail" role="link" tabindex="-1">
+     [routerLink]="[itemPageRoute]" class="orcid-search-result-card__thumbnail" role="link" tabindex="-1">
     <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
                   [defaultImage]="'assets/orcid/images/orgunit-placeholder.svg'"
                   [alt]="'thumbnail.orgunit.alt'"
@@ -9,19 +9,19 @@
     </ds-thumbnail>
   </a>
 
-  <div class="directory-search-result-card__body">
+  <div class="orcid-search-result-card__body">
     <ds-badges *ngIf="showLabel" [object]="dso" [context]="context"></ds-badges>
 
     <ds-truncatable [id]="dso.id">
       <a *ngIf="linkType !== linkTypes.None" [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
          [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
-         [routerLink]="[itemPageRoute]" class="directory-search-result-card__name stretched-link"
+         [routerLink]="[itemPageRoute]" class="orcid-search-result-card__name stretched-link"
          [innerHTML]="dsoTitle || ('orgunit.listelement.no-title' | translate)" role="link" tabindex="0"></a>
       <span *ngIf="linkType === linkTypes.None"
-            class="directory-search-result-card__name"
+            class="orcid-search-result-card__name"
             [innerHTML]="dsoTitle || ('orgunit.listelement.no-title' | translate)"></span>
 
-      <span *ngIf="dso.allMetadata(['dc.description']).length > 0" class="directory-search-result-card__meta">
+      <span *ngIf="dso.allMetadata(['dc.description']).length > 0" class="orcid-search-result-card__meta">
         <ds-truncatable-part [id]="dso.id" [minLines]="3">
           <span [innerHTML]="firstMetadataValue('dc.description')"></span>
         </ds-truncatable-part>
@@ -29,5 +29,5 @@
     </ds-truncatable>
   </div>
 
-  <i *ngIf="linkType !== linkTypes.None" class="fas fa-chevron-right directory-search-result-card__arrow" aria-hidden="true"></i>
+  <i *ngIf="linkType !== linkTypes.None" class="fas fa-chevron-right orcid-search-result-card__arrow" aria-hidden="true"></i>
 </div>
