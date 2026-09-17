@@ -18,9 +18,12 @@ import { ThemedResultsBackButtonComponent } from '../../../../../../../app/share
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
 
+type ProfileSection = 'papyrus' | 'orcid';
+
 /**
- * Fiche Person de l'annuaire UdeM : identique à la fiche de base, avec le panneau
- * d'enrichissement ORCID en plus (voir ../../../orcid-members/).
+ * Fiche Person de l'annuaire UdeM. Le contenu principal a 2 onglets : « Papyrus » (relations
+ * DSpace) et « ORCID » (panneau d'enrichissement, voir ../../../orcid-members/) — pour
+ * distinguer les données du dépôt institutionnel de celles importées d'ORCID.
  */
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'orcid')
 @Component({
@@ -51,4 +54,11 @@ import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-
     OrcidPersonEnrichmentComponent,
   ],
 })
-export class PersonComponent extends BaseComponent {}
+export class PersonComponent extends BaseComponent {
+  /** Onglet actif — « Papyrus » par défaut. */
+  activeSection: ProfileSection = 'papyrus';
+
+  setSection(section: ProfileSection): void {
+    this.activeSection = section;
+  }
+}

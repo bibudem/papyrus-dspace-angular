@@ -51,9 +51,30 @@
     </aside>
 
     <main class="col-12 col-md-9">
-      <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
 
-      <div class="mt-3">
+      <nav class="profile-tabs" role="tablist" aria-label="Sections du profil">
+        <button role="tab" type="button"
+                class="profile-tab profile-tab--papyrus"
+                [class.profile-tab--active]="activeSection === 'papyrus'"
+                [attr.aria-selected]="activeSection === 'papyrus'"
+                (click)="setSection('papyrus')"
+                id="profile-tab-papyrus" aria-controls="profile-panel-papyrus">
+          <i class="fas fa-university" aria-hidden="true"></i>
+          {{ 'papyrus.person.page.tab.papyrus' | translate }}
+        </button>
+        <button role="tab" type="button"
+                class="profile-tab profile-tab--orcid"
+                [class.profile-tab--active]="activeSection === 'orcid'"
+                [attr.aria-selected]="activeSection === 'orcid'"
+                (click)="setSection('orcid')"
+                id="profile-tab-orcid" aria-controls="profile-panel-orcid">
+          <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16"/>
+          {{ 'papyrus.person.page.tab.orcid' | translate }}
+        </button>
+      </nav>
+
+      <section id="profile-panel-papyrus" role="tabpanel" aria-labelledby="profile-tab-papyrus"
+               class="mt-3" *ngIf="activeSection === 'papyrus'">
         <ds-related-items
           [parentItem]="object"
           [relationType]="'isOrgUnitOfPerson'"
@@ -74,7 +95,13 @@
           [relationType]="'isPublicationOfAdvisor'"
           [label]="'item.page.advisor' | translate">
         </ds-related-items>
-      </div>
+      </section>
+
+      <section id="profile-panel-orcid" role="tabpanel" aria-labelledby="profile-tab-orcid"
+               class="mt-3" *ngIf="activeSection === 'orcid'">
+        <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
+      </section>
+
     </main>
 
   </div>

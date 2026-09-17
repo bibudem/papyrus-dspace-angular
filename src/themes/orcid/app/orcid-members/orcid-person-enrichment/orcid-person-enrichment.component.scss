@@ -71,45 +71,32 @@ $orcid-green: #a6ce39;
   white-space: nowrap;
 }
 
-// ── Navigation onglets ───────────────────────────────────────────────────────
+// ── Corps (vue continue : biographie, parcours professionnel, travaux) ──────
 
-.oe-tabs {
+.oe-body {
+  padding: 1.5rem;
+}
+
+.oe-section {
+  & + & {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba($greensecondary, 0.12);
+  }
+}
+
+.oe-section-title {
   display: flex;
-  border-bottom: 2px solid rgba($greensecondary, 0.12);
-  background-color: $white;
-  padding: 0 0.5rem;
-  gap: 0;
-}
-
-.oe-tab {
-  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.75rem 1rem;
-  background: none;
-  border: none;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
+  gap: 0.4rem;
   font-family: 'Figtree', sans-serif;
-  font-size: 0.83rem;
-  font-weight: 600;
-  color: $gray-500;
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  white-space: nowrap;
-
-  &:hover {
-    color: $greensecondary;
-    border-bottom-color: rgba($greensecondary, 0.35);
-  }
-
-  &--active {
-    color: $greensecondary;
-    border-bottom-color: $greensecondary;
-  }
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $darkgreen;
+  margin-bottom: 1rem;
 }
 
-.oe-tab-badge {
+.oe-section-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -122,27 +109,6 @@ $orcid-green: #a6ce39;
   font-size: 0.68rem;
   font-weight: 700;
   border: 1px solid rgba($greensecondary, 0.2);
-}
-
-.oe-tab--active .oe-tab-badge {
-  background-color: $greensecondary;
-  color: $white;
-  border-color: $greensecondary;
-}
-
-// ── Corps de l'onglet ────────────────────────────────────────────────────────
-
-.oe-tab-body {
-  padding: 1.5rem 1.5rem;
-}
-
-.oe-tab-panel {
-  animation: oe-fadein 0.2s ease;
-}
-
-@keyframes oe-fadein {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 // ── Biographie ───────────────────────────────────────────────────────────────
@@ -318,8 +284,7 @@ $orcid-green: #a6ce39;
   border-radius: 6px;
 
   &.sk-header { height: 60px;  border-radius: 12px 12px 0 0; }
-  &.sk-tabs   { height: 44px;  border-radius: 0; }
-  &.sk-body   { height: 220px; border-radius: 0 0 12px 12px; }
+  &.sk-body   { height: 260px; border-radius: 0 0 12px 12px; }
 }
 
 @keyframes oe-shimmer {

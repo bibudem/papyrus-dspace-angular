@@ -113,3 +113,56 @@
     }
   }
 }
+
+// Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les
+// relations DSpace (dépôt institutionnel) du panneau d'enrichissement (données externes).
+.profile-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--bs-border-color, #dee2e6);
+  margin-bottom: 0.25rem;
+}
+
+.profile-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.75rem;
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--bs-secondary-color, #6c757d);
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+  img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+    transition: opacity 0.15s ease-in-out;
+  }
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg, #f8f9fa);
+    color: var(--bs-body-color, #212529);
+  }
+
+  // Couleur de base du projet (--bs-primary, définie sur $green dans le thème montreal).
+  &--papyrus.profile-tab--active {
+    color: var(--bs-primary, #024244);
+    border-color: var(--bs-primary, #024244);
+  }
+
+  &--orcid.profile-tab--active {
+    color: #a6ce39; // couleur officielle ORCID
+    border-color: #a6ce39;
+
+    img {
+      opacity: 1;
+    }
+  }
+}

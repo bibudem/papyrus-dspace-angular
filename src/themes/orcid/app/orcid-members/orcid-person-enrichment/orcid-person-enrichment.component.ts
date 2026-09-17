@@ -63,9 +63,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
    */
   vm$: Observable<OrcidPanelViewModel> = EMPTY;
 
-  /** Onglet actif : 0 = Biographie, 1 = Affiliations, 2 = Publications */
-  activeTab = 0;
-
   /** Nombre de publications affichées par défaut avant le bouton "voir plus". */
   readonly worksPreviewCount = 5;
 
@@ -130,11 +127,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   // ── Méthodes template ─────────────────────────────────────────────────────
 
-  /** Change l'onglet actif. */
-  setTab(index: number): void {
-    this.activeTab = index;
-  }
-
   /**
    * Retourne la clé i18n correspondant au type de travail ORCID.
    * Repli sur `other` pour les types non reconnus.
@@ -161,11 +153,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   // ── Utilitaires privés ────────────────────────────────────────────────────
 
   /**
-   * Extrait et normalise l'ORCID iD depuis les métadonnées DSpace.
-   * Accepte aussi bien `0000-0000-0000-0000` que `https://orcid.org/0000-…`.
-   * Retourne `null` si la valeur est absente ou vide.
-   */
-  /**
    * Clés de métadonnées DSpace connues pour l'ORCID iD, par ordre de priorité.
    *
    * | Clé                    | Contexte                           |
@@ -178,6 +165,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     'person.identifier.orcid',
   ] as const;
 
+  /**
+   * Extrait et normalise l'ORCID iD depuis les métadonnées DSpace.
+   * Accepte aussi bien `0000-0000-0000-0000` que `https://orcid.org/0000-…`.
+   * Retourne `null` si la valeur est absente ou vide.
+   */
   private extractOrcidId(): string | null {
     let raw: string | undefined;
     let foundKey: string | undefined;

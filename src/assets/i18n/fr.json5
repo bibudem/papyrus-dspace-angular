@@ -7606,7 +7606,7 @@
 
   "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
 
-  "papyrus.orcid-profile.employment": "Affiliations",
+  "papyrus.orcid-profile.employment": "Parcours professionnel",
 
   "papyrus.orcid-profile.employment.present": "Présent",
 
@@ -7616,7 +7616,7 @@
 
   "papyrus.orcid-profile.links": "Liens",
 
-  "papyrus.orcid-profile.publications": "Publications",
+  "papyrus.orcid-profile.publications": "Travaux",
 
   "papyrus.orcid-profile.publications.total": "{{count}} publications",
 
@@ -7815,4 +7815,8 @@
   "papyrus.person.page.discipline": "Discipline",
 
   "papyrus.person.page.relation.affiliation": "Affiliation",
+
+  "papyrus.person.page.tab.papyrus": "Papyrus",
+
+  "papyrus.person.page.tab.orcid": "ORCID",
 }

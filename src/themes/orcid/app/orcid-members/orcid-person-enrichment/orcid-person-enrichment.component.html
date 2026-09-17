@@ -3,7 +3,6 @@
   <!-- Chargement ─────────────────────────────────────────────────────────── -->
   <div *ngIf="vm.status === 'loading'" class="oe-loading">
     <div class="oe-skeleton sk-header mb-3"></div>
-    <div class="oe-skeleton sk-tabs mb-1"></div>
     <div class="oe-skeleton sk-body"></div>
   </div>
 
@@ -37,46 +36,15 @@
         </div>
       </div>
 
-      <!-- Navigation par onglets ──────────────────────────────────────────── -->
-      <nav class="oe-tabs" role="tablist" aria-label="Sections du profil ORCID">
-        <button role="tab"
-                class="oe-tab" [class.oe-tab--active]="activeTab === 0"
-                [attr.aria-selected]="activeTab === 0"
-                (click)="setTab(0)"
-                id="oe-tab-0" aria-controls="oe-panel-0">
-          <i class="fas fa-user-circle me-1" aria-hidden="true"></i>
-          {{ 'papyrus.orcid-profile.biography' | translate }}
-        </button>
-        <button role="tab"
-                class="oe-tab" [class.oe-tab--active]="activeTab === 1"
-                [attr.aria-selected]="activeTab === 1"
-                (click)="setTab(1)"
-                id="oe-tab-1" aria-controls="oe-panel-1">
-          <i class="fas fa-building me-1" aria-hidden="true"></i>
-          {{ 'papyrus.orcid-profile.employment' | translate }}
-          <span class="oe-tab-badge" *ngIf="profile.employments.length > 0">{{ profile.employments.length }}</span>
-        </button>
-        <button role="tab"
-                class="oe-tab" [class.oe-tab--active]="activeTab === 2"
-                [attr.aria-selected]="activeTab === 2"
-                (click)="setTab(2)"
-                id="oe-tab-2" aria-controls="oe-panel-2">
-          <i class="fas fa-book-open me-1" aria-hidden="true"></i>
-          {{ 'papyrus.orcid-profile.publications' | translate }}
-          <span class="oe-tab-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
-        </button>
-      </nav>
+      <!-- Contenu : biographie + liens, puis parcours professionnel, puis travaux ─ -->
+      <div class="oe-body">
 
-      <!-- Contenu des onglets ─────────────────────────────────────────────── -->
-      <div class="oe-tab-body">
-
-        <!-- Onglet 0 : Biographie + Liens ──────────────────────────────── -->
-        <section id="oe-panel-0"
-                 role="tabpanel"
-                 aria-labelledby="oe-tab-0"
-                 class="oe-tab-panel"
-                 [class.oe-tab-panel--visible]="activeTab === 0"
-                 *ngIf="activeTab === 0">
+        <!-- Biographie ───────────────────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            <i class="fas fa-user-circle me-2" aria-hidden="true"></i>
+            {{ 'papyrus.orcid-profile.biography' | translate }}
+          </h3>
 
           <p *ngIf="profile.biography; else noBio" class="oe-bio-text">
             {{ profile.biography }}
@@ -102,13 +70,13 @@
           </div>
         </section>
 
-        <!-- Onglet 1 : Affiliations ─────────────────────────────────────── -->
-        <section id="oe-panel-1"
-                 role="tabpanel"
-                 aria-labelledby="oe-tab-1"
-                 class="oe-tab-panel"
-                 [class.oe-tab-panel--visible]="activeTab === 1"
-                 *ngIf="activeTab === 1">
+        <!-- Parcours professionnel ───────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            <i class="fas fa-building me-2" aria-hidden="true"></i>
+            {{ 'papyrus.orcid-profile.employment' | translate }}
+            <span class="oe-section-badge" *ngIf="profile.employments.length > 0">{{ profile.employments.length }}</span>
+          </h3>
 
           <div *ngIf="profile.employments.length > 0; else noEmpl" class="oe-emp-list">
             <div *ngFor="let emp of profile.employments" class="oe-emp-item">
@@ -128,22 +96,15 @@
           <ng-template #noEmpl>
             <p class="oe-empty">{{ 'papyrus.orcid-profile.employment.empty' | translate }}</p>
           </ng-template>
-
         </section>
 
-        <!-- Onglet 2 : Publications ─────────────────────────────────────── -->
-        <section id="oe-panel-2"
-                 role="tabpanel"
-                 aria-labelledby="oe-tab-2"
-                 class="oe-tab-panel"
-                 [class.oe-tab-panel--visible]="activeTab === 2"
-                 *ngIf="activeTab === 2">
-
-          <div class="oe-pub-header mb-3" *ngIf="profile.worksTotal > 0">
-            <span class="publications-count-badge">
-              {{ 'papyrus.orcid-profile.publications.total' | translate:{ count: profile.worksTotal } }}
-            </span>
-          </div>
+        <!-- Travaux ───────────────────────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            <i class="fas fa-book-open me-2" aria-hidden="true"></i>
+            {{ 'papyrus.orcid-profile.publications' | translate }}
+            <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
+          </h3>
 
           <p *ngIf="profile.works.length === 0" class="oe-empty">
             {{ 'papyrus.orcid-profile.publications.empty' | translate }}
@@ -188,8 +149,8 @@
               </ng-container>
             </button>
           </div>
-
         </section>
+
       </div>
 
     </div>
