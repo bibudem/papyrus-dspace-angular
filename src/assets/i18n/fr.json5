@@ -7612,6 +7612,10 @@
 
   "papyrus.orcid-profile.employment.empty": "Aucune affiliation renseignée.",
 
+  "papyrus.orcid-profile.employment.show-more": "Voir {{count}} affiliations de plus",
+
+  "papyrus.orcid-profile.employment.show-less": "Voir moins",
+
   "papyrus.orcid-profile.keywords": "Domaines de recherche",
 
   "papyrus.orcid-profile.links": "Liens",

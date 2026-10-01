@@ -1,7 +1,5 @@
 @import '../../../../montreal/styles/_variables_papyrus.scss';
 
-$orcid-green: #a6ce39;
-
 // ── Panneau principal ────────────────────────────────────────────────────────
 
 .oe-panel {
@@ -230,11 +228,14 @@ $orcid-green: #a6ce39;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 60px;
   background-color: $gray-100;
   color: $gray-600;
   border: 1px solid rgba($gray-600, 0.2);
   cursor: pointer;
   font-weight: 700;
+  font-size: 0.7rem;
   box-shadow: 0 0 0 0 transparent;
   transition: box-shadow 0.12s ease;
 

@@ -622,6 +622,14 @@ ds-dynamic-form-control-container[hidden] {
 // -------------------------------------------------------
 // Popup de consentement aux cookies (Orejime)
 // -------------------------------------------------------
+
+// Bouton "Accepter" : --green1 (définie dans src/styles/_custom_variables.scss, #1c710a)
+// est trop sombre pour contraster sur le fond foncé du popup (bouton peu lisible).
+// On la réassigne ici avec une teinte de la palette Papyrus déjà bien visible sur fond foncé.
+:root {
+  --green1: #{$lightgreen};
+}
+
 .orejime-Button {
   border-radius: 60px;
   color: rgba(255, 255, 255, 0.9);

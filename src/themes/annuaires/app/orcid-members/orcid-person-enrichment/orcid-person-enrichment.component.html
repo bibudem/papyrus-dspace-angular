@@ -103,7 +103,7 @@
           </h3>
 
           <div *ngIf="profile.employments.length > 0; else noEmpl" class="oe-emp-list">
-            <div *ngFor="let emp of profile.employments" class="oe-emp-item">
+            <div *ngFor="let emp of profile.employments | slice:0:(showAllEmployments ? profile.employments.length : employmentsPreviewCount)" class="oe-emp-item">
               <div class="oe-emp-org">{{ emp.organizationName }}</div>
               <div class="oe-emp-role" *ngIf="emp.roleTitle">{{ emp.roleTitle }}</div>
               <div class="oe-emp-dept" *ngIf="emp.department">{{ emp.department }}</div>
@@ -117,6 +117,22 @@
               </div>
             </div>
           </div>
+
+          <!-- Bouton voir plus / voir moins ───────────────────────────────── -->
+          <div *ngIf="profile.employments.length > employmentsPreviewCount" class="oe-works-toggle mt-3 text-center">
+            <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleEmployments()">
+              <ng-container *ngIf="!showAllEmployments">
+                <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                {{ 'papyrus.orcid-profile.employment.show-more'
+                   | translate:{ count: profile.employments.length - employmentsPreviewCount } }}
+              </ng-container>
+              <ng-container *ngIf="showAllEmployments">
+                <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                {{ 'papyrus.orcid-profile.employment.show-less' | translate }}
+              </ng-container>
+            </button>
+          </div>
+
           <ng-template #noEmpl>
             <p class="oe-empty">{{ 'papyrus.orcid-profile.employment.empty' | translate }}</p>
           </ng-template>

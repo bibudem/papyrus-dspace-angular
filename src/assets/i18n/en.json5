@@ -7568,6 +7568,10 @@
 
   "papyrus.orcid-profile.employment.empty": "No affiliation listed.",
 
+  "papyrus.orcid-profile.employment.show-more": "Show {{count}} more affiliations",
+
+  "papyrus.orcid-profile.employment.show-less": "Show less",
+
   "papyrus.orcid-profile.keywords": "Research areas",
 
   "papyrus.orcid-profile.links": "Links",

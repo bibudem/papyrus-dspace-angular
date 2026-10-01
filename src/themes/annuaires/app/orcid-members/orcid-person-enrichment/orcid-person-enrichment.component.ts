@@ -66,6 +66,12 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** État d'expansion de la liste des publications. */
   showAllWorks = false;
 
+  /** Nombre d'affiliations affichées par défaut avant le bouton "voir plus". */
+  readonly employmentsPreviewCount = 5;
+
+  /** État d'expansion de la liste des affiliations. */
+  showAllEmployments = false;
+
   /** Type de travail actif pour le filtre (null = tous). */
   activeWorkTypeFilter: string | null = null;
 
@@ -149,6 +155,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Bascule l'affichage complet / réduit de la liste des publications. */
   toggleWorks(): void {
     this.showAllWorks = !this.showAllWorks;
+  }
+
+  /** Bascule l'affichage complet / réduit de la liste des affiliations. */
+  toggleEmployments(): void {
+    this.showAllEmployments = !this.showAllEmployments;
   }
 
   /** Change le filtre de type de travail actif ; réinitialise "voir plus". */
