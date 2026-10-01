@@ -1,0 +1,202 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+  <!-- Chargement ─────────────────────────────────────────────────────────── -->
+  <div *ngIf="vm.status === 'loading'" class="oe-loading">
+    <div class="oe-skeleton sk-header mb-3"></div>
+    <div class="oe-skeleton sk-body"></div>
+  </div>
+
+  <!-- Erreur ─────────────────────────────────────────────────────────────── -->
+  <div *ngIf="vm.status === 'error'"
+       class="alert alert-warning d-flex align-items-center gap-2"
+       role="alert">
+    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+    <span>{{ 'papyrus.orcid-profile.error' | translate }}</span>
+  </div>
+
+  <!-- Aucun ORCID iD renseigné sur cette fiche ───────────────────────────── -->
+  <div *ngIf="vm.status === 'no-orcid'"
+       class="alert alert-light d-flex align-items-center gap-2"
+       role="status">
+    <i class="fas fa-info-circle" aria-hidden="true"></i>
+    <span>{{ 'papyrus.orcid-profile.no-orcid' | translate }}</span>
+  </div>
+
+  <!-- Profil chargé ──────────────────────────────────────────────────────── -->
+  <ng-container *ngIf="vm.status === 'loaded' && vm.profile as profile">
+    <div class="oe-panel">
+
+      <!-- En-tête : ORCID iD + mots-clés ─────────────────────────────────── -->
+      <div class="oe-header">
+        <div class="oe-id-row">
+          <span class="oe-orcid-badge" aria-hidden="true">iD</span>
+          <a [href]="profile.orcidUri"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="oe-orcid-link"
+             [attr.aria-label]="('papyrus.orcid-profile.view-orcid' | translate) + ' ' + profile.orcidId">
+            <span class="font-monospace">{{ profile.orcidId }}</span>
+            <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+          </a>
+          <span *ngIf="profile.country" class="oe-country">{{ profile.country }}</span>
+        </div>
+        <div class="oe-keywords-row" *ngIf="profile.keywords.length > 0">
+          <span *ngFor="let kw of profile.keywords | slice:0:8" class="keyword-pill">{{ kw }}</span>
+        </div>
+      </div>
+
+      <!-- Contenu : biographie + liens, puis parcours professionnel, puis travaux ─ -->
+      <div class="oe-body">
+
+        <!-- Biographie ───────────────────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            {{ 'papyrus.orcid-profile.biography' | translate }}
+          </h3>
+
+          <p *ngIf="profile.biography; else noBio" class="oe-bio-text">
+            {{ profile.biography }}
+          </p>
+          <ng-template #noBio>
+            <p class="oe-empty">{{ 'papyrus.orcid-profile.biography.empty' | translate }}</p>
+          </ng-template>
+
+          <!-- Liens du chercheur -->
+          <div *ngIf="profile.researcherUrls.length > 0" class="oe-links mt-4">
+            <h4 class="oe-sub-title">
+              {{ 'papyrus.orcid-profile.links' | translate }}
+            </h4>
+            <ul class="oe-links-list">
+              <li *ngFor="let link of profile.researcherUrls">
+                <a [href]="link.url" target="_blank" rel="noopener noreferrer" class="oe-ext-link">
+                  <i class="fas fa-external-link-alt fa-xs me-1" aria-hidden="true"></i>
+                  {{ link.name || link.url }}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Identifiants externes (Scopus, ResearcherID, etc.) -->
+          <div *ngIf="profile.externalIdentifiers.length > 0" class="oe-links mt-4">
+            <h4 class="oe-sub-title">
+              {{ 'papyrus.orcid-profile.external-ids' | translate }}
+            </h4>
+            <ul class="oe-links-list">
+              <li *ngFor="let id of profile.externalIdentifiers">
+                <a *ngIf="id.url; else plainId" [href]="id.url" target="_blank" rel="noopener noreferrer" class="oe-ext-link">
+                  <i class="fas fa-external-link-alt fa-xs me-1" aria-hidden="true"></i>
+                  {{ id.type }} : {{ id.value }}
+                </a>
+                <ng-template #plainId>
+                  <span class="oe-ext-link-plain">{{ id.type }} : {{ id.value }}</span>
+                </ng-template>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Parcours professionnel ───────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            {{ 'papyrus.orcid-profile.employment' | translate }}
+            <span class="oe-section-badge" *ngIf="profile.employments.length > 0">{{ profile.employments.length }}</span>
+          </h3>
+
+          <div *ngIf="profile.employments.length > 0; else noEmpl" class="oe-emp-list">
+            <div *ngFor="let emp of profile.employments" class="oe-emp-item">
+              <div class="oe-emp-org">{{ emp.organizationName }}</div>
+              <div class="oe-emp-role" *ngIf="emp.roleTitle">{{ emp.roleTitle }}</div>
+              <div class="oe-emp-dept" *ngIf="emp.department">{{ emp.department }}</div>
+              <div class="oe-emp-period" *ngIf="emp.startYear || emp.isCurrent">
+                <ng-container *ngIf="emp.startYear">{{ emp.startYear }}</ng-container>
+                <ng-container *ngIf="emp.startYear && (emp.isCurrent || emp.endYear)"> — </ng-container>
+                <span *ngIf="emp.isCurrent" class="current-badge">
+                  {{ 'papyrus.orcid-profile.employment.present' | translate }}
+                </span>
+                <span *ngIf="!emp.isCurrent && emp.endYear">{{ emp.endYear }}</span>
+              </div>
+            </div>
+          </div>
+          <ng-template #noEmpl>
+            <p class="oe-empty">{{ 'papyrus.orcid-profile.employment.empty' | translate }}</p>
+          </ng-template>
+        </section>
+
+        <!-- Travaux ───────────────────────────────────────────────────────── -->
+        <section class="oe-section">
+          <h3 class="oe-section-title">
+            {{ 'papyrus.orcid-profile.publications' | translate }}
+            <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
+          </h3>
+
+          <p *ngIf="profile.works.length === 0" class="oe-empty">
+            {{ 'papyrus.orcid-profile.publications.empty' | translate }}
+          </p>
+
+          <!-- Filtre par type de travail ─────────────────────────────────── -->
+          <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
+            <button type="button"
+                    class="work-filter-pill"
+                    [class.work-filter-pill--active]="activeWorkTypeFilter === null"
+                    (click)="setWorkTypeFilter(null)">
+              {{ 'papyrus.orcid-profile.publications.filter-all' | translate }}
+              <span class="oe-section-badge">{{ profile.works.length }}</span>
+            </button>
+            <button type="button"
+                    *ngFor="let entry of workTypeCounts(profile.works)"
+                    class="work-filter-pill work-type-badge {{ workTypeClass(entry.type) }}"
+                    [class.work-filter-pill--active]="activeWorkTypeFilter === entry.type"
+                    (click)="setWorkTypeFilter(entry.type)">
+              {{ workTypeKey(entry.type) | translate }}
+              <span class="oe-section-badge">{{ entry.count }}</span>
+            </button>
+          </div>
+
+          <ng-container *ngIf="filteredWorks(profile.works) as visibleWorks">
+            <div class="oe-works-list">
+              <article *ngFor="let work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); trackBy: trackByPutCode" class="work-item">
+                <div class="work-meta d-flex align-items-center gap-2 mb-1">
+                  <span class="work-type-badge {{ workTypeClass(work.type) }}">
+                    {{ workTypeKey(work.type) | translate }}
+                  </span>
+                  <span *ngIf="work.publicationYear" class="work-year">{{ work.publicationYear }}</span>
+                </div>
+                <h4 class="work-title">
+                  <a *ngIf="work.doiUrl || work.workUrl"
+                     [href]="work.doiUrl || work.workUrl"
+                     target="_blank" rel="noopener noreferrer">
+                    {{ work.title }}
+                    <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+                  </a>
+                  <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
+                </h4>
+                <p *ngIf="work.journalTitle" class="work-journal">{{ work.journalTitle }}</p>
+                <p *ngIf="work.doi" class="work-doi">
+                  DOI :
+                  <a [href]="work.doiUrl" target="_blank" rel="noopener noreferrer" class="doi-link">{{ work.doi }}</a>
+                </p>
+              </article>
+            </div>
+
+            <!-- Bouton voir plus / voir moins ───────────────────────────────── -->
+            <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
+              <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
+                <ng-container *ngIf="!showAllWorks">
+                  <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                  {{ 'papyrus.orcid-profile.publications.show-more'
+                     | translate:{ count: visibleWorks.length - worksPreviewCount } }}
+                </ng-container>
+                <ng-container *ngIf="showAllWorks">
+                  <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                  {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
+                </ng-container>
+              </button>
+            </div>
+          </ng-container>
+        </section>
+
+      </div>
+
+    </div>
+  </ng-container>
+</ng-container>

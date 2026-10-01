@@ -7,7 +7,7 @@ debug: false
 ui:
   ssl: false
   host: localhost
-  port: 4010
+  port: 4000
   # NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
   nameSpace: /papyrus-8-orcid/
   # The rateLimiter settings limit each IP to a 'max' of 500 requests per 'windowMs' (1 minute).

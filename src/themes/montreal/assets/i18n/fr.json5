@@ -1648,7 +1648,6 @@
   "process.new.delete-parameter": "Supprimer le paramètre",
   "process.new.parameter.label": "Valeur du paramètre",
   "process.new.select-parameter": "Sélectionner le paramètre",
-  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>authentification, préférences, consentement et statistiques</strong>. <br/> Pour plus d'informations, veuillez vous référer à la <a href='https://vie-privee.umontreal.ca/confidentialite'>politique de protection de la vie privée.</a>",
   "cookies.consent.content-modal.privacy-policy.text": "Pour plus d'informations, veuillez lire notre <a href='https://vie-privee.umontreal.ca/confidentialite'>politique de protection de la vie privée.</a>",
   "submission.sections.general.cannot_deposit": "Le dépôt ne peut pas être complété en raison d'erreurs dans le formulaire.<br>Veuillez remplir tous les champs obligatoires pour finaliser le dépôt.",
   "item.edit.metadata.edit.buttons.enable-free-text-editing": "Activer la modification free-text",
@@ -1701,8 +1700,10 @@
   "cookies.consent.app.disable-all.description": "Utilisez ce bouton pour activer ou désactiver tous les services.",
   "cookies.consent.app.disable-all.title": "Activer ou désactiver tous les services",
   "cookies.consent.content-notice.title": "Gestion des témoins de connexion",
-  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>. <br/> Pour en savoir plus, veuillez consulter notre {privacyPolicy}.",
-  "cookies.consent.content-notice.description.no-privacy": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>.",
+  // Orejime remplace {purposes} par son propre <strong>…</strong> (liste réelle des finalités
+  // configurées) — toute balise HTML écrite ici serait affichée telle quelle (texte brut, non interprété).
+  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : {purposes}.",
+  "cookies.consent.content-notice.description.no-privacy": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : {purposes}.",
   "cookies.consent.content-notice.learnMore": "Personnaliser",
   "cookies.consent.content-modal.description": "Ici vous pouvez voir et personnaliser les informations que nous collectons à votre sujet.",
   "cookies.consent.content-modal.privacy-policy.name": "politique de confidentialité",

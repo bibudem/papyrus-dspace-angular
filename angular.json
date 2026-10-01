@@ -61,9 +61,9 @@
                 "bundleName": "montreal-theme"
               },
               {
-                "input": "src/themes/orcid/styles/theme.scss",
+                "input": "src/themes/annuaires/styles/theme.scss",
                 "inject": false,
-                "bundleName": "orcid-theme"
+                "bundleName": "annuaires-theme"
               },
               {
                 "input": "src/themes/dspace/styles/theme.scss",

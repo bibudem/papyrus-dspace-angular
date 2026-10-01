@@ -1642,7 +1642,7 @@
 
   "cookies.consent.save": "Sauvegarder",
 
-  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>. <br/> Pour en savoir plus, veuillez consulter notre {privacyPolicy}.",
+  "cookies.consent.content-notice.description": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : {purposes}.",
 
   "cookies.consent.content-notice.learnMore": "Personnaliser",
 
@@ -4716,7 +4716,7 @@
 
   "search.filters.filter.discoverable.head": "Privé",
 
-  "search.filters.filter.access_status.head": "Statut d'accès",
+  "search.filters.filter.access_status.head": "Type d'accès",
 
   "search.filters.filter.withdrawn.head": "Retiré",
 
@@ -4829,8 +4829,6 @@
   "search.filters.filter.supervisedBy.placeholder": "Supervisé par",
 
   "search.filters.filter.supervisedBy.label": "Recherche Supervisée par",
-
-  "search.filters.filter.access_status.head": "Type d'accès",
 
   "search.filters.filter.access_status.placeholder": "Accès",
 
@@ -7602,6 +7600,8 @@
 
   "papyrus.orcid-profile.error": "Impossible de charger le profil de ce chercheur. Veuillez réessayer plus tard.",
 
+  "papyrus.orcid-profile.no-orcid": "Cette personne n'a pas de numéro ORCID enregistré sur sa fiche.",
+
   "papyrus.orcid-profile.biography": "Biographie",
 
   "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
@@ -7615,6 +7615,10 @@
   "papyrus.orcid-profile.keywords": "Domaines de recherche",
 
   "papyrus.orcid-profile.links": "Liens",
+
+  "papyrus.orcid-profile.external-ids": "Identifiants externes",
+
+  "papyrus.orcid-profile.publications.filter-all": "Tous",
 
   "papyrus.orcid-profile.publications": "Travaux",
 
@@ -7746,7 +7750,7 @@
 
   "cookies.consent.content-notice.title": "Gestion des témoins de connexion",
 
-  "cookies.consent.content-notice.description.no-privacy": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : <strong>Authentification, Préférences, Consentement et Statistiques</strong>.",
+  "cookies.consent.content-notice.description.no-privacy": "Vos données personnelles sont récupérées et utilisées dans les contextes suivants : {purposes}.",
 
   "cookies.consent.content-modal.services": "services",
 

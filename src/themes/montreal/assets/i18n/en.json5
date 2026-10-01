@@ -901,8 +901,10 @@
   "register-page.registration.error.content": "An error occurred when registering the following email address: {{ email }}",
   "login.form.new-user": "If you are not part of the UdeM community and want to create a new Papyrus account, click here.",
   "browse.startsWith.submit": "Search",
-  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our <a href='https://vie-privee.umontreal.ca/confidentialite'>privacy policy.</a>",
-  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>.",
+  // Orejime replaces {purposes} with its own <strong>…</strong> (the actual configured
+  // purposes list) — any HTML written here would be shown as literal text, not parsed.
+  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: {purposes}.",
+  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: {purposes}.",
   "cookies.consent.content-notice.learnMore": "Customize",
   "cookies.consent.content-modal.description": "Here you can see and customize the information that we collect about you.",
   "cookies.consent.content-modal.privacy-policy.name": "privacy policy",

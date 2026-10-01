@@ -1648,7 +1648,7 @@
 
   "cookies.consent.save": "Save",
 
-  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our <a href='https://vie-privee.umontreal.ca/confidentialite'>privacy policy.</a>",
+  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: {purposes}.",
 
   "cookies.consent.content-notice.learnMore": "Customize",
 
@@ -4722,7 +4722,7 @@
 
   "search.filters.filter.discoverable.head": "Non-discoverable",
 
-  "search.filters.filter.access_status.head": "Access status",
+  "search.filters.filter.access_status.head": "Access type",
 
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
@@ -4835,8 +4835,6 @@
   "search.filters.filter.supervisedBy.placeholder": "Supervised By",
 
   "search.filters.filter.supervisedBy.label": "Search Supervised By",
-
-  "search.filters.filter.access_status.head": "Access type",
 
   "search.filters.filter.access_status.placeholder": "Access type",
 
@@ -7558,6 +7556,8 @@
 
   "papyrus.orcid-profile.error": "Unable to load this researcher's profile. Please try again later.",
 
+  "papyrus.orcid-profile.no-orcid": "This person does not have an ORCID iD registered on their profile.",
+
   "papyrus.orcid-profile.biography": "Biography",
 
   "papyrus.orcid-profile.biography.empty": "No biography listed.",
@@ -7571,6 +7571,10 @@
   "papyrus.orcid-profile.keywords": "Research areas",
 
   "papyrus.orcid-profile.links": "Links",
+
+  "papyrus.orcid-profile.external-ids": "External identifiers",
+
+  "papyrus.orcid-profile.publications.filter-all": "All",
 
   "papyrus.orcid-profile.publications": "Works",
 
@@ -7652,7 +7656,7 @@
 
   "item.page.copyright": "This document disseminated on Papyrus is the exclusive property of the copyright holders and is protected by the Copyright Act (R.S.C. 1985, c. C-42). Unless the document is published under a Creative Commons licence, it may be used for fair dealing and non-commercial purposes, for private study or research, criticism and review as provided by law. For any other use, written authorization from the copyright holders is required.",
 
-  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>.",
+  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: {purposes}.",
 
   "item.page.orcid.id": "ORCID",
 

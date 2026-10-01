@@ -24,7 +24,7 @@ import { PrivacyComponent } from './app/info/privacy/privacy.component';
  * This will ensure that decorator gets picked up when the app loads
  *
  * NOTE (Papyrus) : PersonComponent (fiche Person + enrichissement ORCID) a été déplacé vers
- * le thème "orcid" (voir src/themes/orcid/eager-theme.module.ts) — il ne doit pas être
+ * le thème "annuaires" (voir src/themes/annuaires/eager-theme.module.ts) — il ne doit pas être
  * réintroduit ici lors des prochaines fusions depuis les branches DSpace amont.
  */
 const ENTRY_COMPONENTS = [

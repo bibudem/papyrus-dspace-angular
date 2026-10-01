@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { EagerThemeModule as OrcidEagerThemeModule } from './orcid/eager-theme.module';
+import { EagerThemeModule as AnnuairesEagerThemeModule } from './annuaires/eager-theme.module';
 import { EagerThemeModule as DSpaceEagerThemeModule } from './dspace/eager-theme.module';
 import { EagerThemeModule as MontrealEagerThemeModule } from './montreal/eager-theme.module';
 
@@ -15,7 +15,7 @@ import { EagerThemeModule as MontrealEagerThemeModule } from './montreal/eager-t
   imports: [
     DSpaceEagerThemeModule,
     MontrealEagerThemeModule,
-    OrcidEagerThemeModule,
+    AnnuairesEagerThemeModule,
   ],
 })
 export class EagerThemesModule {
