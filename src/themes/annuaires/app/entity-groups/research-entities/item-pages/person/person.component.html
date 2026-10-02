@@ -1,6 +1,8 @@
-<ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
-
 <div class="person-page">
+
+  <div class="person-backlink mb-2">
+    <ds-results-back-button *ngIf="showBackButton$ | async" [back]="back"></ds-results-back-button>
+  </div>
 
   <div class="d-flex align-items-start justify-content-between mb-4">
     <ds-item-page-title-field class="flex-grow-1 me-2" [item]="object">
@@ -8,9 +10,9 @@
     <ds-dso-edit-menu class="flex-shrink-0"></ds-dso-edit-menu>
   </div>
 
-  <div class="row g-3 align-items-start">
+  <div class="person-content-row row g-4 align-items-start">
 
-    <aside class="col-12 col-md-3">
+    <aside class="col-12 col-md-4">
 
       <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
         <ds-thumbnail [thumbnail]="object?.thumbnail | async"
@@ -50,7 +52,7 @@
 
     </aside>
 
-    <main class="col-12 col-md-9">
+    <main class="col-12 col-md-8">
 
       <nav class="profile-tabs" role="tablist" aria-label="Sections du profil">
         <button role="tab" type="button"

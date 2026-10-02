@@ -5,7 +5,7 @@
 @import 'https://fonts.googleapis.com/css2?family=Lora:wght@400;600&subset=latin,latin-ext&display=swap';
 
 // Configure Bootstrap to use these fonts
-$font-family-sans-serif: 'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+// $font-family-sans-serif est désormais définie dans _variables_papyrus.scss (importée ci-dessous).
 $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 /* -------------------------------------------------------
    Importation des styles globaux
@@ -64,6 +64,12 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 // Espace entre les sections de la barre latérale de recherche
 .sidebar-content > *:not(:last-child):not(ds-search-switch-configuration) {
   margin-bottom: 2rem !important;
+}
+
+// Fil d'Ariane (src/app/breadcrumbs) : sans ce margin-top, il colle directement sous la
+// barre de menu principale sur toutes les pages (communauté, collection, item...).
+.nav-breadcrumb {
+  margin-top: 0.75rem;
 }
 
 /* -------------------------------------------------------

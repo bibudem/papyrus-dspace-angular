@@ -94,7 +94,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: 'Figtree', sans-serif;
+  font-family: $font-family-sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   color: $darkgreen;
@@ -128,7 +128,7 @@
 
 // Sous-titre dans un onglet (liens, etc.)
 .oe-sub-title {
-  font-family: 'Figtree', sans-serif;
+  font-family: $font-family-sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -292,7 +292,7 @@
 .work-year    { font-size: 0.8rem; color: $gray-400; font-weight: 500; }
 
 .work-title {
-  font-family: 'Figtree', sans-serif;
+  font-family: $font-family-sans-serif;
   font-size: 0.93rem;
   font-weight: 600;
   color: $darkgreen;

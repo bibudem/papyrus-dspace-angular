@@ -1,5 +1,22 @@
 // Styles de l'annuaire des chercheurs (thème "annuaires" uniquement, cf. config.papyrus.yml).
 
+// Bouton "Retour aux résultats" sur la fiche Person (cf. .person-backlink dans
+// person.component.html) : gris neutre plutôt que la couleur primaire (sarcelle), pour
+// rester secondaire visuellement par rapport au titre de la fiche — mais sans tomber dans
+// un simple lien texte (trop peu visible, perdu à côté du titre).
+.person-backlink .btn {
+  background-color: $white;
+  border-color: $gray-400;
+  color: $gray-700;
+
+  &:hover,
+  &:focus {
+    background-color: $gray-500;
+    border-color: $gray-500;
+    color: $white;
+  }
+}
+
 .annuaires-search-result-card {
   position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
   display: flex;
@@ -126,6 +143,14 @@
 
 // Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les
 // relations DSpace (dépôt institutionnel) du panneau d'enrichissement (données externes).
+// Ligne contenant la colonne de gauche (photo/infos) et la colonne de droite (onglets +
+// contenu) de la fiche Person : espace avec le titre au-dessus. Ciblée au niveau de la ligne
+// (plutôt que juste .profile-tabs) pour que l'aside ET le contenu principal soient tous les
+// deux décollés du header, pas seulement les onglets.
+.person-content-row {
+  margin-top: 1.75rem;
+}
+
 .profile-tabs {
   display: flex;
   gap: 0.5rem;

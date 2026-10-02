@@ -1,4 +1,10 @@
 // _variables_papyrus.scss
+
+// Police principale du thème montreal (chargée via Google Fonts dans _global-styles.scss).
+// Définie ici (et non dans _global-styles.scss) pour que les composants compilés isolément
+// (ex. le panneau ORCID du thème annuaires) puissent s'y référer sans dupliquer la valeur.
+$font-family-sans-serif: 'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
 /* Reassign color vars to semantic color scheme */
 $blue: #12a6b7 !default;
 $primary: #0057ac !default;
