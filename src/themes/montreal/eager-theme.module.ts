@@ -9,6 +9,8 @@ import { RootModule } from '../../app/root.module';
 import { BreadcrumbsComponent } from './app/breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './app/footer/footer.component';
 import { UntypedItemComponent } from './app/item-page/simple/item-types/untyped-item/untyped-item.component';
+import { PublicationComponent } from './app/item-page/simple/item-types/publication/publication.component';
+import { OrgUnitComponent } from './app/entity-groups/research-entities/item-pages/org-unit/org-unit.component';
 import { ItemSearchResultListElementComponent } from './app/shared/object-list/search-result-list-element/item-search-result/item-types/item/item-search-result-list-element.component';
 import { StartsWithTextComponent } from './app/shared/starts-with/text/starts-with-text.component';
 import { StartsWithDateComponent } from './app/shared/starts-with/date/starts-with-date.component';
@@ -30,6 +32,8 @@ import { PrivacyComponent } from './app/info/privacy/privacy.component';
 const ENTRY_COMPONENTS = [
   UntypedItemComponent,
   ItemSearchResultListElementComponent,
+  PublicationComponent,
+  OrgUnitComponent,
 ];
 
 const DECLARATIONS = [

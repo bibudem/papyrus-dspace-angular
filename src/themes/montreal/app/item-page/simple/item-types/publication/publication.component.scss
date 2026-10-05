@@ -1,0 +1,29 @@
+.alternative_title {
+  font-style: italic;
+}
+
+#abstract {
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  line-height: 1.6;
+  text-align: justify !important;
+}
+
+.item-type {
+  font-weight: bold;
+}
+
+// Titres des blocs ORCID / DOI (générés inline dans le template, pas via
+// ds-metadata-field-wrapper) : alignés sur le style des autres champs de la fiche.
+h2 {
+  font-size: 1.25rem;
+}
+
+.simple-view-element {
+  margin-bottom: 15px;
+}
+
+.simple-view-element-header {
+  font-size: 1.25rem;
+}

@@ -334,6 +334,7 @@
   "quality-assurance.event.project.error": "An error has occurred. No operation performed.",
   "quality-assurance.event.reason": "Reason",
   "orgunit.page.ror": "ROR Identifier",
+  "orgunit.page.website": "Website",
   "process.detail.refreshing": "Auto-refreshing…",
   "process.overview.table.completed.info": "Finish time (UTC)",
   "process.overview.table.completed.title": "Succeeded processes",
