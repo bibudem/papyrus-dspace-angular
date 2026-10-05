@@ -1475,6 +1475,7 @@
   "search.filters.applied.f.queue_last_start_time.min": "Intervalle minimum",
   "search.filters.applied.f.queue_status": "Statut de la file d'attente",
   "search.filters.applied.f.relateditem": "Items liés",
+  "search.filters.applied.f.isOrgUnitOfPerson": "Unité académique",
   "search.filters.coar_notify_type.coar-notify:EndorsementAction": "Action d'approbation",
   "search.filters.coar_notify_type.coar-notify:EndorsementAction,authority": "Action d'approbation",
   "search.filters.coar_notify_type.coar-notify:IngestAction": "Action d'ingestion",

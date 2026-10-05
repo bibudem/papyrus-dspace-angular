@@ -721,6 +721,7 @@
   "admin.notify.dashboard.inbound-logs": "Logs/Inbound",
   "admin.notify.dashboard.filter": "Filter: ",
   "search.filters.applied.f.relateditem": "Related items",
+  "search.filters.applied.f.isOrgUnitOfPerson": "Academic Unit",
   "search.filters.applied.f.ldn_service": "LDN Service",
   "search.filters.applied.f.notifyReview": "Notify Review",
   "search.filters.applied.f.notifyEndorsement": "Notify Endorsement",

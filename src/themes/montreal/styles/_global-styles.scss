@@ -72,6 +72,14 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
   margin-top: 0.75rem;
 }
 
+// Badges des filtres appliqués (search-label.component.html) : Bootstrap leur applique
+// "text-capitalize" (une majuscule à CHAQUE mot), ce qui déforme les valeurs affichées
+// (ex. UUID "a44dfe20-..." → "A44dfe20-...", "professeur(e) titulaire" → "Professeur(E)
+// Titulaire"). On neutralise cette transformation pour afficher le texte tel quel.
+.labels .badge.text-capitalize {
+  text-transform: none;
+}
+
 /* -------------------------------------------------------
    Onglets "Parcourir" (communauté/collection) et pagination
    Bootstrap calcule la couleur active de .list-group-item et .page-item
