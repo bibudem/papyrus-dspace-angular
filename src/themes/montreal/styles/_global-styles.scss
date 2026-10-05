@@ -77,7 +77,9 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
 // (ex. UUID "a44dfe20-..." → "A44dfe20-...", "professeur(e) titulaire" → "Professeur(E)
 // Titulaire"). On neutralise cette transformation pour afficher le texte tel quel.
 .labels .badge.text-capitalize {
-  text-transform: none;
+  // Bootstrap définit text-transform: capitalize !important sur cette classe utilitaire :
+  // il faut donc aussi !important ici pour l'emporter.
+  text-transform: none !important;
 }
 
 /* -------------------------------------------------------
