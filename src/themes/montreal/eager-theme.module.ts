@@ -19,6 +19,8 @@ import { AdminSidebarComponent } from './app/admin/admin-sidebar/admin-sidebar.c
 import { EndUserAgreementComponent } from './app/info/end-user-agreement/end-user-agreement.component';
 import { PrivacyComponent } from './app/info/privacy/privacy.component';
 import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
+import { OrgUnitComponent } from './app/entity-groups/research-entities/item-pages/org-unit/org-unit.component';
+import { PublicationComponent } from './app/item-page/simple/item-types/publication/publication.component';
 
 /**
  * Add components that use a custom decorator to ENTRY_COMPONENTS as well as DECLARATIONS.
@@ -26,6 +28,8 @@ import { PersonComponent } from './app/entity-groups/research-entities/item-page
  */
 const ENTRY_COMPONENTS = [
   PersonComponent,
+  OrgUnitComponent,
+  PublicationComponent,
 ];
 
 const DECLARATIONS = [
