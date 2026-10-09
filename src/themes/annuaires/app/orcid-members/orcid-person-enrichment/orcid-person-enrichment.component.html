@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <!-- Contenu : biographie, puis financement, puis travaux ───────────────────── -->
+      <!-- Contenu : biographie, puis travaux/financement en sous-onglets ────────── -->
       <div class="oe-body">
 
         <!-- Biographie ───────────────────────────────────────────────────── -->
@@ -62,116 +62,129 @@
           </ng-template>
         </section>
 
-        <!-- Financement ───────────────────────────────────────────────────── -->
+        <!-- Travaux / Financement : sous-onglets, Travaux affiché par défaut, pour
+             garder ces deux sections compactes au lieu de les empiler. ────────── -->
         <section class="oe-section">
-          <h3 class="oe-section-title">
-            {{ 'papyrus.orcid-profile.funding' | translate }}
-            <span class="oe-section-badge" *ngIf="profile.fundings.length > 0">{{ profile.fundings.length }}</span>
-          </h3>
+          <div class="oe-subtabs" role="group" aria-label="Travaux et financement">
+            <button type="button"
+                    class="oe-subtab"
+                    [class.oe-subtab--active]="activeWorksTab === 'works'"
+                    [attr.aria-pressed]="activeWorksTab === 'works'"
+                    (click)="setWorksTab('works')">
+              {{ 'papyrus.orcid-profile.publications' | translate }}
+              <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
+            </button>
+            <button type="button"
+                    class="oe-subtab"
+                    [class.oe-subtab--active]="activeWorksTab === 'funding'"
+                    [attr.aria-pressed]="activeWorksTab === 'funding'"
+                    (click)="setWorksTab('funding')">
+              {{ 'papyrus.orcid-profile.funding' | translate }}
+              <span class="oe-section-badge" *ngIf="profile.fundings.length > 0">{{ profile.fundings.length }}</span>
+            </button>
+          </div>
 
-          <div *ngIf="profile.fundings.length > 0; else noFunding" class="oe-funding-list">
-            <div *ngFor="let funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount)" class="oe-funding-item">
-              <div class="oe-funding-title">{{ funding.title }}</div>
-              <div class="oe-funding-org" *ngIf="funding.organizationName">{{ funding.organizationName }}</div>
-              <div class="oe-funding-period" *ngIf="funding.startYear || funding.endYear">
-                <ng-container *ngIf="funding.startYear">{{ funding.startYear }}</ng-container>
-                <ng-container *ngIf="funding.startYear && funding.endYear"> — </ng-container>
-                <span *ngIf="funding.endYear">{{ funding.endYear }}</span>
+          <!-- Travaux ─────────────────────────────────────────────────────── -->
+          <div *ngIf="activeWorksTab === 'works'">
+            <p *ngIf="profile.works.length === 0" class="oe-empty">
+              {{ 'papyrus.orcid-profile.publications.empty' | translate }}
+            </p>
+
+            <!-- Filtre par type de travail ───────────────────────────────── -->
+            <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
+              <button type="button"
+                      class="work-filter-pill"
+                      [class.work-filter-pill--active]="activeWorkTypeFilter === null"
+                      (click)="setWorkTypeFilter(null)">
+                {{ 'papyrus.orcid-profile.publications.filter-all' | translate }}
+                <span class="oe-section-badge">{{ profile.works.length }}</span>
+              </button>
+              <button type="button"
+                      *ngFor="let entry of workTypeCounts(profile.works)"
+                      class="work-filter-pill work-type-badge {{ workTypeClass(entry.type) }}"
+                      [class.work-filter-pill--active]="activeWorkTypeFilter === entry.type"
+                      (click)="setWorkTypeFilter(entry.type)">
+                {{ workTypeKey(entry.type) | translate }}
+                <span class="oe-section-badge">{{ entry.count }}</span>
+              </button>
+            </div>
+
+            <ng-container *ngIf="filteredWorks(profile.works) as visibleWorks">
+              <div class="oe-works-list">
+                <article *ngFor="let work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); trackBy: trackByPutCode" class="work-item">
+                  <div class="work-meta d-flex align-items-center gap-2 mb-1">
+                    <span class="work-type-badge {{ workTypeClass(work.type) }}">
+                      {{ workTypeKey(work.type) | translate }}
+                    </span>
+                    <span *ngIf="work.publicationYear" class="work-year">{{ work.publicationYear }}</span>
+                  </div>
+                  <h4 class="work-title">
+                    <a *ngIf="work.doiUrl || work.workUrl"
+                       [href]="work.doiUrl || work.workUrl"
+                       target="_blank" rel="noopener noreferrer">
+                      {{ work.title }}
+                      <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+                    </a>
+                    <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
+                  </h4>
+                  <p *ngIf="work.journalTitle" class="work-journal">{{ work.journalTitle }}</p>
+                  <p *ngIf="work.doi" class="work-doi">
+                    DOI :
+                    <a [href]="work.doiUrl" target="_blank" rel="noopener noreferrer" class="doi-link">{{ work.doi }}</a>
+                  </p>
+                </article>
+              </div>
+
+              <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+              <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
+                <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
+                  <ng-container *ngIf="!showAllWorks">
+                    <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                    {{ 'papyrus.orcid-profile.publications.show-more'
+                       | translate:{ count: visibleWorks.length - worksPreviewCount } }}
+                  </ng-container>
+                  <ng-container *ngIf="showAllWorks">
+                    <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                    {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
+                  </ng-container>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Financement ─────────────────────────────────────────────────── -->
+          <div *ngIf="activeWorksTab === 'funding'">
+            <div *ngIf="profile.fundings.length > 0; else noFunding" class="oe-funding-list">
+              <div *ngFor="let funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount)" class="oe-funding-item">
+                <div class="oe-funding-title">{{ funding.title }}</div>
+                <div class="oe-funding-org" *ngIf="funding.organizationName">{{ funding.organizationName }}</div>
+                <div class="oe-funding-period" *ngIf="funding.startYear || funding.endYear">
+                  <ng-container *ngIf="funding.startYear">{{ funding.startYear }}</ng-container>
+                  <ng-container *ngIf="funding.startYear && funding.endYear"> — </ng-container>
+                  <span *ngIf="funding.endYear">{{ funding.endYear }}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Bouton voir plus / voir moins ───────────────────────────────── -->
-          <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
-            <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
-              <ng-container *ngIf="!showAllFundings">
-                <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                {{ 'papyrus.orcid-profile.funding.show-more'
-                   | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
-              </ng-container>
-              <ng-container *ngIf="showAllFundings">
-                <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
-              </ng-container>
-            </button>
-          </div>
-
-          <ng-template #noFunding>
-            <p class="oe-empty">{{ 'papyrus.orcid-profile.funding.empty' | translate }}</p>
-          </ng-template>
-        </section>
-
-        <!-- Travaux ───────────────────────────────────────────────────────── -->
-        <section class="oe-section">
-          <h3 class="oe-section-title">
-            {{ 'papyrus.orcid-profile.publications' | translate }}
-            <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
-          </h3>
-
-          <p *ngIf="profile.works.length === 0" class="oe-empty">
-            {{ 'papyrus.orcid-profile.publications.empty' | translate }}
-          </p>
-
-          <!-- Filtre par type de travail ─────────────────────────────────── -->
-          <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
-            <button type="button"
-                    class="work-filter-pill"
-                    [class.work-filter-pill--active]="activeWorkTypeFilter === null"
-                    (click)="setWorkTypeFilter(null)">
-              {{ 'papyrus.orcid-profile.publications.filter-all' | translate }}
-              <span class="oe-section-badge">{{ profile.works.length }}</span>
-            </button>
-            <button type="button"
-                    *ngFor="let entry of workTypeCounts(profile.works)"
-                    class="work-filter-pill work-type-badge {{ workTypeClass(entry.type) }}"
-                    [class.work-filter-pill--active]="activeWorkTypeFilter === entry.type"
-                    (click)="setWorkTypeFilter(entry.type)">
-              {{ workTypeKey(entry.type) | translate }}
-              <span class="oe-section-badge">{{ entry.count }}</span>
-            </button>
-          </div>
-
-          <ng-container *ngIf="filteredWorks(profile.works) as visibleWorks">
-            <div class="oe-works-list">
-              <article *ngFor="let work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); trackBy: trackByPutCode" class="work-item">
-                <div class="work-meta d-flex align-items-center gap-2 mb-1">
-                  <span class="work-type-badge {{ workTypeClass(work.type) }}">
-                    {{ workTypeKey(work.type) | translate }}
-                  </span>
-                  <span *ngIf="work.publicationYear" class="work-year">{{ work.publicationYear }}</span>
-                </div>
-                <h4 class="work-title">
-                  <a *ngIf="work.doiUrl || work.workUrl"
-                     [href]="work.doiUrl || work.workUrl"
-                     target="_blank" rel="noopener noreferrer">
-                    {{ work.title }}
-                    <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
-                  </a>
-                  <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
-                </h4>
-                <p *ngIf="work.journalTitle" class="work-journal">{{ work.journalTitle }}</p>
-                <p *ngIf="work.doi" class="work-doi">
-                  DOI :
-                  <a [href]="work.doiUrl" target="_blank" rel="noopener noreferrer" class="doi-link">{{ work.doi }}</a>
-                </p>
-              </article>
-            </div>
-
-            <!-- Bouton voir plus / voir moins ───────────────────────────────── -->
-            <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
-              <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
-                <ng-container *ngIf="!showAllWorks">
+            <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+            <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
+              <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
+                <ng-container *ngIf="!showAllFundings">
                   <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                  {{ 'papyrus.orcid-profile.publications.show-more'
-                     | translate:{ count: visibleWorks.length - worksPreviewCount } }}
+                  {{ 'papyrus.orcid-profile.funding.show-more'
+                     | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
                 </ng-container>
-                <ng-container *ngIf="showAllWorks">
+                <ng-container *ngIf="showAllFundings">
                   <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                  {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
+                  {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
                 </ng-container>
               </button>
             </div>
-          </ng-container>
+
+            <ng-template #noFunding>
+              <p class="oe-empty">{{ 'papyrus.orcid-profile.funding.empty' | translate }}</p>
+            </ng-template>
+          </div>
         </section>
 
       </div>

@@ -1,0 +1,7 @@
+@import '../../../../../../montreal/styles/_variables_papyrus.scss';
+
+// Juste le titre, en lien simple — pas de carte/bordure/icône (cf. commentaire du .ts).
+.annuaires-affiliation-link {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}

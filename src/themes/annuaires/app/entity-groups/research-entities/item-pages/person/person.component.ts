@@ -7,7 +7,6 @@ import { Context } from '../../../../../../../app/core/shared/context.model';
 import { ViewMode } from '../../../../../../../app/core/shared/view-mode.model';
 import { PersonComponent as BaseComponent } from '../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component';
 import { GenericItemPageFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/generic/generic-item-page-field.component';
-import { ItemPageOrcidFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/orcid/item-page-orcid-field.component';
 import { ThemedItemPageTitleFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/title/themed-item-page-field.component';
 import { ItemPageUriFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/uri/item-page-uri-field.component';
 import { RelatedItemsComponent } from '../../../../../../../app/item-page/simple/related-items/related-items-component';
@@ -45,7 +44,6 @@ type ProfileSection = 'papyrus' | 'orcid';
     ThemedThumbnailComponent,
     // DSpace item-page
     GenericItemPageFieldComponent,
-    ItemPageOrcidFieldComponent,
     ItemPageUriFieldComponent,
     RelatedItemsComponent,
     // Local
@@ -53,8 +51,8 @@ type ProfileSection = 'papyrus' | 'orcid';
   ],
 })
 export class PersonComponent extends BaseComponent {
-  /** Onglet actif — « Papyrus » par défaut. */
-  activeSection: ProfileSection = 'papyrus';
+  /** Onglet actif — « ORCID » par défaut. */
+  activeSection: ProfileSection = 'orcid';
 
   setSection(section: ProfileSection): void {
     this.activeSection = section;

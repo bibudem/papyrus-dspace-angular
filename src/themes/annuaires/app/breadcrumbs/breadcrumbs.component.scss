@@ -97,13 +97,13 @@ li.breadcrumb-item.active {
   // pouvait laisser le texte sombre sur un fond resté sombre, illisible.
   ::ng-deep .btn {
     background-color: $white !important;
-    border-color: $gray-400 !important;
+    border-color: $gray-700 !important;
     color: $gray-700 !important;
 
     &:hover,
     &:focus {
-      background-color: $gray-500 !important;
-      border-color: $gray-500 !important;
+      background-color: $gray-700 !important;
+      border-color: $gray-700 !important;
       color: $white !important;
     }
   }

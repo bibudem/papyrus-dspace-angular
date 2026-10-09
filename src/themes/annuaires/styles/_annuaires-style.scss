@@ -186,9 +186,3 @@
     }
   }
 }
-
-// Titre de page (fiche Person/OrgUnit, page communauté) juste après le fil d'Ariane : sans ce
-// margin-top, il colle directement au bandeau "Répertoire" / fil d'Ariane au-dessus.
-h1 {
-  margin-top: 2rem;
-}

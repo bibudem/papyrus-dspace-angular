@@ -3,33 +3,6 @@
     <div class="position-absolute ms-1">
       <ng-content></ng-content>
     </div>
-    @if (linkType !== linkTypes.None) {
-      <a
-        [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
-        [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null" [routerLink]="[itemPageRoute]"
-        class="card-img-top full-width" [attr.title]="'search.results.view-result' | translate" tabindex="-1">
-        <div>
-          <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
-                        [defaultImage]="'assets/annuaires/images/orgunit-placeholder.svg'"
-                        [alt]="'thumbnail.orgunit.alt'"
-                        [placeholder]="'thumbnail.orgunit.placeholder'"
-                        [limitWidth]="false">
-          </ds-thumbnail>
-        </div>
-      </a>
-    }
-    @if (linkType === linkTypes.None) {
-      <span class="card-img-top full-width">
-        <div>
-          <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
-                        [defaultImage]="'assets/annuaires/images/orgunit-placeholder.svg'"
-                        [alt]="'thumbnail.orgunit.alt'"
-                        [placeholder]="'thumbnail.orgunit.placeholder'"
-                        [limitWidth]="false">
-          </ds-thumbnail>
-        </div>
-      </span>
-    }
     <div class="card-body">
       @if (showLabel) {
         <ds-badges [object]="dso" [context]="context"></ds-badges>

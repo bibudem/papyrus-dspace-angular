@@ -75,6 +75,9 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Type de travail actif pour le filtre (null = tous). */
   activeWorkTypeFilter: string | null = null;
 
+  /** Sous-onglet actif entre Travaux et Financement — Travaux par défaut. */
+  activeWorksTab: 'works' | 'funding' = 'works';
+
   ngOnInit(): void {
     const raw   = this.item?.firstMetadataValue('person.identifier.orcid');
     const orcidId = this.extractOrcidId();
@@ -156,6 +159,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Bascule l'affichage complet / réduit de la liste des financements. */
   toggleFundings(): void {
     this.showAllFundings = !this.showAllFundings;
+  }
+
+  /** Change le sous-onglet actif entre Travaux et Financement. */
+  setWorksTab(tab: 'works' | 'funding'): void {
+    this.activeWorksTab = tab;
   }
 
   /** Change le filtre de type de travail actif ; réinitialise "voir plus". */

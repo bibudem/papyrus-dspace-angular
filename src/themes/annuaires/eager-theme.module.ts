@@ -5,6 +5,8 @@ import { RootModule } from '../../app/root.module';
 import { BreadcrumbsComponent } from './app/breadcrumbs/breadcrumbs.component';
 import { CommunityPageComponent } from './app/community-page/community-page.component';
 import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
+import { OrgUnitComponent } from './app/entity-groups/research-entities/item-pages/org-unit/org-unit.component';
+import { OrgUnitListElementComponent } from './app/entity-groups/research-entities/item-list-elements/org-unit/org-unit-list-element.component';
 import { PersonSearchResultListElementComponent } from './app/entity-groups/research-entities/item-list-elements/search-result-list-elements/person/person-search-result-list-element.component';
 import { OrgUnitSearchResultListElementComponent } from './app/entity-groups/research-entities/item-list-elements/search-result-list-elements/org-unit/org-unit-search-result-list-element.component';
 import { PersonSearchResultGridElementComponent } from './app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/person/person-search-result-grid-element.component';
@@ -28,6 +30,8 @@ const ENTRY_COMPONENTS = [
   PersonSearchResultGridElementComponent,
   OrgUnitSearchResultGridElementComponent,
   PersonComponent,
+  OrgUnitComponent,
+  OrgUnitListElementComponent,
 ];
 
 const DECLARATIONS = [

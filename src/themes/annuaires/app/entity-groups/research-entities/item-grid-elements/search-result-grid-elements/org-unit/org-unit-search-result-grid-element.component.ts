@@ -11,12 +11,10 @@ import { listableObjectComponent } from '../../../../../../../../app/shared/obje
 import { OrgUnitSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/org-unit/org-unit-search-result-grid-element.component';
 import { TruncatableComponent } from '../../../../../../../../app/shared/truncatable/truncatable.component';
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
-import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/themed-thumbnail.component';
 
 /**
- * Carte "unité académique" (vue grille) pour l'annuaire UdeM — mêmes corrections que la
- * carte Person (voir person-search-result-grid-element.component.ts dans ce même thème) :
- * image de remplacement au lieu du texte "Pas de vignette...", cadre plus ergonomique.
+ * Carte "unité académique" (vue grille) pour l'annuaire UdeM.
+ * Pas de vignette (contrairement à Person) : seuls le titre et les métadonnées sont affichés.
  */
 @listableObjectComponent('OrgUnitSearchResult', ViewMode.GridElement, Context.Any, 'annuaires')
 @Component({
@@ -29,7 +27,6 @@ import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/
     AsyncPipe,
     RouterLink,
     ThemedBadgesComponent,
-    ThemedThumbnailComponent,
     TranslateModule,
     TruncatableComponent,
     TruncatablePartComponent,
