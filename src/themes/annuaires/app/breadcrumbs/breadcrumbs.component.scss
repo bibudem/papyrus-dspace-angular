@@ -1,0 +1,110 @@
+@import '../../../montreal/styles/_variables_papyrus.scss';
+
+// ── Bandeau "Répertoire" ─────────────────────────────────────────────────────
+// Au-dessus du fil d'Ariane : couleur unie (gris foncé du thème montreal), texte blanc
+// dessus. Contenu aligné sur le conteneur de page (comme le fil d'Ariane et le titre en
+// dessous) plutôt que centré dans le viewport.
+.annuaire-banner {
+  background-color: $gray;
+  // Espace avant le fil d'Ariane, sans toucher à son propre CSS.
+  margin-bottom: 0.75rem;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background-color: rgba($white, 0.15);
+    border: 1px solid rgba($white, 0.4);
+    color: $white;
+    font-size: 1rem;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    min-width: 0;
+  }
+
+  &__title {
+    font-weight: 650;
+    font-size: 1.15rem;
+    color: $white;
+  }
+
+  &__subtitle {
+    font-size: 0.82rem;
+    color: rgba($white, 0.85);
+  }
+}
+
+// ── Fil d'Ariane ─────────────────────────────────────────────────────────────
+// Repris tel quel du thème montreal (background-color du fil d'Ariane).
+.nav-breadcrumb {
+  background-color: var(--ds-breadcrumb-bg);
+}
+
+.breadcrumb {
+  background-color: var(--ds-breadcrumb-bg);
+}
+
+li.breadcrumb-item {
+  display: flex;
+}
+
+.breadcrumb-item-limiter {
+  display: inline-block;
+  max-width: var(--ds-breadcrumb-max-length);
+
+  > * {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+li.breadcrumb-item a {
+  color: var(--ds-breadcrumb-link-color);
+}
+
+li.breadcrumb-item.active {
+  color: var(--ds-breadcrumb-link-active-color);
+  font-weight: 600;
+}
+
+// Bouton "Retour aux résultats" : poussé à l'extrémité droite de la rangée (Bootstrap
+// .breadcrumb est déjà display:flex), sans le séparateur "•" des autres niveaux du chemin —
+// gris neutre plutôt que la couleur primaire, pour rester secondaire visuellement.
+.annuaire-backbutton-item {
+  margin-left: auto;
+
+  &::before {
+    content: none !important;
+  }
+
+  // !important nécessaire : Bootstrap redéfinit ses propres couleurs sur .btn-secondary:hover
+  // (même sélecteur, donc l'ordre d'injection des styles décide sinon — pas fiable), ce qui
+  // pouvait laisser le texte sombre sur un fond resté sombre, illisible.
+  ::ng-deep .btn {
+    background-color: $white !important;
+    border-color: $gray-400 !important;
+    color: $gray-700 !important;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-500 !important;
+      border-color: $gray-500 !important;
+      color: $white !important;
+    }
+  }
+}

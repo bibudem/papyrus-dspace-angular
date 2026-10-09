@@ -126,57 +126,15 @@
   margin-bottom: 0;
 }
 
-// Sous-titre dans un onglet (liens, etc.)
-.oe-sub-title {
-  font-family: $font-family-sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: $greensecondary;
-  margin-bottom: 0.75rem;
-}
+// ── Financement ──────────────────────────────────────────────────────────────
 
-// Une ligne, séparée par des virgules, plutôt qu'une liste verticale.
-.oe-links-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 0.4rem;
-
-  li:not(:last-child)::after {
-    content: ',';
-    color: $gray-400;
-    margin: 0 0.4rem 0 -0.15rem;
-  }
-}
-
-.oe-ext-link {
-  color: $blue;
-  font-size: 0.88rem;
-  text-decoration: none;
-  word-break: break-all;
-
-  &:hover { color: darken($blue, 10%); text-decoration: underline; }
-}
-
-// Identifiant externe sans URL connue (affiché en texte simple, pas en lien).
-.oe-ext-link-plain {
-  color: $gray-600;
-  font-size: 0.88rem;
-}
-
-// ── Affiliations ─────────────────────────────────────────────────────────────
-
-.oe-emp-list {
+.oe-funding-list {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.oe-emp-item {
+.oe-funding-item {
   padding: 0.9rem 0;
   border-bottom: 1px solid rgba($greensecondary, 0.08);
 
@@ -184,21 +142,9 @@
   &:last-child  { padding-bottom: 0; border-bottom: none; }
 }
 
-.oe-emp-org  { font-weight: 600; color: $darkgreen; font-size: 0.92rem; margin-bottom: 0.1rem; }
-.oe-emp-role { font-size: 0.85rem; color: $gray-500; margin-bottom: 0.1rem; }
-.oe-emp-dept { font-size: 0.8rem; color: $gray-400; font-style: italic; margin-bottom: 0.1rem; }
-.oe-emp-period { font-size: 0.78rem; color: $gray-400; margin-top: 0.2rem; }
-
-.current-badge {
-  display: inline-block;
-  padding: 0.05rem 0.5rem;
-  border-radius: 60px;
-  background-color: $extralightgreen;
-  color: $greensecondary;
-  font-size: 0.72rem;
-  font-weight: 600;
-  border: 1px solid rgba($greensecondary, 0.25);
-}
+.oe-funding-title  { font-weight: 600; color: $darkgreen; font-size: 0.92rem; margin-bottom: 0.1rem; }
+.oe-funding-org    { font-size: 0.85rem; color: $gray-500; margin-bottom: 0.1rem; }
+.oe-funding-period { font-size: 0.78rem; color: $gray-400; margin-top: 0.2rem; }
 
 // ── Publications ─────────────────────────────────────────────────────────────
 

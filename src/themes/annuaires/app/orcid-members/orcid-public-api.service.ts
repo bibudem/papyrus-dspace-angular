@@ -23,28 +23,14 @@ export interface OrcidMembersPage {
   totalResults: number;
 }
 
-/** Affiliation professionnelle déclarée sur ORCID. */
-export interface OrcidEmployment {
-  organizationName: string;
-  department?: string;
-  roleTitle?: string;
+/** Financement (bourse, subvention) déclaré sur ORCID. */
+export interface OrcidFunding {
+  putCode: number;
+  title: string;
+  type: string;
+  organizationName?: string;
   startYear?: number;
   endYear?: number;
-  /** Vrai si le poste est toujours actif (end-date absent dans ORCID). */
-  isCurrent: boolean;
-}
-
-/** Lien externe déclaré par le chercheur sur son profil ORCID. */
-export interface OrcidResearcherUrl {
-  name: string;
-  url: string;
-}
-
-/** Identifiant externe déclaré sur ORCID (Scopus Author ID, ResearcherID, etc.). */
-export interface OrcidExternalIdentifier {
-  type: string;
-  value: string;
-  url?: string;
 }
 
 /** Publication enregistrée dans la liste de travaux ORCID. */
@@ -71,10 +57,8 @@ export interface OrcidResearcherProfile {
   /** Pays de résidence déclaré sur ORCID (nom localisé, ex. "Canada"), s'il est renseigné. */
   country?: string;
   keywords: string[];
-  researcherUrls: OrcidResearcherUrl[];
-  externalIdentifiers: OrcidExternalIdentifier[];
   /** Triés du plus récent au plus ancien. */
-  employments: OrcidEmployment[];
+  fundings: OrcidFunding[];
   /** Triées par année de publication décroissante. */
   works: OrcidWork[];
   worksTotal: number;
@@ -97,31 +81,20 @@ interface OrcidPersonResponse {
   } | null;
   biography?: { content: string | null } | null;
   keywords?: { keyword: Array<{ content: string }> | null } | null;
-  'researcher-urls'?: {
-    'researcher-url': Array<{ 'url-name': string; url: { value: string } }> | null;
-  } | null;
   addresses?: {
     address: Array<{ country?: { value: string } | null }> | null;
   } | null;
-  'external-identifiers'?: {
-    'external-identifier': Array<{
-      'external-id-type': string;
-      'external-id-value': string;
-      'external-id-url'?: { value: string } | null;
-    }> | null;
-  } | null;
 }
 
-interface OrcidEmploymentsResponse {
-  'affiliation-group': Array<{
-    summaries: Array<{
-      'employment-summary': {
-        organization: { name: string };
-        'department-name'?: string | null;
-        'role-title'?: string | null;
-        'start-date'?: { year?: { value: string } } | null;
-        'end-date'?: { year?: { value: string } } | null;
-      };
+interface OrcidFundingsResponse {
+  group: Array<{
+    'funding-summary': Array<{
+      'put-code': number;
+      title: { title: { value: string } };
+      type: string;
+      organization?: { name: string } | null;
+      'start-date'?: { year?: { value: string } } | null;
+      'end-date'?: { year?: { value: string } } | null;
     }>;
   }> | null;
 }
@@ -208,7 +181,7 @@ export class OrcidPublicApiService {
   }
 
   /**
-   * Récupère le profil complet d'un chercheur : infos personnelles, affiliations
+   * Récupère le profil complet d'un chercheur : infos personnelles, financements
    * et liste de publications. Combine trois endpoints ORCID en parallèle.
    *
    * @param orcidId Identifiant ORCID au format 0000-0000-0000-0000.
@@ -288,13 +261,13 @@ export class OrcidPublicApiService {
   // ── Récupération du profil complet ────────────────────────────────────────
 
   /**
-   * Combine trois requêtes parallèles (person, employments, works)
+   * Combine trois requêtes parallèles (person, fundings, works)
    * pour construire le profil complet du chercheur.
    * Chaque requête échoue silencieusement pour ne pas bloquer les autres.
    */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
     console.group(`[ORCID] Chargement profil ${orcidId}`);
-    console.log('Requêtes : /person + /employments + /works');
+    console.log('Requêtes : /person + /fundings + /works');
     console.groupEnd();
 
     return forkJoin({
@@ -307,12 +280,12 @@ export class OrcidPublicApiService {
             return of(null);
           }),
         ),
-      employments: this.http
-        .get<OrcidEmploymentsResponse>(`${API_BASE}/${orcidId}/employments`, { headers: HEADERS })
+      fundings: this.http
+        .get<OrcidFundingsResponse>(`${API_BASE}/${orcidId}/fundings`, { headers: HEADERS })
         .pipe(
           retry(1),
           catchError((err) => {
-            console.warn(`[ORCID] /employments inaccessible pour ${orcidId}`, err);
+            console.warn(`[ORCID] /fundings inaccessible pour ${orcidId}`, err);
             return of(null);
           }),
         ),
@@ -326,13 +299,13 @@ export class OrcidPublicApiService {
           }),
         ),
     }).pipe(
-      map(({ person, employments, works }) =>
-        this.mapProfile(orcidId, person, employments, works),
+      map(({ person, fundings, works }) =>
+        this.mapProfile(orcidId, person, fundings, works),
       ),
       tap((p) =>
         console.log(
           `[ORCID] Profil prêt — ${p.givenName} ${p.familyName}, ` +
-          `${p.employments.length} affiliation(s), ${p.works.length} publication(s)`,
+          `${p.fundings.length} financement(s), ${p.works.length} publication(s)`,
         ),
       ),
     );
@@ -371,7 +344,7 @@ export class OrcidPublicApiService {
   private mapProfile(
     orcidId: string,
     person: OrcidPersonResponse | null,
-    empResp: OrcidEmploymentsResponse | null,
+    fundingsResp: OrcidFundingsResponse | null,
     worksResp: OrcidWorksResponse | null,
   ): OrcidResearcherProfile {
     return {
@@ -383,16 +356,7 @@ export class OrcidPublicApiService {
       biography: person?.biography?.content ?? undefined,
       country: this.mapCountry(person),
       keywords: (person?.keywords?.keyword ?? []).map((k) => k.content).filter(Boolean),
-      researcherUrls: (person?.['researcher-urls']?.['researcher-url'] ?? []).map((u) => ({
-        name: u['url-name'] ?? '',
-        url: u.url?.value ?? '',
-      })).filter((u) => u.url),
-      externalIdentifiers: (person?.['external-identifiers']?.['external-identifier'] ?? []).map((id) => ({
-        type: id['external-id-type'],
-        value: id['external-id-value'],
-        url: id['external-id-url']?.value ?? undefined,
-      })),
-      employments: this.mapEmployments(empResp),
+      fundings: this.mapFundings(fundingsResp),
       works: this.mapWorks(worksResp),
       worksTotal: this.countWorks(worksResp),
     };
@@ -409,34 +373,29 @@ export class OrcidPublicApiService {
     }
   }
 
-  private mapEmployments(resp: OrcidEmploymentsResponse | null): OrcidEmployment[] {
-    if (!resp?.['affiliation-group']) return [];
+  private mapFundings(resp: OrcidFundingsResponse | null): OrcidFunding[] {
+    if (!resp?.group) return [];
 
-    const result: OrcidEmployment[] = [];
-    for (const group of resp['affiliation-group']) {
-      for (const s of group.summaries) {
-        const summary = s['employment-summary'];
-        const startYear = summary['start-date']?.year?.value
-          ? parseInt(summary['start-date'].year.value, 10)
-          : undefined;
-        const endYear = summary['end-date']?.year?.value
-          ? parseInt(summary['end-date'].year.value, 10)
-          : undefined;
-        result.push({
-          organizationName: summary.organization?.name ?? '',
-          department: summary['department-name'] ?? undefined,
-          roleTitle: summary['role-title'] ?? undefined,
-          startYear,
-          endYear,
-          isCurrent: !summary['end-date'],
-        });
-      }
-    }
+    return resp.group
+      .map((group) => {
+        const summary = group['funding-summary']?.[0];
+        if (!summary || !summary.title?.title?.value) return null;
 
-    return result.sort((a: OrcidEmployment, b: OrcidEmployment) => {
-      if (a.isCurrent !== b.isCurrent) return a.isCurrent ? -1 : 1;
-      return (b.startYear ?? 0) - (a.startYear ?? 0);
-    });
+        return {
+          putCode: summary['put-code'],
+          title: summary.title.title.value,
+          type: summary.type ?? 'other',
+          organizationName: summary.organization?.name ?? undefined,
+          startYear: summary['start-date']?.year?.value
+            ? parseInt(summary['start-date'].year.value, 10)
+            : undefined,
+          endYear: summary['end-date']?.year?.value
+            ? parseInt(summary['end-date'].year.value, 10)
+            : undefined,
+        } as OrcidFunding;
+      })
+      .filter((f): f is OrcidFunding => f !== null)
+      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
   }
 
   private mapWorks(resp: OrcidWorksResponse | null): OrcidWork[] {

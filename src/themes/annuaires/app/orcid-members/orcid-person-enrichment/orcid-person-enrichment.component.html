@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <!-- Contenu : biographie + liens, puis parcours professionnel, puis travaux ─ -->
+      <!-- Contenu : biographie, puis financement, puis travaux ───────────────────── -->
       <div class="oe-body">
 
         <!-- Biographie ───────────────────────────────────────────────────── -->
@@ -60,81 +60,44 @@
           <ng-template #noBio>
             <p class="oe-empty">{{ 'papyrus.orcid-profile.biography.empty' | translate }}</p>
           </ng-template>
-
-          <!-- Liens du chercheur -->
-          <div *ngIf="profile.researcherUrls.length > 0" class="oe-links mt-4">
-            <h4 class="oe-sub-title">
-              {{ 'papyrus.orcid-profile.links' | translate }}
-            </h4>
-            <ul class="oe-links-list">
-              <li *ngFor="let link of profile.researcherUrls">
-                <a [href]="link.url" target="_blank" rel="noopener noreferrer" class="oe-ext-link">
-                  <i class="fas fa-external-link-alt fa-xs me-1" aria-hidden="true"></i>
-                  {{ link.name || link.url }}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Identifiants externes (Scopus, ResearcherID, etc.) -->
-          <div *ngIf="profile.externalIdentifiers.length > 0" class="oe-links mt-4">
-            <h4 class="oe-sub-title">
-              {{ 'papyrus.orcid-profile.external-ids' | translate }}
-            </h4>
-            <ul class="oe-links-list">
-              <li *ngFor="let id of profile.externalIdentifiers">
-                <a *ngIf="id.url; else plainId" [href]="id.url" target="_blank" rel="noopener noreferrer" class="oe-ext-link">
-                  <i class="fas fa-external-link-alt fa-xs me-1" aria-hidden="true"></i>
-                  {{ id.type }} : {{ id.value }}
-                </a>
-                <ng-template #plainId>
-                  <span class="oe-ext-link-plain">{{ id.type }} : {{ id.value }}</span>
-                </ng-template>
-              </li>
-            </ul>
-          </div>
         </section>
 
-        <!-- Parcours professionnel ───────────────────────────────────────── -->
+        <!-- Financement ───────────────────────────────────────────────────── -->
         <section class="oe-section">
           <h3 class="oe-section-title">
-            {{ 'papyrus.orcid-profile.employment' | translate }}
-            <span class="oe-section-badge" *ngIf="profile.employments.length > 0">{{ profile.employments.length }}</span>
+            {{ 'papyrus.orcid-profile.funding' | translate }}
+            <span class="oe-section-badge" *ngIf="profile.fundings.length > 0">{{ profile.fundings.length }}</span>
           </h3>
 
-          <div *ngIf="profile.employments.length > 0; else noEmpl" class="oe-emp-list">
-            <div *ngFor="let emp of profile.employments | slice:0:(showAllEmployments ? profile.employments.length : employmentsPreviewCount)" class="oe-emp-item">
-              <div class="oe-emp-org">{{ emp.organizationName }}</div>
-              <div class="oe-emp-role" *ngIf="emp.roleTitle">{{ emp.roleTitle }}</div>
-              <div class="oe-emp-dept" *ngIf="emp.department">{{ emp.department }}</div>
-              <div class="oe-emp-period" *ngIf="emp.startYear || emp.isCurrent">
-                <ng-container *ngIf="emp.startYear">{{ emp.startYear }}</ng-container>
-                <ng-container *ngIf="emp.startYear && (emp.isCurrent || emp.endYear)"> — </ng-container>
-                <span *ngIf="emp.isCurrent" class="current-badge">
-                  {{ 'papyrus.orcid-profile.employment.present' | translate }}
-                </span>
-                <span *ngIf="!emp.isCurrent && emp.endYear">{{ emp.endYear }}</span>
+          <div *ngIf="profile.fundings.length > 0; else noFunding" class="oe-funding-list">
+            <div *ngFor="let funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount)" class="oe-funding-item">
+              <div class="oe-funding-title">{{ funding.title }}</div>
+              <div class="oe-funding-org" *ngIf="funding.organizationName">{{ funding.organizationName }}</div>
+              <div class="oe-funding-period" *ngIf="funding.startYear || funding.endYear">
+                <ng-container *ngIf="funding.startYear">{{ funding.startYear }}</ng-container>
+                <ng-container *ngIf="funding.startYear && funding.endYear"> — </ng-container>
+                <span *ngIf="funding.endYear">{{ funding.endYear }}</span>
               </div>
             </div>
           </div>
 
           <!-- Bouton voir plus / voir moins ───────────────────────────────── -->
-          <div *ngIf="profile.employments.length > employmentsPreviewCount" class="oe-works-toggle mt-3 text-center">
-            <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleEmployments()">
-              <ng-container *ngIf="!showAllEmployments">
+          <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
+            <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
+              <ng-container *ngIf="!showAllFundings">
                 <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                {{ 'papyrus.orcid-profile.employment.show-more'
-                   | translate:{ count: profile.employments.length - employmentsPreviewCount } }}
+                {{ 'papyrus.orcid-profile.funding.show-more'
+                   | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
               </ng-container>
-              <ng-container *ngIf="showAllEmployments">
+              <ng-container *ngIf="showAllFundings">
                 <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                {{ 'papyrus.orcid-profile.employment.show-less' | translate }}
+                {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
               </ng-container>
             </button>
           </div>
 
-          <ng-template #noEmpl>
-            <p class="oe-empty">{{ 'papyrus.orcid-profile.employment.empty' | translate }}</p>
+          <ng-template #noFunding>
+            <p class="oe-empty">{{ 'papyrus.orcid-profile.funding.empty' | translate }}</p>
           </ng-template>
         </section>
 

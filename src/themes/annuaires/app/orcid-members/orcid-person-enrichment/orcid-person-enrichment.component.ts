@@ -66,11 +66,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** État d'expansion de la liste des publications. */
   showAllWorks = false;
 
-  /** Nombre d'affiliations affichées par défaut avant le bouton "voir plus". */
-  readonly employmentsPreviewCount = 5;
+  /** Nombre de financements affichés par défaut avant le bouton "voir plus". */
+  readonly fundingsPreviewCount = 5;
 
-  /** État d'expansion de la liste des affiliations. */
-  showAllEmployments = false;
+  /** État d'expansion de la liste des financements. */
+  showAllFundings = false;
 
   /** Type de travail actif pour le filtre (null = tous). */
   activeWorkTypeFilter: string | null = null;
@@ -101,12 +101,8 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
         console.log('Mots-clés       :', profile.keywords.length
           ? profile.keywords.join(', ')
           : '⚠ aucun');
-        console.log('Affiliations    :', profile.employments.length,
-          profile.employments.length
-            ? `(courante : ${profile.employments.find(e => e.isCurrent)?.organizationName ?? 'aucune'})`
-            : '⚠ aucune');
-        console.log('Liens externes  :', profile.researcherUrls.length,
-          profile.researcherUrls.map(u => u.name || u.url).join(', ') || '⚠ aucun');
+        console.log('Financements    :', profile.fundings.length,
+          profile.fundings.map(f => f.title).join(', ') || '⚠ aucun');
         console.log('Publications    :', profile.worksTotal,
           `(${profile.works.length} chargées, dernière : ${profile.works[0]?.publicationYear ?? '?'})`);
         console.table(
@@ -157,9 +153,9 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.showAllWorks = !this.showAllWorks;
   }
 
-  /** Bascule l'affichage complet / réduit de la liste des affiliations. */
-  toggleEmployments(): void {
-    this.showAllEmployments = !this.showAllEmployments;
+  /** Bascule l'affichage complet / réduit de la liste des financements. */
+  toggleFundings(): void {
+    this.showAllFundings = !this.showAllFundings;
   }
 
   /** Change le filtre de type de travail actif ; réinitialise "voir plus". */

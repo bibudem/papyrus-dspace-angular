@@ -14,7 +14,6 @@ import { RelatedItemsComponent } from '../../../../../../../app/item-page/simple
 import { listableObjectComponent } from '../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
 import { DsoEditMenuComponent } from '../../../../../../../app/shared/dso-page/dso-edit-menu/dso-edit-menu.component';
 import { MetadataFieldWrapperComponent } from '../../../../../../../app/shared/metadata-field-wrapper/metadata-field-wrapper.component';
-import { ThemedResultsBackButtonComponent } from '../../../../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
 
@@ -43,7 +42,6 @@ type ProfileSection = 'papyrus' | 'orcid';
     DsoEditMenuComponent,
     MetadataFieldWrapperComponent,
     ThemedItemPageTitleFieldComponent,
-    ThemedResultsBackButtonComponent,
     ThemedThumbnailComponent,
     // DSpace item-page
     GenericItemPageFieldComponent,

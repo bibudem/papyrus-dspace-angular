@@ -7610,21 +7610,15 @@
 
   "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
 
-  "papyrus.orcid-profile.employment": "Parcours professionnel",
+  "papyrus.orcid-profile.funding": "Financement",
 
-  "papyrus.orcid-profile.employment.present": "Présent",
+  "papyrus.orcid-profile.funding.empty": "Aucun financement renseigné.",
 
-  "papyrus.orcid-profile.employment.empty": "Aucune affiliation renseignée.",
+  "papyrus.orcid-profile.funding.show-more": "Voir {{count}} financements de plus",
 
-  "papyrus.orcid-profile.employment.show-more": "Voir {{count}} affiliations de plus",
-
-  "papyrus.orcid-profile.employment.show-less": "Voir moins",
+  "papyrus.orcid-profile.funding.show-less": "Voir moins",
 
   "papyrus.orcid-profile.keywords": "Domaines de recherche",
-
-  "papyrus.orcid-profile.links": "Liens",
-
-  "papyrus.orcid-profile.external-ids": "Identifiants externes",
 
   "papyrus.orcid-profile.publications.filter-all": "Tous",
 
@@ -7657,6 +7651,10 @@
   "papyrus.orcid-profile.publications.show-less": "Voir moins",
 
   "papyrus.directory.orcid-badge": "Profil ORCID vérifié",
+
+  "papyrus.annuaires.banner-title": "Répertoire des chercheurs et chercheuses",
+
+  "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
 
   "item.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
 

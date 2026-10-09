@@ -1,21 +1,6 @@
 // Styles de l'annuaire des chercheurs (thème "annuaires" uniquement, cf. config.papyrus.yml).
-
-// Bouton "Retour aux résultats" sur la fiche Person (cf. .person-backlink dans
-// person.component.html) : gris neutre plutôt que la couleur primaire (sarcelle), pour
-// rester secondaire visuellement par rapport au titre de la fiche — mais sans tomber dans
-// un simple lien texte (trop peu visible, perdu à côté du titre).
-.person-backlink .btn {
-  background-color: $white;
-  border-color: $gray-400;
-  color: $gray-700;
-
-  &:hover,
-  &:focus {
-    background-color: $gray-500;
-    border-color: $gray-500;
-    color: $white;
-  }
-}
+// NOTE : le bouton "Retour aux résultats" est désormais intégré au fil d'Ariane (voir
+// .annuaire-backbutton-item dans breadcrumbs.component.scss), plus sur chaque fiche.
 
 .annuaires-search-result-card {
   position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
@@ -141,8 +126,6 @@
   }
 }
 
-// Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les
-// relations DSpace (dépôt institutionnel) du panneau d'enrichissement (données externes).
 // Ligne contenant la colonne de gauche (photo/infos) et la colonne de droite (onglets +
 // contenu) de la fiche Person : espace avec le titre au-dessus. Ciblée au niveau de la ligne
 // (plutôt que juste .profile-tabs) pour que l'aside ET le contenu principal soient tous les
@@ -151,6 +134,8 @@
   margin-top: 1.75rem;
 }
 
+// Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les
+// relations DSpace (dépôt institutionnel) du panneau d'enrichissement (données externes).
 .profile-tabs {
   display: flex;
   gap: 0.5rem;
@@ -200,4 +185,10 @@
       opacity: 1;
     }
   }
+}
+
+// Titre de page (fiche Person/OrgUnit, page communauté) juste après le fil d'Ariane : sans ce
+// margin-top, il colle directement au bandeau "Répertoire" / fil d'Ariane au-dessus.
+h1 {
+  margin-top: 2rem;
 }

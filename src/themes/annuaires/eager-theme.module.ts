@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { RootModule } from '../../app/root.module';
+import { BreadcrumbsComponent } from './app/breadcrumbs/breadcrumbs.component';
 import { CommunityPageComponent } from './app/community-page/community-page.component';
 import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 import { PersonSearchResultListElementComponent } from './app/entity-groups/research-entities/item-list-elements/search-result-list-elements/person/person-search-result-list-element.component';
@@ -31,6 +32,7 @@ const ENTRY_COMPONENTS = [
 
 const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
+  BreadcrumbsComponent,
   CommunityPageComponent,
   SearchFiltersComponent,
   SearchSettingsComponent,
