@@ -956,6 +956,7 @@
   "papyrus.person.page.discipline": "Expertise",
   "papyrus.person.page.relation.affiliation": "Affiliation",
   "papyrus.person.page.tab.papyrus": "Publications in Papyrus",
+  "papyrus.person.page.tab.papyrus.empty": "No publications recorded in Papyrus.",
   "papyrus.person.page.tab.orcid": "ORCID Profile",
 
   "papyrus.directory.orcid-badge": "ORCID profile",

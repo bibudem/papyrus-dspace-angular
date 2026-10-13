@@ -72,6 +72,14 @@ $font-family-serif: 'Lora', Georgia, 'Times New Roman', Times, serif, "Apple Col
   margin-top: 0.75rem;
 }
 
+// Titre "Parcourir" au-dessus des filtres : mettre plus discret 
+.comcol-browse-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--bs-secondary-color, #6c757d);
+  margin-bottom: 0.5rem;
+}
+
 // Badges des filtres appliqués (search-label.component.html) : Bootstrap leur applique
 // "text-capitalize" (une majuscule à CHAQUE mot), ce qui déforme les valeurs affichées
 // (ex. UUID "a44dfe20-..." → "A44dfe20-...", "professeur(e) titulaire" → "Professeur(E)

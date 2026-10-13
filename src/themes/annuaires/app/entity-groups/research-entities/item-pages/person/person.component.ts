@@ -1,14 +1,9 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
 
-import { FindListOptions } from '../../../../../../../app/core/data/find-list-options.model';
-import { RelationshipDataService } from '../../../../../../../app/core/data/relationship-data.service';
 import { Context } from '../../../../../../../app/core/shared/context.model';
-import { getFirstCompletedRemoteData } from '../../../../../../../app/core/shared/operators';
 import { ViewMode } from '../../../../../../../app/core/shared/view-mode.model';
 import { PersonComponent as BaseComponent } from '../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component';
 import { GenericItemPageFieldComponent } from '../../../../../../../app/item-page/simple/field-components/specific-field/generic/generic-item-page-field.component';
@@ -27,8 +22,15 @@ type ProfileSection = 'papyrus' | 'orcid';
  * Fiche Person de l'annuaire UdeM. Le contenu principal a 2 onglets : « Profil ORCID »
  * (panneau d'enrichissement, voir ../../../orcid-members/) et « Papyrus » (relations DSpace —
  * projets, publications, direction de recherche) — pour distinguer les données du dépôt
- * institutionnel de celles importées d'ORCID. L'onglet « Papyrus » n'est affiché que si la
- * personne a au moins une publication dans Papyrus (voir hasPublications$).
+ * institutionnel de celles importées d'ORCID. L'onglet « Papyrus » reste toujours visible ; un
+ * message "aucune publication" s'affiche à la place quand les 3 ds-related-items de cet onglet
+ * sont vides.
+ *
+ * La détection du contenu vide s'appuie sur le DOM déjà rendu par ds-related-items (qui masque
+ * son wrapper en `d-none` quand il est vide, voir metadata-field-wrapper.component.html) plutôt
+ * que sur un appel RelationshipDataService séparé — ce dernier ne se résolvait jamais à temps
+ * (SSR comme client). Même technique que search-filters.component.ts dans ce thème (relabelage
+ * via ngAfterViewChecked + manipulation DOM directe).
  */
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'annuaires')
 @Component({
@@ -57,17 +59,12 @@ type ProfileSection = 'papyrus' | 'orcid';
     OrcidPersonEnrichmentComponent,
   ],
 })
-export class PersonComponent extends BaseComponent implements OnInit {
-  private readonly relationshipService = inject(RelationshipDataService);
+export class PersonComponent extends BaseComponent implements OnInit, AfterViewChecked {
+
+  private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
   /** Onglet actif — « ORCID » par défaut. */
   activeSection: ProfileSection = 'orcid';
-
-  /**
-   * Vrai tant qu'on ne sait pas encore si la personne a des publications (évite de masquer
-   * l'onglet à tort pendant le chargement) ; mis à jour une fois la requête résolue.
-   */
-  hasPublications = true;
 
   setSection(section: ProfileSection): void {
     this.activeSection = section;
@@ -75,21 +72,23 @@ export class PersonComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     super.ngOnInit();
+  }
 
-    this.relationshipService.getRelatedItemsByLabel(
-      this.object,
-      'isPublicationOfAuthor',
-      Object.assign(new FindListOptions(), { elementsPerPage: 1, currentPage: 1 }),
-    ).pipe(
-      getFirstCompletedRemoteData(),
-      map((rd) => rd.hasSucceeded && (rd.payload?.totalElements ?? 0) > 0),
-      // En cas d'erreur réseau, ne pas masquer l'onglet à tort.
-      catchError(() => of(true)),
-    ).subscribe((hasPublications) => {
-      this.hasPublications = hasPublications;
-      if (!hasPublications && this.activeSection === 'papyrus') {
-        this.activeSection = 'orcid';
-      }
-    });
+  /**
+   * Affiche le message "aucune publication" si et seulement si les 3 ds-related-items de
+   * l'onglet Papyrus sont tous vides (wrapper `.simple-view-element` masqué en `d-none`).
+   * Ne fait rien si l'onglet Papyrus n'est pas affiché (section absente du DOM).
+   */
+  ngAfterViewChecked(): void {
+    const section = this.elementRef.nativeElement.querySelector<HTMLElement>('#profile-panel-papyrus');
+    if (!section) {
+      return;
+    }
+    const message = section.querySelector<HTMLElement>('.papyrus-empty-message');
+    if (!message) {
+      return;
+    }
+    const hasVisibleContent = section.querySelectorAll('.simple-view-element:not(.d-none)').length > 0;
+    message.classList.toggle('d-none', hasVisibleContent);
   }
 }

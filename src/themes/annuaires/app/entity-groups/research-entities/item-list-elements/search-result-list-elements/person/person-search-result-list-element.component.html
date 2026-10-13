@@ -26,13 +26,16 @@
           </span>
         </span>
       </ds-truncatable-part>
+
+      <div *ngIf="affiliationName$ | async as affiliationName" class="annuaires-search-result-card__meta annuaires-search-result-card__affiliation">
+        {{ affiliationName }}
+      </div>
     </ds-truncatable>
 
-    <a *ngIf="hasOrcid" [href]="orcidUrl" target="_blank" rel="noopener noreferrer"
-       class="annuaires-search-result-card__orcid-badge">
+    <span *ngIf="hasOrcid" class="annuaires-search-result-card__orcid-badge">
       <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16"/>
       {{ 'papyrus.directory.orcid-badge' | translate }}
-    </a>
+    </span>
   </div>
 
   <i *ngIf="linkType !== linkTypes.None" class="fas fa-chevron-right annuaires-search-result-card__arrow" aria-hidden="true"></i>

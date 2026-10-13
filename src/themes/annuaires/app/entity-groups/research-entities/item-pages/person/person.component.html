@@ -9,8 +9,7 @@
   <ds-related-items
     class="d-block mb-4"
     [parentItem]="object"
-    [relationType]="'isOrgUnitOfPerson'"
-    [label]="'papyrus.person.page.relation.affiliation' | translate">
+    [relationType]="'isOrgUnitOfPerson'">
   </ds-related-items>
 
   <div class="person-content-row row g-4 align-items-start">
@@ -66,7 +65,7 @@
           <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16"/>
           {{ 'papyrus.person.page.tab.orcid' | translate }}
         </button>
-        <button *ngIf="hasPublications" role="tab" type="button"
+        <button role="tab" type="button"
                 class="profile-tab profile-tab--papyrus"
                 [class.profile-tab--active]="activeSection === 'papyrus'"
                 [attr.aria-selected]="activeSection === 'papyrus'"
@@ -82,7 +81,10 @@
       </section>
 
       <section id="profile-panel-papyrus" role="tabpanel" aria-labelledby="profile-tab-papyrus"
-               class="mt-3" *ngIf="hasPublications && activeSection === 'papyrus'">
+               class="mt-3" *ngIf="activeSection === 'papyrus'">
+        <p class="papyrus-empty-message fst-italic text-muted d-none">
+          {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
+        </p>
         <ds-related-items
           [parentItem]="object"
           [relationType]="'isProjectOfPerson'"

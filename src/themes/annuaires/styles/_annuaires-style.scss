@@ -93,19 +93,26 @@ ds-community-page-sub-collection-list .pagination-info {
     font-size: 0.9rem;
   }
 
+  // Unité d'affiliation : sur sa propre ligne (sous la fonction), en italique pour rester
+  // distincte visuellement, sans icône (cf. décision pour la fiche Person). Ellipsis sur une
+  // seule ligne plutôt que le composant ds-truncatable (qui regrouperait fonction + affiliation
+  // dans le même bloc tronqué).
+  &__affiliation {
+    display: block;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Simple pastille informative (ORCID) : plus un lien externe, cf. décision de retirer la
+  // navigation externe depuis la liste de résultats.
   &__orcid-badge {
-    position: relative; // au-dessus du .stretched-link (nom) : reste cliquable vers ORCID
-    z-index: 2;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
     font-size: 0.8rem;
     color: #a6ce39; // couleur officielle ORCID
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   &__arrow {

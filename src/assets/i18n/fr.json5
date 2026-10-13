@@ -7834,5 +7834,7 @@
 
   "papyrus.person.page.tab.papyrus": "Publications dans Papyrus",
 
+  "papyrus.person.page.tab.papyrus.empty": "Aucune publication dans Papyrus.",
+
   "papyrus.person.page.tab.orcid": "Profil ORCID",
 }
