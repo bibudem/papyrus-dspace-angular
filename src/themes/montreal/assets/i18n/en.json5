@@ -983,6 +983,8 @@
   "papyrus.orcid-profile.no-orcid": "This person does not have an ORCID iD registered on their profile.",
   "papyrus.orcid-profile.biography": "Biography",
   "papyrus.orcid-profile.biography.empty": "No biography listed.",
+  "papyrus.orcid-profile.biography.show-more": "Show more",
+  "papyrus.orcid-profile.biography.show-less": "Show less",
   "papyrus.orcid-profile.funding": "Funding",
   "papyrus.orcid-profile.funding.empty": "No funding listed.",
   "papyrus.orcid-profile.funding.show-more": "Show {{count}} more funding items",

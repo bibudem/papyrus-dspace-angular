@@ -1,13 +1,13 @@
 <div class="person-page">
 
   <div class="d-flex align-items-start justify-content-between mb-2">
-    <ds-item-page-title-field class="flex-grow-1 me-2 mt-5" [item]="object">
+    <ds-item-page-title-field class="flex-grow-1 me-2 mt-3" [item]="object">
     </ds-item-page-title-field>
     <ds-dso-edit-menu class="flex-shrink-0"></ds-dso-edit-menu>
   </div>
 
   <ds-related-items
-    class="d-block mb-4"
+    class="d-block mb-2"
     [parentItem]="object"
     [relationType]="'isOrgUnitOfPerson'">
   </ds-related-items>

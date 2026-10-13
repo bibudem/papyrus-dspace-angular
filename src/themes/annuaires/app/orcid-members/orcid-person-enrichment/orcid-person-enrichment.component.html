@@ -54,9 +54,23 @@
             {{ 'papyrus.orcid-profile.biography' | translate }}
           </h3>
 
-          <p *ngIf="profile.biography; else noBio" class="oe-bio-text">
-            {{ profile.biography }}
-          </p>
+          <ng-container *ngIf="profile.biography; else noBio">
+            <p class="oe-bio-text">
+              {{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}
+            </p>
+            <div *ngIf="profile.biography.length > bioPreviewLength" class="text-center">
+              <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleBio()">
+                <ng-container *ngIf="!showFullBio">
+                  <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                  {{ 'papyrus.orcid-profile.biography.show-more' | translate }}
+                </ng-container>
+                <ng-container *ngIf="showFullBio">
+                  <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                  {{ 'papyrus.orcid-profile.biography.show-less' | translate }}
+                </ng-container>
+              </button>
+            </div>
+          </ng-container>
           <ng-template #noBio>
             <p class="oe-empty">{{ 'papyrus.orcid-profile.biography.empty' | translate }}</p>
           </ng-template>

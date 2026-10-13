@@ -63,6 +63,12 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Flux du ViewModel exposé au template. */
   vm$: Observable<OrcidPanelViewModel> = of(VM_NO_ORCID);
 
+  /** Nombre de caractères de la biographie affichés avant le bouton "voir plus". */
+  readonly bioPreviewLength = 400;
+
+  /** État d'expansion de la biographie. */
+  showFullBio = false;
+
   /** Nombre de publications affichées par défaut avant le bouton "voir plus". */
   readonly worksPreviewCount = 5;
 
@@ -152,6 +158,20 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** TrackBy pour la liste des publications (évite les re-renders inutiles). */
   trackByPutCode(_index: number, work: OrcidWork): number {
     return work.putCode;
+  }
+
+  /** Bascule l'affichage complet / réduit de la biographie. */
+  toggleBio(): void {
+    this.showFullBio = !this.showFullBio;
+  }
+
+  /** Tronque la biographie à la frontière d'un mot la plus proche de bioPreviewLength. */
+  truncatedBio(bio: string): string {
+    if (bio.length <= this.bioPreviewLength) {
+      return bio;
+    }
+    const cut = bio.lastIndexOf(' ', this.bioPreviewLength);
+    return `${bio.slice(0, cut > 0 ? cut : this.bioPreviewLength)}…`;
   }
 
   /** Bascule l'affichage complet / réduit de la liste des publications. */

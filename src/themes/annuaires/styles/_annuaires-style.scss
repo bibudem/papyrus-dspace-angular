@@ -17,15 +17,6 @@ ds-rss {
   margin-left: -10px;
 }
 
-// Titre "Parcourir" au-dessus des onglets Noms/Mots clés/Recherche : discret (petite
-// majuscule espacée, gris) plutôt que repris comme h2 classique (46px, cf. montreal
-// _global-styles.scss) — les onglets en dessous sont déjà explicites par eux-mêmes.
-.comcol-browse-label {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--bs-secondary-color, #6c757d);
-  margin-bottom: 0.5rem;
-}
 
 // Onglet "Professeur·es et unités académiques" : titre "Collections/Sous-communautés au sein
 // de cette communauté" + compteur "Voici les éléments X sur Y" redondants (2-3 éléments tout
@@ -176,7 +167,7 @@ ds-community-page-sub-collection-list .pagination-info {
 // (plutôt que juste .profile-tabs) pour que l'aside ET le contenu principal soient tous les
 // deux décollés du header, pas seulement les onglets.
 .person-content-row {
-  margin-top: 1.75rem;
+  margin-top: 0.75rem;
 }
 
 // Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les

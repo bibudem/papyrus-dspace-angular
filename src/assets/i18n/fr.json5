@@ -7609,6 +7609,8 @@
   "papyrus.orcid-profile.biography": "Biographie",
 
   "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
+  "papyrus.orcid-profile.biography.show-more": "Voir plus",
+  "papyrus.orcid-profile.biography.show-less": "Voir moins",
 
   "papyrus.orcid-profile.funding": "Financement",
 

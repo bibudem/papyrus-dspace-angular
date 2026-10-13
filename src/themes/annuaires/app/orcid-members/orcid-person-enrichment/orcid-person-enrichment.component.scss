@@ -255,18 +255,20 @@
   }
 }
 
-// Une seule teinte (celle du thème) pour tous les types de travail, plutôt qu'une couleur par
-// type (arc-en-ciel peu lisible et incohérent avec le reste, plus sobre en un coup d'œil) —
-// les types restent distingués par leur texte, pas par la couleur.
+// Une seule teinte pour tous les types de travail, plutôt qu'une couleur par type (arc-en-ciel
+// peu lisible et incohérent avec le reste, plus sobre en un coup d'œil) — les types restent
+// distingués par leur texte, pas par la couleur. Gris neutre (même teinte que .work-filter-pill
+// et .publications-count-badge) plutôt que vert, pour ne pas se confondre avec l'identité
+// visuelle ORCID (vert) utilisée ailleurs dans ce panneau.
 .work-type-badge {
   display: inline-block;
   padding: 0.15rem 0.6rem;
   border-radius: 60px;
   font-size: 0.7rem;
   font-weight: 700;
-  background-color: $extralightgreen;
-  color: $greensecondary;
-  border: 1px solid rgba($greensecondary, 0.3);
+  background-color: $gray-100;
+  color: $gray-600;
+  border: 1px solid rgba($gray-600, 0.3);
 }
 
 .work-year    { font-size: 0.8rem; color: $gray-400; font-weight: 500; }

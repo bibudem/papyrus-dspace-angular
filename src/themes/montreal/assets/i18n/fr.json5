@@ -1784,6 +1784,8 @@
   "papyrus.orcid-profile.no-orcid": "Cette personne n'a pas de numéro ORCID enregistré sur sa fiche.",
   "papyrus.orcid-profile.biography": "Biographie",
   "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
+  "papyrus.orcid-profile.biography.show-more": "Voir plus",
+  "papyrus.orcid-profile.biography.show-less": "Voir moins",
   "papyrus.orcid-profile.funding": "Financement",
   "papyrus.orcid-profile.funding.empty": "Aucun financement renseigné.",
   "papyrus.orcid-profile.funding.show-more": "Voir {{count}} financements de plus",
