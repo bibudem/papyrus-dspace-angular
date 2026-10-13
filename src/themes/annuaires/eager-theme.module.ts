@@ -15,6 +15,7 @@ import { OrgUnitSearchResultGridElementComponent } from './app/entity-groups/res
 import { SearchFiltersComponent } from './app/shared/search/search-filters/search-filters.component';
 import { SearchSettingsComponent } from './app/shared/search/search-settings/search-settings.component';
 import { ComcolPageBrowseByComponent } from './app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
+import { ConfigurationSearchPageComponent } from './app/search-page/configuration-search-page.component';
 
 /**
  * Thème "annuaires" : annuaire des chercheurs et chercheuses de l'UdeM
@@ -43,6 +44,7 @@ const DECLARATIONS = [
   SearchFiltersComponent,
   SearchSettingsComponent,
   ComcolPageBrowseByComponent,
+  ConfigurationSearchPageComponent,
 ];
 
 @NgModule({
