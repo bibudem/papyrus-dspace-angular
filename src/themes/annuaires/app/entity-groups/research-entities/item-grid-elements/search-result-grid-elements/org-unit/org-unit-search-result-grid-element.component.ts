@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Context } from '../../../../../../../../app/core/shared/context.model';
 import { ViewMode } from '../../../../../../../../app/core/shared/view-mode.model';
 import { focusShadow } from '../../../../../../../../app/shared/animations/focus';
-import { ThemedBadgesComponent } from '../../../../../../../../app/shared/object-collection/shared/badges/themed-badges.component';
 import { listableObjectComponent } from '../../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
 import { OrgUnitSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/org-unit/org-unit-search-result-grid-element.component';
 import { TruncatableComponent } from '../../../../../../../../app/shared/truncatable/truncatable.component';
@@ -26,7 +25,6 @@ import { TruncatablePartComponent } from '../../../../../../../../app/shared/tru
   imports: [
     AsyncPipe,
     RouterLink,
-    ThemedBadgesComponent,
     TranslateModule,
     TruncatableComponent,
     TruncatablePartComponent,

@@ -1,7 +1,5 @@
 <div class="annuaires-search-result-card">
   <div class="annuaires-search-result-card__body">
-    <ds-badges *ngIf="showLabel" [object]="dso" [context]="context"></ds-badges>
-
     <ds-truncatable [id]="dso.id">
       <a *ngIf="linkType !== linkTypes.None" [target]="(linkType === linkTypes.ExternalLink) ? '_blank' : '_self'"
          [attr.rel]="(linkType === linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
