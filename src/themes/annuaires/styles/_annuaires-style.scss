@@ -9,6 +9,37 @@ ds-rss {
   display: none;
 }
 
+// En-tête de la page communauté (nom, logo, handle) : espace avec le fil d'Ariane / bandeau
+// au-dessus, et léger décalage à gauche pour s'aligner avec le reste du contenu.
+// Scopé à .comcol-header (pas juste .me-auto, trop générique — utilisé ailleurs sur le site).
+.comcol-header.me-auto {
+  margin-top: 2.5rem;
+  margin-left: -10px;
+}
+
+// Titre "Parcourir" au-dessus des onglets Noms/Mots clés/Recherche : discret (petite
+// majuscule espacée, gris) plutôt que repris comme h2 classique (46px, cf. montreal
+// _global-styles.scss) — les onglets en dessous sont déjà explicites par eux-mêmes.
+.comcol-browse-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bs-secondary-color, #6c757d);
+  margin-bottom: 0.5rem;
+}
+
+// Onglet "Professeur·es et unités académiques" : titre "Collections/Sous-communautés au sein
+// de cette communauté" + compteur "Voici les éléments X sur Y" redondants (2-3 éléments tout
+// au plus, déjà visibles sans décompte). Scopé à ces deux balises — uniques à cet onglet —
+// pour ne pas masquer le compteur ailleurs (résultats de recherche, où il reste utile).
+ds-community-page-sub-community-list h3,
+ds-community-page-sub-collection-list h3,
+ds-community-page-sub-community-list .pagination-info,
+ds-community-page-sub-collection-list .pagination-info {
+  display: none;
+}
+
 .annuaires-search-result-card {
   position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
   display: flex;

@@ -7656,6 +7656,12 @@
 
   "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
 
+  "papyrus.annuaires.browse.units": "Professeur·es et unités académiques",
+
+  "papyrus.annuaires.browse.names": "Noms",
+
+  "papyrus.annuaires.browse.keywords": "Mots clés",
+
   "item.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
 
   "mydspace.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",

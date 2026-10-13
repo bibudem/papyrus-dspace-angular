@@ -33,14 +33,32 @@ import {
 } from '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
 
 /**
- * Thème "orcid" : masque l'onglet "Direction de recherche" (index REST `advisor`), pas
- * pertinent pour un annuaire de personnes/unités académiques. Backend hors de notre
- * contrôle, donc filtré côté client.
+ * Thème "annuaires" : ne garde que "Unités et collections", "Recherche", "Titres" (renommé
+ * "Noms") et "Sujets" (renommé "Mots clés") dans la barre d'onglets "Parcourir" — les autres
+ * onglets (dates, autrices-auteurs, programmes, affiliation, direction de recherche)
+ * n'apportent rien de pertinent pour un annuaire de personnes/unités académiques.
+ * Backend hors de notre contrôle, donc filtré côté client.
  *
  * Pour masquer un autre onglet : ajouter son id (GET /server/api/discover/browses, préfixé
  * "browse_" comme construit par la classe de base) à HIDDEN_OPTION_IDS.
  */
-const HIDDEN_OPTION_IDS = ['browse_advisor'];
+const HIDDEN_OPTION_IDS = [
+  'browse_advisor',
+  'browse_dateissued',
+  'browse_author',
+  'browse_discipline',
+  'browse_affiliation',
+];
+
+/**
+ * Renomme certains onglets conservés (clé i18n propre à l'annuaire, sans toucher aux clés
+ * partagées `browse.comcol.by.*` / `community.all-lists.head` utilisées ailleurs sur le site).
+ */
+const RELABELED_OPTIONS: Readonly<Record<string, string>> = {
+  comcols: 'papyrus.annuaires.browse.units',
+  browse_title: 'papyrus.annuaires.browse.names',
+  browse_subject: 'papyrus.annuaires.browse.keywords',
+};
 
 @Component({
   selector: 'ds-base-comcol-page-browse-by',
@@ -107,7 +125,12 @@ export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit
             allOptions.push(allOptions.shift());
           }
         }
-        return allOptions.filter((option) => !HIDDEN_OPTION_IDS.includes(option.id));
+        return allOptions
+          .filter((option) => !HIDDEN_OPTION_IDS.includes(option.id))
+          .map((option) => RELABELED_OPTIONS[option.id]
+            ? { ...option, label: RELABELED_OPTIONS[option.id] }
+            : option,
+          );
       }),
     );
 

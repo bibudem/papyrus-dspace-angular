@@ -1762,6 +1762,9 @@
   "papyrus.directory.orcid-badge": "Profil ORCID vérifié",
   "papyrus.annuaires.banner-title": "Répertoire des chercheurs et chercheuses",
   "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
+  "papyrus.annuaires.browse.units": "Professeur·es et unités académiques",
+  "papyrus.annuaires.browse.names": "Noms",
+  "papyrus.annuaires.browse.keywords": "Mots clés",
 
   "papyrus.orcid-members.page.title": "Chercheurs UdeM sur ORCID",
   "papyrus.orcid-members.page.description": "Liste des chercheurs de l'Université de Montréal enregistrés sur ORCID.",
