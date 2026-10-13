@@ -1,6 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import {
+  AfterViewChecked,
   Component,
+  ElementRef,
   Inject,
   Input,
   OnInit,
@@ -9,7 +11,10 @@ import {
   Router,
   RouterLink,
 } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {
   BehaviorSubject,
@@ -36,9 +41,9 @@ import { SearchFilterConfig } from '../../../../../../app/shared/search/models/s
 import { SearchFilterComponent } from '../../../../../../app/shared/search/search-filters/search-filter/search-filter.component';
 
 /**
- * Thème "orcid" : masque le filtre "Type" (facette REST `itemtype`), pas pertinent pour
- * parcourir un annuaire de personnes/unités académiques. Backend hors de notre contrôle,
- * donc filtré côté client.
+ * Thème "annuaires" : masque les filtres "Type" (facette REST `itemtype`) et "Type d'accès"
+ * (`access_status`), pas pertinents pour parcourir un annuaire de personnes/unités
+ * académiques. Backend hors de notre contrôle, donc filtré côté client.
  *
  * Ne fait pas `extends SearchFiltersComponent` : TypeScript interdit de transformer une
  * propriété héritée (`filters`) en accesseur (TS2611), et `currentFiltersComputed`/
@@ -49,7 +54,25 @@ import { SearchFilterComponent } from '../../../../../../app/shared/search/searc
  * Pour masquer un autre filtre : ajouter son nom de facette (GET /server/api/discover/facets)
  * à HIDDEN_FACET_NAMES.
  */
-const HIDDEN_FACET_NAMES = ['itemtype'];
+const HIDDEN_FACET_NAMES = ['itemtype', 'access_status'];
+
+/**
+ * Renomme l'intitulé affiché de certains filtres conservés, sans toucher à la clé i18n
+ * partagée `search.filters.filter.<name>.head` (utilisée ailleurs sur tout le site).
+ *
+ * IMPORTANT — pourquoi ceci n'est PAS un simple remappage de label comme pour les onglets
+ * "Parcourir" (ComcolPageBrowseByComponent) : le libellé "Sujet" est généré à l'intérieur du
+ * template de SearchFilterComponent (cœur DSpace), qui n'a pas de variante "Themed" — donc
+ * pas de point d'extension propre. `filter.name` ('subject') sert AUSSI de nom de facette
+ * REST réel (paramètre d'URL `f.subject=...`) : le renommer casserait le filtrage. On corrige
+ * donc le texte affiché après coup, directement dans le DOM (voir relabelFilterHeadings), ce
+ * qui laisse l'attribut aria-label du bouton (calculé par le cœur) dire encore "sujet" — un
+ * décalage d'accessibilité accepté en connaissance de cause, faute de mieux sans toucher au
+ * cœur ou au reste du site.
+ */
+const RELABELED_FACET_NAMES: Readonly<Record<string, string>> = {
+  subject: 'papyrus.annuaires.browse.keywords',
+};
 
 @Component({
   selector: 'ds-base-search-filters',
@@ -64,7 +87,7 @@ const HIDDEN_FACET_NAMES = ['itemtype'];
     TranslateModule,
   ],
 })
-export class SearchFiltersComponent implements OnInit {
+export class SearchFiltersComponent implements OnInit, AfterViewChecked {
   private _filters: Observable<RemoteData<SearchFilterConfig[]>>;
 
   /**
@@ -143,6 +166,8 @@ export class SearchFiltersComponent implements OnInit {
     protected router: Router,
     @Inject(SEARCH_CONFIG_SERVICE) protected searchConfigService: SearchConfigurationService,
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
+    private elementRef: ElementRef<HTMLElement>,
+    private translateService: TranslateService,
   ) {
     this.defaultFilterCount = this.appConfig.search.filterPlaceholdersCount ?? 5;
   }
@@ -156,6 +181,28 @@ export class SearchFiltersComponent implements OnInit {
       return filters;
     }));
     this.searchLink = this.getSearchLink();
+  }
+
+  /**
+   * Corrige après coup le texte affiché de certains intitulés de filtre (voir
+   * RELABELED_FACET_NAMES) — relancé à chaque cycle de détection des changements (peu
+   * coûteux : une poignée d'éléments DOM tout au plus) pour rester correct même si la liste
+   * de filtres se recharge.
+   */
+  ngAfterViewChecked(): void {
+    const headings = this.elementRef.nativeElement.querySelectorAll<HTMLElement>('.filter-name .h4');
+    headings.forEach((heading) => {
+      for (const [facetName, labelKey] of Object.entries(RELABELED_FACET_NAMES)) {
+        const original = this.translateService.instant(`search.filters.filter.${facetName}.head`);
+        if (heading.textContent?.trim() === original) {
+          const replacement = this.translateService.instant(labelKey);
+          if (heading.textContent !== replacement) {
+            heading.textContent = replacement;
+          }
+          break;
+        }
+      }
+    });
   }
 
   /**
