@@ -2,6 +2,13 @@
 // NOTE : le bouton "Retour aux résultats" est désormais intégré au fil d'Ariane (voir
 // .annuaire-backbutton-item dans breadcrumbs.component.scss), plus sur chaque fiche.
 
+// Bouton flux RSS (pages de résultats/recherche) : son activation dépend d'une propriété de
+// configuration backend (websvc.opensearch.enable, cf. rss.component.ts), non accessible
+// depuis le frontend — masqué par CSS, uniquement dans ce thème (pas site-wide).
+ds-rss {
+  display: none;
+}
+
 .annuaires-search-result-card {
   position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
   display: flex;
@@ -46,8 +53,10 @@
   }
 
   &__name {
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0.25rem;
+    font-size: 1.5rem;
+    line-height: 1.15;
   }
 
   &__meta {
