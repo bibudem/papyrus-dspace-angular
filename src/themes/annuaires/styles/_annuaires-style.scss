@@ -21,10 +21,8 @@ ds-rss {
 // majuscule espacée, gris) plutôt que repris comme h2 classique (46px, cf. montreal
 // _global-styles.scss) — les onglets en dessous sont déjà explicites par eux-mêmes.
 .comcol-browse-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--bs-secondary-color, #6c757d);
   margin-bottom: 0.5rem;
 }

@@ -195,9 +195,10 @@
   border: 1px solid rgba($gray-600, 0.15);
 }
 
-// Filtre par type de travail : réutilise les couleurs de .work-type-badge (ci-dessous), en
+// Filtre par type de travail : réutilise le style de .work-type-badge (ci-dessous), en
 // version interactive (bouton). Pleinement lisible dans les deux états — aucune opacité
 // réduite — distingué uniquement par un contour (currentColor : même teinte que le badge).
+// "Tous" garde un gris neutre pour rester visuellement distinct des filtres par type.
 .oe-work-filters {
   display: flex;
   flex-wrap: wrap;
@@ -254,20 +255,18 @@
   }
 }
 
+// Une seule teinte (celle du thème) pour tous les types de travail, plutôt qu'une couleur par
+// type (arc-en-ciel peu lisible et incohérent avec le reste, plus sobre en un coup d'œil) —
+// les types restent distingués par leur texte, pas par la couleur.
 .work-type-badge {
   display: inline-block;
   padding: 0.15rem 0.6rem;
   border-radius: 60px;
   font-size: 0.7rem;
   font-weight: 700;
-
-  &.badge-article    { background-color: $extralightgreen;         color: $greensecondary;        border: 1px solid rgba($greensecondary, 0.3); }
-  &.badge-book       { background-color: rgba($blue, 0.1);         color: darken($blue, 15%);     border: 1px solid rgba($blue, 0.3); }
-  &.badge-conference { background-color: rgba($lightgreen, 0.12);  color: darken($lightgreen, 10%); border: 1px solid rgba($lightgreen, 0.35); }
-  &.badge-thesis     { background-color: rgba($redorange, 0.08);   color: darken($redorange, 10%); border: 1px solid rgba($redorange, 0.3); }
-  &.badge-report,
-  &.badge-preprint,
-  &.badge-other      { background-color: $gray-100; color: $gray-600; border: 1px solid rgba($gray-600, 0.2); }
+  background-color: $extralightgreen;
+  color: $greensecondary;
+  border: 1px solid rgba($greensecondary, 0.3);
 }
 
 .work-year    { font-size: 0.8rem; color: $gray-400; font-weight: 500; }

@@ -29,6 +29,9 @@ const WORK_TYPE_CSS: Readonly<Record<string, string>> = {
 
 const KNOWN_WORK_TYPES = new Set(Object.keys(WORK_TYPE_CSS));
 
+/** Catégorie fourre-tout pour tout type ORCID non listé dans WORK_TYPE_CSS. */
+const OTHER_WORK_TYPE = 'other';
+
 // ── ViewModel ────────────────────────────────────────────────────────────────
 
 type OrcidPanelStatus = 'loading' | 'loaded' | 'error' | 'no-orcid';
@@ -172,11 +175,17 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.showAllWorks = false;
   }
 
-  /** Types de travaux présents dans le profil, avec leur nombre d'occurrences. */
+  /**
+   * Types de travaux présents dans le profil, avec leur nombre d'occurrences.
+   * Regroupés par catégorie affichée (voir workBucket) plutôt que par type ORCID brut, sinon
+   * chaque type non reconnu (il en existe une bonne dizaine sur ORCID) ressort comme une
+   * pastille "Autre" séparée au lieu d'une seule, cumulant leurs décomptes.
+   */
   workTypeCounts(works: OrcidWork[]): Array<{ type: string; count: number }> {
     const counts = new Map<string, number>();
     for (const work of works) {
-      counts.set(work.type, (counts.get(work.type) ?? 0) + 1);
+      const bucket = this.workBucket(work.type);
+      counts.set(bucket, (counts.get(bucket) ?? 0) + 1);
     }
     return Array.from(counts.entries())
       .map(([type, count]) => ({ type, count }))
@@ -186,8 +195,13 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Travaux filtrés selon activeWorkTypeFilter (tous si aucun filtre actif). */
   filteredWorks(works: OrcidWork[]): OrcidWork[] {
     return this.activeWorkTypeFilter
-      ? works.filter((work) => work.type === this.activeWorkTypeFilter)
+      ? works.filter((work) => this.workBucket(work.type) === this.activeWorkTypeFilter)
       : works;
+  }
+
+  /** Catégorie affichée pour un type ORCID : le type lui-même s'il est connu, sinon "other". */
+  private workBucket(type: string): string {
+    return KNOWN_WORK_TYPES.has(type) ? type : OTHER_WORK_TYPE;
   }
 
   // ── Utilitaires privés ────────────────────────────────────────────────────
