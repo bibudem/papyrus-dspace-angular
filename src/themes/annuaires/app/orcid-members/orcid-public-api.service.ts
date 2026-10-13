@@ -355,7 +355,7 @@ export class OrcidPublicApiService {
       creditName: person?.name?.['credit-name']?.value ?? undefined,
       biography: person?.biography?.content ?? undefined,
       country: this.mapCountry(person),
-      keywords: (person?.keywords?.keyword ?? []).map((k) => k.content).filter(Boolean),
+      keywords: this.mapKeywords(person),
       fundings: this.mapFundings(fundingsResp),
       works: this.mapWorks(worksResp),
       worksTotal: this.countWorks(worksResp),
@@ -371,6 +371,18 @@ export class OrcidPublicApiService {
     } catch {
       return code;
     }
+  }
+
+  /**
+   * ORCID permet un seul mot-clé par entrée, mais certains profils y mettent une liste
+   * séparée par des virgules (ex. "bioethics, public health ethics, ..."). On éclate donc
+   * chaque entrée sur les virgules pour afficher une pastille par mot-clé individuel.
+   */
+  private mapKeywords(person: OrcidPersonResponse | null): string[] {
+    return (person?.keywords?.keyword ?? [])
+      .flatMap((k) => (k.content ?? '').split(','))
+      .map((kw) => kw.trim())
+      .filter(Boolean);
   }
 
   private mapFundings(resp: OrcidFundingsResponse | null): OrcidFunding[] {
