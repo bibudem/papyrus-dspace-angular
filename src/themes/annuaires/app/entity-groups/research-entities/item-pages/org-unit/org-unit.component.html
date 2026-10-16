@@ -3,6 +3,24 @@
   </ds-item-page-title-field>
   <ds-dso-edit-menu></ds-dso-edit-menu>
 </div>
+<div class="annuaires-website-field" *ngIf="websiteUrl">
+  <a [href]="websiteUrl" target="_blank" rel="noopener noreferrer"
+     class="annuaires-website-field__link"
+     [attr.aria-label]="('orgunit.page.website' | translate) + ' : ' + websiteUrl">
+    {{ websiteUrl }}
+  </a>
+  <button type="button" class="annuaires-website-field__copy-btn"
+          (click)="copyWebsiteUrl()"
+          [title]="'papyrus.orgunit.page.website.copy' | translate"
+          [attr.aria-label]="'papyrus.orgunit.page.website.copy' | translate">
+    <i class="fas" [class.fa-copy]="!websiteUrlCopied" [class.fa-check]="websiteUrlCopied" aria-hidden="true"></i>
+  </button>
+</div>
+<div class="mb-3">
+  <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="link" tabindex="0">
+    {{"item.page.link.full" | translate}}
+  </a>
+</div>
 <div class="row">
   <div class="col-xs-12 col-md-4">
     <ds-generic-item-page-field [item]="object"
@@ -23,10 +41,6 @@
     </ds-generic-item-page-field>
   </div>
   <div class="col-xs-12 col-md-7">
-    <ds-item-page-uri-field [item]="object"
-      [fields]="['organization.url']"
-      [label]="'orgunit.page.website' | translate">
-    </ds-item-page-uri-field>
     <ds-item-page-img-field
       [fields]="['organization.identifier.ror']"
       [img]="{
@@ -49,11 +63,6 @@
       [fields]="['dc.description']"
       [label]="'orgunit.page.description'">
     </ds-generic-item-page-field>
-    <div>
-      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']" role="link" tabindex="0">
-        {{"item.page.link.full" | translate}}
-      </a>
-    </div>
   </div>
   <div class="mt-5 w-100">
     <ds-tabbed-related-entities-search  [item]="object"

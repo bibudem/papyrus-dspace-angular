@@ -335,6 +335,7 @@
   "quality-assurance.event.reason": "Reason",
   "orgunit.page.ror": "ROR Identifier",
   "orgunit.page.website": "Website",
+  "papyrus.orgunit.page.website.copy": "Copy link",
   "process.detail.refreshing": "Auto-refreshing…",
   "process.overview.table.completed.info": "Finish time (UTC)",
   "process.overview.table.completed.title": "Succeeded processes",

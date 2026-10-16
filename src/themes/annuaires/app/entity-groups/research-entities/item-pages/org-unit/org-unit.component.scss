@@ -1,1 +1,37 @@
-// Aucun style propre à la fiche OrgUnit pour l'instant (mise en page héritée de montreal).
+@import '../../../../../../montreal/styles/_variables_papyrus.scss';
+
+// Site web : lien + bouton copier sur une seule ligne (pas de label au-dessus, le lien
+// s'explique de lui-même — cf. .annuaires-affiliation-link, même esprit de lien simple).
+.annuaires-website-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  &__link {
+    word-break: break-all;
+  }
+
+  &__copy-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 1px solid rgba($greensecondary, 0.3);
+    border-radius: 50%;
+    background: none;
+    color: $greensecondary;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.12s ease-in-out;
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba($extralightgreen, 0.6);
+    }
+  }
+}
