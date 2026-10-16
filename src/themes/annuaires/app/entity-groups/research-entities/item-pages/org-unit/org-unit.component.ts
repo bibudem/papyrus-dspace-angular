@@ -57,33 +57,20 @@ export class OrgUnitComponent extends BaseComponent {
   /** Vrai brièvement après un clic sur "copier" (affiche une coche à la place de l'icône). */
   websiteUrlCopied = false;
 
+  /**
+   * document.execCommand('copy') plutôt que navigator.clipboard.writeText() : cette dernière
+   * passe par un flux de permission asynchrone qui peut rester en attente et ne se résoudre
+   * qu'au clic suivant (icône de confirmation visible seulement au 2e clic). execCommand est
+   * synchrone et directement lié au geste de clic, donc fiable dès le premier essai.
+   */
   copyWebsiteUrl(): void {
     const url = this.websiteUrl;
     if (!url) {
       return;
     }
-    this.writeToClipboard(url).then(() => {
-      this.websiteUrlCopied = true;
-      setTimeout(() => { this.websiteUrlCopied = false; }, COPIED_FEEDBACK_DURATION_MS);
-    });
-  }
 
-  /**
-   * navigator.clipboard.writeText() peut échouer silencieusement tant que le document n'a
-   * pas (encore) le focus (ex. juste après le chargement de la page) — repli sur
-   * document.execCommand('copy'), synchrone et déclenché directement par le clic, donc fiable
-   * dès le premier essai.
-   */
-  private writeToClipboard(text: string): Promise<void> {
-    if (navigator.clipboard?.writeText) {
-      return navigator.clipboard.writeText(text).catch(() => this.writeToClipboardFallback(text));
-    }
-    return this.writeToClipboardFallback(text);
-  }
-
-  private writeToClipboardFallback(text: string): Promise<void> {
     const textarea = document.createElement('textarea');
-    textarea.value = text;
+    textarea.value = url;
     textarea.setAttribute('readonly', '');
     textarea.style.position = 'fixed';
     textarea.style.opacity = '0';
@@ -91,6 +78,10 @@ export class OrgUnitComponent extends BaseComponent {
     textarea.select();
     const succeeded = document.execCommand('copy');
     document.body.removeChild(textarea);
-    return succeeded ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+
+    if (succeeded) {
+      this.websiteUrlCopied = true;
+      setTimeout(() => { this.websiteUrlCopied = false; }, COPIED_FEEDBACK_DURATION_MS);
+    }
   }
 }
