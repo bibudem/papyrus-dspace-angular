@@ -26,7 +26,7 @@
   <ng-container *ngIf="vm.status === 'loaded' && vm.profile as profile">
     <div class="oe-panel">
 
-      <!-- En-tête : ORCID iD + mots-clés ─────────────────────────────────── -->
+      <!-- En-tête : ORCID iD ──────────────────────────────────────────────── -->
       <div class="oe-header">
         <div class="oe-id-row">
           <span class="oe-orcid-badge" aria-hidden="true">iD</span>
@@ -39,9 +39,6 @@
             <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
           </a>
           <span *ngIf="profile.country" class="oe-country">{{ profile.country }}</span>
-        </div>
-        <div class="oe-keywords-row" *ngIf="profile.keywords.length > 0">
-          <span *ngFor="let kw of profile.keywords | slice:0:8" class="keyword-pill">{{ kw }}</span>
         </div>
       </div>
 

@@ -58,24 +58,6 @@
   &::before { content: '·'; margin-right: 0.5rem; }
 }
 
-.oe-keywords-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
-.keyword-pill {
-  display: inline-block;
-  padding: 0.18rem 0.6rem;
-  border-radius: 60px;
-  background-color: rgba($lightgreen, 0.12);
-  color: $greensecondary;
-  border: 1px solid rgba($greensecondary, 0.2);
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
 // ── Corps (vue continue : biographie, parcours professionnel, travaux) ──────
 
 .oe-body {
