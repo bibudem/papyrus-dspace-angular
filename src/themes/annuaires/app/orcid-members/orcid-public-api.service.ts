@@ -203,19 +203,16 @@ export class OrcidPublicApiService {
   private getCachedOrFetch<T>(key: string, factory: () => Observable<T>): Observable<T> {
     const cached = this.cache.get(key);
     if (cached && cached.expiresAt > Date.now()) {
-      console.log('[ORCID] Cache hit — clé:', key);
       return of(cached.data as T);
     }
 
     const existing = this.inflight.get(key);
     if (existing) {
-      console.log('[ORCID] Requête en vol partagée — clé:', key);
       return existing as Observable<T>;
     }
 
     const req$ = factory().pipe(
       tap((data) => {
-        console.log('[ORCID] Mise en cache — clé:', key);
         this.cache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
       }),
       finalize(() => this.inflight.delete(key)),
@@ -235,10 +232,6 @@ export class OrcidPublicApiService {
       .set('start', String(page * pageSize))
       .set('rows', String(pageSize));
 
-    console.group('[ORCID] Recherche membres UdeM');
-    console.log('Paramètres :', { q: query, start: page * pageSize, rows: pageSize });
-    console.groupEnd();
-
     return this.http
       .get<OrcidSearchResponse>(`${API_BASE}/search`, { headers: HEADERS, params })
       .pipe(
@@ -246,7 +239,6 @@ export class OrcidPublicApiService {
         retry(2),
         switchMap(({ result, 'num-found': totalResults }) => {
           const ids = (result ?? []).map((r) => r['orcid-identifier'].path);
-          console.log('[ORCID] Résultats :', totalResults, '— IDs page :', ids);
 
           if (ids.length === 0) return of({ members: [], totalResults });
 
@@ -266,10 +258,6 @@ export class OrcidPublicApiService {
    * Chaque requête échoue silencieusement pour ne pas bloquer les autres.
    */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
-    console.group(`[ORCID] Chargement profil ${orcidId}`);
-    console.log('Requêtes : /person + /fundings + /works');
-    console.groupEnd();
-
     return forkJoin({
       person: this.http
         .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
@@ -301,12 +289,6 @@ export class OrcidPublicApiService {
     }).pipe(
       map(({ person, fundings, works }) =>
         this.mapProfile(orcidId, person, fundings, works),
-      ),
-      tap((p) =>
-        console.log(
-          `[ORCID] Profil prêt — ${p.givenName} ${p.familyName}, ` +
-          `${p.fundings.length} financement(s), ${p.works.length} publication(s)`,
-        ),
       ),
     );
   }

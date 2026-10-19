@@ -55,7 +55,7 @@
             <p class="oe-bio-text">
               {{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}
             </p>
-            <div *ngIf="profile.biography.length > bioPreviewLength" class="text-center">
+            <div *ngIf="profile.biography.length > bioPreviewLength" class="mt-3 text-center">
               <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleBio()">
                 <ng-container *ngIf="!showFullBio">
                   <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>

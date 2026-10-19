@@ -281,6 +281,14 @@
     color: $greensecondary;
     text-decoration: underline;
   }
+
+  // Au clic, Bootstrap applique par défaut un halo bleu (.btn:focus) et change la couleur
+  // (.btn-link:active) — remplacé par un simple assombrissement discret, sans halo.
+  &:active,
+  &:focus {
+    color: $darkgreen;
+    box-shadow: none;
+  }
 }
 
 // ── Message vide ─────────────────────────────────────────────────────────────
