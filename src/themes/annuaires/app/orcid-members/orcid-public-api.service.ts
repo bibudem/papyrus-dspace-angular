@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpBackend, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -129,8 +130,15 @@ const API_BASE = 'https://pub.orcid.org/v3.0';
 /** En-tête Accept pour les réponses au format JSON ORCID. */
 const HEADERS = new HttpHeaders({ Accept: 'application/vnd.orcid+json' });
 
-/** Durée de vie du cache local : 5 minutes. */
-const CACHE_TTL_MS = 5 * 60 * 1000;
+/**
+ * Durée de vie du cache : 30 minutes. Les profils ORCID (bio, travaux, financements) changent
+ * rarement d'une minute à l'autre ; une fenêtre plus large que la précédente (5 min) réduit
+ * nettement le nombre d'appels à l'API publique ORCID sans sacrifier la fraîcheur perçue.
+ */
+const CACHE_TTL_MS = 30 * 60 * 1000;
+
+/** Préfixe des clés localStorage, pour ne pas entrer en collision avec d'autres usages. */
+const STORAGE_PREFIX = 'papyrus-annuaires:orcid-cache:';
 
 /**
  * Requête Lucene de base pour les membres UdeM.
@@ -152,9 +160,14 @@ export class OrcidPublicApiService {
    */
   private readonly http = new HttpClient(inject(HttpBackend));
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   /**
    * Cache générique : clé → { données + expiry }.
    * Stocke indifféremment les pages de recherche et les profils complets.
+   * Doublé d'une copie dans localStorage (voir readPersisted/writePersisted) pour survivre
+   * aux rechargements de page et aux rendus SSR successifs, qui recréent sinon ce service (et
+   * donc cette Map) à chaque fois.
    */
   private readonly cache = new Map<string, { data: unknown; expiresAt: number }>();
 
@@ -196,14 +209,22 @@ export class OrcidPublicApiService {
   // ── Cache générique ───────────────────────────────────────────────────────
 
   /**
-   * Retourne la valeur mise en cache si elle est valide,
+   * Retourne la valeur mise en cache si elle est valide (mémoire, puis localStorage),
    * partage la requête en vol si elle est déjà en cours,
    * sinon déclenche un nouvel appel HTTP.
    */
   private getCachedOrFetch<T>(key: string, factory: () => Observable<T>): Observable<T> {
-    const cached = this.cache.get(key);
-    if (cached && cached.expiresAt > Date.now()) {
-      return of(cached.data as T);
+    const cached = this.cache.get(key) ?? this.readPersisted<T>(key);
+    if (cached) {
+      if (cached.expiresAt > Date.now()) {
+        // Remonte en mémoire une entrée trouvée seulement dans localStorage, pour éviter de
+        // reparser le JSON à chaque appel tant qu'elle reste valide.
+        this.cache.set(key, cached);
+        return of(cached.data as T);
+      }
+      // Entrée périmée : nettoyage opportuniste pour que localStorage ne grossisse pas
+      // indéfiniment au fil des profils consultés au cours de nombreuses sessions.
+      this.removePersisted(key);
     }
 
     const existing = this.inflight.get(key);
@@ -213,7 +234,9 @@ export class OrcidPublicApiService {
 
     const req$ = factory().pipe(
       tap((data) => {
-        this.cache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+        const entry = { data, expiresAt: Date.now() + CACHE_TTL_MS };
+        this.cache.set(key, entry);
+        this.writePersisted(key, entry);
       }),
       finalize(() => this.inflight.delete(key)),
       shareReplay(1),
@@ -221,6 +244,47 @@ export class OrcidPublicApiService {
 
     this.inflight.set(key, req$);
     return req$;
+  }
+
+  /**
+   * Lit une entrée de cache persistée dans localStorage. Repli silencieux sur `undefined` en
+   * SSR (pas de localStorage côté serveur), en navigation privée, ou si le JSON est corrompu —
+   * cette couche est un bonus de performance, jamais une dépendance bloquante.
+   */
+  private readPersisted<T>(key: string): { data: T; expiresAt: number } | undefined {
+    if (!this.isBrowser) {
+      return undefined;
+    }
+    try {
+      const raw = localStorage.getItem(STORAGE_PREFIX + key);
+      return raw ? (JSON.parse(raw) as { data: T; expiresAt: number }) : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  /** Écrit une entrée de cache dans localStorage ; échoue silencieusement (quota dépassé,
+   * navigation privée, SSR) sans jamais bloquer le flux applicatif. */
+  private writePersisted<T>(key: string, entry: { data: T; expiresAt: number }): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    try {
+      localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(entry));
+    } catch {
+      // Quota dépassé ou stockage indisponible : le cache mémoire reste fonctionnel.
+    }
+  }
+
+  private removePersisted(key: string): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    try {
+      localStorage.removeItem(STORAGE_PREFIX + key);
+    } catch {
+      // Sans conséquence : l'entrée périmée sera simplement ignorée à la prochaine lecture.
+    }
   }
 
   // ── Récupération de la page de recherche ─────────────────────────────────
@@ -259,15 +323,7 @@ export class OrcidPublicApiService {
    */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
     return forkJoin({
-      person: this.http
-        .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
-        .pipe(
-          retry(2),
-          catchError((err) => {
-            console.warn(`[ORCID] /person inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
-        ),
+      person: this.fetchPersonRaw(orcidId),
       fundings: this.http
         .get<OrcidFundingsResponse>(`${API_BASE}/${orcidId}/fundings`, { headers: HEADERS })
         .pipe(
@@ -297,19 +353,38 @@ export class OrcidPublicApiService {
 
   /** Version allégée du profil : juste nom + bio, pour la liste paginée. */
   private fetchPersonLight(orcidId: string): Observable<OrcidMember> {
-    return this.http
-      .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
-      .pipe(
-        retry(1),
-        map((p) => this.mapPersonLight(orcidId, p)),
-        catchError((err) => {
-          console.warn(`[ORCID] Profil allégé inaccessible — ${orcidId}`, {
-            status: (err as any)?.status,
-            message: (err as any)?.message,
-          });
-          return of({ orcidId, orcidUri: `https://orcid.org/${orcidId}`, givenName: '', familyName: '' });
-        }),
-      );
+    return this.fetchPersonRaw(orcidId).pipe(
+      map((p) => this.mapPersonLight(orcidId, p)),
+      catchError((err) => {
+        console.warn(`[ORCID] Profil allégé inaccessible — ${orcidId}`, {
+          status: (err as any)?.status,
+          message: (err as any)?.message,
+        });
+        return of({ orcidId, orcidUri: `https://orcid.org/${orcidId}`, givenName: '', familyName: '' });
+      }),
+    );
+  }
+
+  /**
+   * Appel brut à /person, partagé (et mis en cache, voir getCachedOrFetch) entre la liste de
+   * résultats de recherche (fetchPersonLight) et la fiche complète (fetchProfile) : consulter
+   * un profil déjà vu dans une liste ne redéclenche pas d'appel réseau.
+   *
+   * Le catchError reste HORS de getCachedOrFetch : sinon un échec serait mémorisé comme une
+   * valeur `null` "valide" pendant toute la durée du cache (30 min), empêchant tout nouvel
+   * essai avant l'expiration même si ORCID redevient disponible entre-temps.
+   */
+  private fetchPersonRaw(orcidId: string): Observable<OrcidPersonResponse | null> {
+    return this.getCachedOrFetch<OrcidPersonResponse>(`person|${orcidId}`, () =>
+      this.http
+        .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
+        .pipe(retry(2)),
+    ).pipe(
+      catchError((err) => {
+        console.warn(`[ORCID] /person inaccessible pour ${orcidId}`, err);
+        return of(null);
+      }),
+    );
   }
 
   private mapPersonLight(orcidId: string, p: OrcidPersonResponse | null): OrcidMember {
