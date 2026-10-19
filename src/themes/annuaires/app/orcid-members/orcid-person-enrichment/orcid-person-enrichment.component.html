@@ -51,7 +51,7 @@
             {{ 'papyrus.orcid-profile.biography' | translate }}
           </h3>
 
-          <ng-container *ngIf="profile.biography; else noBio">
+          <ng-container *ngIf="profile.biography && isFrenchText(profile.biography); else noBio">
             <p class="oe-bio-text">
               {{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}
             </p>
