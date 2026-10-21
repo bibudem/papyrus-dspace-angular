@@ -40,6 +40,13 @@
           </a>
           <span *ngIf="profile.country" class="oe-country">{{ profile.country }}</span>
         </div>
+        <div class="oe-links-row" *ngIf="profile.researcherUrls.length > 0">
+          <i class="fas fa-link fa-xs" aria-hidden="true"></i>
+          <ng-container *ngFor="let link of profile.researcherUrls; let last = last">
+            <a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
+            <span *ngIf="!last" class="oe-links-sep" aria-hidden="true">|</span>
+          </ng-container>
+        </div>
       </div>
 
       <!-- Contenu : biographie, puis travaux/financement en sous-onglets ────────── -->
@@ -73,128 +80,300 @@
           </ng-template>
         </section>
 
-        <!-- Travaux / Financement : sous-onglets, Travaux affiché par défaut, pour
-             garder ces deux sections compactes au lieu de les empiler. ────────── -->
-        <section class="oe-section">
-          <div class="oe-subtabs" role="group" aria-label="Travaux et financement">
-            <button type="button"
-                    class="oe-subtab"
-                    [class.oe-subtab--active]="activeWorksTab === 'works'"
-                    [attr.aria-pressed]="activeWorksTab === 'works'"
-                    (click)="setWorksTab('works')">
-              {{ 'papyrus.orcid-profile.publications' | translate }}
-              <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
-            </button>
-            <button type="button"
-                    class="oe-subtab"
-                    [class.oe-subtab--active]="activeWorksTab === 'funding'"
-                    [attr.aria-pressed]="activeWorksTab === 'funding'"
-                    (click)="setWorksTab('funding')">
-              {{ 'papyrus.orcid-profile.funding' | translate }}
-              <span class="oe-section-badge" *ngIf="profile.fundings.length > 0">{{ profile.fundings.length }}</span>
-            </button>
-          </div>
+        <!-- Travaux, financement et autres activités : accordéon (une catégorie par section,
+             chacune dépliable indépendamment) — évite les limites de largeur d'une rangée
+             d'onglets quand plusieurs catégories sont présentes. ──────────────────────── -->
+        <section class="oe-section oe-accordion">
 
           <!-- Travaux ─────────────────────────────────────────────────────── -->
-          <div *ngIf="activeWorksTab === 'works'">
-            <p *ngIf="profile.works.length === 0" class="oe-empty">
-              {{ 'papyrus.orcid-profile.publications.empty' | translate }}
-            </p>
+          <div class="oe-accordion-item">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('works')"
+                    aria-controls="oe-panel-works"
+                    (click)="toggleSection('works')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.publications' | translate }}</span>
+              <span class="oe-section-badge" *ngIf="profile.worksTotal > 0">{{ profile.worksTotal }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('works')" [class.fa-minus]="isExpanded('works')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-works" class="oe-accordion-body" *ngIf="isExpanded('works')">
+              <p *ngIf="profile.works.length === 0" class="oe-empty">
+                {{ 'papyrus.orcid-profile.publications.empty' | translate }}
+              </p>
 
-            <!-- Filtre par type de travail ───────────────────────────────── -->
-            <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
-              <button type="button"
-                      class="work-filter-pill"
-                      [class.work-filter-pill--active]="activeWorkTypeFilter === null"
-                      (click)="setWorkTypeFilter(null)">
-                {{ 'papyrus.orcid-profile.publications.filter-all' | translate }}
-                <span class="oe-section-badge">{{ profile.works.length }}</span>
-              </button>
-              <button type="button"
-                      *ngFor="let entry of workTypeCounts(profile.works)"
-                      class="work-filter-pill work-type-badge {{ workTypeClass(entry.type) }}"
-                      [class.work-filter-pill--active]="activeWorkTypeFilter === entry.type"
-                      (click)="setWorkTypeFilter(entry.type)">
-                {{ workTypeKey(entry.type) | translate }}
-                <span class="oe-section-badge">{{ entry.count }}</span>
-              </button>
-            </div>
-
-            <ng-container *ngIf="filteredWorks(profile.works) as visibleWorks">
-              <div class="oe-works-list">
-                <article *ngFor="let work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); trackBy: trackByPutCode" class="work-item">
-                  <div class="work-meta d-flex align-items-center gap-2 mb-1">
-                    <span class="work-type-badge {{ workTypeClass(work.type) }}">
-                      {{ workTypeKey(work.type) | translate }}
-                    </span>
-                    <span *ngIf="work.publicationYear" class="work-year">{{ work.publicationYear }}</span>
-                  </div>
-                  <h4 class="work-title">
-                    <a *ngIf="work.doiUrl || work.workUrl"
-                       [href]="work.doiUrl || work.workUrl"
-                       target="_blank" rel="noopener noreferrer">
-                      {{ work.title }}
-                      <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
-                    </a>
-                    <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
-                  </h4>
-                  <p *ngIf="work.journalTitle" class="work-journal">{{ work.journalTitle }}</p>
-                  <p *ngIf="work.doi" class="work-doi">
-                    DOI :
-                    <a [href]="work.doiUrl" target="_blank" rel="noopener noreferrer" class="doi-link">{{ work.doi }}</a>
-                  </p>
-                </article>
-              </div>
-
-              <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
-              <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
-                <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
-                  <ng-container *ngIf="!showAllWorks">
-                    <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                    {{ 'papyrus.orcid-profile.publications.show-more'
-                       | translate:{ count: visibleWorks.length - worksPreviewCount } }}
-                  </ng-container>
-                  <ng-container *ngIf="showAllWorks">
-                    <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                    {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
-                  </ng-container>
+              <!-- Filtre par type de travail ───────────────────────────────── -->
+              <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
+                <button type="button"
+                        class="work-filter-pill"
+                        [class.work-filter-pill--active]="activeWorkTypeFilter === null"
+                        (click)="setWorkTypeFilter(null)">
+                  {{ 'papyrus.orcid-profile.publications.filter-all' | translate }}
+                  <span class="oe-section-badge">{{ profile.works.length }}</span>
+                </button>
+                <button type="button"
+                        *ngFor="let entry of workTypeCounts(profile.works)"
+                        class="work-filter-pill work-type-badge {{ workTypeClass(entry.type) }}"
+                        [class.work-filter-pill--active]="activeWorkTypeFilter === entry.type"
+                        (click)="setWorkTypeFilter(entry.type)">
+                  {{ workTypeKey(entry.type) | translate }}
+                  <span class="oe-section-badge">{{ entry.count }}</span>
                 </button>
               </div>
-            </ng-container>
+
+              <ng-container *ngIf="filteredWorks(profile.works) as visibleWorks">
+                <div class="oe-works-list">
+                  <article *ngFor="let work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); trackBy: trackByPutCode" class="work-item">
+                    <div class="work-meta d-flex align-items-center gap-2 mb-1">
+                      <span class="work-type-badge {{ workTypeClass(work.type) }}">
+                        {{ workTypeKey(work.type) | translate }}
+                      </span>
+                      <span *ngIf="work.publicationYear" class="work-year">{{ work.publicationYear }}</span>
+                    </div>
+                    <h4 class="work-title">
+                      <a *ngIf="work.doiUrl || work.workUrl"
+                         [href]="work.doiUrl || work.workUrl"
+                         target="_blank" rel="noopener noreferrer">
+                        {{ work.title }}
+                        <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+                      </a>
+                      <span *ngIf="!work.doiUrl && !work.workUrl">{{ work.title }}</span>
+                    </h4>
+                    <p *ngIf="work.journalTitle" class="work-journal">{{ work.journalTitle }}</p>
+                    <p *ngIf="work.doi" class="work-doi">
+                      DOI :
+                      <a [href]="work.doiUrl" target="_blank" rel="noopener noreferrer" class="doi-link">{{ work.doi }}</a>
+                    </p>
+                  </article>
+                </div>
+
+                <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+                <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
+                  <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
+                    <ng-container *ngIf="!showAllWorks">
+                      <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                      {{ 'papyrus.orcid-profile.publications.show-more'
+                         | translate:{ count: visibleWorks.length - worksPreviewCount } }}
+                    </ng-container>
+                    <ng-container *ngIf="showAllWorks">
+                      <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                      {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
+                    </ng-container>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
           </div>
 
           <!-- Financement ─────────────────────────────────────────────────── -->
-          <div *ngIf="activeWorksTab === 'funding'">
-            <div *ngIf="profile.fundings.length > 0; else noFunding" class="oe-funding-list">
-              <div *ngFor="let funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount)" class="oe-funding-item">
-                <div class="oe-funding-title">{{ funding.title }}</div>
-                <div class="oe-funding-org" *ngIf="funding.organizationName">{{ funding.organizationName }}</div>
-                <div class="oe-funding-period" *ngIf="funding.startYear || funding.endYear">
-                  <ng-container *ngIf="funding.startYear">{{ funding.startYear }}</ng-container>
-                  <ng-container *ngIf="funding.startYear && funding.endYear"> — </ng-container>
-                  <span *ngIf="funding.endYear">{{ funding.endYear }}</span>
+          <div class="oe-accordion-item">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('funding')"
+                    aria-controls="oe-panel-funding"
+                    (click)="toggleSection('funding')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.funding' | translate }}</span>
+              <span class="oe-section-badge" *ngIf="profile.fundings.length > 0">{{ profile.fundings.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('funding')" [class.fa-minus]="isExpanded('funding')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-funding" class="oe-accordion-body" *ngIf="isExpanded('funding')">
+              <div *ngIf="profile.fundings.length > 0; else noFunding" class="oe-funding-list">
+                <div *ngFor="let funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount)" class="oe-funding-item">
+                  <div class="oe-funding-title">{{ funding.title }}</div>
+                  <div class="oe-funding-org" *ngIf="funding.organizationName">{{ funding.organizationName }}</div>
+                  <div class="oe-funding-period" *ngIf="funding.startYear || funding.endYear">
+                    <ng-container *ngIf="funding.startYear">{{ funding.startYear }}</ng-container>
+                    <ng-container *ngIf="funding.startYear && funding.endYear"> — </ng-container>
+                    <span *ngIf="funding.endYear">{{ funding.endYear }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+              <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
+                <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
+                  <ng-container *ngIf="!showAllFundings">
+                    <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
+                    {{ 'papyrus.orcid-profile.funding.show-more'
+                       | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
+                  </ng-container>
+                  <ng-container *ngIf="showAllFundings">
+                    <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
+                    {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
+                  </ng-container>
+                </button>
+              </div>
+
+              <ng-template #noFunding>
+                <p class="oe-empty">{{ 'papyrus.orcid-profile.funding.empty' | translate }}</p>
+              </ng-template>
+            </div>
+          </div>
+
+          <!-- Distinctions, diplômes, adhésions, qualifications, service : même forme de
+               données côté ORCID, même gabarit d'affichage — et n'apparaissent que si la
+               personne a au moins une entrée dans cette catégorie. ─────────────────────── -->
+          <div class="oe-accordion-item" *ngIf="profile.distinctions.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('distinctions')"
+                    aria-controls="oe-panel-distinctions"
+                    (click)="toggleSection('distinctions')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.distinctions' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.distinctions.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('distinctions')" [class.fa-minus]="isExpanded('distinctions')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-distinctions" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('distinctions')">
+              <div *ngFor="let entry of profile.distinctions; trackBy: trackByAffiliationPutCode" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName }}</div>
+                <div class="oe-affiliation-org" *ngIf="entry.organizationName">
+                  {{ entry.organizationName }}<span *ngIf="entry.city">, {{ entry.city }}</span>
+                </div>
+                <div class="oe-affiliation-period" *ngIf="entry.startYear || entry.endYear">
+                  <ng-container *ngIf="entry.startYear">{{ entry.startYear }}</ng-container>
+                  <ng-container *ngIf="entry.startYear && entry.endYear"> — </ng-container>
+                  <span *ngIf="entry.endYear">{{ entry.endYear }}</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
-            <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
-              <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
-                <ng-container *ngIf="!showAllFundings">
-                  <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                  {{ 'papyrus.orcid-profile.funding.show-more'
-                     | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
-                </ng-container>
-                <ng-container *ngIf="showAllFundings">
-                  <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                  {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
-                </ng-container>
-              </button>
+          <div class="oe-accordion-item" *ngIf="profile.educations.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('educations')"
+                    aria-controls="oe-panel-educations"
+                    (click)="toggleSection('educations')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.educations' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.educations.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('educations')" [class.fa-minus]="isExpanded('educations')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-educations" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('educations')">
+              <div *ngFor="let entry of profile.educations; trackBy: trackByAffiliationPutCode" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName }}</div>
+                <div class="oe-affiliation-org" *ngIf="entry.organizationName">
+                  {{ entry.organizationName }}<span *ngIf="entry.city">, {{ entry.city }}</span>
+                </div>
+                <div class="oe-affiliation-period" *ngIf="entry.startYear || entry.endYear">
+                  <ng-container *ngIf="entry.startYear">{{ entry.startYear }}</ng-container>
+                  <ng-container *ngIf="entry.startYear && entry.endYear"> — </ng-container>
+                  <span *ngIf="entry.endYear">{{ entry.endYear }}</span>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <ng-template #noFunding>
-              <p class="oe-empty">{{ 'papyrus.orcid-profile.funding.empty' | translate }}</p>
-            </ng-template>
+          <div class="oe-accordion-item" *ngIf="profile.memberships.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('memberships')"
+                    aria-controls="oe-panel-memberships"
+                    (click)="toggleSection('memberships')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.memberships' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.memberships.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('memberships')" [class.fa-minus]="isExpanded('memberships')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-memberships" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('memberships')">
+              <div *ngFor="let entry of profile.memberships; trackBy: trackByAffiliationPutCode" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName }}</div>
+                <div class="oe-affiliation-org" *ngIf="entry.organizationName">
+                  {{ entry.organizationName }}<span *ngIf="entry.city">, {{ entry.city }}</span>
+                </div>
+                <div class="oe-affiliation-period" *ngIf="entry.startYear || entry.endYear">
+                  <ng-container *ngIf="entry.startYear">{{ entry.startYear }}</ng-container>
+                  <ng-container *ngIf="entry.startYear && entry.endYear"> — </ng-container>
+                  <span *ngIf="entry.endYear">{{ entry.endYear }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="oe-accordion-item" *ngIf="profile.qualifications.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('qualifications')"
+                    aria-controls="oe-panel-qualifications"
+                    (click)="toggleSection('qualifications')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.qualifications' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.qualifications.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('qualifications')" [class.fa-minus]="isExpanded('qualifications')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-qualifications" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('qualifications')">
+              <div *ngFor="let entry of profile.qualifications; trackBy: trackByAffiliationPutCode" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName }}</div>
+                <div class="oe-affiliation-org" *ngIf="entry.organizationName">
+                  {{ entry.organizationName }}<span *ngIf="entry.city">, {{ entry.city }}</span>
+                </div>
+                <div class="oe-affiliation-period" *ngIf="entry.startYear || entry.endYear">
+                  <ng-container *ngIf="entry.startYear">{{ entry.startYear }}</ng-container>
+                  <ng-container *ngIf="entry.startYear && entry.endYear"> — </ng-container>
+                  <span *ngIf="entry.endYear">{{ entry.endYear }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="oe-accordion-item" *ngIf="profile.services.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('services')"
+                    aria-controls="oe-panel-services"
+                    (click)="toggleSection('services')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.services' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.services.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('services')" [class.fa-minus]="isExpanded('services')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-services" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('services')">
+              <div *ngFor="let entry of profile.services; trackBy: trackByAffiliationPutCode" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName }}</div>
+                <div class="oe-affiliation-org" *ngIf="entry.organizationName">
+                  {{ entry.organizationName }}<span *ngIf="entry.city">, {{ entry.city }}</span>
+                </div>
+                <div class="oe-affiliation-period" *ngIf="entry.startYear || entry.endYear">
+                  <ng-container *ngIf="entry.startYear">{{ entry.startYear }}</ng-container>
+                  <ng-container *ngIf="entry.startYear && entry.endYear"> — </ng-container>
+                  <span *ngIf="entry.endYear">{{ entry.endYear }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Revues par les pairs ───────────────────────────────────────────── -->
+          <div class="oe-accordion-item" *ngIf="profile.peerReviews.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('peer-reviews')"
+                    aria-controls="oe-panel-peer-reviews"
+                    (click)="toggleSection('peer-reviews')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.peer-reviews' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.peerReviews.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('peer-reviews')" [class.fa-minus]="isExpanded('peer-reviews')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-peer-reviews" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('peer-reviews')">
+              <div *ngFor="let review of profile.peerReviews; trackBy: trackByIndex" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">
+                  {{ review.reviewerRole || ('papyrus.orcid-profile.peer-reviews' | translate) }}
+                </div>
+                <div class="oe-affiliation-org" *ngIf="review.organizationName">{{ review.organizationName }}</div>
+                <div class="oe-affiliation-period" *ngIf="review.year">{{ review.year }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ressources de recherche ────────────────────────────────────────── -->
+          <div class="oe-accordion-item" *ngIf="profile.researchResources.length > 0">
+            <button type="button" class="oe-accordion-header"
+                    [attr.aria-expanded]="isExpanded('research-resources')"
+                    aria-controls="oe-panel-research-resources"
+                    (click)="toggleSection('research-resources')">
+              <span class="oe-accordion-title">{{ 'papyrus.orcid-profile.research-resources' | translate }}</span>
+              <span class="oe-section-badge">{{ profile.researchResources.length }}</span>
+              <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded('research-resources')" [class.fa-minus]="isExpanded('research-resources')" aria-hidden="true"></i>
+            </button>
+            <div id="oe-panel-research-resources" class="oe-accordion-body oe-affiliation-list" *ngIf="isExpanded('research-resources')">
+              <div *ngFor="let resource of profile.researchResources; trackBy: trackByIndex" class="oe-affiliation-item">
+                <div class="oe-affiliation-title">
+                  {{ resource.title || ('papyrus.orcid-profile.research-resources' | translate) }}
+                </div>
+                <div class="oe-affiliation-org" *ngIf="resource.organizationName">{{ resource.organizationName }}</div>
+                <div class="oe-affiliation-period" *ngIf="resource.startYear || resource.endYear">
+                  <ng-container *ngIf="resource.startYear">{{ resource.startYear }}</ng-container>
+                  <ng-container *ngIf="resource.startYear && resource.endYear"> — </ng-container>
+                  <span *ngIf="resource.endYear">{{ resource.endYear }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

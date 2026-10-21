@@ -6,6 +6,7 @@ import { catchError, map, startWith } from 'rxjs/operators';
 
 import { Item } from '../../../../../app/core/shared/item.model';
 import {
+  OrcidAffiliationEntry,
   OrcidPublicApiService,
   OrcidResearcherProfile,
   OrcidWork,
@@ -87,6 +88,22 @@ const VM_LOADING:  OrcidPanelViewModel = { status: 'loading',  profile: null };
 const VM_ERROR:    OrcidPanelViewModel = { status: 'error',    profile: null };
 const VM_NO_ORCID: OrcidPanelViewModel = { status: 'no-orcid', profile: null };
 
+/**
+ * Catégories d'activités affichées en sous-onglets. Chaque onglet n'est rendu dans le gabarit
+ * que si la liste correspondante du profil n'est pas vide — la plupart des chercheurs n'en
+ * auront que 2 ou 3 sur les 9.
+ */
+export type ActivityTab =
+  | 'works'
+  | 'funding'
+  | 'distinctions'
+  | 'educations'
+  | 'memberships'
+  | 'qualifications'
+  | 'services'
+  | 'peer-reviews'
+  | 'research-resources';
+
 // ── Composant ────────────────────────────────────────────────────────────────
 
 @Component({
@@ -126,8 +143,12 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Type de travail actif pour le filtre (null = tous). */
   activeWorkTypeFilter: string | null = null;
 
-  /** Sous-onglet actif entre Travaux et Financement — Travaux par défaut. */
-  activeWorksTab: 'works' | 'funding' = 'works';
+  /**
+   * Catégories d'activités actuellement dépliées (accordéon) — toutes repliées par défaut.
+   * Chaque catégorie se déplie/replie indépendamment des autres (pas un seul onglet actif à la
+   * fois) : plus simple à parcourir et n'a pas de limite de largeur comme des onglets.
+   */
+  expandedSections = new Set<ActivityTab>();
 
   ngOnInit(): void {
     const orcidId = this.extractOrcidId();
@@ -219,9 +240,31 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.showAllFundings = !this.showAllFundings;
   }
 
-  /** Change le sous-onglet actif entre Travaux et Financement. */
-  setWorksTab(tab: 'works' | 'funding'): void {
-    this.activeWorksTab = tab;
+  /** Vrai si cette catégorie d'activité est actuellement dépliée. */
+  isExpanded(section: ActivityTab): boolean {
+    return this.expandedSections.has(section);
+  }
+
+  /** Déplie/replie une catégorie d'activité (indépendamment des autres). */
+  toggleSection(section: ActivityTab): void {
+    const next = new Set(this.expandedSections);
+    if (next.has(section)) {
+      next.delete(section);
+    } else {
+      next.add(section);
+    }
+    this.expandedSections = next;
+  }
+
+  /** TrackBy générique pour les listes d'affiliation (distinctions, diplômes, adhésions...). */
+  trackByAffiliationPutCode(_index: number, entry: OrcidAffiliationEntry): number {
+    return entry.putCode;
+  }
+
+  /** TrackBy par index pour les revues par les pairs / ressources de recherche (pas d'id stable
+   * côté ORCID pour ces deux catégories). */
+  trackByIndex(index: number): number {
+    return index;
   }
 
   /** Change le filtre de type de travail actif ; réinitialise "voir plus". */

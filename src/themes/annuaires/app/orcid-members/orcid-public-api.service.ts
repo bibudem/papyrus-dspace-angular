@@ -34,6 +34,43 @@ export interface OrcidFunding {
   endYear?: number;
 }
 
+/** Lien externe déclaré par le chercheur sur son profil ORCID (ex. page personnelle). */
+export interface OrcidResearcherUrl {
+  name: string;
+  url: string;
+}
+
+/**
+ * Entrée d'affiliation ORCID (distinction, diplôme, adhésion, qualification ou service) — ces
+ * 5 catégories partagent la même forme de données côté API ORCID (modèle "Affiliations" v3).
+ */
+export interface OrcidAffiliationEntry {
+  putCode: number;
+  roleTitle?: string;
+  departmentName?: string;
+  organizationName?: string;
+  city?: string;
+  country?: string;
+  startYear?: number;
+  endYear?: number;
+}
+
+/** Activité de révision par les pairs déclarée sur ORCID. */
+export interface OrcidPeerReview {
+  reviewerRole?: string;
+  reviewType?: string;
+  organizationName?: string;
+  year?: number;
+}
+
+/** Ressource de recherche (infrastructure, équipement) utilisée, déclarée sur ORCID. */
+export interface OrcidResearchResource {
+  title?: string;
+  organizationName?: string;
+  startYear?: number;
+  endYear?: number;
+}
+
 /** Publication enregistrée dans la liste de travaux ORCID. */
 export interface OrcidWork {
   putCode: number;
@@ -58,11 +95,21 @@ export interface OrcidResearcherProfile {
   /** Pays de résidence déclaré sur ORCID (nom localisé, ex. "Canada"), s'il est renseigné. */
   country?: string;
   keywords: string[];
+  researcherUrls: OrcidResearcherUrl[];
   /** Triés du plus récent au plus ancien. */
   fundings: OrcidFunding[];
   /** Triées par année de publication décroissante. */
   works: OrcidWork[];
   worksTotal: number;
+  distinctions: OrcidAffiliationEntry[];
+  /** "Diplômes" — correspond à la section "educations" d'ORCID. */
+  educations: OrcidAffiliationEntry[];
+  memberships: OrcidAffiliationEntry[];
+  qualifications: OrcidAffiliationEntry[];
+  /** Champ fourre-tout côté ORCID (comités, bénévolat, etc.). */
+  services: OrcidAffiliationEntry[];
+  peerReviews: OrcidPeerReview[];
+  researchResources: OrcidResearchResource[];
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -85,6 +132,14 @@ interface OrcidPersonResponse {
   addresses?: {
     address: Array<{ country?: { value: string } | null }> | null;
   } | null;
+  'researcher-urls'?: {
+    'researcher-url': Array<{ 'url-name'?: string | null; url: { value: string } }> | null;
+  } | null;
+}
+
+/** Année ORCID au format `{ year: { value: "2024" } }`, commune à tous les endpoints. */
+interface OrcidDateParts {
+  year?: { value: string } | null;
 }
 
 interface OrcidFundingsResponse {
@@ -94,8 +149,8 @@ interface OrcidFundingsResponse {
       title: { title: { value: string } };
       type: string;
       organization?: { name: string } | null;
-      'start-date'?: { year?: { value: string } } | null;
-      'end-date'?: { year?: { value: string } } | null;
+      'start-date'?: OrcidDateParts | null;
+      'end-date'?: OrcidDateParts | null;
     }>;
   }> | null;
 }
@@ -106,7 +161,7 @@ interface OrcidWorksResponse {
       'put-code': number;
       title: { title: { value: string } };
       type: string;
-      'publication-date'?: { year?: { value: string } } | null;
+      'publication-date'?: OrcidDateParts | null;
       'journal-title'?: { value: string } | null;
       'external-ids'?: {
         'external-id': Array<{
@@ -118,6 +173,77 @@ interface OrcidWorksResponse {
       url?: { value: string } | null;
     }>;
   }> | null;
+}
+
+/**
+ * Forme commune aux 5 catégories d'affiliation ORCID (distinctions, educations,
+ * memberships, qualifications, services) — modèle "Affiliations" v3 unifié, vérifié contre
+ * l'API réelle (ex. employment-summary, qui a la même forme).
+ */
+interface OrcidAffiliationSummaryRaw {
+  'put-code': number;
+  'department-name'?: string | null;
+  'role-title'?: string | null;
+  'start-date'?: OrcidDateParts | null;
+  'end-date'?: OrcidDateParts | null;
+  organization?: {
+    name: string;
+    address?: { city?: string | null; country?: string | null } | null;
+  } | null;
+}
+
+/** Enveloppe commune aux endpoints d'affiliation (ex. /distinctions, /memberships...). */
+interface OrcidAffiliationGroupResponse {
+  'affiliation-group': Array<{
+    summaries: Array<Record<string, OrcidAffiliationSummaryRaw>>;
+  }> | null;
+}
+
+interface OrcidPeerReviewsResponse {
+  group: Array<{
+    'peer-review-group': Array<{
+      'peer-review-summary': Array<{
+        'reviewer-role'?: string | null;
+        'review-type'?: string | null;
+        'completion-date'?: OrcidDateParts | null;
+        'convening-organization'?: { name: string } | null;
+      }>;
+    }> | null;
+  }> | null;
+}
+
+/**
+ * Section ORCID récente et peu répandue — forme best-effort (non vérifiée sur un profil réel
+ * faute d'exemple public disponible), tolérante aux champs manquants comme le reste du mapping.
+ */
+interface OrcidResearchResourcesResponse {
+  group: Array<{
+    'research-resource-summary'?: Array<{
+      proposal?: {
+        title?: { title?: { value: string } | null } | null;
+        hosts?: { organization?: Array<{ name: string }> | null } | null;
+        'start-date'?: OrcidDateParts | null;
+        'end-date'?: OrcidDateParts | null;
+      } | null;
+    }> | null;
+  }> | null;
+}
+
+/**
+ * Réponse de /activities : regroupe en un seul appel toutes les sections d'activités (au lieu
+ * d'un appel par section), y compris travaux et financements — remplace les anciens appels
+ * séparés /works et /fundings.
+ */
+interface OrcidActivitiesResponse {
+  distinctions?: OrcidAffiliationGroupResponse | null;
+  educations?: OrcidAffiliationGroupResponse | null;
+  memberships?: OrcidAffiliationGroupResponse | null;
+  qualifications?: OrcidAffiliationGroupResponse | null;
+  services?: OrcidAffiliationGroupResponse | null;
+  'peer-reviews'?: OrcidPeerReviewsResponse | null;
+  'research-resources'?: OrcidResearchResourcesResponse | null;
+  fundings?: OrcidFundingsResponse | null;
+  works?: OrcidWorksResponse | null;
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -349,35 +475,32 @@ export class OrcidPublicApiService {
   // ── Récupération du profil complet ────────────────────────────────────────
 
   /**
-   * Combine trois requêtes parallèles (person, fundings, works)
-   * pour construire le profil complet du chercheur.
-   * Chaque requête échoue silencieusement pour ne pas bloquer les autres.
+   * Combine deux requêtes parallèles (person, activities) pour construire le profil complet du
+   * chercheur. /activities regroupe en un seul appel travaux, financements, distinctions,
+   * diplômes, adhésions, qualifications, services, revues par les pairs et ressources de
+   * recherche — un seul appel au lieu d'un par section. Chaque requête échoue silencieusement
+   * pour ne pas bloquer l'autre.
    */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
     return forkJoin({
       person: this.fetchPersonRaw(orcidId),
-      fundings: this.http
-        .get<OrcidFundingsResponse>(`${API_BASE}/${orcidId}/fundings`, { headers: HEADERS })
-        .pipe(
-          retry(1),
-          catchError((err) => {
-            console.warn(`[ORCID] /fundings inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
-        ),
-      works: this.http
-        .get<OrcidWorksResponse>(`${API_BASE}/${orcidId}/works`, { headers: HEADERS })
-        .pipe(
-          retry(1),
-          catchError((err) => {
-            console.warn(`[ORCID] /works inaccessible pour ${orcidId}`, err);
-            return of(null);
-          }),
-        ),
+      activities: this.fetchActivitiesRaw(orcidId),
     }).pipe(
-      map(({ person, fundings, works }) =>
-        this.mapProfile(orcidId, person, fundings, works),
-      ),
+      map(({ person, activities }) => this.mapProfile(orcidId, person, activities)),
+    );
+  }
+
+  /** Même raisonnement de cache/catchError que fetchPersonRaw (voir son commentaire). */
+  private fetchActivitiesRaw(orcidId: string): Observable<OrcidActivitiesResponse | null> {
+    return this.getCachedOrFetch<OrcidActivitiesResponse>(`activities|${orcidId}`, () =>
+      this.http
+        .get<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`, { headers: HEADERS })
+        .pipe(retry(2)),
+    ).pipe(
+      catchError((err) => {
+        console.warn(`[ORCID] /activities inaccessible pour ${orcidId}`, err);
+        return of(null);
+      }),
     );
   }
 
@@ -433,8 +556,7 @@ export class OrcidPublicApiService {
   private mapProfile(
     orcidId: string,
     person: OrcidPersonResponse | null,
-    fundingsResp: OrcidFundingsResponse | null,
-    worksResp: OrcidWorksResponse | null,
+    activities: OrcidActivitiesResponse | null,
   ): OrcidResearcherProfile {
     return {
       orcidId,
@@ -445,10 +567,98 @@ export class OrcidPublicApiService {
       biography: person?.biography?.content ?? undefined,
       country: this.mapCountry(person),
       keywords: this.mapKeywords(person),
-      fundings: this.mapFundings(fundingsResp),
-      works: this.mapWorks(worksResp),
-      worksTotal: this.countWorks(worksResp),
+      researcherUrls: this.mapResearcherUrls(person),
+      fundings: this.mapFundings(activities?.fundings ?? null),
+      works: this.mapWorks(activities?.works ?? null),
+      worksTotal: this.countWorks(activities?.works ?? null),
+      distinctions: this.mapAffiliationGroup(activities?.distinctions, 'distinction-summary'),
+      educations: this.mapAffiliationGroup(activities?.educations, 'education-summary'),
+      memberships: this.mapAffiliationGroup(activities?.memberships, 'membership-summary'),
+      qualifications: this.mapAffiliationGroup(activities?.qualifications, 'qualification-summary'),
+      services: this.mapAffiliationGroup(activities?.services, 'service-summary'),
+      peerReviews: this.mapPeerReviews(activities?.['peer-reviews']),
+      researchResources: this.mapResearchResources(activities?.['research-resources']),
     };
+  }
+
+  private mapResearcherUrls(person: OrcidPersonResponse | null): OrcidResearcherUrl[] {
+    return (person?.['researcher-urls']?.['researcher-url'] ?? [])
+      .filter((u) => !!u.url?.value)
+      .map((u) => ({ name: u['url-name']?.trim() || u.url.value, url: u.url.value }));
+  }
+
+  /**
+   * Mapping générique pour les 5 catégories d'affiliation ORCID (même forme de données, voir
+   * OrcidAffiliationSummaryRaw) : distinctions, diplômes, adhésions, qualifications, services.
+   * @param summaryKey Nom de la clé de résumé propre à la catégorie (ex. "education-summary").
+   */
+  private mapAffiliationGroup(
+    resp: OrcidAffiliationGroupResponse | null | undefined,
+    summaryKey: string,
+  ): OrcidAffiliationEntry[] {
+    if (!resp?.['affiliation-group']) return [];
+
+    return resp['affiliation-group']
+      .map((group) => {
+        const summary = group.summaries?.[0]?.[summaryKey];
+        if (!summary) return null;
+
+        return {
+          putCode: summary['put-code'],
+          roleTitle: summary['role-title'] ?? undefined,
+          departmentName: summary['department-name'] ?? undefined,
+          organizationName: summary.organization?.name ?? undefined,
+          city: summary.organization?.address?.city ?? undefined,
+          country: summary.organization?.address?.country ?? undefined,
+          startYear: summary['start-date']?.year?.value
+            ? parseInt(summary['start-date'].year.value, 10)
+            : undefined,
+          endYear: summary['end-date']?.year?.value
+            ? parseInt(summary['end-date'].year.value, 10)
+            : undefined,
+        } as OrcidAffiliationEntry;
+      })
+      .filter((e): e is OrcidAffiliationEntry => e !== null)
+      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
+  }
+
+  private mapPeerReviews(resp: OrcidPeerReviewsResponse | null | undefined): OrcidPeerReview[] {
+    if (!resp?.group) return [];
+
+    return resp.group
+      .flatMap((group) => group['peer-review-group'] ?? [])
+      .map((prGroup) => prGroup['peer-review-summary']?.[0])
+      .filter((summary): summary is NonNullable<typeof summary> => !!summary)
+      .map((summary) => ({
+        reviewerRole: summary['reviewer-role'] ?? undefined,
+        reviewType: summary['review-type'] ?? undefined,
+        organizationName: summary['convening-organization']?.name ?? undefined,
+        year: summary['completion-date']?.year?.value
+          ? parseInt(summary['completion-date'].year.value, 10)
+          : undefined,
+      }))
+      .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  }
+
+  private mapResearchResources(
+    resp: OrcidResearchResourcesResponse | null | undefined,
+  ): OrcidResearchResource[] {
+    if (!resp?.group) return [];
+
+    return resp.group
+      .map((group) => group['research-resource-summary']?.[0]?.proposal)
+      .filter((proposal): proposal is NonNullable<typeof proposal> => !!proposal)
+      .map((proposal) => ({
+        title: proposal.title?.title?.value ?? undefined,
+        organizationName: proposal.hosts?.organization?.[0]?.name ?? undefined,
+        startYear: proposal['start-date']?.year?.value
+          ? parseInt(proposal['start-date'].year.value, 10)
+          : undefined,
+        endYear: proposal['end-date']?.year?.value
+          ? parseInt(proposal['end-date'].year.value, 10)
+          : undefined,
+      }))
+      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
   }
 
   /** Convertit le code pays ISO 3166-1 (ex. "CA") en nom localisé (ex. "Canada"). */
