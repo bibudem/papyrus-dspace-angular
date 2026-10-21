@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpBackend, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, makeStateKey, PLATFORM_ID, StateKey, TransferState } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -163,6 +163,14 @@ export class OrcidPublicApiService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   /**
+   * Transmet au navigateur les données déjà récupérées pendant le rendu serveur (SSR), pour
+   * qu'il n'ait pas à rappeler l'API ORCID une seconde fois juste après l'hydratation — sans
+   * ça, le même code s'exécute une fois sur le serveur Node puis une seconde fois dans le
+   * navigateur, qui ignore que le serveur a déjà fait l'appel.
+   */
+  private readonly transferState = inject(TransferState);
+
+  /**
    * Cache générique : clé → { données + expiry }.
    * Stocke indifféremment les pages de recherche et les profils complets.
    * Doublé d'une copie dans localStorage (voir readPersisted/writePersisted) pour survivre
@@ -209,11 +217,26 @@ export class OrcidPublicApiService {
   // ── Cache générique ───────────────────────────────────────────────────────
 
   /**
-   * Retourne la valeur mise en cache si elle est valide (mémoire, puis localStorage),
-   * partage la requête en vol si elle est déjà en cours,
+   * Retourne la valeur mise en cache si elle est valide (TransferState en provenance du SSR,
+   * puis mémoire, puis localStorage), partage la requête en vol si elle est déjà en cours,
    * sinon déclenche un nouvel appel HTTP.
    */
   private getCachedOrFetch<T>(key: string, factory: () => Observable<T>): Observable<T> {
+    // Donnée transmise par le rendu SSR pour cette même clé : le serveur l'a déjà récupérée
+    // il y a quelques instants, pas besoin que le navigateur la redemande. Lue une seule fois
+    // (removeKey) : le cache mémoire/localStorage prend ensuite le relais normalement pour le
+    // reste de la session (navigation vers d'autres fiches, etc.).
+    const transferKey = this.transferStateKey<T>(key);
+    if (this.isBrowser && this.transferState.hasKey(transferKey)) {
+      const transferred = this.transferState.get(transferKey, null);
+      this.transferState.remove(transferKey);
+      if (transferred) {
+        this.cache.set(key, transferred);
+        this.writePersisted(key, transferred);
+        return of(transferred.data);
+      }
+    }
+
     const cached = this.cache.get(key) ?? this.readPersisted<T>(key);
     if (cached) {
       if (cached.expiresAt > Date.now()) {
@@ -237,6 +260,11 @@ export class OrcidPublicApiService {
         const entry = { data, expiresAt: Date.now() + CACHE_TTL_MS };
         this.cache.set(key, entry);
         this.writePersisted(key, entry);
+        if (!this.isBrowser) {
+          // Rendu SSR : transmet le résultat au navigateur pour lui éviter de refaire cet
+          // appel juste après l'hydratation (voir le commentaire au-dessus).
+          this.transferState.set(transferKey, entry);
+        }
       }),
       finalize(() => this.inflight.delete(key)),
       shareReplay(1),
@@ -285,6 +313,10 @@ export class OrcidPublicApiService {
     } catch {
       // Sans conséquence : l'entrée périmée sera simplement ignorée à la prochaine lecture.
     }
+  }
+
+  private transferStateKey<T>(key: string): StateKey<{ data: T; expiresAt: number }> {
+    return makeStateKey<{ data: T; expiresAt: number }>(`orcid:${key}`);
   }
 
   // ── Récupération de la page de recherche ─────────────────────────────────
