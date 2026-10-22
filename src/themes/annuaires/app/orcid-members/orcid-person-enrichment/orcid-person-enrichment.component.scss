@@ -89,14 +89,17 @@
   }
 }
 
+// Couleur alignée sur .simple-view-element-header (titres "Fonction", "Courriel"... à gauche
+// de la fiche, voir _global-styles.scss du thème montreal) pour rester visuellement cohérent
+// entre les deux colonnes de la fiche Person.
 .oe-section-title {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-family: $font-family-sans-serif;
   font-size: 1.05rem;
-  font-weight: 700;
-  color: $darkgreen;
+  font-weight: 600;
+  color: $greensecondary;
   margin-bottom: 1rem;
 }
 
@@ -124,8 +127,8 @@
   &:last-child { border-bottom: none; }
 }
 
-// Même style que .oe-section-title (ex. "Biographie" plus haut) — pour que les titres de
-// catégories restent bien visibles, repliées ou non, au lieu d'un gris effacé.
+// Même style que .oe-section-title ci-dessus (lui-même aligné sur .simple-view-element-header,
+// les titres "Fonction"/"Courriel" à gauche de la fiche).
 .oe-accordion-header {
   display: flex;
   align-items: center;
@@ -136,19 +139,21 @@
   border: none;
   font-family: $font-family-sans-serif;
   font-size: 1.05rem;
-  font-weight: 700;
-  color: $darkgreen;
+  font-weight: 600;
+  color: $greensecondary;
   text-align: left;
   cursor: pointer;
   transition: color 0.15s ease-in-out;
 
   &:hover {
-    color: $greensecondary;
+    color: $darkgreen;
   }
 }
 
 .oe-accordion-title {
   flex: 1 1 auto;
+
+  .oe-section-badge { margin-left: 0.5rem; }
 }
 
 .oe-accordion-icon {
@@ -230,40 +235,40 @@
 // version interactive (bouton). Pleinement lisible dans les deux états — aucune opacité
 // réduite — distingué uniquement par un contour (currentColor : même teinte que le badge).
 // "Tous" garde un gris neutre pour rester visuellement distinct des filtres par type.
+// Filtre par type de travail : liste de liens texte séparés par des barres verticales (même
+// esprit que .oe-links-row) plutôt que des boutons/pastilles — plus discret pour une simple
+// bascule d'affichage.
 .oe-work-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.work-filter-pill {
-  display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.15rem 0.6rem;
-  border-radius: 60px;
-  background-color: $gray-100;
-  color: $gray-600;
-  border: 1px solid rgba($gray-600, 0.2);
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.7rem;
-  box-shadow: 0 0 0 0 transparent;
-  transition: box-shadow 0.12s ease;
+  margin-bottom: 1.25rem;
+  font-size: 0.8rem;
+}
 
-  .oe-section-badge {
-    background-color: rgba($white, 0.7);
-    border-color: transparent;
-  }
+.work-filter-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: $gray-500;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.12s ease;
 
   &:hover {
-    box-shadow: 0 0 0 1px currentColor;
+    color: $darkgreen;
+    text-decoration: underline;
   }
 
   &--active {
-    box-shadow: 0 0 0 2px currentColor;
+    color: $darkgreen;
+    font-weight: 700;
   }
+}
+
+.work-filter-sep {
+  color: $gray-400;
 }
 
 .oe-works-list { display: flex; flex-direction: column; gap: 0; }
