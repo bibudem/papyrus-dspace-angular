@@ -116,13 +116,13 @@ communityList:
 homePage:
   recentSubmissions:
     # The number of item showing in recent submission components
-    pageSize: 5
+    pageSize: 25
     # Sort record of recent submission
     sortField: 'dc.date.accessioned'
   topLevelCommunityList:
     # No. of communities to list per page on the home page
     # This will always round to the nearest number from the list of page sizes. e.g. if you set it to 7 it'll use 10
-    pageSize: 50
+    pageSize: 25
 
 # Item Config
 item:
