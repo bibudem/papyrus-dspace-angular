@@ -1,5 +1,9 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   EventType,
@@ -18,7 +22,6 @@ import {
   take,
 } from 'rxjs/operators';
 
-import { APP_CONFIG, AppConfig } from '../../../../../../config/app-config.interface';
 import { getCollectionPageRoute } from '../../../../../../app/collection-page/collection-page-routing-paths';
 import { getCommunityPageRoute } from '../../../../../../app/community-page/community-page-routing-paths';
 import { BrowseService } from '../../../../../../app/core/browse/browse.service';
@@ -26,21 +29,19 @@ import { PaginatedList } from '../../../../../../app/core/data/paginated-list.mo
 import { RemoteData } from '../../../../../../app/core/data/remote-data';
 import { BrowseDefinition } from '../../../../../../app/core/shared/browse-definition.model';
 import { getFirstCompletedRemoteData } from '../../../../../../app/core/shared/operators';
+import {
+  ComcolPageBrowseByComponent as BaseComponent,
+  ComColPageNavOption,
+} from '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
 import { isNotEmpty } from '../../../../../../app/shared/empty.util';
 import {
-  ComColPageNavOption,
-  ComcolPageBrowseByComponent as BaseComponent,
-} from '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
+  APP_CONFIG,
+  AppConfig,
+} from '../../../../../../config/app-config.interface';
 
 /**
- * Thème "annuaires" : ne garde que "Unités et collections", "Recherche", "Titres" (renommé
- * "Noms") et "Sujets" (renommé "Mots clés") dans la barre d'onglets "Parcourir" — les autres
- * onglets (dates, autrices-auteurs, programmes, affiliation, direction de recherche)
- * n'apportent rien de pertinent pour un annuaire de personnes/unités académiques.
- * Backend hors de notre contrôle, donc filtré côté client.
- *
- * Pour masquer un autre onglet : ajouter son id (GET /server/api/discover/browses, préfixé
- * "browse_" comme construit par la classe de base) à HIDDEN_OPTION_IDS.
+ * Onglets « Parcourir » masqués : peu pertinents pour un annuaire de personnes/unités (filtrage côté client,
+ * backend hors de notre contrôle). Id = "browse_" + id de GET /server/api/discover/browses.
  */
 const HIDDEN_OPTION_IDS = [
   'browse_advisor',
@@ -50,21 +51,20 @@ const HIDDEN_OPTION_IDS = [
   'browse_affiliation',
 ];
 
-/**
- * Renomme certains onglets conservés (clé i18n propre à l'annuaire, sans toucher aux clés
- * partagées `browse.comcol.by.*` / `community.all-lists.head` utilisées ailleurs sur le site).
- */
+/** Libellés propres à l'annuaire, pour ne pas toucher aux clés i18n partagées avec le reste du site. */
 const RELABELED_OPTIONS: Readonly<Record<string, string>> = {
   comcols: 'papyrus.annuaires.browse.units',
   browse_title: 'papyrus.annuaires.browse.names',
   browse_subject: 'papyrus.annuaires.browse.keywords',
 };
 
+/**
+ * Barre d'onglets « Parcourir » de l'annuaire : masque et renomme certains onglets.
+ */
 @Component({
   selector: 'ds-base-comcol-page-browse-by',
   styleUrls: ['../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.scss'],
   templateUrl: '../../../../../../app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
     FormsModule,
@@ -82,9 +82,7 @@ export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit
     super(appConfig, router, browseServiceRef);
   }
 
-  /**
-   * Identique à la classe de base, avec un filtre sur `allOptions$` (HIDDEN_OPTION_IDS).
-   */
+  /** Copie de ngOnInit de la classe de base, avec filtrage et renommage des onglets dans `allOptions$`. */
   ngOnInit(): void {
     this.allOptions$ = this.browseServiceRef.getBrowseDefinitions().pipe(
       getFirstCompletedRemoteData(),
@@ -119,8 +117,7 @@ export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit
             routerLink: `${comColRoute}/browse/${config.id}`,
           })));
 
-          // When the default tab is not the "search" tab, the "search" tab is moved
-          // at the end of the tabs ribbon for aesthetics purposes.
+          // Onglet « Recherche » déplacé en fin de barre s'il n'est pas l'onglet par défaut (comme le cœur).
           if (this.appConfig[this.contentType].defaultBrowseTab !== 'search') {
             allOptions.push(allOptions.shift());
           }

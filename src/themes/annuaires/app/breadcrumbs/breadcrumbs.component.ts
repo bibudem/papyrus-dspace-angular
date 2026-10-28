@@ -1,6 +1,5 @@
 import {
   AsyncPipe,
-  NgFor,
   NgIf,
   NgTemplateOutlet,
 } from '@angular/common';
@@ -27,34 +26,23 @@ import { ThemedResultsBackButtonComponent } from '../../../../app/shared/results
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
 
 /**
- * Fil d'Ariane du thème "annuaires" : identique à celui du cœur, avec un bandeau sous le fil
- * d'Ariane signalant la zone « annuaire des chercheurs » et le bouton "Retour aux résultats"
- * intégré sur la même ligne (à droite). Ce composant n'est chargé (via ThemedComponent) que
- * sur les pages de la communauté 1acd99a0-6ffb-42f8-a261-30b96f3f2405 (cf.
- * config/config.papyrus.yml) — sa seule présence dans le DOM suffit donc à signaler la zone,
- * sans condition supplémentaire à gérer ici.
- *
- * La logique show/hide + navigation du bouton retour est reprise telle quelle de
- * ItemComponent (src/app/item-page/simple/item-types/shared/item.component.ts) : elle ne
- * dépend d'aucune donnée d'item, seulement de l'URL précédente — on peut donc la dupliquer
- * ici pour l'afficher sur toutes les pages de la zone (communauté, Person, OrgUnit), au lieu
- * de la limiter aux seules fiches Person/OrgUnit comme dans le cœur.
+ * Fil d'Ariane du thème "annuaires" : bandeau « Répertoire » + bouton "Retour aux résultats" sur la même ligne.
+ * Chargé seulement dans la zone de l'annuaire (cf. config.papyrus.yml) ; la logique du bouton retour
+ * reprend celle d'ItemComponent pour l'offrir sur toutes les pages de la zone.
  */
 @Component({
   selector: 'ds-themed-breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
   styleUrls: ['breadcrumbs.component.scss'],
-  standalone: true,
   imports: [
-    VarDirective,
+    AsyncPipe,
+    NgbTooltipModule,
     NgIf,
     NgTemplateOutlet,
-    NgFor,
     RouterLink,
-    NgbTooltipModule,
-    AsyncPipe,
-    TranslateModule,
     ThemedResultsBackButtonComponent,
+    TranslateModule,
+    VarDirective,
   ],
 })
 export class BreadcrumbsComponent extends BaseComponent implements OnInit {
@@ -71,9 +59,9 @@ export class BreadcrumbsComponent extends BaseComponent implements OnInit {
   /** Affiche ou masque le bouton "Retour aux résultats". */
   showBackButton$: Observable<boolean>;
 
-  /** Retourne à la page de résultats précédente (URL stockée) ou à l'historique du navigateur. */
+  /** Retourne à la page de résultats mémorisée (passée en @Input au bouton, d'où la fonction fléchée). */
   back = () => {
-    this.router.navigateByUrl(this.storedPreviousUrl);
+    void this.router.navigateByUrl(this.storedPreviousUrl);
   };
 
   ngOnInit(): void {
@@ -88,6 +76,7 @@ export class BreadcrumbsComponent extends BaseComponent implements OnInit {
           return true;
         }
 
+        // Page précédente hors résultats (navigation entre fiches, rechargement) : dernière URL mémorisée.
         const storedUrl = this.routeService.getUrlFromSession(this.PREVIOUS_URL_SESSION_KEY);
         if (this.pickAllowedPrevious(storedUrl)) {
           this.storedPreviousUrl = storedUrl;

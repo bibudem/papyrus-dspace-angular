@@ -1,7 +1,6 @@
 @import '../../../../../../montreal/styles/_variables_papyrus.scss';
 
-// Site web : lien + bouton copier sur une seule ligne (pas de label au-dessus, le lien
-// s'explique de lui-même — cf. .annuaires-affiliation-link, même esprit de lien simple).
+// Site web : lien + bouton copier sur une ligne, sans label (le lien se suffit à lui-même).
 .annuaires-website-field {
   display: flex;
   align-items: center;

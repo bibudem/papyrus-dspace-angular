@@ -1,19 +1,37 @@
 @import '../../../montreal/styles/_variables_papyrus.scss';
 
-// ── Bandeau "Répertoire" ─────────────────────────────────────────────────────
-// Au-dessus du fil d'Ariane : fond uni bleu foncé ($secondary), texte blanc dessus, sans
-// icône. Contenu aligné sur le conteneur de page (comme le fil d'Ariane et le titre en
-// dessous) plutôt que centré dans le viewport.
+// ── Bandeau « Répertoire » ──
+// Photo en fond (image fournie par le HTML, cf. --annuaire-banner-image) sous un voile $darkgreen
+// dégradé : opaque à gauche pour la lisibilité du titre, transparent à droite pour la photo.
 .annuaire-banner {
-  background-color: $gray-800!important;
-  // Espace avant le fil d'Ariane, sans toucher à son propre CSS.
+  background-color: $darkgreen !important;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba($darkgreen, 0.95) 0%,
+      rgba($darkgreen, 0.85) 30%,
+      rgba($darkgreen, 0.35) 70%,
+      rgba($darkgreen, 0.1) 100%
+    ),
+    var(--annuaire-banner-image);
+  background-size: cover;
+  // Cadre la bande des visages (≈ 30 % depuis le haut) plutôt que le centre de la photo.
+  background-position: 60% 30%;
+  background-repeat: no-repeat;
   margin-bottom: 0.75rem;
+  // Titre en haut, bande du fil d'Ariane collée en bas.
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // Hauteur proportionnelle à la largeur (bornée) : recadrage de la photo stable d'un écran à l'autre.
+  min-height: clamp(10rem, 12vw, 15rem);
 
   &__inner {
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.9rem 1rem;
+    padding: 1.75rem 1rem;
   }
 
   &__text {
@@ -24,15 +42,71 @@
   }
 
   &__title {
-    font-weight: 500;
-    font-size: 1.15rem;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+    line-height: 1.2;
     color: $white;
     margin-left: -1rem;
   }
+
+  // Petits écrans : texte sur toute la largeur, donc voile presque uniforme et hauteur réduite.
+  @media (max-width: 767.98px) {
+    min-height: 8rem;
+    background-image:
+      linear-gradient(
+        to right,
+        rgba($darkgreen, 0.92) 0%,
+        rgba($darkgreen, 0.75) 100%
+      ),
+      var(--annuaire-banner-image);
+    background-position: 62% 35%;
+
+    &__inner {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  // ── Fil d'Ariane dans le bandeau ──
+  // Bande « verre » floutée ; texte blanc au lieu des couleurs --ds-breadcrumb-* prévues pour fond clair.
+  .nav-breadcrumb {
+    background-color: rgba($darkgreen, 0.55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba($white, 0.15);
+
+    // Sans backdrop-filter : voile plus opaque pour garder le contraste.
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      background-color: rgba($darkgreen, 0.85);
+    }
+  }
+
+  .breadcrumb {
+    background-color: transparent;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  li.breadcrumb-item a {
+    color: rgba($white, 0.85);
+
+    &:hover,
+    &:focus {
+      color: $white;
+    }
+  }
+
+  li.breadcrumb-item.active {
+    color: $white;
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba($white, 0.6);
+  }
 }
 
-// ── Fil d'Ariane ─────────────────────────────────────────────────────────────
-// Repris tel quel du thème montreal (background-color du fil d'Ariane).
+// ── Fil d'Ariane (base, repris du thème montreal) ──
 .nav-breadcrumb {
   background-color: var(--ds-breadcrumb-bg);
 }
@@ -64,9 +138,8 @@ li.breadcrumb-item.active {
   font-weight: 600;
 }
 
-// Bouton "Retour aux résultats" : poussé à l'extrémité droite de la rangée (Bootstrap
-// .breadcrumb est déjà display:flex), sans le séparateur "•" des autres niveaux du chemin —
-// gris neutre plutôt que la couleur primaire, pour rester secondaire visuellement.
+// ── Bouton « Retour aux résultats » ──
+// Poussé à droite de la rangée, sans séparateur ; gris neutre pour rester secondaire.
 .annuaire-backbutton-item {
   margin-left: auto;
 
@@ -74,9 +147,7 @@ li.breadcrumb-item.active {
     content: none !important;
   }
 
-  // !important nécessaire : Bootstrap redéfinit ses propres couleurs sur .btn-secondary:hover
-  // (même sélecteur, donc l'ordre d'injection des styles décide sinon — pas fiable), ce qui
-  // pouvait laisser le texte sombre sur un fond resté sombre, illisible.
+  // !important : Bootstrap redéfinit .btn-secondary:hover et l'ordre d'injection des styles n'est pas fiable.
   ::ng-deep .btn {
     background-color: $white !important;
     border-color: $gray-700 !important;

@@ -1,27 +1,13 @@
-// Styles de l'annuaire des chercheurs (thème "annuaires" uniquement, cf. config.papyrus.yml).
-// NOTE : le bouton "Retour aux résultats" est désormais intégré au fil d'Ariane (voir
-// .annuaire-backbutton-item dans breadcrumbs.component.scss), plus sur chaque fiche.
+// Styles globaux de l'annuaire des chercheurs (thème "annuaires" uniquement).
 
-// Bouton flux RSS (pages de résultats/recherche) : son activation dépend d'une propriété de
-// configuration backend (websvc.opensearch.enable, cf. rss.component.ts), non accessible
-// depuis le frontend — masqué par CSS, uniquement dans ce thème (pas site-wide).
+// ── Éléments masqués ──
+// Flux RSS : son activation dépend d'une config backend inaccessible au frontend, d'où le masquage CSS.
 ds-rss {
   display: none;
 }
 
-// En-tête de la page communauté (nom, logo, handle) : espace avec le fil d'Ariane / bandeau
-// au-dessus, et léger décalage à gauche pour s'aligner avec le reste du contenu.
-// Scopé à .comcol-header (pas juste .me-auto, trop générique — utilisé ailleurs sur le site).
-.comcol-header.me-auto {
-  margin-top: 2.5rem;
-  margin-left: -10px;
-}
-
-
-// Onglet "Professeur·es et unités académiques" : titre "Collections/Sous-communautés au sein
-// de cette communauté" + compteur "Voici les éléments X sur Y" redondants (2-3 éléments tout
-// au plus, déjà visibles sans décompte). Scopé à ces deux balises — uniques à cet onglet —
-// pour ne pas masquer le compteur ailleurs (résultats de recherche, où il reste utile).
+// Onglet « Professeur·es et unités académiques » : titre et compteur redondants pour 2-3 éléments.
+// Scopé à ces listes pour garder le compteur ailleurs (résultats de recherche).
 ds-community-page-sub-community-list h3,
 ds-community-page-sub-collection-list h3,
 ds-community-page-sub-community-list .pagination-info,
@@ -29,8 +15,16 @@ ds-community-page-sub-collection-list .pagination-info {
   display: none;
 }
 
+// ── Page communauté ──
+// En-tête décollé du bandeau ; scopé à .comcol-header car .me-auto est trop générique.
+.comcol-header.me-auto {
+  margin-top: 2.5rem;
+  margin-left: -10px;
+}
+
+// ── Carte de résultat (liste) ──
 .annuaires-search-result-card {
-  position: relative; // nécessaire pour que .stretched-link (nom) couvre toute la carte
+  position: relative; // pour que .stretched-link (nom) couvre toute la carte
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -40,7 +34,7 @@ ds-community-page-sub-collection-list .pagination-info {
   margin-bottom: 0.25rem;
   transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
-  // Primary teinté (faible opacité) plutôt que les couleurs pleines, trop foncées.
+  // Primary teinté plutôt que plein, trop foncé au survol.
   &:hover {
     border-color: rgba(4, 105, 108, 0.35);
     background-color: rgba(4, 105, 108, 0.04);
@@ -84,10 +78,7 @@ ds-community-page-sub-collection-list .pagination-info {
     font-size: 0.9rem;
   }
 
-  // Unité d'affiliation : sur sa propre ligne (sous la fonction), en italique pour rester
-  // distincte visuellement, sans icône (cf. décision pour la fiche Person). Ellipsis sur une
-  // seule ligne plutôt que le composant ds-truncatable (qui regrouperait fonction + affiliation
-  // dans le même bloc tronqué).
+  // Ellipsis sur une ligne plutôt que ds-truncatable, qui regrouperait fonction et affiliation.
   &__affiliation {
     display: block;
     font-style: italic;
@@ -96,8 +87,6 @@ ds-community-page-sub-collection-list .pagination-info {
     text-overflow: ellipsis;
   }
 
-  // Simple pastille informative (ORCID) : plus un lien externe, cf. décision de retirer la
-  // navigation externe depuis la liste de résultats.
   &__orcid-badge {
     display: inline-flex;
     align-items: center;
@@ -114,27 +103,19 @@ ds-community-page-sub-collection-list .pagination-info {
   }
 }
 
+// ── Carte de résultat (grille) ──
 .annuaires-grid-card {
   border: 1.5px solid var(--bs-border-color, #dee2e6);
   border-radius: 0.75rem;
   overflow: hidden;
   transition: border-color 0.15s ease-in-out;
 
-  // Primary teinté (opacité réduite) plutôt que la couleur pleine, trop foncée au survol.
   &:hover {
     border-color: rgba(4, 105, 108, 0.35);
   }
 
-  // Cadre la vignette (photo réelle ou image de remplacement) via un ratio plutôt qu'une
-  // hauteur fixe, pour rester responsive (proportionnelle à la largeur de la carte).
-  //
-  // .card-img-top est un <a> (ou <span>) : en display:inline par défaut, aspect-ratio/height
-  // n'ont donc aucun effet tant qu'on ne le passe pas en display:block. Ensuite, une <div>
-  // sans classe s'intercale avant <ds-thumbnail> : une height:100% ne se propage que si
-  // CHAQUE ancêtre a une hauteur définie, d'où le sélecteur "> div" ci-dessous.
-  //
-  // .outer/.inner (voir thumbnail.component.scss) simulent normalement un ratio A4 via un
-  // padding-top, qu'on annule ici au profit de ce ratio.
+  // Vignette carrée par aspect-ratio : .card-img-top est inline par défaut, et height:100% doit
+  // traverser chaque ancêtre (dont la <div> sans classe) ; le ratio A4 de .outer est annulé.
   .card-img-top {
     display: block;
     aspect-ratio: 1 / 1;
@@ -152,8 +133,7 @@ ds-community-page-sub-collection-list .pagination-info {
       content: none;
     }
 
-    // .img-fluid (Bootstrap) impose height:auto sur les vraies photos : sans ce
-    // height:100%, elles gardent leur ratio naturel (portrait) au lieu de remplir le cadre.
+    // Écrase le height:auto de .img-fluid pour que la photo remplisse le cadre.
     img.thumbnail-content {
       width: 100%;
       height: 100%;
@@ -162,16 +142,13 @@ ds-community-page-sub-collection-list .pagination-info {
   }
 }
 
-// Ligne contenant la colonne de gauche (photo/infos) et la colonne de droite (onglets +
-// contenu) de la fiche Person : espace avec le titre au-dessus. Ciblée au niveau de la ligne
-// (plutôt que juste .profile-tabs) pour que l'aside ET le contenu principal soient tous les
-// deux décollés du header, pas seulement les onglets.
+// ── Fiche Person ──
+// Décolle du titre la ligne entière (aside + contenu), pas seulement les onglets.
 .person-content-row {
   margin-top: 0.75rem;
 }
 
-// Onglets "Papyrus" / "ORCID" du contenu principal de la fiche Person — distingue les
-// relations DSpace (dépôt institutionnel) du panneau d'enrichissement (données externes).
+// Onglets « Papyrus » (relations DSpace) / « ORCID » (données externes).
 .profile-tabs {
   display: flex;
   gap: 0.5rem;
@@ -207,7 +184,6 @@ ds-community-page-sub-collection-list .pagination-info {
     color: var(--bs-body-color, #212529);
   }
 
-  // Couleur de base du projet (--bs-primary, définie sur $green dans le thème montreal).
   &--papyrus.profile-tab--active {
     color: var(--bs-primary, #024244);
     border-color: var(--bs-primary, #024244);

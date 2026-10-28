@@ -34,16 +34,13 @@ export interface OrcidFunding {
   endYear?: number;
 }
 
-/** Lien externe déclaré par le chercheur sur son profil ORCID (ex. page personnelle). */
+/** Lien externe déclaré sur le profil ORCID (ex. page personnelle). */
 export interface OrcidResearcherUrl {
   name: string;
   url: string;
 }
 
-/**
- * Entrée d'affiliation ORCID (distinction, diplôme, adhésion, qualification ou service) — ces
- * 5 catégories partagent la même forme de données côté API ORCID (modèle "Affiliations" v3).
- */
+/** Entrée d'affiliation : distinction, diplôme, adhésion, qualification ou service (même forme côté ORCID). */
 export interface OrcidAffiliationEntry {
   putCode: number;
   roleTitle?: string;
@@ -63,7 +60,7 @@ export interface OrcidPeerReview {
   year?: number;
 }
 
-/** Ressource de recherche (infrastructure, équipement) utilisée, déclarée sur ORCID. */
+/** Ressource de recherche (infrastructure, équipement) déclarée sur ORCID. */
 export interface OrcidResearchResource {
   title?: string;
   organizationName?: string;
@@ -71,7 +68,7 @@ export interface OrcidResearchResource {
   endYear?: number;
 }
 
-/** Publication enregistrée dans la liste de travaux ORCID. */
+/** Publication de la liste de travaux ORCID. */
 export interface OrcidWork {
   putCode: number;
   title: string;
@@ -79,7 +76,7 @@ export interface OrcidWork {
   publicationYear?: number;
   journalTitle?: string;
   doi?: string;
-  /** URL résolue du DOI ou URL déclarée sur le travail ORCID. */
+  /** URL résolue du DOI. */
   doiUrl?: string;
   workUrl?: string;
 }
@@ -92,7 +89,7 @@ export interface OrcidResearcherProfile {
   familyName: string;
   creditName?: string;
   biography?: string;
-  /** Pays de résidence déclaré sur ORCID (nom localisé, ex. "Canada"), s'il est renseigné. */
+  /** Pays de résidence, nom localisé (ex. "Canada"). */
   country?: string;
   keywords: string[];
   researcherUrls: OrcidResearcherUrl[];
@@ -102,11 +99,11 @@ export interface OrcidResearcherProfile {
   works: OrcidWork[];
   worksTotal: number;
   distinctions: OrcidAffiliationEntry[];
-  /** "Diplômes" — correspond à la section "educations" d'ORCID. */
+  /** Section "educations" d'ORCID. */
   educations: OrcidAffiliationEntry[];
   memberships: OrcidAffiliationEntry[];
   qualifications: OrcidAffiliationEntry[];
-  /** Champ fourre-tout côté ORCID (comités, bénévolat, etc.). */
+  /** Fourre-tout ORCID (comités, bénévolat, etc.). */
   services: OrcidAffiliationEntry[];
   peerReviews: OrcidPeerReview[];
   researchResources: OrcidResearchResource[];
@@ -137,7 +134,7 @@ interface OrcidPersonResponse {
   } | null;
 }
 
-/** Année ORCID au format `{ year: { value: "2024" } }`, commune à tous les endpoints. */
+/** Date ORCID `{ year: { value: "2024" } }`, commune à tous les endpoints. */
 interface OrcidDateParts {
   year?: { value: string } | null;
 }
@@ -175,11 +172,7 @@ interface OrcidWorksResponse {
   }> | null;
 }
 
-/**
- * Forme commune aux 5 catégories d'affiliation ORCID (distinctions, educations,
- * memberships, qualifications, services) — modèle "Affiliations" v3 unifié, vérifié contre
- * l'API réelle (ex. employment-summary, qui a la même forme).
- */
+/** Modèle "Affiliations" v3, commun aux 5 catégories (distinctions, educations, memberships, qualifications, services). */
 interface OrcidAffiliationSummaryRaw {
   'put-code': number;
   'department-name'?: string | null;
@@ -192,7 +185,6 @@ interface OrcidAffiliationSummaryRaw {
   } | null;
 }
 
-/** Enveloppe commune aux endpoints d'affiliation (ex. /distinctions, /memberships...). */
 interface OrcidAffiliationGroupResponse {
   'affiliation-group': Array<{
     summaries: Array<Record<string, OrcidAffiliationSummaryRaw>>;
@@ -212,10 +204,7 @@ interface OrcidPeerReviewsResponse {
   }> | null;
 }
 
-/**
- * Section ORCID récente et peu répandue — forme best-effort (non vérifiée sur un profil réel
- * faute d'exemple public disponible), tolérante aux champs manquants comme le reste du mapping.
- */
+/** Forme best-effort : non vérifiée sur un profil réel (section rare), d'où la tolérance aux champs manquants. */
 interface OrcidResearchResourcesResponse {
   group: Array<{
     'research-resource-summary'?: Array<{
@@ -229,11 +218,7 @@ interface OrcidResearchResourcesResponse {
   }> | null;
 }
 
-/**
- * Réponse de /activities : regroupe en un seul appel toutes les sections d'activités (au lieu
- * d'un appel par section), y compris travaux et financements — remplace les anciens appels
- * séparés /works et /fundings.
- */
+/** Réponse de /activities : toutes les sections d'activités en un seul appel. */
 interface OrcidActivitiesResponse {
   distinctions?: OrcidAffiliationGroupResponse | null;
   educations?: OrcidAffiliationGroupResponse | null;
@@ -250,26 +235,17 @@ interface OrcidActivitiesResponse {
 // Constantes
 // ══════════════════════════════════════════════════════════════════════════════
 
-/** URL de base de l'API publique ORCID (sans authentification requise). */
+/** API publique ORCID (sans authentification). */
 const API_BASE = 'https://pub.orcid.org/v3.0';
 
-/** En-tête Accept pour les réponses au format JSON ORCID. */
 const HEADERS = new HttpHeaders({ Accept: 'application/vnd.orcid+json' });
 
-/**
- * Durée de vie du cache : 30 minutes. Les profils ORCID (bio, travaux, financements) changent
- * rarement d'une minute à l'autre ; une fenêtre plus large que la précédente (5 min) réduit
- * nettement le nombre d'appels à l'API publique ORCID sans sacrifier la fraîcheur perçue.
- */
+/** 30 min : les profils ORCID changent rarement, on limite les appels à l'API publique. */
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
-/** Préfixe des clés localStorage, pour ne pas entrer en collision avec d'autres usages. */
 const STORAGE_PREFIX = 'papyrus-annuaires:orcid-cache:';
 
-/**
- * Requête Lucene de base pour les membres UdeM.
- * Les deux variantes couvrent les enregistrements avec et sans accents.
- */
+/** Membres UdeM : les deux variantes couvrent les enregistrements avec et sans accents. */
 const AFFIL_QUERY =
   '(affiliation-org-name:"Université de Montréal" OR affiliation-org-name:"Universite de Montreal")';
 
@@ -280,41 +256,26 @@ const AFFIL_QUERY =
 @Injectable({ providedIn: 'root' })
 export class OrcidPublicApiService {
   /**
-   * HttpClient instancié depuis HttpBackend pour contourner TOUS les intercepteurs DSpace.
-   * Raison : auth.interceptor.ts injecte un token Bearer DSpace sur toutes les requêtes.
-   * Ce token est invalide pour pub.orcid.org et provoque des erreurs 401.
+   * HttpClient construit sur HttpBackend pour contourner les intercepteurs DSpace :
+   * le token Bearer DSpace ajouté par auth.interceptor provoque des 401 sur pub.orcid.org.
    */
   private readonly http = new HttpClient(inject(HttpBackend));
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  /**
-   * Transmet au navigateur les données déjà récupérées pendant le rendu serveur (SSR), pour
-   * qu'il n'ait pas à rappeler l'API ORCID une seconde fois juste après l'hydratation — sans
-   * ça, le même code s'exécute une fois sur le serveur Node puis une seconde fois dans le
-   * navigateur, qui ignore que le serveur a déjà fait l'appel.
-   */
+  /** Transmet au navigateur les réponses obtenues en SSR, pour éviter un second appel après l'hydratation. */
   private readonly transferState = inject(TransferState);
 
-  /**
-   * Cache générique : clé → { données + expiry }.
-   * Stocke indifféremment les pages de recherche et les profils complets.
-   * Doublé d'une copie dans localStorage (voir readPersisted/writePersisted) pour survivre
-   * aux rechargements de page et aux rendus SSR successifs, qui recréent sinon ce service (et
-   * donc cette Map) à chaque fois.
-   */
+  /** Cache mémoire clé → données ; doublé dans localStorage pour survivre aux rechargements et rendus SSR. */
   private readonly cache = new Map<string, { data: unknown; expiresAt: number }>();
 
-  /**
-   * Table des requêtes en cours.
-   * Évite les doublons de requêtes réseau pour des clés identiques.
-   */
+  /** Requêtes en cours, partagées pour éviter les appels réseau en double. */
   private readonly inflight = new Map<string, Observable<unknown>>();
 
   // ── Méthodes publiques ────────────────────────────────────────────────────
 
   /**
-   * Recherche les membres UdeM enregistrés sur ORCID, avec pagination et filtre nom.
+   * Recherche paginée des membres UdeM sur ORCID.
    *
    * @param page       Page 0-indexée.
    * @param pageSize   Résultats par page.
@@ -328,8 +289,7 @@ export class OrcidPublicApiService {
   }
 
   /**
-   * Récupère le profil complet d'un chercheur : infos personnelles, financements
-   * et liste de publications. Combine trois endpoints ORCID en parallèle.
+   * Profil complet d'un chercheur (/person + /activities en parallèle).
    *
    * @param orcidId Identifiant ORCID au format 0000-0000-0000-0000.
    */
@@ -340,18 +300,13 @@ export class OrcidPublicApiService {
     );
   }
 
-  // ── Cache générique ───────────────────────────────────────────────────────
+  // ── Cache ─────────────────────────────────────────────────────────────────
 
   /**
-   * Retourne la valeur mise en cache si elle est valide (TransferState en provenance du SSR,
-   * puis mémoire, puis localStorage), partage la requête en vol si elle est déjà en cours,
-   * sinon déclenche un nouvel appel HTTP.
+   * Ordre de lecture : TransferState (SSR) → mémoire → localStorage → requête en vol → appel HTTP.
    */
   private getCachedOrFetch<T>(key: string, factory: () => Observable<T>): Observable<T> {
-    // Donnée transmise par le rendu SSR pour cette même clé : le serveur l'a déjà récupérée
-    // il y a quelques instants, pas besoin que le navigateur la redemande. Lue une seule fois
-    // (removeKey) : le cache mémoire/localStorage prend ensuite le relais normalement pour le
-    // reste de la session (navigation vers d'autres fiches, etc.).
+    // Lue une seule fois : le cache mémoire/localStorage prend ensuite le relais.
     const transferKey = this.transferStateKey<T>(key);
     if (this.isBrowser && this.transferState.hasKey(transferKey)) {
       const transferred = this.transferState.get(transferKey, null);
@@ -366,13 +321,11 @@ export class OrcidPublicApiService {
     const cached = this.cache.get(key) ?? this.readPersisted<T>(key);
     if (cached) {
       if (cached.expiresAt > Date.now()) {
-        // Remonte en mémoire une entrée trouvée seulement dans localStorage, pour éviter de
-        // reparser le JSON à chaque appel tant qu'elle reste valide.
+        // Remonte en mémoire pour éviter de reparser le JSON de localStorage à chaque appel.
         this.cache.set(key, cached);
         return of(cached.data as T);
       }
-      // Entrée périmée : nettoyage opportuniste pour que localStorage ne grossisse pas
-      // indéfiniment au fil des profils consultés au cours de nombreuses sessions.
+      // Entrée périmée : nettoyage pour que localStorage ne grossisse pas indéfiniment.
       this.removePersisted(key);
     }
 
@@ -387,8 +340,6 @@ export class OrcidPublicApiService {
         this.cache.set(key, entry);
         this.writePersisted(key, entry);
         if (!this.isBrowser) {
-          // Rendu SSR : transmet le résultat au navigateur pour lui éviter de refaire cet
-          // appel juste après l'hydratation (voir le commentaire au-dessus).
           this.transferState.set(transferKey, entry);
         }
       }),
@@ -400,11 +351,7 @@ export class OrcidPublicApiService {
     return req$;
   }
 
-  /**
-   * Lit une entrée de cache persistée dans localStorage. Repli silencieux sur `undefined` en
-   * SSR (pas de localStorage côté serveur), en navigation privée, ou si le JSON est corrompu —
-   * cette couche est un bonus de performance, jamais une dépendance bloquante.
-   */
+  /** localStorage est un bonus de performance : toute erreur (SSR, navigation privée, JSON corrompu) est ignorée. */
   private readPersisted<T>(key: string): { data: T; expiresAt: number } | undefined {
     if (!this.isBrowser) {
       return undefined;
@@ -417,8 +364,6 @@ export class OrcidPublicApiService {
     }
   }
 
-  /** Écrit une entrée de cache dans localStorage ; échoue silencieusement (quota dépassé,
-   * navigation privée, SSR) sans jamais bloquer le flux applicatif. */
   private writePersisted<T>(key: string, entry: { data: T; expiresAt: number }): void {
     if (!this.isBrowser) {
       return;
@@ -426,7 +371,7 @@ export class OrcidPublicApiService {
     try {
       localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(entry));
     } catch {
-      // Quota dépassé ou stockage indisponible : le cache mémoire reste fonctionnel.
+      // Quota dépassé ou stockage indisponible : le cache mémoire suffit.
     }
   }
 
@@ -437,7 +382,7 @@ export class OrcidPublicApiService {
     try {
       localStorage.removeItem(STORAGE_PREFIX + key);
     } catch {
-      // Sans conséquence : l'entrée périmée sera simplement ignorée à la prochaine lecture.
+      // Sans conséquence : l'entrée périmée sera ignorée à la prochaine lecture.
     }
   }
 
@@ -445,7 +390,7 @@ export class OrcidPublicApiService {
     return makeStateKey<{ data: T; expiresAt: number }>(`orcid:${key}`);
   }
 
-  // ── Récupération de la page de recherche ─────────────────────────────────
+  // ── Requêtes ORCID ────────────────────────────────────────────────────────
 
   private fetchSearchPage(page: number, pageSize: number, nameFilter: string): Observable<OrcidMembersPage> {
     const query = this.buildQuery(nameFilter);
@@ -464,7 +409,6 @@ export class OrcidPublicApiService {
 
           if (ids.length === 0) return of({ members: [], totalResults });
 
-          // Récupération parallèle des noms/biographies de la page
           return forkJoin(ids.map((id) => this.fetchPersonLight(id))).pipe(
             map((members) => ({ members, totalResults })),
           );
@@ -472,15 +416,7 @@ export class OrcidPublicApiService {
       );
   }
 
-  // ── Récupération du profil complet ────────────────────────────────────────
-
-  /**
-   * Combine deux requêtes parallèles (person, activities) pour construire le profil complet du
-   * chercheur. /activities regroupe en un seul appel travaux, financements, distinctions,
-   * diplômes, adhésions, qualifications, services, revues par les pairs et ressources de
-   * recherche — un seul appel au lieu d'un par section. Chaque requête échoue silencieusement
-   * pour ne pas bloquer l'autre.
-   */
+  /** Chaque requête échoue silencieusement (null) pour ne pas bloquer l'autre. */
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
     return forkJoin({
       person: this.fetchPersonRaw(orcidId),
@@ -490,23 +426,7 @@ export class OrcidPublicApiService {
     );
   }
 
-  /** Même raisonnement de cache/catchError que fetchPersonRaw (voir son commentaire). */
-  private fetchActivitiesRaw(orcidId: string): Observable<OrcidActivitiesResponse | null> {
-    return this.getCachedOrFetch<OrcidActivitiesResponse>(`activities|${orcidId}`, () =>
-      this.http
-        .get<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`, { headers: HEADERS })
-        .pipe(retry(2)),
-    ).pipe(
-      catchError((err) => {
-        console.warn(`[ORCID] /activities inaccessible pour ${orcidId}`, err);
-        return of(null);
-      }),
-    );
-  }
-
-  // ── Mapping des modèles ───────────────────────────────────────────────────
-
-  /** Version allégée du profil : juste nom + bio, pour la liste paginée. */
+  /** Version allégée (nom + bio) pour la liste paginée. */
   private fetchPersonLight(orcidId: string): Observable<OrcidMember> {
     return this.fetchPersonRaw(orcidId).pipe(
       map((p) => this.mapPersonLight(orcidId, p)),
@@ -521,13 +441,8 @@ export class OrcidPublicApiService {
   }
 
   /**
-   * Appel brut à /person, partagé (et mis en cache, voir getCachedOrFetch) entre la liste de
-   * résultats de recherche (fetchPersonLight) et la fiche complète (fetchProfile) : consulter
-   * un profil déjà vu dans une liste ne redéclenche pas d'appel réseau.
-   *
-   * Le catchError reste HORS de getCachedOrFetch : sinon un échec serait mémorisé comme une
-   * valeur `null` "valide" pendant toute la durée du cache (30 min), empêchant tout nouvel
-   * essai avant l'expiration même si ORCID redevient disponible entre-temps.
+   * /person, mis en cache et partagé entre la liste et la fiche complète.
+   * Le catchError reste hors de getCachedOrFetch pour ne pas mémoriser un échec pendant 30 min.
    */
   private fetchPersonRaw(orcidId: string): Observable<OrcidPersonResponse | null> {
     return this.getCachedOrFetch<OrcidPersonResponse>(`person|${orcidId}`, () =>
@@ -541,6 +456,22 @@ export class OrcidPublicApiService {
       }),
     );
   }
+
+  /** Même stratégie de cache/catchError que fetchPersonRaw. */
+  private fetchActivitiesRaw(orcidId: string): Observable<OrcidActivitiesResponse | null> {
+    return this.getCachedOrFetch<OrcidActivitiesResponse>(`activities|${orcidId}`, () =>
+      this.http
+        .get<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`, { headers: HEADERS })
+        .pipe(retry(2)),
+    ).pipe(
+      catchError((err) => {
+        console.warn(`[ORCID] /activities inaccessible pour ${orcidId}`, err);
+        return of(null);
+      }),
+    );
+  }
+
+  // ── Mapping des modèles ───────────────────────────────────────────────────
 
   private mapPersonLight(orcidId: string, p: OrcidPersonResponse | null): OrcidMember {
     return {
@@ -581,87 +512,7 @@ export class OrcidPublicApiService {
     };
   }
 
-  private mapResearcherUrls(person: OrcidPersonResponse | null): OrcidResearcherUrl[] {
-    return (person?.['researcher-urls']?.['researcher-url'] ?? [])
-      .filter((u) => !!u.url?.value)
-      .map((u) => ({ name: u['url-name']?.trim() || u.url.value, url: u.url.value }));
-  }
-
-  /**
-   * Mapping générique pour les 5 catégories d'affiliation ORCID (même forme de données, voir
-   * OrcidAffiliationSummaryRaw) : distinctions, diplômes, adhésions, qualifications, services.
-   * @param summaryKey Nom de la clé de résumé propre à la catégorie (ex. "education-summary").
-   */
-  private mapAffiliationGroup(
-    resp: OrcidAffiliationGroupResponse | null | undefined,
-    summaryKey: string,
-  ): OrcidAffiliationEntry[] {
-    if (!resp?.['affiliation-group']) return [];
-
-    return resp['affiliation-group']
-      .map((group) => {
-        const summary = group.summaries?.[0]?.[summaryKey];
-        if (!summary) return null;
-
-        return {
-          putCode: summary['put-code'],
-          roleTitle: summary['role-title'] ?? undefined,
-          departmentName: summary['department-name'] ?? undefined,
-          organizationName: summary.organization?.name ?? undefined,
-          city: summary.organization?.address?.city ?? undefined,
-          country: summary.organization?.address?.country ?? undefined,
-          startYear: summary['start-date']?.year?.value
-            ? parseInt(summary['start-date'].year.value, 10)
-            : undefined,
-          endYear: summary['end-date']?.year?.value
-            ? parseInt(summary['end-date'].year.value, 10)
-            : undefined,
-        } as OrcidAffiliationEntry;
-      })
-      .filter((e): e is OrcidAffiliationEntry => e !== null)
-      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
-  }
-
-  private mapPeerReviews(resp: OrcidPeerReviewsResponse | null | undefined): OrcidPeerReview[] {
-    if (!resp?.group) return [];
-
-    return resp.group
-      .flatMap((group) => group['peer-review-group'] ?? [])
-      .map((prGroup) => prGroup['peer-review-summary']?.[0])
-      .filter((summary): summary is NonNullable<typeof summary> => !!summary)
-      .map((summary) => ({
-        reviewerRole: summary['reviewer-role'] ?? undefined,
-        reviewType: summary['review-type'] ?? undefined,
-        organizationName: summary['convening-organization']?.name ?? undefined,
-        year: summary['completion-date']?.year?.value
-          ? parseInt(summary['completion-date'].year.value, 10)
-          : undefined,
-      }))
-      .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-  }
-
-  private mapResearchResources(
-    resp: OrcidResearchResourcesResponse | null | undefined,
-  ): OrcidResearchResource[] {
-    if (!resp?.group) return [];
-
-    return resp.group
-      .map((group) => group['research-resource-summary']?.[0]?.proposal)
-      .filter((proposal): proposal is NonNullable<typeof proposal> => !!proposal)
-      .map((proposal) => ({
-        title: proposal.title?.title?.value ?? undefined,
-        organizationName: proposal.hosts?.organization?.[0]?.name ?? undefined,
-        startYear: proposal['start-date']?.year?.value
-          ? parseInt(proposal['start-date'].year.value, 10)
-          : undefined,
-        endYear: proposal['end-date']?.year?.value
-          ? parseInt(proposal['end-date'].year.value, 10)
-          : undefined,
-      }))
-      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
-  }
-
-  /** Convertit le code pays ISO 3166-1 (ex. "CA") en nom localisé (ex. "Canada"). */
+  /** Code pays ISO 3166-1 (ex. "CA") → nom localisé en français (ex. "Canada"). */
   private mapCountry(person: OrcidPersonResponse | null): string | undefined {
     const code = person?.addresses?.address?.[0]?.country?.value;
     if (!code) return undefined;
@@ -672,16 +523,18 @@ export class OrcidPublicApiService {
     }
   }
 
-  /**
-   * ORCID permet un seul mot-clé par entrée, mais certains profils y mettent une liste
-   * séparée par des virgules (ex. "bioethics, public health ethics, ..."). On éclate donc
-   * chaque entrée sur les virgules pour afficher une pastille par mot-clé individuel.
-   */
+  /** Certains profils mettent une liste séparée par des virgules dans un seul mot-clé : on l'éclate. */
   private mapKeywords(person: OrcidPersonResponse | null): string[] {
     return (person?.keywords?.keyword ?? [])
       .flatMap((k) => (k.content ?? '').split(','))
       .map((kw) => kw.trim())
       .filter(Boolean);
+  }
+
+  private mapResearcherUrls(person: OrcidPersonResponse | null): OrcidResearcherUrl[] {
+    return (person?.['researcher-urls']?.['researcher-url'] ?? [])
+      .filter((u) => !!u.url?.value)
+      .map((u) => ({ name: u['url-name']?.trim() || u.url.value, url: u.url.value }));
   }
 
   private mapFundings(resp: OrcidFundingsResponse | null): OrcidFunding[] {
@@ -697,12 +550,8 @@ export class OrcidPublicApiService {
           title: summary.title.title.value,
           type: summary.type ?? 'other',
           organizationName: summary.organization?.name ?? undefined,
-          startYear: summary['start-date']?.year?.value
-            ? parseInt(summary['start-date'].year.value, 10)
-            : undefined,
-          endYear: summary['end-date']?.year?.value
-            ? parseInt(summary['end-date'].year.value, 10)
-            : undefined,
+          startYear: this.parseYear(summary['start-date']),
+          endYear: this.parseYear(summary['end-date']),
         } as OrcidFunding;
       })
       .filter((f): f is OrcidFunding => f !== null)
@@ -725,9 +574,7 @@ export class OrcidPublicApiService {
           putCode: summary['put-code'],
           title: summary.title.title.value,
           type: summary.type ?? 'other',
-          publicationYear: summary['publication-date']?.year?.value
-            ? parseInt(summary['publication-date'].year.value, 10)
-            : undefined,
+          publicationYear: this.parseYear(summary['publication-date']),
           journalTitle: summary['journal-title']?.value ?? undefined,
           doi: doi?.['external-id-value'] ?? undefined,
           doiUrl:
@@ -744,7 +591,74 @@ export class OrcidPublicApiService {
     return resp?.group?.length ?? 0;
   }
 
+  /**
+   * Mapping commun aux 5 catégories d'affiliation.
+   * @param summaryKey Clé de résumé propre à la catégorie (ex. "education-summary").
+   */
+  private mapAffiliationGroup(
+    resp: OrcidAffiliationGroupResponse | null | undefined,
+    summaryKey: string,
+  ): OrcidAffiliationEntry[] {
+    if (!resp?.['affiliation-group']) return [];
+
+    return resp['affiliation-group']
+      .map((group) => {
+        const summary = group.summaries?.[0]?.[summaryKey];
+        if (!summary) return null;
+
+        return {
+          putCode: summary['put-code'],
+          roleTitle: summary['role-title'] ?? undefined,
+          departmentName: summary['department-name'] ?? undefined,
+          organizationName: summary.organization?.name ?? undefined,
+          city: summary.organization?.address?.city ?? undefined,
+          country: summary.organization?.address?.country ?? undefined,
+          startYear: this.parseYear(summary['start-date']),
+          endYear: this.parseYear(summary['end-date']),
+        } as OrcidAffiliationEntry;
+      })
+      .filter((e): e is OrcidAffiliationEntry => e !== null)
+      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
+  }
+
+  private mapPeerReviews(resp: OrcidPeerReviewsResponse | null | undefined): OrcidPeerReview[] {
+    if (!resp?.group) return [];
+
+    return resp.group
+      .flatMap((group) => group['peer-review-group'] ?? [])
+      .map((prGroup) => prGroup['peer-review-summary']?.[0])
+      .filter((summary): summary is NonNullable<typeof summary> => !!summary)
+      .map((summary) => ({
+        reviewerRole: summary['reviewer-role'] ?? undefined,
+        reviewType: summary['review-type'] ?? undefined,
+        organizationName: summary['convening-organization']?.name ?? undefined,
+        year: this.parseYear(summary['completion-date']),
+      }))
+      .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  }
+
+  private mapResearchResources(
+    resp: OrcidResearchResourcesResponse | null | undefined,
+  ): OrcidResearchResource[] {
+    if (!resp?.group) return [];
+
+    return resp.group
+      .map((group) => group['research-resource-summary']?.[0]?.proposal)
+      .filter((proposal): proposal is NonNullable<typeof proposal> => !!proposal)
+      .map((proposal) => ({
+        title: proposal.title?.title?.value ?? undefined,
+        organizationName: proposal.hosts?.organization?.[0]?.name ?? undefined,
+        startYear: this.parseYear(proposal['start-date']),
+        endYear: this.parseYear(proposal['end-date']),
+      }))
+      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
+  }
+
   // ── Utilitaires ───────────────────────────────────────────────────────────
+
+  private parseYear(date: OrcidDateParts | null | undefined): number | undefined {
+    return date?.year?.value ? parseInt(date.year.value, 10) : undefined;
+  }
 
   private buildQuery(nameFilter: string): string {
     const safe = nameFilter.trim().replace(/["\\]/g, '');

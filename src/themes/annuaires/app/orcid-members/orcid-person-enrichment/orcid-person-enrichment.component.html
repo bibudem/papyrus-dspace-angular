@@ -1,12 +1,12 @@
 <ng-container *ngIf="vm$ | async as vm">
 
-  <!-- Chargement ─────────────────────────────────────────────────────────── -->
+  <!-- Chargement -->
   <div *ngIf="vm.status === 'loading'" class="oe-loading">
     <div class="oe-skeleton sk-header mb-3"></div>
     <div class="oe-skeleton sk-body"></div>
   </div>
 
-  <!-- Erreur ─────────────────────────────────────────────────────────────── -->
+  <!-- Erreur -->
   <div *ngIf="vm.status === 'error'"
        class="alert alert-warning d-flex align-items-center gap-2"
        role="alert">
@@ -14,7 +14,7 @@
     <span>{{ 'papyrus.orcid-profile.error' | translate }}</span>
   </div>
 
-  <!-- Aucun ORCID iD renseigné sur cette fiche ───────────────────────────── -->
+  <!-- Aucun ORCID iD sur la fiche -->
   <div *ngIf="vm.status === 'no-orcid'"
        class="alert alert-light d-flex align-items-center gap-2"
        role="status">
@@ -22,11 +22,11 @@
     <span>{{ 'papyrus.orcid-profile.no-orcid' | translate }}</span>
   </div>
 
-  <!-- Profil chargé ──────────────────────────────────────────────────────── -->
+  <!-- Profil chargé -->
   <ng-container *ngIf="vm.status === 'loaded' && vm.profile as profile">
     <div class="oe-panel">
 
-      <!-- En-tête : ORCID iD ──────────────────────────────────────────────── -->
+      <!-- En-tête : ORCID iD, pays, liens -->
       <div class="oe-header">
         <div class="oe-id-row">
           <span class="oe-orcid-badge" aria-hidden="true">iD</span>
@@ -49,10 +49,10 @@
         </div>
       </div>
 
-      <!-- Contenu : biographie, puis travaux/financement en sous-onglets ────────── -->
+      <!-- Contenu : biographie, puis accordéon des activités -->
       <div class="oe-body">
 
-        <!-- Biographie ───────────────────────────────────────────────────── -->
+        <!-- Biographie (masquée si elle n'est pas en français) -->
         <section class="oe-section">
           <h3 class="oe-section-title">
             {{ 'papyrus.orcid-profile.biography' | translate }}
@@ -80,12 +80,10 @@
           </ng-template>
         </section>
 
-        <!-- Travaux, financement et autres activités : accordéon (une catégorie par section,
-             chacune dépliable indépendamment) — évite les limites de largeur d'une rangée
-             d'onglets quand plusieurs catégories sont présentes. ──────────────────────── -->
+        <!-- Accordéon : chaque catégorie se déplie indépendamment -->
         <section class="oe-section oe-accordion">
 
-          <!-- Travaux ─────────────────────────────────────────────────────── -->
+          <!-- Travaux -->
           <div class="oe-accordion-item">
             <button type="button" class="oe-accordion-header"
                     [attr.aria-expanded]="isExpanded('works')"
@@ -102,7 +100,7 @@
                 {{ 'papyrus.orcid-profile.publications.empty' | translate }}
               </p>
 
-              <!-- Filtre par type de travail ───────────────────────────────── -->
+              <!-- Filtre par type de travail -->
               <div class="oe-work-filters" *ngIf="workTypeCounts(profile.works).length > 1" role="group" aria-label="Filtrer par type de travail">
                 <button type="button"
                         class="work-filter-link"
@@ -148,7 +146,7 @@
                   </article>
                 </div>
 
-                <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+                <!-- Voir plus / voir moins -->
                 <div *ngIf="visibleWorks.length > worksPreviewCount" class="oe-works-toggle mt-3 text-center">
                   <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
                     <ng-container *ngIf="!showAllWorks">
@@ -166,7 +164,7 @@
             </div>
           </div>
 
-          <!-- Financement ─────────────────────────────────────────────────── -->
+          <!-- Financement -->
           <div class="oe-accordion-item">
             <button type="button" class="oe-accordion-header"
                     [attr.aria-expanded]="isExpanded('funding')"
@@ -191,7 +189,7 @@
                 </div>
               </div>
 
-              <!-- Bouton voir plus / voir moins ─────────────────────────────── -->
+              <!-- Voir plus / voir moins -->
               <div *ngIf="profile.fundings.length > fundingsPreviewCount" class="oe-works-toggle mt-3 text-center">
                 <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
                   <ng-container *ngIf="!showAllFundings">
@@ -212,9 +210,7 @@
             </div>
           </div>
 
-          <!-- Distinctions, diplômes, adhésions, qualifications, service : même forme de
-               données côté ORCID, même gabarit d'affichage — et n'apparaissent que si la
-               personne a au moins une entrée dans cette catégorie. ─────────────────────── -->
+          <!-- Affiliations (distinctions, diplômes, adhésions, qualifications, services) : même gabarit, affichées si non vides -->
           <div class="oe-accordion-item" *ngIf="profile.distinctions.length > 0">
             <button type="button" class="oe-accordion-header"
                     [attr.aria-expanded]="isExpanded('distinctions')"
@@ -345,7 +341,7 @@
             </div>
           </div>
 
-          <!-- Revues par les pairs ───────────────────────────────────────────── -->
+          <!-- Revues par les pairs -->
           <div class="oe-accordion-item" *ngIf="profile.peerReviews.length > 0">
             <button type="button" class="oe-accordion-header"
                     [attr.aria-expanded]="isExpanded('peer-reviews')"
@@ -368,7 +364,7 @@
             </div>
           </div>
 
-          <!-- Ressources de recherche ────────────────────────────────────────── -->
+          <!-- Ressources de recherche -->
           <div class="oe-accordion-item" *ngIf="profile.researchResources.length > 0">
             <button type="button" class="oe-accordion-header"
                     [attr.aria-expanded]="isExpanded('research-resources')"

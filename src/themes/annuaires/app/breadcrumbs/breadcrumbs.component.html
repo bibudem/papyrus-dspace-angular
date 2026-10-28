@@ -1,28 +1,29 @@
 <ng-container *ngVar="(breadcrumbs$ | async) as breadcrumbs">
   @if ((showBreadcrumbs$ | async)) {
-    <!-- Bandeau signalant la zone "annuaire des chercheurs" (voir breadcrumbs.component.ts) -->
-    <div class="annuaire-banner">
+    <!-- Bandeau « Répertoire ». Image passée en variable CSS dans l'attribut style : le chemin relatif
+         y est résolu selon le <base href> (ex. /papyrus-8-orcid/), contrairement à un url() en SCSS. -->
+    <div class="annuaire-banner" style="--annuaire-banner-image: url('assets/annuaires/images/laboratoire-andre-charette.jpg')">
       <div class="container annuaire-banner__inner">
         <div class="annuaire-banner__text">
           <span class="annuaire-banner__title">{{ 'papyrus.annuaires.banner-title' | translate }}</span>
         </div>
       </div>
+
+      <!-- Fil d'Ariane intégré au bas du bandeau, bouton "Retour aux résultats" sur la même ligne -->
+      <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="container breadcrumb my-0">
+          <ng-container
+            *ngTemplateOutlet="breadcrumbs?.length > 0 ? breadcrumb : activeBreadcrumb; context: {text: 'home.breadcrumbs', url: '/'}"></ng-container>
+          @for (bc of breadcrumbs; track bc; let last = $last) {
+            <ng-container *ngTemplateOutlet="!last ? breadcrumb : activeBreadcrumb; context: bc"></ng-container>
+          }
+
+          <li class="breadcrumb-item annuaire-backbutton-item" *ngIf="showBackButton$ | async">
+            <ds-results-back-button [back]="back"></ds-results-back-button>
+          </li>
+        </ol>
+      </nav>
     </div>
-
-    <nav aria-label="breadcrumb" class="nav-breadcrumb">
-      <ol class="container breadcrumb my-0">
-        <ng-container
-        *ngTemplateOutlet="breadcrumbs?.length > 0 ? breadcrumb : activeBreadcrumb; context: {text: 'home.breadcrumbs', url: '/'}"></ng-container>
-        @for (bc of breadcrumbs; track bc; let last = $last) {
-          <ng-container *ngTemplateOutlet="!last ? breadcrumb : activeBreadcrumb; context: bc"></ng-container>
-        }
-
-        <!-- Bouton "Retour aux résultats" aligné sur la même ligne que le fil d'Ariane -->
-        <li class="breadcrumb-item annuaire-backbutton-item" *ngIf="showBackButton$ | async">
-          <ds-results-back-button [back]="back"></ds-results-back-button>
-        </li>
-      </ol>
-    </nav>
   }
 
   <ng-template #breadcrumb let-text="text" let-url="url">

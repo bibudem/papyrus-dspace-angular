@@ -1,6 +1,6 @@
 @import '../../../../montreal/styles/_variables_papyrus.scss';
 
-// ── Panneau principal ────────────────────────────────────────────────────────
+// ── Panneau ──
 
 .oe-panel {
   background-color: $white;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-// ── En-tête : ORCID iD + mots-clés ──────────────────────────────────────────
+// ── En-tête : ORCID iD, pays, liens ──
 
 .oe-header {
   display: flex;
@@ -59,9 +59,7 @@
   &::before { content: '·'; margin-right: 0.5rem; }
 }
 
-// Liens du chercheur (ex. "Lens Profile") : liste en ligne sous le numéro ORCID, séparée par
-// des barres verticales — avec plusieurs liens (5+), un par ligne avec icône répétée prenait
-// trop de place.
+// Liens en ligne séparés par « | » : reste compact même avec 5+ liens.
 .oe-links-row {
   font-size: 0.8rem;
   color: $gray-500;
@@ -75,7 +73,7 @@
   color: $gray-400;
 }
 
-// ── Corps (vue continue : biographie, parcours professionnel, travaux) ──────
+// ── Corps et sections ──
 
 .oe-body {
   padding: 1.5rem;
@@ -89,9 +87,7 @@
   }
 }
 
-// Couleur alignée sur .simple-view-element-header (titres "Fonction", "Courriel"... à gauche
-// de la fiche, voir _global-styles.scss du thème montreal) pour rester visuellement cohérent
-// entre les deux colonnes de la fiche Person.
+// Couleur alignée sur .simple-view-element-header (colonne de gauche de la fiche Person).
 .oe-section-title {
   display: flex;
   align-items: center;
@@ -118,17 +114,16 @@
   border: 1px solid rgba($greensecondary, 0.2);
 }
 
-// Accordéon Travaux / Financement / autres catégories : une rangée par catégorie, dépliable
-// indépendamment des autres — remplace une rangée d'onglets, qui ne passait pas bien à l'échelle
-// avec jusqu'à 9 catégories possibles (texte brisé, ou onglets qui débordent).
+// ── Accordéon des activités ──
+// Plutôt que des onglets : jusqu'à 9 catégories, qui débordaient en largeur.
+
 .oe-accordion-item {
   border-bottom: 1px solid rgba($greensecondary, 0.12);
 
   &:last-child { border-bottom: none; }
 }
 
-// Même style que .oe-section-title ci-dessus (lui-même aligné sur .simple-view-element-header,
-// les titres "Fonction"/"Courriel" à gauche de la fiche).
+// Même typographie que .oe-section-title.
 .oe-accordion-header {
   display: flex;
   align-items: center;
@@ -166,7 +161,7 @@
   padding: 0 0.1rem 1rem;
 }
 
-// ── Biographie ───────────────────────────────────────────────────────────────
+// ── Biographie ──
 
 .oe-bio-text {
   color: $gray-700;
@@ -176,35 +171,16 @@
   margin-bottom: 0;
 }
 
-// ── Financement ──────────────────────────────────────────────────────────────
+// ── Listes : financement, affiliations, revues, ressources ──
 
-.oe-funding-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.oe-funding-item {
-  padding: 0.9rem 0;
-  border-bottom: 1px solid rgba($greensecondary, 0.08);
-
-  &:first-child { padding-top: 0; }
-  &:last-child  { padding-bottom: 0; border-bottom: none; }
-}
-
-.oe-funding-title  { font-weight: 600; color: $darkgreen; font-size: 0.92rem; margin-bottom: 0.1rem; }
-.oe-funding-org    { font-size: 0.85rem; color: $gray-500; margin-bottom: 0.1rem; }
-.oe-funding-period { font-size: 0.78rem; color: $gray-400; margin-top: 0.2rem; }
-
-// ── Distinctions / diplômes / adhésions / qualifications / service / revues par les pairs /
-// ressources de recherche : même gabarit visuel que le financement ci-dessus. ───────────────
-
+.oe-funding-list,
 .oe-affiliation-list {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
+.oe-funding-item,
 .oe-affiliation-item {
   padding: 0.9rem 0;
   border-bottom: 1px solid rgba($greensecondary, 0.08);
@@ -213,13 +189,16 @@
   &:last-child  { padding-bottom: 0; border-bottom: none; }
 }
 
+.oe-funding-title,
 .oe-affiliation-title  { font-weight: 600; color: $darkgreen; font-size: 0.92rem; margin-bottom: 0.1rem; }
+.oe-funding-org,
 .oe-affiliation-org    { font-size: 0.85rem; color: $gray-500; margin-bottom: 0.1rem; }
+.oe-funding-period,
 .oe-affiliation-period { font-size: 0.78rem; color: $gray-400; margin-top: 0.2rem; }
 
-// ── Publications ─────────────────────────────────────────────────────────────
+// ── Publications ──
 
-// Neutre pour se distinguer des badges de type (colorés) ci-dessous
+// Neutre pour se distinguer des badges de type.
 .publications-count-badge {
   display: inline-block;
   padding: 0.2rem 0.75rem;
@@ -231,13 +210,7 @@
   border: 1px solid rgba($gray-600, 0.15);
 }
 
-// Filtre par type de travail : réutilise le style de .work-type-badge (ci-dessous), en
-// version interactive (bouton). Pleinement lisible dans les deux états — aucune opacité
-// réduite — distingué uniquement par un contour (currentColor : même teinte que le badge).
-// "Tous" garde un gris neutre pour rester visuellement distinct des filtres par type.
-// Filtre par type de travail : liste de liens texte séparés par des barres verticales (même
-// esprit que .oe-links-row) plutôt que des boutons/pastilles — plus discret pour une simple
-// bascule d'affichage.
+// Filtre par type : liens texte séparés par « | », plus discrets que des pastilles.
 .oe-work-filters {
   display: flex;
   flex-wrap: wrap;
@@ -291,11 +264,8 @@
   }
 }
 
-// Une seule teinte pour tous les types de travail, plutôt qu'une couleur par type (arc-en-ciel
-// peu lisible et incohérent avec le reste, plus sobre en un coup d'œil) — les types restent
-// distingués par leur texte, pas par la couleur. Gris neutre (même teinte que .work-filter-pill
-// et .publications-count-badge) plutôt que vert, pour ne pas se confondre avec l'identité
-// visuelle ORCID (vert) utilisée ailleurs dans ce panneau.
+// Gris unique pour tous les types (distingués par le texte) : évite l'arc-en-ciel
+// et la confusion avec le vert ORCID.
 .work-type-badge {
   display: inline-block;
   padding: 0.15rem 0.6rem;
@@ -324,7 +294,8 @@
 .work-doi     { font-size: 0.78rem; color: $gray-400; margin-bottom: 0; }
 .doi-link     { color: $blue; text-decoration: none; &:hover { text-decoration: underline; } }
 
-// Bouton voir plus / voir moins : distinct des liens (bleu) et des badges (vert clair)
+// ── Bouton voir plus / voir moins ──
+
 .oe-toggle-btn {
   color: $darkgreen;
   font-weight: 600;
@@ -336,8 +307,7 @@
     text-decoration: underline;
   }
 
-  // Au clic, Bootstrap applique par défaut un halo bleu (.btn:focus) et change la couleur
-  // (.btn-link:active) — remplacé par un simple assombrissement discret, sans halo.
+  // Neutralise le halo bleu (.btn:focus) et la couleur de .btn-link:active de Bootstrap.
   &:active,
   &:focus {
     color: $darkgreen;
@@ -345,7 +315,7 @@
   }
 }
 
-// ── Message vide ─────────────────────────────────────────────────────────────
+// ── Message vide ──
 
 .oe-empty {
   color: $gray-500;
@@ -354,7 +324,7 @@
   margin-bottom: 0;
 }
 
-// ── Squelettes de chargement ─────────────────────────────────────────────────
+// ── Squelettes de chargement ──
 
 .oe-skeleton {
   background: linear-gradient(

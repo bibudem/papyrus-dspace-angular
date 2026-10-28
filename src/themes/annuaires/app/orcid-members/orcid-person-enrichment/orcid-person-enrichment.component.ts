@@ -12,12 +12,11 @@ import {
   OrcidWork,
 } from '../orcid-public-api.service';
 
-// ── Constantes ────────────────────────────────────────────────────────────────
+// ── Types de travaux ──────────────────────────────────────────────────────────
 
-/** Préfixe des clés i18n pour les types de travaux. */
 const WORK_TYPE_I18N_PREFIX = 'papyrus.orcid-profile.work-type.';
 
-/** Map type ORCID → classe CSS du badge. */
+/** Type ORCID → classe CSS du badge. */
 const WORK_TYPE_CSS: Readonly<Record<string, string>> = {
   'journal-article':    'badge-article',
   'book':               'badge-book',
@@ -30,27 +29,14 @@ const WORK_TYPE_CSS: Readonly<Record<string, string>> = {
 
 const KNOWN_WORK_TYPES = new Set(Object.keys(WORK_TYPE_CSS));
 
-/** Catégorie fourre-tout pour tout type ORCID non listé dans WORK_TYPE_CSS. */
+/** Catégorie regroupant tous les types ORCID absents de WORK_TYPE_CSS. */
 const OTHER_WORK_TYPE = 'other';
 
-/**
- * Détection de langue heuristique pour la biographie ORCID (aucune librairie de détection de
- * langue disponible dans ce projet — package.json ne doit pas changer, et pas d'appel réseau
- * à un service externe non plus). Combine 3 signaux plutôt qu'un simple comptage de mots :
- *
- * 1. Mots-outils quasi exclusifs au français parmi les langues testées (ne sont PAS "de", "la",
- *    "un"... qui existent aussi en espagnol/italien/portugais avec un sens proche) — poids fort.
- * 2. Mots-outils français ambigus (partagés avec d'autres langues romanes) — poids faible, pour
- *    ne pas faire basculer un texte espagnol/italien vers "français" à eux seuls.
- * 3. Élisions françaises (qu', d', l', jusqu'à...) — quasi uniques au français.
- * 4. Densité d'accents propres au français (é, è, ê, à, â, ç, î, ï, ô, û) — exclut
- *    volontairement ä/ö/ü (tréma allemand) et á/í/ó/ú/ñ (espagnol), pour ne pas les compter
- *    comme un signal français.
- *
- * Calibré empiriquement sur un jeu de phrases françaises (longues/courtes, avec/sans accents),
- * anglaises, espagnoles, italiennes, portugaises et allemandes. Limite assumée : reste une
- * heuristique, pas une détection de langue fiable — le cas visé en priorité est l'anglais.
- */
+// ── Détection de langue de la biographie ──────────────────────────────────────
+// Heuristique maison (aucune librairie ni appel externe) : mots-outils FR forts/faibles,
+// élisions et densité d'accents propres au français, comparés aux mots-outils anglais.
+// Les marqueurs faibles sont partagés avec d'autres langues romanes, d'où leur faible poids.
+
 const STRONG_FRENCH_MARKERS = new Set([
   'etre', 'ete', 'avec', 'dans', 'nous', 'vous', 'qui', 'tres', 'ou', 'deja', 'ainsi',
   'cependant', 'egalement', 'toujours', 'donc', 'aussi', 'pour', 'chez', 'sans', 'mais',
@@ -67,6 +53,7 @@ const STRONG_ENGLISH_MARKERS = new Set([
   'his', 'her', 'their', 'our', 'its',
 ]);
 const FRENCH_ELISION_RE = /\b(?:qu|jusqu|puisqu|lorsqu|quoiqu)['’]|\b[ldnsjmct]['’]/gi;
+// Exclut volontairement les trémas allemands et les accents espagnols.
 const FRENCH_ACCENT_RE = /[éèêàâçîïôû]/gi;
 
 const FRENCH_SCORE_THRESHOLD = 0.26;
@@ -75,7 +62,7 @@ const ELISION_WEIGHT = 2.5;
 const ACCENT_DENSITY_COEFFICIENT = 3;
 const ACCENT_BONUS_CAP = 1;
 
-// ── ViewModel ────────────────────────────────────────────────────────────────
+// ── ViewModel ─────────────────────────────────────────────────────────────────
 
 type OrcidPanelStatus = 'loading' | 'loaded' | 'error' | 'no-orcid';
 
@@ -88,11 +75,7 @@ const VM_LOADING:  OrcidPanelViewModel = { status: 'loading',  profile: null };
 const VM_ERROR:    OrcidPanelViewModel = { status: 'error',    profile: null };
 const VM_NO_ORCID: OrcidPanelViewModel = { status: 'no-orcid', profile: null };
 
-/**
- * Catégories d'activités affichées en sous-onglets. Chaque onglet n'est rendu dans le gabarit
- * que si la liste correspondante du profil n'est pas vide — la plupart des chercheurs n'en
- * auront que 2 ou 3 sur les 9.
- */
+/** Catégories d'activités de l'accordéon (rendues seulement si non vides, sauf travaux et financement). */
 export type ActivityTab =
   | 'works'
   | 'funding'
@@ -104,7 +87,7 @@ export type ActivityTab =
   | 'peer-reviews'
   | 'research-resources';
 
-// ── Composant ────────────────────────────────────────────────────────────────
+// ── Composant ─────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'ds-orcid-person-enrichment',
@@ -115,39 +98,34 @@ export type ActivityTab =
   imports: [AsyncPipe, NgFor, NgIf, SlicePipe, TranslateModule],
 })
 export class OrcidPersonEnrichmentComponent implements OnInit {
+  /** Clés de métadonnées DSpace portant l'ORCID iD, par ordre de priorité. */
+  private static readonly ORCID_METADATA_KEYS = [
+    'dspace.author.orcid',
+    'person.identifier.orcid',
+  ] as const;
+
   @Input() item!: Item;
 
   private readonly orcidService = inject(OrcidPublicApiService);
 
-  /** Flux du ViewModel exposé au template. */
   vm$: Observable<OrcidPanelViewModel> = of(VM_NO_ORCID);
 
-  /** Nombre de caractères de la biographie affichés avant le bouton "voir plus". */
+  /** Caractères de biographie affichés avant « voir plus ». */
   readonly bioPreviewLength = 800;
-
-  /** État d'expansion de la biographie. */
   showFullBio = false;
 
-  /** Nombre de publications affichées par défaut avant le bouton "voir plus". */
+  /** Publications affichées avant « voir plus ». */
   readonly worksPreviewCount = 5;
-
-  /** État d'expansion de la liste des publications. */
   showAllWorks = false;
 
-  /** Nombre de financements affichés par défaut avant le bouton "voir plus". */
+  /** Financements affichés avant « voir plus ». */
   readonly fundingsPreviewCount = 5;
-
-  /** État d'expansion de la liste des financements. */
   showAllFundings = false;
 
-  /** Type de travail actif pour le filtre (null = tous). */
+  /** Filtre de type de travail actif (null = tous). */
   activeWorkTypeFilter: string | null = null;
 
-  /**
-   * Catégories d'activités actuellement dépliées (accordéon) — toutes repliées par défaut.
-   * Chaque catégorie se déplie/replie indépendamment des autres (pas un seul onglet actif à la
-   * fois) : plus simple à parcourir et n'a pas de limite de largeur comme des onglets.
-   */
+  /** Sections dépliées de l'accordéon, indépendantes les unes des autres (toutes repliées au départ). */
   expandedSections = new Set<ActivityTab>();
 
   ngOnInit(): void {
@@ -168,36 +146,11 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     );
   }
 
-  // ── Méthodes template ─────────────────────────────────────────────────────
+  // ── Biographie ────────────────────────────────────────────────────────────
 
   /**
-   * Retourne la clé i18n correspondant au type de travail ORCID.
-   * Repli sur `other` pour les types non reconnus.
-   */
-  workTypeKey(type: string): string {
-    return `${WORK_TYPE_I18N_PREFIX}${KNOWN_WORK_TYPES.has(type) ? type : 'other'}`;
-  }
-
-  /** Retourne la classe CSS du badge pour un type de travail ORCID. */
-  workTypeClass(type: string): string {
-    return WORK_TYPE_CSS[type] ?? 'badge-other';
-  }
-
-  /** TrackBy pour la liste des publications (évite les re-renders inutiles). */
-  trackByPutCode(_index: number, work: OrcidWork): number {
-    return work.putCode;
-  }
-
-  /** Bascule l'affichage complet / réduit de la biographie. */
-  toggleBio(): void {
-    this.showFullBio = !this.showFullBio;
-  }
-
-  /**
-   * Vrai si le texte semble être en français — détection heuristique à plusieurs signaux
-   * (voir le commentaire au-dessus des constantes STRONG_FRENCH_MARKERS et suivantes), pas une
-   * détection de langue fiable. Sert à masquer les biographies ORCID saisies en anglais ou
-   * dans une autre langue (le reste de l'annuaire est en français).
+   * Vrai si le texte semble être en français (heuristique, pas une détection fiable).
+   * Sert à masquer les biographies dans une autre langue, l'annuaire étant en français.
    */
   isFrenchText(text: string): boolean {
     const normalized = text.toLowerCase()
@@ -221,7 +174,7 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     return frenchScore >= FRENCH_SCORE_THRESHOLD && frenchScore > englishScore;
   }
 
-  /** Tronque la biographie à la frontière d'un mot la plus proche de bioPreviewLength. */
+  /** Tronque la biographie à la frontière de mot la plus proche de bioPreviewLength. */
   truncatedBio(bio: string): string {
     if (bio.length <= this.bioPreviewLength) {
       return bio;
@@ -230,55 +183,22 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     return `${bio.slice(0, cut > 0 ? cut : this.bioPreviewLength)}…`;
   }
 
-  /** Bascule l'affichage complet / réduit de la liste des publications. */
-  toggleWorks(): void {
-    this.showAllWorks = !this.showAllWorks;
+  toggleBio(): void {
+    this.showFullBio = !this.showFullBio;
   }
 
-  /** Bascule l'affichage complet / réduit de la liste des financements. */
-  toggleFundings(): void {
-    this.showAllFundings = !this.showAllFundings;
+  // ── Travaux ───────────────────────────────────────────────────────────────
+
+  /** Clé i18n du type de travail (repli sur `other` pour les types non reconnus). */
+  workTypeKey(type: string): string {
+    return `${WORK_TYPE_I18N_PREFIX}${this.workBucket(type)}`;
   }
 
-  /** Vrai si cette catégorie d'activité est actuellement dépliée. */
-  isExpanded(section: ActivityTab): boolean {
-    return this.expandedSections.has(section);
+  workTypeClass(type: string): string {
+    return WORK_TYPE_CSS[type] ?? 'badge-other';
   }
 
-  /** Déplie/replie une catégorie d'activité (indépendamment des autres). */
-  toggleSection(section: ActivityTab): void {
-    const next = new Set(this.expandedSections);
-    if (next.has(section)) {
-      next.delete(section);
-    } else {
-      next.add(section);
-    }
-    this.expandedSections = next;
-  }
-
-  /** TrackBy générique pour les listes d'affiliation (distinctions, diplômes, adhésions...). */
-  trackByAffiliationPutCode(_index: number, entry: OrcidAffiliationEntry): number {
-    return entry.putCode;
-  }
-
-  /** TrackBy par index pour les revues par les pairs / ressources de recherche (pas d'id stable
-   * côté ORCID pour ces deux catégories). */
-  trackByIndex(index: number): number {
-    return index;
-  }
-
-  /** Change le filtre de type de travail actif ; réinitialise "voir plus". */
-  setWorkTypeFilter(type: string | null): void {
-    this.activeWorkTypeFilter = type;
-    this.showAllWorks = false;
-  }
-
-  /**
-   * Types de travaux présents dans le profil, avec leur nombre d'occurrences.
-   * Regroupés par catégorie affichée (voir workBucket) plutôt que par type ORCID brut, sinon
-   * chaque type non reconnu (il en existe une bonne dizaine sur ORCID) ressort comme une
-   * pastille "Autre" séparée au lieu d'une seule, cumulant leurs décomptes.
-   */
+  /** Nombre de travaux par catégorie affichée : les types inconnus sont cumulés sous « Autre ». */
   workTypeCounts(works: OrcidWork[]): Array<{ type: string; count: number }> {
     const counts = new Map<string, number>();
     for (const work of works) {
@@ -290,38 +210,67 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
       .sort((a, b) => b.count - a.count);
   }
 
-  /** Travaux filtrés selon activeWorkTypeFilter (tous si aucun filtre actif). */
   filteredWorks(works: OrcidWork[]): OrcidWork[] {
     return this.activeWorkTypeFilter
       ? works.filter((work) => this.workBucket(work.type) === this.activeWorkTypeFilter)
       : works;
   }
 
-  /** Catégorie affichée pour un type ORCID : le type lui-même s'il est connu, sinon "other". */
+  /** Change le filtre actif et réinitialise « voir plus ». */
+  setWorkTypeFilter(type: string | null): void {
+    this.activeWorkTypeFilter = type;
+    this.showAllWorks = false;
+  }
+
+  toggleWorks(): void {
+    this.showAllWorks = !this.showAllWorks;
+  }
+
+  // ── Financement ───────────────────────────────────────────────────────────
+
+  toggleFundings(): void {
+    this.showAllFundings = !this.showAllFundings;
+  }
+
+  // ── Accordéon ─────────────────────────────────────────────────────────────
+
+  isExpanded(section: ActivityTab): boolean {
+    return this.expandedSections.has(section);
+  }
+
+  /** Nouveau Set à chaque bascule pour que OnPush détecte le changement de référence. */
+  toggleSection(section: ActivityTab): void {
+    const next = new Set(this.expandedSections);
+    if (next.has(section)) {
+      next.delete(section);
+    } else {
+      next.add(section);
+    }
+    this.expandedSections = next;
+  }
+
+  // ── TrackBy ───────────────────────────────────────────────────────────────
+
+  trackByPutCode(_index: number, work: OrcidWork): number {
+    return work.putCode;
+  }
+
+  trackByAffiliationPutCode(_index: number, entry: OrcidAffiliationEntry): number {
+    return entry.putCode;
+  }
+
+  /** Revues par les pairs et ressources de recherche n'ont pas d'identifiant stable côté ORCID. */
+  trackByIndex(index: number): number {
+    return index;
+  }
+
+  // ── Privé ─────────────────────────────────────────────────────────────────
+
   private workBucket(type: string): string {
     return KNOWN_WORK_TYPES.has(type) ? type : OTHER_WORK_TYPE;
   }
 
-  // ── Utilitaires privés ────────────────────────────────────────────────────
-
-  /**
-   * Clés de métadonnées DSpace connues pour l'ORCID iD, par ordre de priorité.
-   *
-   * | Clé                    | Contexte                           |
-   * |------------------------|------------------------------------|
-   * | dspace.author.orcid    | DSpace 7 / demo.dspace.org         |
-   * | person.identifier.orcid| Schéma research-entities classique |
-   */
-  private static readonly ORCID_METADATA_KEYS = [
-    'dspace.author.orcid',
-    'person.identifier.orcid',
-  ] as const;
-
-  /**
-   * Extrait et normalise l'ORCID iD depuis les métadonnées DSpace.
-   * Accepte aussi bien `0000-0000-0000-0000` que `https://orcid.org/0000-…`.
-   * Retourne `null` si la valeur est absente ou vide.
-   */
+  /** ORCID iD normalisé depuis les métadonnées (accepte l'identifiant nu ou l'URL orcid.org), sinon null. */
   private extractOrcidId(): string | null {
     let raw: string | undefined;
 
@@ -332,7 +281,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
     if (!raw) return null;
 
-    // Accepte : "0000-0002-…", "https://orcid.org/0000-…", "orcid.org/0000-…"
     const id = raw.replace(/^(https?:\/\/)?orcid\.org\//, '').trim();
     return id || null;
   }

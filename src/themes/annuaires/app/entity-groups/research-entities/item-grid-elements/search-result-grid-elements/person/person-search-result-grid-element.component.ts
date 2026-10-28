@@ -5,17 +5,16 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Context } from '../../../../../../../../app/core/shared/context.model';
 import { ViewMode } from '../../../../../../../../app/core/shared/view-mode.model';
+import { PersonSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/person/person-search-result-grid-element.component';
 import { focusShadow } from '../../../../../../../../app/shared/animations/focus';
 import { listableObjectComponent } from '../../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
-import { PersonSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/person/person-search-result-grid-element.component';
 import { TruncatableComponent } from '../../../../../../../../app/shared/truncatable/truncatable.component';
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
 import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/themed-thumbnail.component';
 
 /**
- * Carte "chercheur·euse" (vue grille) pour l'annuaire UdeM : image de remplacement au lieu
- * du texte "Pas de vignette d'image disponible", cadre plus ergonomique (voir
- * .annuaires-grid-card dans styles/_annuaires-style.scss).
+ * Carte « chercheur·euse » (vue grille) : image de remplacement au lieu du texte « pas de vignette »
+ * et cadre .annuaires-grid-card (styles/_annuaires-style.scss).
  */
 @listableObjectComponent('PersonSearchResult', ViewMode.GridElement, Context.Any, 'annuaires')
 @Component({

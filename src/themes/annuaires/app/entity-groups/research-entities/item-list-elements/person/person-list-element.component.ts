@@ -8,11 +8,8 @@ import { AbstractListableElementComponent } from '../../../../../../../app/share
 import { PersonSearchResultListElementComponent } from '../../item-list-elements/search-result-list-elements/person/person-search-result-list-element.component';
 
 /**
- * Carte Person utilisée hors contexte de recherche (ex. page "Parcourir les titres"/browse,
- * ou relation "Affiliation" sur une fiche OrgUnit) — le cœur DSpace importe en dur sa propre
- * PersonSearchResultListElementComponent ici (pas de résolution par thème), ce qui contournait
- * notre surcharge annuaires (badge "Personne" retiré). On réimporte donc la nôtre à la place —
- * même carte complète (photo, badge ORCID) que sur les pages de résultats de recherche.
+ * Person hors recherche (browse, relations) : le cœur importe en dur sa propre carte de résultat
+ * (sans résolution par thème) ; on importe la nôtre pour avoir la même carte que dans la recherche.
  */
 @listableObjectComponent('Person', ViewMode.ListElement, Context.Any, 'annuaires')
 @Component({

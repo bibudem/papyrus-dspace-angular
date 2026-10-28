@@ -5,16 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Context } from '../../../../../../../../app/core/shared/context.model';
 import { ViewMode } from '../../../../../../../../app/core/shared/view-mode.model';
+import { OrgUnitSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/org-unit/org-unit-search-result-grid-element.component';
 import { focusShadow } from '../../../../../../../../app/shared/animations/focus';
 import { listableObjectComponent } from '../../../../../../../../app/shared/object-collection/shared/listable-object/listable-object.decorator';
-import { OrgUnitSearchResultGridElementComponent as BaseComponent } from '../../../../../../../../app/entity-groups/research-entities/item-grid-elements/search-result-grid-elements/org-unit/org-unit-search-result-grid-element.component';
 import { TruncatableComponent } from '../../../../../../../../app/shared/truncatable/truncatable.component';
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
 
-/**
- * Carte "unité académique" (vue grille) pour l'annuaire UdeM.
- * Pas de vignette (contrairement à Person) : seuls le titre et les métadonnées sont affichés.
- */
+/** Carte « unité académique » (vue grille) : sans vignette, contrairement à Person. */
 @listableObjectComponent('OrgUnitSearchResult', ViewMode.GridElement, Context.Any, 'annuaires')
 @Component({
   selector: 'ds-org-unit-search-result-grid-element',

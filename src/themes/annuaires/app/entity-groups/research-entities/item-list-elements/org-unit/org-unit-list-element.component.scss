@@ -1,8 +1,6 @@
 @import '../../../../../../montreal/styles/_variables_papyrus.scss';
 
-// Juste le titre, en lien simple — pas de carte/bordure/icône (cf. commentaire du .ts).
-// Légèrement plus affirmé que du texte courant (fiche Person : affiliation sous le nom), pour
-// rester lisible au premier coup d'œil sans aller jusqu'au style d'une carte.
+// Lien simple, un peu plus affirmé que le texte courant (affiliation sous le nom sur la fiche Person).
 .annuaires-affiliation-link {
   display: inline-block;
   margin-bottom: 0.25rem;
