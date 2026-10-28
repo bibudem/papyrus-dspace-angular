@@ -139,9 +139,11 @@ li.breadcrumb-item.active {
 }
 
 // ── Bouton « Retour aux résultats » ──
-// Poussé à droite de la rangée, sans séparateur ; gris neutre pour rester secondaire.
+// Poussé à droite de la rangée, sans séparateur ; bouton « fantôme » blanc translucide
+// qui se fond dans la bande au lieu d'un bouton plein.
 .annuaire-backbutton-item {
   margin-left: auto;
+  align-items: center;
 
   &::before {
     content: none !important;
@@ -149,15 +151,38 @@ li.breadcrumb-item.active {
 
   // !important : Bootstrap redéfinit .btn-secondary:hover et l'ordre d'injection des styles n'est pas fiable.
   ::ng-deep .btn {
-    background-color: $white !important;
-    border-color: $gray-700 !important;
-    color: $gray-700 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 !important; // annule le mb-2 du composant de base, qui décalait le bouton
+    padding: 0.2rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    background-color: transparent !important;
+    border: 1px solid rgba($white, 0.3) !important;
+    border-radius: 999px;
+    color: rgba($white, 0.85) !important;
+    box-shadow: none !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
-    &:hover,
-    &:focus {
-      background-color: $gray-700 !important;
-      border-color: $gray-700 !important;
-      color: $white !important;
+    i {
+      font-size: 0.8em;
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      background-color: $white !important;
+      border-color: $white !important;
+      color: $darkblue !important;
+
+      i {
+        transform: translateX(-2px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $white;
+      outline-offset: 2px;
     }
   }
 }
