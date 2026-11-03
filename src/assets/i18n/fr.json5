@@ -7665,7 +7665,7 @@
 
   "papyrus.orcid-profile.distinctions": "Distinctions",
 
-  "papyrus.orcid-profile.educations": "Diplômes",
+  "papyrus.orcid-profile.educations": "Formation",
 
   "papyrus.orcid-profile.memberships": "Adhésions",
 
@@ -7723,11 +7723,14 @@
 
   "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
 
-  "papyrus.annuaires.browse.units": "Professeur·es et unités académiques",
+  "papyrus.annuaires.browse.units": "Unités académiques",
 
   "papyrus.annuaires.browse.names": "Noms",
 
-  "papyrus.annuaires.browse.keywords": "Mots clés",
+  "papyrus.annuaires.browse.keywords": "Expertises",
+
+
+  "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
 
   "item.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
 
@@ -7895,7 +7898,10 @@
 
   "person.page.relation.affiliation": "Affiliation",
 
-  "papyrus.person.page.discipline": "Discipline",
+  "papyrus.person.page.discipline": "Expertise",
+
+
+  "papyrus.person.page.uri": "Lien permanent",
 
   "papyrus.person.page.relation.affiliation": "Affiliation",
 

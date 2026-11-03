@@ -1755,7 +1755,9 @@
   "item.page.orcid-ico": "Icône ORCID",
   "item.page.orcid-profile": "ORCID",
 
-  "papyrus.person.page.discipline": "Discipline",
+  "papyrus.person.page.discipline": "Expertise",
+
+  "papyrus.person.page.uri": "Lien permanent",
   "papyrus.person.page.relation.affiliation": "Affiliation",
   "papyrus.person.page.tab.papyrus": "Publications dans Papyrus",
   "papyrus.person.page.tab.papyrus.empty": "Aucune publication dans Papyrus.",
@@ -1764,9 +1766,11 @@
   "papyrus.directory.orcid-badge": "Profil ORCID",
   "papyrus.annuaires.banner-title": "Répertoire des professeures et professeurs",
   "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
-  "papyrus.annuaires.browse.units": "Professeur·es et unités académiques",
+  "papyrus.annuaires.browse.units": "Unités académiques",
   "papyrus.annuaires.browse.names": "Noms",
-  "papyrus.annuaires.browse.keywords": "Mots clés",
+  "papyrus.annuaires.browse.keywords": "Expertises",
+
+  "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
 
   "papyrus.orcid-members.page.title": "Chercheurs UdeM sur ORCID",
   "papyrus.orcid-members.page.description": "Liste des chercheurs de l'Université de Montréal enregistrés sur ORCID.",
@@ -1789,7 +1793,7 @@
   "papyrus.orcid-profile.biography.show-less": "Voir moins",
   "papyrus.orcid-profile.links": "Liens",
   "papyrus.orcid-profile.distinctions": "Distinctions",
-  "papyrus.orcid-profile.educations": "Diplômes",
+  "papyrus.orcid-profile.educations": "Formation",
   "papyrus.orcid-profile.memberships": "Adhésions",
   "papyrus.orcid-profile.qualifications": "Qualifications",
   "papyrus.orcid-profile.services": "Service",

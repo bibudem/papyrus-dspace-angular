@@ -14,6 +14,7 @@ import { OrgUnitComponent } from './app/entity-groups/research-entities/item-pag
 import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 import { ConfigurationSearchPageComponent } from './app/search-page/configuration-search-page.component';
 import { ComcolPageBrowseByComponent } from './app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
+import { SearchComponent } from './app/shared/search/search.component';
 import { SearchFiltersComponent } from './app/shared/search/search-filters/search-filters.component';
 import { SearchSettingsComponent } from './app/shared/search/search-settings/search-settings.component';
 
@@ -36,6 +37,7 @@ const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
   BreadcrumbsComponent,
   CommunityPageComponent,
+  SearchComponent,
   SearchFiltersComponent,
   SearchSettingsComponent,
   ComcolPageBrowseByComponent,

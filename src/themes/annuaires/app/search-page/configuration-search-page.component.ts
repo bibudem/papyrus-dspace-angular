@@ -18,6 +18,7 @@ import { ThemedSearchSidebarComponent } from '../../../../app/shared/search/sear
 import { ThemedSearchFormComponent } from '../../../../app/shared/search-form/themed-search-form.component';
 import { PageWithSidebarComponent } from '../../../../app/shared/sidebar/page-with-sidebar.component';
 import { ViewModeSwitchComponent } from '../../../../app/shared/view-mode-switch/view-mode-switch.component';
+import { ANNUAIRES_SEARCH_PLACEHOLDER } from '../shared/search/search.component';
 
 /**
  * Recherche embarquée dans une fiche (ex. professeur·es d'une unité) : masque le sélecteur de portée
@@ -52,5 +53,8 @@ export class ConfigurationSearchPageComponent extends BaseComponent implements O
     super.ngOnInit();
     // Forcé ici : ThemedComponent recopie toutes les entrées (même non définies), écrasant une valeur par défaut.
     this.showScopeSelector = false;
+    if (!this.searchFormPlaceholder || this.searchFormPlaceholder === 'search.search-form.placeholder') {
+      this.searchFormPlaceholder = ANNUAIRES_SEARCH_PLACEHOLDER;
+    }
   }
 }

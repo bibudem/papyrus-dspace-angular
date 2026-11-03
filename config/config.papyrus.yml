@@ -140,7 +140,7 @@ item:
 community:
   # Onglet affiché par défaut à l'arrivée sur une fiche communauté : 'comcols' (sous-communautés
   # et collections) au lieu de 'search' (résultats de recherche), pour l'annuaire des chercheurs.
-  defaultBrowseTab: comcols
+  defaultBrowseTab: search 
 
 # Collection Page Config
 collection:

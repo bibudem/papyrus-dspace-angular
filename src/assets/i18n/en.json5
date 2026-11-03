@@ -7632,11 +7632,14 @@
 
   "papyrus.annuaires.banner-subtitle": "Faculty and academic units of Université de Montréal",
 
-  "papyrus.annuaires.browse.units": "Faculty and academic units",
+  "papyrus.annuaires.browse.units": "Academic units",
 
   "papyrus.annuaires.browse.names": "Names",
 
-  "papyrus.annuaires.browse.keywords": "Keywords",
+  "papyrus.annuaires.browse.keywords": "Expertise",
+
+
+  "papyrus.annuaires.search-form.placeholder": "Search the directory",
 
   "item.page.orcid": "ORCID",
 
@@ -7757,6 +7760,9 @@
   "person.page.relation.affiliation": "Affiliation",
 
   "papyrus.person.page.discipline": "Expertise",
+
+
+  "papyrus.person.page.uri": "Permanent link",
 
   "papyrus.person.page.relation.affiliation": "Affiliation",
 
