@@ -1,8 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpBackend, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable, makeStateKey, PLATFORM_ID, StateKey, TransferState } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, finalize, map, retry, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { isbot } from 'isbot';
+import { forkJoin, from, NEVER, Observable, of, throwError, timer } from 'rxjs';
+import { catchError, finalize, map, mergeMap, retry, shareReplay, switchMap, tap, toArray } from 'rxjs/operators';
+
+import { REQUEST } from '../../../../express.tokens';
 
 // ══════════════════════════════════════════════════════════════════════════════
 // Modèles publics
@@ -243,7 +246,33 @@ const HEADERS = new HttpHeaders({ Accept: 'application/vnd.orcid+json' });
 /** 30 min : les profils ORCID changent rarement, on limite les appels à l'API publique. */
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
+const SERVER_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+const CACHE_MAX_ENTRIES = 3000;
+
 const STORAGE_PREFIX = 'papyrus-annuaires:orcid-cache:';
+
+/** Pause après un 429 quand ORCID ne précise pas Retry-After. */
+const RATE_LIMIT_PAUSE_MS = 2 * 60 * 1000;
+
+const RETRY_COUNT = 2;
+const RETRY_DELAY_MS = 500;
+const SEARCH_CONCURRENCY = 4;
+
+interface CacheEntry<T> {
+  data: T;
+  expiresAt: number;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// État partagé
+// ══════════════════════════════════════════════════════════════════════════════
+// Niveau module : en SSR, chaque requête a sa propre instance du service ; cet état est partagé
+// entre toutes les requêtes pour protéger le quota ORCID de l'IP du serveur.
+
+const sharedCache = new Map<string, CacheEntry<unknown>>();
+
+/** Disjoncteur : aucun appel ORCID avant cette date (ms). */
+let orcidPausedUntil = 0;
 
 /** Membres UdeM : les deux variantes couvrent les enregistrements avec et sans accents. */
 const AFFIL_QUERY =
@@ -266,8 +295,11 @@ export class OrcidPublicApiService {
   /** Transmet au navigateur les réponses obtenues en SSR, pour éviter un second appel après l'hydratation. */
   private readonly transferState = inject(TransferState);
 
-  /** Cache mémoire clé → données ; doublé dans localStorage pour survivre aux rechargements et rendus SSR. */
-  private readonly cache = new Map<string, { data: unknown; expiresAt: number }>();
+  private readonly request = inject(REQUEST, { optional: true });
+
+  /** Robot en SSR : cache seulement, aucun appel ORCID depuis l'IP du serveur. */
+  private readonly isServerSideBot =
+    !this.isBrowser && isbot(this.request?.headers?.['user-agent'] as string | undefined);
 
   /** Requêtes en cours, partagées pour éviter les appels réseau en double. */
   private readonly inflight = new Map<string, Observable<unknown>>();
@@ -312,21 +344,30 @@ export class OrcidPublicApiService {
       const transferred = this.transferState.get(transferKey, null);
       this.transferState.remove(transferKey);
       if (transferred) {
-        this.cache.set(key, transferred);
+        this.setCached(key, transferred);
         this.writePersisted(key, transferred);
         return of(transferred.data);
       }
     }
 
-    const cached = this.cache.get(key) ?? this.readPersisted<T>(key);
+    const cached = (sharedCache.get(key) as CacheEntry<T> | undefined) ?? this.readPersisted<T>(key);
     if (cached) {
       if (cached.expiresAt > Date.now()) {
         // Remonte en mémoire pour éviter de reparser le JSON de localStorage à chaque appel.
-        this.cache.set(key, cached);
-        return of(cached.data as T);
+        this.setCached(key, cached);
+        if (!this.isBrowser) {
+          // Sinon le navigateur refait l'appel après l'hydratation.
+          this.transferState.set(transferKey, cached);
+        }
+        return of(cached.data);
       }
       // Entrée périmée : nettoyage pour que localStorage ne grossisse pas indéfiniment.
+      sharedCache.delete(key);
       this.removePersisted(key);
+    }
+
+    if (this.isServerSideBot) {
+      return NEVER;
     }
 
     const existing = this.inflight.get(key);
@@ -336,8 +377,9 @@ export class OrcidPublicApiService {
 
     const req$ = factory().pipe(
       tap((data) => {
-        const entry = { data, expiresAt: Date.now() + CACHE_TTL_MS };
-        this.cache.set(key, entry);
+        const ttl = this.isBrowser ? CACHE_TTL_MS : SERVER_CACHE_TTL_MS;
+        const entry = { data, expiresAt: Date.now() + ttl };
+        this.setCached(key, entry);
         this.writePersisted(key, entry);
         if (!this.isBrowser) {
           this.transferState.set(transferKey, entry);
@@ -349,6 +391,15 @@ export class OrcidPublicApiService {
 
     this.inflight.set(key, req$);
     return req$;
+  }
+
+  /** LRU simple : la Map garde l'ordre d'insertion, la première clé est la plus ancienne. */
+  private setCached<T>(key: string, entry: CacheEntry<T>): void {
+    sharedCache.delete(key);
+    if (sharedCache.size >= CACHE_MAX_ENTRIES) {
+      sharedCache.delete(sharedCache.keys().next().value);
+    }
+    sharedCache.set(key, entry);
   }
 
   /** localStorage est un bonus de performance : toute erreur (SSR, navigation privée, JSON corrompu) est ignorée. */
@@ -392,6 +443,33 @@ export class OrcidPublicApiService {
 
   // ── Requêtes ORCID ────────────────────────────────────────────────────────
 
+  /** GET ORCID avec disjoncteur sur 429 ; seules les erreurs réseau / 5xx sont retentées. */
+  private orcidGet<T>(url: string, params?: HttpParams): Observable<T> {
+    if (Date.now() < orcidPausedUntil) {
+      return throwError(() => new Error('[ORCID] Appels suspendus après un 429'));
+    }
+
+    return this.http.get<T>(url, { headers: HEADERS, params }).pipe(
+      retry({
+        count: RETRY_COUNT,
+        delay: (err: unknown) => {
+          const status = (err as HttpErrorResponse)?.status;
+          return status === 0 || status >= 500 ? timer(RETRY_DELAY_MS) : throwError(() => err);
+        },
+      }),
+      tap({
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 429) {
+            const retryAfterSec = Number(err.headers?.get('Retry-After'));
+            const pauseMs = retryAfterSec > 0 ? retryAfterSec * 1000 : RATE_LIMIT_PAUSE_MS;
+            orcidPausedUntil = Date.now() + pauseMs;
+            console.warn(`[ORCID] 429 reçu : appels suspendus ${Math.round(pauseMs / 1000)} s`);
+          }
+        },
+      }),
+    );
+  }
+
   private fetchSearchPage(page: number, pageSize: number, nameFilter: string): Observable<OrcidMembersPage> {
     const query = this.buildQuery(nameFilter);
     const params = new HttpParams()
@@ -399,21 +477,24 @@ export class OrcidPublicApiService {
       .set('start', String(page * pageSize))
       .set('rows', String(pageSize));
 
-    return this.http
-      .get<OrcidSearchResponse>(`${API_BASE}/search`, { headers: HEADERS, params })
-      .pipe(
-        tap({ error: (err) => console.warn('[ORCID] Échec de la recherche (retry en cours)', err) }),
-        retry(2),
-        switchMap(({ result, 'num-found': totalResults }) => {
-          const ids = (result ?? []).map((r) => r['orcid-identifier'].path);
+    return this.orcidGet<OrcidSearchResponse>(`${API_BASE}/search`, params).pipe(
+      tap({ error: (err) => console.warn('[ORCID] Échec de la recherche', err) }),
+      switchMap(({ result, 'num-found': totalResults }) => {
+        const ids = (result ?? []).map((r) => r['orcid-identifier'].path);
 
-          if (ids.length === 0) return of({ members: [], totalResults });
+        if (ids.length === 0) return of({ members: [], totalResults });
 
-          return forkJoin(ids.map((id) => this.fetchPersonLight(id))).pipe(
-            map((members) => ({ members, totalResults })),
-          );
-        }),
-      );
+        // Concurrence bornée ; l'index rétablit l'ordre des résultats.
+        return from(ids).pipe(
+          mergeMap((id, index) => this.fetchPersonLight(id).pipe(map((member) => ({ index, member }))), SEARCH_CONCURRENCY),
+          toArray(),
+          map((results) => ({
+            members: results.sort((a, b) => a.index - b.index).map((r) => r.member),
+            totalResults,
+          })),
+        );
+      }),
+    );
   }
 
   /** Chaque requête échoue silencieusement (null) pour ne pas bloquer l'autre. */
@@ -446,9 +527,7 @@ export class OrcidPublicApiService {
    */
   private fetchPersonRaw(orcidId: string): Observable<OrcidPersonResponse | null> {
     return this.getCachedOrFetch<OrcidPersonResponse>(`person|${orcidId}`, () =>
-      this.http
-        .get<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`, { headers: HEADERS })
-        .pipe(retry(2)),
+      this.orcidGet<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`),
     ).pipe(
       catchError((err) => {
         console.warn(`[ORCID] /person inaccessible pour ${orcidId}`, err);
@@ -460,9 +539,7 @@ export class OrcidPublicApiService {
   /** Même stratégie de cache/catchError que fetchPersonRaw. */
   private fetchActivitiesRaw(orcidId: string): Observable<OrcidActivitiesResponse | null> {
     return this.getCachedOrFetch<OrcidActivitiesResponse>(`activities|${orcidId}`, () =>
-      this.http
-        .get<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`, { headers: HEADERS })
-        .pipe(retry(2)),
+      this.orcidGet<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`),
     ).pipe(
       catchError((err) => {
         console.warn(`[ORCID] /activities inaccessible pour ${orcidId}`, err);
