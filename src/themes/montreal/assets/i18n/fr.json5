@@ -1772,6 +1772,9 @@
 
   "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
 
+
+  "papyrus.annuaires.back-to-top": "Haut de page",
+
   "papyrus.orcid-members.page.title": "Chercheurs UdeM sur ORCID",
   "papyrus.orcid-members.page.description": "Liste des chercheurs de l'Université de Montréal enregistrés sur ORCID.",
   "papyrus.orcid-members.search.placeholder": "Rechercher par nom…",

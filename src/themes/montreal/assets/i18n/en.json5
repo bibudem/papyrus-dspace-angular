@@ -971,6 +971,9 @@
 
   "papyrus.annuaires.search-form.placeholder": "Search the directory",
 
+
+  "papyrus.annuaires.back-to-top": "Back to top",
+
   "papyrus.orcid-members.page.title": "UdeM Researchers on ORCID",
   "papyrus.orcid-members.page.description": "List of Université de Montréal researchers registered on ORCID.",
   "papyrus.orcid-members.search.placeholder": "Search by name…",

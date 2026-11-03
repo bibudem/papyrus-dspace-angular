@@ -164,7 +164,7 @@ export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit
       ).subscribe((allOptions: ComColPageNavOption[]) => {
         for (const option of allOptions) {
           if (option.id === this.appConfig[this.contentType].defaultBrowseTab) {
-            this.currentOption$.next(option[0]);
+            this.currentOption$.next(option);
             void this.router.navigate([option.routerLink], { queryParams: option.params });
             break;
           }

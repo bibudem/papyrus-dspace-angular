@@ -24,6 +24,7 @@ import { BreadcrumbsComponent as BaseComponent } from '../../../../app/breadcrum
 import { RouteService } from '../../../../app/core/services/route.service';
 import { ThemedResultsBackButtonComponent } from '../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
+import { PageScrollComponent } from '../shared/page-scroll/page-scroll.component';
 
 /**
  * Fil d'Ariane du thème "annuaires" : bandeau « Répertoire » + bouton "Retour aux résultats" sur la même ligne.
@@ -39,6 +40,7 @@ import { VarDirective } from '../../../../app/shared/utils/var.directive';
     NgbTooltipModule,
     NgIf,
     NgTemplateOutlet,
+    PageScrollComponent,
     RouterLink,
     ThemedResultsBackButtonComponent,
     TranslateModule,

@@ -143,14 +143,23 @@ ds-community-page-sub-collection-list .pagination-info {
 }
 
 // ── Fiche Person ──
-// Affiliation collée au contenu : sans la marge du bloc de champ ni celle de la zone « voir plus ».
-.person-affiliation {
+// Affiliation collée au reste de la fiche. !important : les styles du composant DSpace passent après ce fichier.
+.person-page .person-affiliation {
   .simple-view-element {
+    margin-bottom: 0 !important;
+  }
+
+  .annuaires-affiliation-link {
     margin-bottom: 0;
   }
 
+  // Zone « voir plus » : vide avec une seule affiliation, mais en inline-block elle occupe une ligne.
   .simple-view-element-body > .d-inline-block.w-100 {
     margin-top: 0 !important;
+
+    &:empty {
+      display: none !important;
+    }
   }
 }
 

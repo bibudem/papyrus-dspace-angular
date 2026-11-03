@@ -7732,6 +7732,10 @@
 
   "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
 
+
+
+  "papyrus.annuaires.back-to-top": "Haut de page",
+
   "item.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",
 
   "mydspace.qa-event-notification.check.notification-info": "Il y a {{num}} suggestion(s) en attente reliée(s) à votre compte.",

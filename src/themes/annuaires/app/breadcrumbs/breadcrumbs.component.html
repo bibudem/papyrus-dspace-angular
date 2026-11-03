@@ -26,6 +26,9 @@
     </div>
   }
 
+  <!-- Placé ici car le fil d'Ariane est présent sur toutes les pages du répertoire. -->
+  <ds-annuaires-page-scroll></ds-annuaires-page-scroll>
+
   <ng-template #breadcrumb let-text="text" let-url="url">
     <li class="breadcrumb-item"><div class="breadcrumb-item-limiter"><a [routerLink]="url" class="text-truncate" [ngbTooltip]="text | translate" placement="bottom" role="link" tabindex="0">{{text | translate}}</a></div></li>
   </ng-template>
