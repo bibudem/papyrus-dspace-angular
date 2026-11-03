@@ -7725,14 +7725,11 @@
 
   "papyrus.annuaires.browse.units": "Unités académiques",
 
-  "papyrus.annuaires.browse.names": "Noms",
-
   "papyrus.annuaires.browse.keywords": "Expertises",
-
 
   "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
 
-
+  "papyrus.annuaires.browse.search-form.placeholder": "Rechercher dans le répertoire",
 
   "papyrus.annuaires.back-to-top": "Haut de page",
 

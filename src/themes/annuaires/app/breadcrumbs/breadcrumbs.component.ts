@@ -24,6 +24,7 @@ import { BreadcrumbsComponent as BaseComponent } from '../../../../app/breadcrum
 import { RouteService } from '../../../../app/core/services/route.service';
 import { ThemedResultsBackButtonComponent } from '../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
+import { toGivenFamilyOrder } from '../entity-groups/research-entities/person-name';
 import { PageScrollComponent } from '../shared/page-scroll/page-scroll.component';
 
 /**
@@ -67,6 +68,14 @@ export class BreadcrumbsComponent extends BaseComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    // Même ordre « Prénom Nom » que sur la fiche.
+    this.breadcrumbs$ = this.breadcrumbs$.pipe(
+      map((breadcrumbs) => breadcrumbs?.map((bc) => this.isPersonPage(bc.url)
+        ? { ...bc, text: toGivenFamilyOrder(bc.text) }
+        : bc,
+      )),
+    );
+
     this.showBackButton$ = this.routeService.getPreviousUrl().pipe(
       take(1),
       map((url) => {
@@ -88,6 +97,10 @@ export class BreadcrumbsComponent extends BaseComponent implements OnInit {
         return false;
       }),
     );
+  }
+
+  private isPersonPage(url: string | undefined): boolean {
+    return !!url?.startsWith('/entities/person/');
   }
 
   private pickAllowedPrevious(url: string): string | null {

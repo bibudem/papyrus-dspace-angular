@@ -1767,12 +1767,9 @@
   "papyrus.annuaires.banner-title": "Répertoire des professeures et professeurs",
   "papyrus.annuaires.banner-subtitle": "Professeur·es et unités académiques de l'Université de Montréal",
   "papyrus.annuaires.browse.units": "Unités académiques",
-  "papyrus.annuaires.browse.names": "Noms",
   "papyrus.annuaires.browse.keywords": "Expertises",
-
   "papyrus.annuaires.search-form.placeholder": "Rechercher dans le répertoire",
-
-
+  "papyrus.annuaires.browse.search-form.placeholder": "Rechercher dans le répertoire",
   "papyrus.annuaires.back-to-top": "Haut de page",
 
   "papyrus.orcid-members.page.title": "Chercheurs UdeM sur ORCID",

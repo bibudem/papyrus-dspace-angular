@@ -966,12 +966,9 @@
   "papyrus.annuaires.banner-title": "Faculty Directory",
   "papyrus.annuaires.banner-subtitle": "Faculty and academic units of Université de Montréal",
   "papyrus.annuaires.browse.units": "Academic units",
-  "papyrus.annuaires.browse.names": "Names",
   "papyrus.annuaires.browse.keywords": "Expertise",
-
   "papyrus.annuaires.search-form.placeholder": "Search the directory",
-
-
+  "papyrus.annuaires.browse.search-form.placeholder": "Search the directory",
   "papyrus.annuaires.back-to-top": "Back to top",
 
   "papyrus.orcid-members.page.title": "UdeM Researchers on ORCID",

@@ -13,6 +13,7 @@ import { PersonSearchResultListElementComponent } from './app/entity-groups/rese
 import { OrgUnitComponent } from './app/entity-groups/research-entities/item-pages/org-unit/org-unit.component';
 import { PersonComponent } from './app/entity-groups/research-entities/item-pages/person/person.component';
 import { ConfigurationSearchPageComponent } from './app/search-page/configuration-search-page.component';
+import { BrowseByComponent } from './app/shared/browse-by/browse-by.component';
 import { ComcolPageBrowseByComponent } from './app/shared/comcol/comcol-page-browse-by/comcol-page-browse-by.component';
 import { SearchComponent } from './app/shared/search/search.component';
 import { SearchFiltersComponent } from './app/shared/search/search-filters/search-filters.component';
@@ -36,6 +37,7 @@ const ENTRY_COMPONENTS = [
 const DECLARATIONS = [
   ...ENTRY_COMPONENTS,
   BreadcrumbsComponent,
+  BrowseByComponent,
   CommunityPageComponent,
   SearchComponent,
   SearchFiltersComponent,

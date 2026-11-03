@@ -44,6 +44,7 @@ import {
  * backend hors de notre contrôle). Id = "browse_" + id de GET /server/api/discover/browses.
  */
 const HIDDEN_OPTION_IDS = [
+  'browse_title',
   'browse_advisor',
   'browse_dateissued',
   'browse_author',
@@ -54,7 +55,6 @@ const HIDDEN_OPTION_IDS = [
 /** Libellés propres à l'annuaire, pour ne pas toucher aux clés i18n partagées avec le reste du site. */
 const RELABELED_OPTIONS: Readonly<Record<string, string>> = {
   comcols: 'papyrus.annuaires.browse.units',
-  browse_title: 'papyrus.annuaires.browse.names',
   browse_subject: 'papyrus.annuaires.browse.keywords',
 };
 

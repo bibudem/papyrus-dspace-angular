@@ -1,5 +1,8 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -11,6 +14,7 @@ import { listableObjectComponent } from '../../../../../../../../app/shared/obje
 import { TruncatableComponent } from '../../../../../../../../app/shared/truncatable/truncatable.component';
 import { TruncatablePartComponent } from '../../../../../../../../app/shared/truncatable/truncatable-part/truncatable-part.component';
 import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/themed-thumbnail.component';
+import { getPersonDisplayName } from '../../../person-name';
 
 /**
  * Carte « chercheur·euse » (vue grille) : image de remplacement au lieu du texte « pas de vignette »
@@ -32,5 +36,9 @@ import { ThemedThumbnailComponent } from '../../../../../../../../app/thumbnail/
     TruncatablePartComponent,
   ],
 })
-export class PersonSearchResultGridElementComponent extends BaseComponent {
+export class PersonSearchResultGridElementComponent extends BaseComponent implements OnInit {
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.dsoTitle = getPersonDisplayName(this.dso, this.object?.hitHighlights, true) ?? this.dsoTitle;
+  }
 }

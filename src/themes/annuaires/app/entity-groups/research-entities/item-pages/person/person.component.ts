@@ -5,10 +5,19 @@ import {
 import {
   AfterViewChecked,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
+  OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  Meta,
+  Title,
+} from '@angular/platform-browser';
+import { NavigationEnd } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { filter } from 'rxjs/operators';
 
 import { DSONameService } from '../../../../../../../app/core/breadcrumbs/dso-name.service';
 import { Context } from '../../../../../../../app/core/shared/context.model';
@@ -23,6 +32,7 @@ import { listableObjectComponent } from '../../../../../../../app/shared/object-
 import { ThemedThumbnailComponent } from '../../../../../../../app/thumbnail/themed-thumbnail.component';
 import { getOrcidId } from '../../../../orcid-members/orcid-id';
 import { OrcidPersonEnrichmentComponent } from '../../../../orcid-members/orcid-person-enrichment/orcid-person-enrichment.component';
+import { getPersonDisplayName } from '../../person-name';
 
 type ProfileSection = 'papyrus' | 'orcid';
 
@@ -51,22 +61,19 @@ type ProfileSection = 'papyrus' | 'orcid';
     TranslateModule,
   ],
 })
-export class PersonComponent extends BaseComponent implements AfterViewChecked {
+export class PersonComponent extends BaseComponent implements OnInit, AfterViewChecked {
 
   activeSection: ProfileSection = 'orcid';
 
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
-
   private readonly dsoNameService = inject(DSONameService);
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly destroyRef = inject(DestroyRef);
 
-  /** « Prénom Nom » ; à défaut, le nom DSpace habituel (« Nom, Prénom »). */
+  /** « Prénom Nom », sinon le nom DSpace habituel. */
   get displayName(): string {
-    const givenName = this.object?.firstMetadataValue('person.givenName');
-    const familyName = this.object?.firstMetadataValue('person.familyName');
-    if (givenName && familyName) {
-      return `${givenName} ${familyName}`;
-    }
-    return this.dsoNameService.getName(this.object);
+    return getPersonDisplayName(this.object) ?? this.dsoNameService.getName(this.object);
   }
 
   get orcidId(): string | null {
@@ -79,6 +86,16 @@ export class PersonComponent extends BaseComponent implements AfterViewChecked {
 
   get expertises(): string[] {
     return this.object?.allMetadataValues('dc.subject.discipline') ?? [];
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.setPageTitle();
+    // HeadTagService remet le titre DSpace à chaque NavigationEnd. Abonné après lui, on passe en dernier.
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe(() => this.setPageTitle());
   }
 
   /**
@@ -100,5 +117,13 @@ export class PersonComponent extends BaseComponent implements AfterViewChecked {
 
   setSection(section: ProfileSection): void {
     this.activeSection = section;
+  }
+
+  private setPageTitle(): void {
+    const name = getPersonDisplayName(this.object);
+    if (name) {
+      this.title.setTitle(name);
+      this.meta.updateTag({ name: 'title', content: name });
+    }
   }
 }
