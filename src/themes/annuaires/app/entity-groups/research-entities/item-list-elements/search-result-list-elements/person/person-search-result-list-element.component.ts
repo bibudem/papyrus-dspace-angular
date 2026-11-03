@@ -36,6 +36,7 @@ import {
   APP_CONFIG,
   AppConfig,
 } from '../../../../../../../../config/app-config.interface';
+import { getOrcidId } from '../../../../../orcid-members/orcid-id';
 
 /** Carte « chercheur·euse » (vue liste) : ajoute l'unité d'affiliation et un badge ORCID. */
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement, Context.Any, 'annuaires')
@@ -57,9 +58,6 @@ import {
   ],
 })
 export class PersonSearchResultListElementComponent extends BaseComponent implements OnInit {
-
-  /** Mêmes clés ORCID que le panneau d'enrichissement. */
-  private static readonly ORCID_METADATA_KEYS = ['dspace.author.orcid', 'person.identifier.orcid'] as const;
 
   /** Nom de l'unité d'affiliation (relation isOrgUnitOfPerson), ou null. */
   affiliationName$: Observable<string | null>;
@@ -91,15 +89,9 @@ export class PersonSearchResultListElementComponent extends BaseComponent implem
     return !!this.orcidUrl;
   }
 
-  /** URL ORCID normalisée, ou null ; sert seulement à afficher le badge (pas de lien externe). */
+  /** URL ORCID, ou null ; sert seulement à afficher le badge (pas de lien externe). */
   get orcidUrl(): string | null {
-    for (const key of PersonSearchResultListElementComponent.ORCID_METADATA_KEYS) {
-      const raw = this.dso?.firstMetadataValue(key);
-      if (raw) {
-        const id = raw.replace(/^(https?:\/\/)?orcid\.org\//, '').trim();
-        return id ? `https://orcid.org/${id}` : null;
-      }
-    }
-    return null;
+    const id = getOrcidId(this.dso);
+    return id ? `https://orcid.org/${id}` : null;
   }
 }

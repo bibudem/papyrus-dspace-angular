@@ -1,16 +1,25 @@
 <div class="person-page">
 
   <div class="d-flex align-items-start justify-content-between mb-2">
-    <ds-item-page-title-field class="flex-grow-1 me-2 mt-3" [item]="object">
-    </ds-item-page-title-field>
+    <h1 class="item-page-title-field flex-grow-1 me-2 mt-3">
+      <span class="dont-break-out">{{ displayName }}</span>
+    </h1>
     <ds-dso-edit-menu class="flex-shrink-0"></ds-dso-edit-menu>
   </div>
 
   <ds-related-items
-    class="d-block mb-2"
+    class="d-block person-affiliation"
     [parentItem]="object"
     [relationType]="'isOrgUnitOfPerson'">
   </ds-related-items>
+
+  @if (orcidId) {
+    <p class="person-orcid-link mt-1 mb-2">
+      <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
+      {{ 'papyrus.directory.orcid-badge' | translate }} :
+      <a [href]="'https://orcid.org/' + orcidId" target="_blank" rel="noopener noreferrer">{{ orcidId }}</a>
+    </p>
+  }
 
   <div class="person-content-row row g-4 align-items-start">
 
@@ -29,26 +38,31 @@
           [fields]="['person.jobTitle']"
           [label]="'person.page.jobtitle'">
         </ds-generic-item-page-field>
-        <ds-generic-item-page-field [item]="object"
-          [fields]="['person.email']"
-          [label]="'person.page.email'">
-        </ds-generic-item-page-field>
-        <ds-generic-item-page-field [item]="object"
-          [fields]="['dc.subject.discipline']"
-          [label]="'papyrus.person.page.discipline'">
-        </ds-generic-item-page-field>
+        @if (emails.length > 0) {
+          <ds-metadata-field-wrapper [label]="'person.page.email' | translate">
+            @for (email of emails; track email; let last = $last) {
+              <a class="dont-break-out" [href]="'mailto:' + email">{{ email }}</a>
+              @if (!last) {
+                <br>
+              }
+            }
+          </ds-metadata-field-wrapper>
+        }
+        <!-- Texte simple : pas de lien vers l'index de parcours des expertises. -->
+        @if (expertises.length > 0) {
+          <ds-metadata-field-wrapper [label]="'papyrus.person.page.discipline' | translate">
+            @for (expertise of expertises; track expertise; let last = $last) {
+              <span class="dont-break-out">{{ expertise }}</span>
+              @if (!last) {
+                <br>
+              }
+            }
+          </ds-metadata-field-wrapper>
+        }
         <ds-item-page-uri-field [item]="object"
           [fields]="['dc.identifier.uri']"
           [label]="'papyrus.person.page.uri'">
         </ds-item-page-uri-field>
-      </div>
-
-      <div class="mt-3">
-        <a class="btn btn-outline-primary btn-sm"
-           [routerLink]="[itemPageRoute + '/full']"
-           role="link" tabindex="0">
-          {{"item.page.link.full" | translate}}
-        </a>
       </div>
 
     </aside>

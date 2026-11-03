@@ -143,9 +143,19 @@ ds-community-page-sub-collection-list .pagination-info {
 }
 
 // ── Fiche Person ──
-// Décolle du titre la ligne entière (aside + contenu), pas seulement les onglets.
+// Affiliation collée au contenu : sans la marge du bloc de champ ni celle de la zone « voir plus ».
+.person-affiliation {
+  .simple-view-element {
+    margin-bottom: 0;
+  }
+
+  .simple-view-element-body > .d-inline-block.w-100 {
+    margin-top: 0 !important;
+  }
+}
+
 .person-content-row {
-  margin-top: 0.75rem;
+  margin-top: 0;
 }
 
 // Onglets « Papyrus » (relations DSpace) / « ORCID » (données externes).

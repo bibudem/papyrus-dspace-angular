@@ -1,9 +1,11 @@
 @import '../../../../../../montreal/styles/_variables_papyrus.scss';
 
-// Lien simple, un peu plus affirmé que le texte courant (affiliation sous le nom sur la fiche Person).
+// Affiliation sous le nom sur la fiche Person : même rendu que les titres de champs (« Fonction », etc.).
 .annuaires-affiliation-link {
   display: inline-block;
   margin-bottom: 0.25rem;
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: $greensecondary;
 }

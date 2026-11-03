@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 
 import { Item } from '../../../../../app/core/shared/item.model';
+import { getOrcidId } from '../orcid-id';
 import {
   OrcidAffiliationEntry,
   OrcidPublicApiService,
@@ -98,12 +99,6 @@ export type ActivityTab =
   imports: [AsyncPipe, NgFor, NgIf, SlicePipe, TranslateModule],
 })
 export class OrcidPersonEnrichmentComponent implements OnInit {
-  /** Clés de métadonnées DSpace portant l'ORCID iD, par ordre de priorité. */
-  private static readonly ORCID_METADATA_KEYS = [
-    'dspace.author.orcid',
-    'person.identifier.orcid',
-  ] as const;
-
   @Input() item!: Item;
 
   private readonly orcidService = inject(OrcidPublicApiService);
@@ -272,16 +267,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   /** ORCID iD normalisé depuis les métadonnées (accepte l'identifiant nu ou l'URL orcid.org), sinon null. */
   private extractOrcidId(): string | null {
-    let raw: string | undefined;
-
-    for (const key of OrcidPersonEnrichmentComponent.ORCID_METADATA_KEYS) {
-      const val = this.item?.firstMetadataValue(key);
-      if (val) { raw = val; break; }
-    }
-
-    if (!raw) return null;
-
-    const id = raw.replace(/^(https?:\/\/)?orcid\.org\//, '').trim();
-    return id || null;
+    return getOrcidId(this.item);
   }
 }
