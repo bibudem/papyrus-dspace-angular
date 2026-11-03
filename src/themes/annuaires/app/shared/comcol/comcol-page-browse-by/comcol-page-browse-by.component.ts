@@ -1,7 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import {
   Component,
+  HostBinding,
   Inject,
+  inject,
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -25,6 +27,7 @@ import {
 import { getCollectionPageRoute } from '../../../../../../app/collection-page/collection-page-routing-paths';
 import { getCommunityPageRoute } from '../../../../../../app/community-page/community-page-routing-paths';
 import { BrowseService } from '../../../../../../app/core/browse/browse.service';
+import { DSpaceObjectDataService } from '../../../../../../app/core/data/dspace-object-data.service';
 import { PaginatedList } from '../../../../../../app/core/data/paginated-list.model';
 import { RemoteData } from '../../../../../../app/core/data/remote-data';
 import { BrowseDefinition } from '../../../../../../app/core/shared/browse-definition.model';
@@ -38,6 +41,7 @@ import {
   APP_CONFIG,
   AppConfig,
 } from '../../../../../../config/app-config.interface';
+import { isOrgUnitCollection } from '../../org-unit-collection';
 
 /**
  * Onglets « Parcourir » masqués : peu pertinents pour un annuaire de personnes/unités (filtrage côté client,
@@ -74,6 +78,11 @@ const RELABELED_OPTIONS: Readonly<Record<string, string>> = {
 })
 export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit {
 
+  /** Collection « Unités académiques » : la recherche suffit, la barre d'onglets est masquée. */
+  @HostBinding('class.d-none') hidden = false;
+
+  private readonly dsoService = inject(DSpaceObjectDataService);
+
   constructor(
     @Inject(APP_CONFIG) appConfig: AppConfig,
     router: Router,
@@ -84,6 +93,11 @@ export class ComcolPageBrowseByComponent extends BaseComponent implements OnInit
 
   /** Copie de ngOnInit de la classe de base, avec filtrage et renommage des onglets dans `allOptions$`. */
   ngOnInit(): void {
+    if (this.contentType === 'collection') {
+      this.subs.push(isOrgUnitCollection(this.dsoService, this.id)
+        .subscribe((isOrgUnits) => this.hidden = isOrgUnits));
+    }
+
     this.allOptions$ = this.browseServiceRef.getBrowseDefinitions().pipe(
       getFirstCompletedRemoteData(),
       map((browseDefListRD: RemoteData<PaginatedList<BrowseDefinition>>) => {
