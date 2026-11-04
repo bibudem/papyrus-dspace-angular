@@ -167,22 +167,21 @@ ds-community-page-sub-collection-list .pagination-info {
   margin-top: 0;
 }
 
-// Onglets de la fiche : style natif DSpace (nav-tabs), texte aux couleurs du thème pour un meilleur contraste.
+// Onglets de la fiche : style natif DSpace (nav-tabs), titres avec la typographie des libellés de la fiche
+// (« Courriel », « Expertise »). L'onglet actif se distingue par l'encadré natif.
 // Logo ORCID devant les onglets venant d'ORCID, toujours en couleur : il signale la provenance des données.
 .profile-tabs .nav-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: $headings-font-family;
+  font-size: 1.25rem;
+  font-weight: $headings-font-weight;
   color: $greensecondary;
-  font-weight: 500;
 
-  &:hover {
-    color: $darkgreen;
-  }
-
+  &:hover,
   &.active {
-    color: $darkgreen;
-    font-weight: 600;
+    color: $greensecondary;
   }
 
   &:focus-visible {
