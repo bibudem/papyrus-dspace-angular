@@ -118,8 +118,8 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   /** Type de travail filtré, null pour tous. */
   activeWorkTypeFilter: string | null = null;
 
-  /** Sections dépliées, toutes repliées au départ. */
-  expandedSections = new Set<ActivitySection>();
+  /** Sections dépliées : Activités professionnelles ouverte au départ (rendue seulement si elle a du contenu). */
+  expandedSections = new Set<ActivitySection>(['professional-activities']);
 
   readonly hasFrenchBiography = hasFrenchBiography;
 
