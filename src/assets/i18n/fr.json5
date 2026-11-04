@@ -7657,7 +7657,6 @@
 
   "papyrus.orcid-profile.biography": "Biographie",
 
-  "papyrus.orcid-profile.biography.empty": "Aucune biographie renseignée.",
   "papyrus.orcid-profile.biography.show-more": "Voir plus",
   "papyrus.orcid-profile.biography.show-less": "Voir moins",
 
@@ -7679,8 +7678,6 @@
 
   "papyrus.orcid-profile.funding": "Financement",
 
-  "papyrus.orcid-profile.funding.empty": "Aucun financement renseigné.",
-
   "papyrus.orcid-profile.funding.show-more": "Voir {{count}} financements de plus",
 
   "papyrus.orcid-profile.funding.show-less": "Voir moins",
@@ -7689,11 +7686,11 @@
 
   "papyrus.orcid-profile.publications.filter-all": "Tous",
 
+  "papyrus.orcid-profile.publications.filter-label": "Filtrer par type de travail",
+
   "papyrus.orcid-profile.publications": "Travaux",
 
   "papyrus.orcid-profile.publications.total": "{{count}} publications",
-
-  "papyrus.orcid-profile.publications.empty": "Aucune publication répertoriée sur ce profil ORCID.",
 
   "papyrus.orcid-profile.view-orcid": "Voir le profil ORCID de",
 
@@ -7909,6 +7906,8 @@
   "papyrus.person.page.tab.papyrus": "Publications dans Papyrus",
 
   "papyrus.person.page.tab.papyrus.empty": "Aucune publication dans Papyrus.",
+
+  "papyrus.person.page.tabs.label": "Sections du profil",
 
   "papyrus.person.page.tab.orcid": "Profil ORCID",
 }

@@ -52,13 +52,6 @@
   &:hover { color: $darkgreen; text-decoration: underline; }
 }
 
-.oe-country {
-  color: $gray-500;
-  font-size: 0.8rem;
-
-  &::before { content: '·'; margin-right: 0.5rem; }
-}
-
 // Liens en ligne séparés par « | » : reste compact même avec 5+ liens.
 .oe-links-row {
   font-size: 0.8rem;
@@ -80,6 +73,9 @@
 }
 
 .oe-section {
+  // Accordéon sans aucune catégorie renseignée : rien à afficher.
+  &:empty { display: none; }
+
   & + & {
     margin-top: 2rem;
     padding-top: 2rem;
@@ -316,13 +312,6 @@
 }
 
 // ── Message vide ──
-
-.oe-empty {
-  color: $gray-500;
-  font-size: 0.9rem;
-  font-style: italic;
-  margin-bottom: 0;
-}
 
 // ── Squelettes de chargement ──
 

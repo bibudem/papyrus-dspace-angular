@@ -69,7 +69,7 @@
 
     <main class="col-12 col-md-8">
 
-      <nav class="profile-tabs" role="tablist" aria-label="Sections du profil">
+      <nav class="profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
         <button role="tab" type="button"
                 class="profile-tab profile-tab--orcid"
                 [class.profile-tab--active]="activeSection === 'orcid'"
@@ -107,11 +107,13 @@
         <ds-related-items
           [parentItem]="object"
           [relationType]="'isPublicationOfAuthor'"
+          [incrementBy]="relatedItemsPageSize"
           [label]="'relationships.isPublicationOf' | translate">
         </ds-related-items>
         <ds-related-items
           [parentItem]="object"
           [relationType]="'isPublicationOfAdvisor'"
+          [incrementBy]="relatedItemsPageSize"
           [label]="'item.page.advisor' | translate">
         </ds-related-items>
       </section>

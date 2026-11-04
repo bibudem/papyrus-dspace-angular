@@ -65,6 +65,9 @@ export class PersonComponent extends BaseComponent implements OnInit, AfterViewC
 
   activeSection: ProfileSection = 'orcid';
 
+  /** Publications et directions de recherche chargées par lot de 10 (5 par défaut dans le cœur). */
+  readonly relatedItemsPageSize = 10;
+
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly dsoNameService = inject(DSONameService);
   private readonly title = inject(Title);
