@@ -217,6 +217,12 @@ ds-community-page-sub-collection-list .pagination-info {
   }
 }
 
+// Sous-onglets des publications : le contenu garde au moins la hauteur de l'écran pendant son chargement,
+// sinon la page raccourcit et le navigateur la fait remonter.
+.profile-panel ds-tabbed-related-entities-search .tab-content {
+  min-height: 100vh;
+}
+
 .profile-panel:focus-visible {
   outline: 2px solid var(--bs-primary, #024244);
   outline-offset: 4px;

@@ -9,6 +9,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SearchConfigurationService } from '../../../../app/core/shared/search/search-configuration.service';
+import { ViewMode } from '../../../../app/core/shared/view-mode.model';
 import { SEARCH_CONFIG_SERVICE } from '../../../../app/my-dspace-page/my-dspace-configuration.service';
 import { ConfigurationSearchPageComponent as BaseComponent } from '../../../../app/search-page/configuration-search-page.component';
 import { pushInOut } from '../../../../app/shared/animations/push';
@@ -19,6 +20,9 @@ import { ThemedSearchFormComponent } from '../../../../app/shared/search-form/th
 import { PageWithSidebarComponent } from '../../../../app/shared/sidebar/page-with-sidebar.component';
 import { ViewModeSwitchComponent } from '../../../../app/shared/view-mode-switch/view-mode-switch.component';
 import { ANNUAIRES_SEARCH_PLACEHOLDER } from '../shared/search/search.component';
+
+/** Publications d'une fiche (ds-tabbed-related-entities-search) : affichées en liste seulement. */
+const LIST_ONLY_CONFIGURATIONS = ['default-relationships'];
 
 /**
  * Recherche embarquée dans une fiche (ex. professeur·es d'une unité) : masque le sélecteur de portée
@@ -53,6 +57,10 @@ export class ConfigurationSearchPageComponent extends BaseComponent implements O
     super.ngOnInit();
     // Forcé ici : ThemedComponent recopie toutes les entrées (même non définies), écrasant une valeur par défaut.
     this.showScopeSelector = false;
+    if (LIST_ONLY_CONFIGURATIONS.includes(this.configuration)) {
+      this.showViewModes = false;
+      this.viewModeList = [ViewMode.ListElement];
+    }
     if (!this.searchFormPlaceholder || this.searchFormPlaceholder === 'search.search-form.placeholder') {
       this.searchFormPlaceholder = ANNUAIRES_SEARCH_PLACEHOLDER;
     }
