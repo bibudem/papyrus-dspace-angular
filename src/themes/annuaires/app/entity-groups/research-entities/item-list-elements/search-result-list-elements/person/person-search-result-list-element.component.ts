@@ -37,7 +37,6 @@ import {
   AppConfig,
 } from '../../../../../../../../config/app-config.interface';
 import { getOrcidId } from '../../../../../orcid-members/orcid-id';
-import { getPersonDisplayName } from '../../../person-name';
 
 /** Carte « chercheur·euse » (vue liste) : ajoute l'unité d'affiliation et un badge ORCID. */
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement, Context.Any, 'annuaires')
@@ -74,7 +73,6 @@ export class PersonSearchResultListElementComponent extends BaseComponent implem
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.dsoTitle = getPersonDisplayName(this.dso, this.object?.hitHighlights, true) ?? this.dsoTitle;
 
     const options = Object.assign(new FindListOptions(), { elementsPerPage: 1, currentPage: 1 });
     this.affiliationName$ = this.relationshipService.getRelatedItemsByLabel(this.dso, 'isOrgUnitOfPerson', options).pipe(

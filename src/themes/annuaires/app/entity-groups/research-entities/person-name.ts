@@ -1,21 +1,12 @@
 import { DSpaceObject } from '../../../../../app/core/shared/dspace-object.model';
-import { MetadataMapInterface } from '../../../../../app/core/shared/metadata.models';
-import { Metadata } from '../../../../../app/core/shared/metadata.utils';
 
 /**
- * « Prénom Nom » d'une Person, ou null s'il manque le prénom ou le nom.
- * `hitHighlights` conserve le surlignage de la recherche ; `escapeHTML` est requis pour [innerHTML].
+ * « Prénom Nom » d'une Person pour sa fiche, ou null s'il manque le prénom ou le nom.
+ * Les listes de résultats gardent « Nom, Prénom », cohérent avec le tri par nom de famille.
  */
-export function getPersonDisplayName(
-  dso: DSpaceObject | undefined,
-  hitHighlights?: MetadataMapInterface,
-  escapeHTML = false,
-): string | null {
-  if (!dso) {
-    return null;
-  }
-  const givenName = Metadata.firstValue(dso.metadata, 'person.givenName', hitHighlights, undefined, escapeHTML);
-  const familyName = Metadata.firstValue(dso.metadata, 'person.familyName', hitHighlights, undefined, escapeHTML);
+export function getPersonDisplayName(dso: DSpaceObject | undefined): string | null {
+  const givenName = dso?.firstMetadataValue('person.givenName');
+  const familyName = dso?.firstMetadataValue('person.familyName');
   return givenName && familyName ? `${givenName} ${familyName}` : null;
 }
 

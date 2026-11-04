@@ -29,10 +29,14 @@ const RESULTS_ANCHORS = [
 const SCROLL_OFFSET_PX = 16;
 const BACK_TO_TOP_THRESHOLD_PX = 600;
 
+/** Paramètres d'un changement de sous-onglet (ds-tabbed-related-entities-search) : la page ne bouge pas. */
+const TAB_SWITCH_PARAMS = ['tab', 'spc.page'];
+
 /**
  * Défilement dans le répertoire :
  * - après une recherche, un filtre ou un changement de page, on arrive au début des résultats
  *   plutôt qu'en haut de la page (en-tête et description de la communauté) ;
+ * - un changement de sous-onglet (ex. rôles des publications d'une fiche) garde la position ;
  * - bouton « Haut de page » quand on est descendu assez bas.
  */
 @Component({
@@ -54,6 +58,9 @@ export class PageScrollComponent implements OnInit {
 
   private previousUrl: string | null = null;
 
+  /** Position avant la navigation : l'événement scroll du routeur n'est traité qu'à la tâche suivante. */
+  private lastScrollY = 0;
+
   ngOnInit(): void {
     if (!this.isBrowser) {
       return;
@@ -66,12 +73,17 @@ export class PageScrollComponent implements OnInit {
       filter((event): event is Scroll => event instanceof Scroll && event.routerEvent instanceof NavigationEnd),
       takeUntilDestroyed(this.destroyRef),
     ).subscribe((event) => {
+      const previousUrl = this.previousUrl;
       const url = (event.routerEvent as NavigationEnd).urlAfterRedirects;
-      const sameUrlPath = this.previousUrl !== null && this.path(this.previousUrl) === this.path(url);
       this.previousUrl = url;
 
       // Seulement quand les paramètres changent sur la même page, et sans ancre (gérée par le routeur).
-      if (sameUrlPath && !event.anchor) {
+      if (previousUrl === null || this.path(previousUrl) !== this.path(url) || event.anchor) {
+        return;
+      }
+      // Le routeur vient de remonter la page en haut : on l'annule dans la même tâche, sans image intermédiaire.
+      window.scrollTo({ top: this.lastScrollY, behavior: 'instant' });
+      if (!this.isTabSwitch(previousUrl, url)) {
         setTimeout(() => this.scrollToResults());
       }
     });
@@ -79,6 +91,7 @@ export class PageScrollComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
+    this.lastScrollY = window.scrollY;
     const visible = window.scrollY > BACK_TO_TOP_THRESHOLD_PX;
     if (visible !== this.showBackToTop) {
       this.showBackToTop = visible;
@@ -103,6 +116,15 @@ export class PageScrollComponent implements OnInit {
 
   private scrollBehavior(): ScrollBehavior {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  }
+
+  /** Vrai si seuls les paramètres de sous-onglet ont changé. */
+  private isTabSwitch(previousUrl: string, url: string): boolean {
+    const previous = this.router.parseUrl(previousUrl).queryParams;
+    const current = this.router.parseUrl(url).queryParams;
+    const keys = new Set([...Object.keys(previous), ...Object.keys(current)]);
+    const changed = [...keys].filter((key) => previous[key] !== current[key]);
+    return changed.length > 0 && changed.every((key) => TAB_SWITCH_PARAMS.includes(key)) && changed.includes('tab');
   }
 
   private path(url: string): string {

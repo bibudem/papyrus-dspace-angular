@@ -69,9 +69,9 @@
 
     <main class="col-12 col-md-8">
 
-      @if (tabs$ | async; as tabs) {
+      @if (view$ | async; as view) {
         <div class="profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
-          @for (tab of tabs; track tab.id; let i = $index) {
+          @for (tab of view.tabs; track tab.id; let i = $index) {
             <button role="tab" type="button"
                     class="profile-tab"
                     [class.profile-tab--active]="activeTab === tab.id"
@@ -80,7 +80,7 @@
                     [attr.aria-selected]="activeTab === tab.id"
                     [attr.tabindex]="activeTab === tab.id ? 0 : -1"
                     (click)="selectTab(tab.id)"
-                    (keydown)="onTabKeydown($event, tabs, i)">
+                    (keydown)="onTabKeydown($event, view.tabs, i)">
               @if (tab.orcid) {
                 <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
               }
@@ -102,29 +102,13 @@
               <!-- Données ORCID en attendant celles de Synchro Recherche -->
               <ds-orcid-person-enrichment [item]="object" section="fundings"></ds-orcid-person-enrichment>
             }
-            @case ('supervision') {
-              <ds-related-items
-                [parentItem]="object"
-                [relationType]="'isPublicationOfAdvisor'"
-                [incrementBy]="relatedItemsPageSize">
-              </ds-related-items>
-            }
             @case ('publications') {
-              <div class="papyrus-panel">
-                <p class="papyrus-empty-message fst-italic text-muted d-none">
-                  {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
-                </p>
-                <ds-related-items
-                  [parentItem]="object"
-                  [relationType]="'isPublicationOfAuthor'"
-                  [incrementBy]="relatedItemsPageSize">
-                </ds-related-items>
-                <ds-related-items
-                  [parentItem]="object"
-                  [relationType]="'isProjectOfPerson'"
-                  [label]="'relationships.isProjectOf' | translate">
-                </ds-related-items>
-              </div>
+              @if (view.publicationRoles.length > 0) {
+                <ds-tabbed-related-entities-search [item]="object" [relationTypes]="view.publicationRoles">
+                </ds-tabbed-related-entities-search>
+              } @else {
+                <p class="fst-italic text-muted">{{ 'papyrus.person.page.tab.papyrus.empty' | translate }}</p>
+              }
             }
           }
         </section>

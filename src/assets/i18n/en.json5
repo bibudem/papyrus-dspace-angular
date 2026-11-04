@@ -2970,6 +2970,8 @@
 
   "item.page.relationships.isAuthorOfPublication": "Publications",
 
+  "item.page.relationships.isAdvisorOfPublication": "Research supervision",
+
   "item.page.relationships.isJournalOfPublication": "Publications",
 
   "item.page.relationships.isOrgUnitOfPerson": "Authors",
@@ -7775,7 +7777,5 @@
   "papyrus.person.page.tab.works": "Works",
 
   "papyrus.person.page.tab.fundings": "Funding",
-
-  "papyrus.person.page.tab.supervision": "Supervision",
 
 }

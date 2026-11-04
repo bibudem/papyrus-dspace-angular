@@ -2964,6 +2964,8 @@
 
   "item.page.relationships.isAuthorOfPublication": "Publications",
 
+  "item.page.relationships.isAdvisorOfPublication": "Direction de recherche",
+
   "item.page.relationships.isJournalOfPublication": "Publications",
 
   "item.page.relationships.isOrgUnitOfPerson": "Auteurs",
@@ -7914,7 +7916,5 @@
   "papyrus.person.page.tab.works": "Travaux",
 
   "papyrus.person.page.tab.fundings": "Financements",
-
-  "papyrus.person.page.tab.supervision": "Encadrement",
 
 }
