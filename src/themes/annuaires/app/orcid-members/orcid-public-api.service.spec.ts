@@ -119,11 +119,16 @@ describe('OrcidPublicApiService', () => {
   it("n'appelle jamais ORCID pour un robot en rendu serveur", () => {
     const service = setup('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
     let emitted = false;
-    service.getResearcherProfile(ORCID_ID).subscribe(() => (emitted = true));
+    let completed = false;
+    service.getResearcherProfile(ORCID_ID).subscribe({
+      next: () => (emitted = true),
+      complete: () => (completed = true),
+    });
 
     http.expectNone(PERSON_URL);
     http.expectNone(ACTIVITIES_URL);
     expect(emitted).toBeFalse();
+    expect(completed).toBeTrue();
   });
 
   it('sert un robot depuis le cache rempli par un visiteur humain', () => {

@@ -7560,9 +7560,7 @@
 
   "papyrus.orcid-profile.back": "Back to the list",
 
-  "papyrus.orcid-profile.error": "Unable to load this researcher's profile. Please try again later.",
-
-  "papyrus.orcid-profile.no-orcid": "This person does not have an ORCID iD registered on their profile.",
+  "papyrus.orcid-profile.see-orcid-profile": "See the ORCID profile for more information:",
 
   "papyrus.orcid-profile.biography": "Biography",
 
@@ -7593,8 +7591,6 @@
 
   "papyrus.orcid-profile.research-resources": "Research resources",
 
-  "papyrus.orcid-profile.funding": "Funding",
-
   "papyrus.orcid-profile.funding.show-more": "Show {{count}} more funding items",
 
   "papyrus.orcid-profile.funding.show-less": "Show less",
@@ -7605,11 +7601,7 @@
 
   "papyrus.orcid-profile.publications.filter-label": "Filter by work type",
 
-  "papyrus.orcid-profile.publications": "Works",
-
   "papyrus.orcid-profile.publications.total": "{{count}} publications",
-
-  "papyrus.orcid-profile.view-orcid": "View ORCID profile of",
 
   "papyrus.orcid-profile.work-type.journal-article": "Journal article",
 
@@ -7778,5 +7770,12 @@
 
   "papyrus.person.page.tabs.label": "Profile sections",
 
-  "papyrus.person.page.tab.orcid": "ORCID Profile",
+  "papyrus.person.page.tab.presentation": "Overview",
+
+  "papyrus.person.page.tab.works": "Works",
+
+  "papyrus.person.page.tab.fundings": "Funding",
+
+  "papyrus.person.page.tab.supervision": "Supervision",
+
 }

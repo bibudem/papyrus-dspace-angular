@@ -69,55 +69,67 @@
 
     <main class="col-12 col-md-8">
 
-      <nav class="profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
-        <button role="tab" type="button"
-                class="profile-tab profile-tab--orcid"
-                [class.profile-tab--active]="activeSection === 'orcid'"
-                [attr.aria-selected]="activeSection === 'orcid'"
-                (click)="setSection('orcid')"
-                id="profile-tab-orcid" aria-controls="profile-panel-orcid">
-          <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16"/>
-          {{ 'papyrus.person.page.tab.orcid' | translate }}
-        </button>
-        <button role="tab" type="button"
-                class="profile-tab profile-tab--papyrus"
-                [class.profile-tab--active]="activeSection === 'papyrus'"
-                [attr.aria-selected]="activeSection === 'papyrus'"
-                (click)="setSection('papyrus')"
-                id="profile-tab-papyrus" aria-controls="profile-panel-papyrus">
-          {{ 'papyrus.person.page.tab.papyrus' | translate }}
-        </button>
-      </nav>
+      @if (tabs$ | async; as tabs) {
+        <div class="profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
+          @for (tab of tabs; track tab.id; let i = $index) {
+            <button role="tab" type="button"
+                    class="profile-tab"
+                    [class.profile-tab--active]="activeTab === tab.id"
+                    [id]="'profile-tab-' + tab.id"
+                    [attr.aria-controls]="'profile-panel-' + tab.id"
+                    [attr.aria-selected]="activeTab === tab.id"
+                    [attr.tabindex]="activeTab === tab.id ? 0 : -1"
+                    (click)="selectTab(tab.id)"
+                    (keydown)="onTabKeydown($event, tabs, i)">
+              @if (tab.orcid) {
+                <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
+              }
+              {{ tab.label | translate }}
+            </button>
+          }
+        </div>
 
-      @if (activeSection === 'orcid') {
-        <section id="profile-panel-orcid" role="tabpanel" aria-labelledby="profile-tab-orcid" class="mt-3">
-          <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
+        <section class="profile-panel mt-3" role="tabpanel" tabindex="0"
+                 [id]="'profile-panel-' + activeTab" [attr.aria-labelledby]="'profile-tab-' + activeTab">
+          @switch (activeTab) {
+            @case ('presentation') {
+              <ds-orcid-person-enrichment [item]="object" section="presentation"></ds-orcid-person-enrichment>
+            }
+            @case ('works') {
+              <ds-orcid-person-enrichment [item]="object" section="works"></ds-orcid-person-enrichment>
+            }
+            @case ('fundings') {
+              <!-- Données ORCID en attendant celles de Synchro Recherche -->
+              <ds-orcid-person-enrichment [item]="object" section="fundings"></ds-orcid-person-enrichment>
+            }
+            @case ('supervision') {
+              <ds-related-items
+                [parentItem]="object"
+                [relationType]="'isPublicationOfAdvisor'"
+                [incrementBy]="relatedItemsPageSize">
+              </ds-related-items>
+            }
+            @case ('publications') {
+              <div class="papyrus-panel">
+                <p class="papyrus-empty-message fst-italic text-muted d-none">
+                  {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
+                </p>
+                <ds-related-items
+                  [parentItem]="object"
+                  [relationType]="'isPublicationOfAuthor'"
+                  [incrementBy]="relatedItemsPageSize">
+                </ds-related-items>
+                <ds-related-items
+                  [parentItem]="object"
+                  [relationType]="'isProjectOfPerson'"
+                  [label]="'relationships.isProjectOf' | translate">
+                </ds-related-items>
+              </div>
+            }
+          }
         </section>
-      }
-
-      @if (activeSection === 'papyrus') {
-        <section id="profile-panel-papyrus" role="tabpanel" aria-labelledby="profile-tab-papyrus" class="mt-3">
-          <p class="papyrus-empty-message fst-italic text-muted d-none">
-            {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
-          </p>
-          <ds-related-items
-            [parentItem]="object"
-            [relationType]="'isProjectOfPerson'"
-            [label]="'relationships.isProjectOf' | translate">
-          </ds-related-items>
-          <ds-related-items
-            [parentItem]="object"
-            [relationType]="'isPublicationOfAuthor'"
-            [incrementBy]="relatedItemsPageSize"
-            [label]="'relationships.isPublicationOf' | translate">
-          </ds-related-items>
-          <ds-related-items
-            [parentItem]="object"
-            [relationType]="'isPublicationOfAdvisor'"
-            [incrementBy]="relatedItemsPageSize"
-            [label]="'item.page.advisor' | translate">
-          </ds-related-items>
-        </section>
+      } @else {
+        <ds-loading [showMessage]="false"></ds-loading>
       }
 
     </main>

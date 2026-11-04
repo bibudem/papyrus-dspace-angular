@@ -16,9 +16,9 @@ import {
 } from '@angular/core';
 import { isbot } from 'isbot';
 import {
+  EMPTY,
   forkJoin,
   from,
-  NEVER,
   Observable,
   of,
   throwError,
@@ -347,7 +347,7 @@ export class OrcidPublicApiService {
 
   private readonly request = inject(REQUEST, { optional: true });
 
-  // Robot en SSR : on sert le cache, sans appeler ORCID.
+  // Robot en SSR : on sert le cache, sans appeler ORCID ; sinon le flux se termine sans valeur.
   private readonly isServerSideBot =
     !this.isBrowser && isbot(this.request?.headers?.['user-agent'] as string | undefined);
 
@@ -390,7 +390,7 @@ export class OrcidPublicApiService {
     { cache = true, cacheIf }: { cache?: boolean; cacheIf?: (data: T) => boolean } = {},
   ): Observable<T> {
     if (!cache) {
-      return this.isServerSideBot ? NEVER : this.dedupe(key, factory);
+      return this.isServerSideBot ? EMPTY : this.dedupe(key, factory);
     }
 
     const transferKey = this.transferStateKey<T>(key);
@@ -419,7 +419,7 @@ export class OrcidPublicApiService {
     }
 
     if (this.isServerSideBot) {
-      return NEVER;
+      return EMPTY;
     }
 
     return this.dedupe(key, () => factory().pipe(
