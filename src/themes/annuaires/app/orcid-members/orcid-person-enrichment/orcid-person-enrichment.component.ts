@@ -35,20 +35,17 @@ import {
 
 const WORK_TYPE_I18N_PREFIX = 'papyrus.orcid-profile.work-type.';
 
-/** Type de travail ORCID vers la classe CSS de son badge. */
-const WORK_TYPE_CSS: Readonly<Record<string, string>> = {
-  'journal-article': 'badge-article',
-  'book': 'badge-book',
-  'book-chapter': 'badge-book',
-  'conference-paper': 'badge-conference',
-  'dissertation-thesis': 'badge-thesis',
-  'report': 'badge-report',
-  'preprint': 'badge-preprint',
-};
+/** Types de travaux ORCID ayant leur propre libellé ; les autres sont regroupés sous « Autre ». */
+const KNOWN_WORK_TYPES = new Set([
+  'journal-article',
+  'book',
+  'book-chapter',
+  'conference-paper',
+  'dissertation-thesis',
+  'report',
+  'preprint',
+]);
 
-const KNOWN_WORK_TYPES = new Set(Object.keys(WORK_TYPE_CSS));
-
-/** Regroupe les types ORCID absents de WORK_TYPE_CSS. */
 const OTHER_WORK_TYPE = 'other';
 
 /** Catégories ORCID regroupées sous « Activités professionnelles », comme sur orcid.org. */
@@ -160,10 +157,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   workTypeKey(type: string): string {
     return `${WORK_TYPE_I18N_PREFIX}${this.workBucket(type)}`;
-  }
-
-  workTypeClass(type: string): string {
-    return WORK_TYPE_CSS[type] ?? 'badge-other';
   }
 
   /** Nombre de travaux par type, les types inconnus cumulés sous « Autre ». */

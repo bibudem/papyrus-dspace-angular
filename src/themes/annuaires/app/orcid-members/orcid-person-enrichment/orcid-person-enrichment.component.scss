@@ -1,13 +1,6 @@
 @import '../../../../montreal/styles/_variables_papyrus.scss';
 
-// Panneau
-
-.oe-panel {
-  background-color: $white;
-  border: 1px solid rgba($greensecondary, 0.15);
-  border-radius: 12px;
-  overflow: hidden;
-}
+// Contenu posé sur la page, sans cadre, comme l'onglet « Publications dans Papyrus ».
 
 // En-tête : ORCID iD, liens
 
@@ -15,9 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  padding: 1rem 1.25rem 0.75rem;
-  border-bottom: 1px solid rgba($greensecondary, 0.12);
-  background-color: rgba($extralightgreen, 0.35);
+  margin-bottom: 1.5rem;
 }
 
 .oe-id-row {
@@ -68,93 +59,47 @@
 
 // Corps et sections
 
-.oe-body {
-  padding: 1.5rem;
-}
-
 .oe-section {
   // Accordéon sans aucune catégorie renseignée : rien à afficher.
   &:empty { display: none; }
 
   & + & {
     margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba($greensecondary, 0.12);
   }
 }
 
-// Couleur alignée sur .simple-view-element-header (colonne de gauche de la fiche Person).
-.oe-section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: $font-family-sans-serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: $greensecondary;
-  margin-bottom: 1rem;
-}
+// Sections dépliables : blocs .facet-filter, comme les filtres de la recherche.
 
-.oe-section-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.3rem;
-  height: 1.3rem;
-  padding: 0 0.3rem;
-  border-radius: 60px;
-  background-color: $extralightgreen;
-  color: $greensecondary;
-  font-size: 0.68rem;
-  font-weight: 700;
-  border: 1px solid rgba($greensecondary, 0.2);
-}
-
-// Accordéon des activités
-// Plutôt que des onglets : jusqu'à 7 catégories, qui débordaient en largeur.
-
-.oe-accordion-item {
-  border-bottom: 1px solid rgba($greensecondary, 0.12);
-
-  &:last-child { border-bottom: none; }
-}
-
-// Même typographie que .oe-section-title.
 .oe-accordion-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.75rem 0.1rem;
+  padding: 0;
   background: none;
-  border: none;
-  font-family: $font-family-sans-serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: $greensecondary;
+  border: 0;
+  color: $gray-800;
   text-align: left;
   cursor: pointer;
-  transition: color 0.15s ease-in-out;
 
   &:hover {
     color: $darkgreen;
   }
-}
 
-.oe-accordion-title {
-  flex: 1 1 auto;
-
-  .oe-section-badge { margin-left: 0.5rem; }
+  &:focus-visible {
+    outline: 2px solid $greensecondary;
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
 }
 
 .oe-accordion-icon {
-  flex: 0 0 auto;
-  font-size: 0.8rem;
-  color: $greensecondary;
+  margin-left: auto;
+  font-size: 0.9rem;
 }
 
 .oe-accordion-body {
-  padding: 0 0.1rem 1rem;
+  padding-top: 0.75rem;
 }
 
 // Biographie
@@ -167,47 +112,30 @@
   margin-bottom: 0;
 }
 
-// Listes : financement, affiliations, revues, ressources
+// Listes : financement, affiliations, revues, ressources. Espacées comme les résultats de recherche.
 
-.oe-funding-list,
 .oe-affiliation-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1.25rem;
 }
 
-.oe-funding-item,
-.oe-affiliation-item {
-  padding: 0.9rem 0;
-  border-bottom: 1px solid rgba($greensecondary, 0.08);
-
-  &:first-child { padding-top: 0; }
-  &:last-child { padding-bottom: 0; border-bottom: none; }
+// Même typographie que les titres de la liste de résultats (a.lead), en texte foncé hors lien.
+.oe-item-title {
+  margin-bottom: 0.15rem;
+  font-weight: 450;
+  color: $darkgreen;
 }
 
-.oe-funding-title,
-.oe-affiliation-title { font-weight: 600; color: $darkgreen; font-size: 0.92rem; margin-bottom: 0.1rem; }
-.oe-funding-org,
-.oe-affiliation-org { font-size: 0.85rem; color: $gray-500; margin-bottom: 0.1rem; }
-.oe-affiliation-period { font-size: 0.78rem; color: $gray-400; margin-top: 0.2rem; }
-
-// Type de l'activité professionnelle (Distinction, Adhésion…).
-.oe-activity-type {
-  display: inline-block;
-  margin-bottom: 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: $greensecondary;
-}
+.oe-affiliation-org { color: $gray-700; margin-bottom: 0.1rem; }
+.oe-affiliation-period { font-size: 0.9rem; color: $gray-500; }
 
 .oe-affiliation-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 1rem;
   margin-top: 0.3rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 
   a { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
 }
@@ -222,8 +150,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem;
-  margin-bottom: 1.25rem;
-  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
 }
 
 .work-filter-link {
@@ -250,55 +178,15 @@
   color: $gray-400;
 }
 
-.oe-works-list { display: flex; flex-direction: column; gap: 0; }
+.oe-works-list { display: flex; flex-direction: column; gap: 1.5rem; }
 
-.work-item {
-  padding: 0.9rem 0;
-  border-bottom: 1px solid rgba($greensecondary, 0.08);
-  transition: background-color 0.12s ease;
+.work-year { font-size: 0.9rem; color: $gray-500; }
 
-  &:first-child { padding-top: 0; }
-  &:last-child { padding-bottom: 0; border-bottom: none; }
+.work-title { margin-bottom: 0.15rem; }
 
-  &:hover {
-    background-color: rgba($extralightgreen, 0.5);
-    border-radius: 8px;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
-  }
-}
-
-// Gris unique pour tous les types (distingués par le texte) : évite l'arc-en-ciel
-// et la confusion avec le vert ORCID.
-.work-type-badge {
-  display: inline-block;
-  padding: 0.15rem 0.6rem;
-  border-radius: 60px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  background-color: $gray-100;
-  color: $gray-600;
-  border: 1px solid rgba($gray-600, 0.3);
-}
-
-.work-year { font-size: 0.8rem; color: $gray-400; font-weight: 500; }
-
-.work-title {
-  font-family: $font-family-sans-serif;
-  font-size: 0.93rem;
-  font-weight: 600;
-  color: $darkgreen;
-  margin-bottom: 0.2rem;
-  line-height: 1.4;
-
-  a { color: $darkgreen; text-decoration: none; &:hover { color: $greensecondary; text-decoration: underline; } }
-}
-
-.work-journal { font-size: 0.84rem; color: $gray-500; font-style: italic; margin-bottom: 0.12rem; }
-.work-doi { font-size: 0.78rem; color: $gray-400; margin-bottom: 0; }
-.doi-link { color: $blue; text-decoration: none; &:hover { text-decoration: underline; } }
+.work-journal { color: $gray-700; margin-bottom: 0.1rem; }
+.work-doi { font-size: 0.9rem; color: $gray-500; margin-bottom: 0; }
+.doi-link { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
 
 // Bouton voir plus / voir moins
 

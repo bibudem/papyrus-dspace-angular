@@ -23,7 +23,7 @@
 
   <div class="person-content-row row g-4 align-items-start">
 
-    <aside class="col-12 col-md-4">
+    <div class="col-12 col-md-4">
 
       <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
         <ds-thumbnail [thumbnail]="object?.thumbnail | async"
@@ -48,77 +48,81 @@
             }
           </ds-metadata-field-wrapper>
         }
-        <!-- Texte simple : pas de lien vers l'index de parcours des expertises. -->
-        @if (expertises.length > 0) {
-          <ds-metadata-field-wrapper [label]="'papyrus.person.page.discipline' | translate">
-            @for (expertise of expertises; track expertise; let last = $last) {
-              <span class="dont-break-out">{{ expertise }}</span>
-              @if (!last) {
-                <br>
-              }
-            }
-          </ds-metadata-field-wrapper>
-        }
-        <ds-item-page-uri-field [item]="object"
-          [fields]="['dc.identifier.uri']"
-          [label]="'papyrus.person.page.uri'">
-        </ds-item-page-uri-field>
       </div>
 
-    </aside>
+    </div>
 
-    <main class="col-12 col-md-8">
-
-      @if (view$ | async; as view) {
-        <ul class="nav nav-tabs profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
-          @for (tab of view.tabs; track tab.id; let i = $index) {
-            <li class="nav-item" role="presentation">
-              <button role="tab" type="button"
-                      class="nav-link"
-                      [class.active]="activeTab === tab.id"
-                      [id]="'profile-tab-' + tab.id"
-                      [attr.aria-controls]="'profile-panel-' + tab.id"
-                      [attr.aria-selected]="activeTab === tab.id"
-                      [attr.tabindex]="activeTab === tab.id ? 0 : -1"
-                      (click)="selectTab(tab.id)"
-                      (keydown)="onTabKeydown($event, view.tabs, i)">
-                @if (tab.orcid) {
-                  <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
-                }
-                {{ tab.label | translate }}
-              </button>
-            </li>
-          }
-        </ul>
-
-        <section class="profile-panel mt-3" role="tabpanel" tabindex="0"
-                 [id]="'profile-panel-' + activeTab" [attr.aria-labelledby]="'profile-tab-' + activeTab">
-          @switch (activeTab) {
-            @case ('presentation') {
-              <ds-orcid-person-enrichment [item]="object" section="presentation"></ds-orcid-person-enrichment>
-            }
-            @case ('works') {
-              <ds-orcid-person-enrichment [item]="object" section="works"></ds-orcid-person-enrichment>
-            }
-            @case ('fundings') {
-              <!-- Données ORCID en attendant celles de Synchro Recherche -->
-              <ds-orcid-person-enrichment [item]="object" section="fundings"></ds-orcid-person-enrichment>
-            }
-            @case ('publications') {
-              @if (view.publicationRoles.length > 0) {
-                <ds-tabbed-related-entities-search [item]="object" [relationTypes]="view.publicationRoles">
-                </ds-tabbed-related-entities-search>
-              } @else {
-                <p class="fst-italic text-muted">{{ 'papyrus.person.page.tab.papyrus.empty' | translate }}</p>
-              }
+    <div class="col-12 col-md-8">
+      <!-- Texte simple : pas de lien vers l'index de parcours des expertises. -->
+      @if (expertises.length > 0) {
+        <ds-metadata-field-wrapper [label]="'papyrus.person.page.discipline' | translate">
+          @for (expertise of expertises; track expertise; let last = $last) {
+            <span class="dont-break-out">{{ expertise }}</span>
+            @if (!last) {
+              <br>
             }
           }
-        </section>
-      } @else {
-        <ds-loading [showMessage]="false"></ds-loading>
+        </ds-metadata-field-wrapper>
       }
+      <ds-item-page-uri-field [item]="object"
+        [fields]="['dc.identifier.uri']"
+        [label]="'papyrus.person.page.uri'">
+      </ds-item-page-uri-field>
+    </div>
 
-    </main>
+  </div>
+
+  <!-- Onglets sur toute la largeur, sous l'en-tête en deux colonnes. -->
+  <div class="person-tabs mt-4 mb-5">
+
+    @if (view$ | async; as view) {
+      <ul class="nav nav-tabs profile-tabs" role="tablist" [attr.aria-label]="'papyrus.person.page.tabs.label' | translate">
+        @for (tab of view.tabs; track tab.id; let i = $index) {
+          <li class="nav-item" role="presentation">
+            <button role="tab" type="button"
+                    class="nav-link"
+                    [class.active]="activeTab === tab.id"
+                    [id]="'profile-tab-' + tab.id"
+                    [attr.aria-controls]="'profile-panel-' + tab.id"
+                    [attr.aria-selected]="activeTab === tab.id"
+                    [attr.tabindex]="activeTab === tab.id ? 0 : -1"
+                    (click)="selectTab(tab.id)"
+                    (keydown)="onTabKeydown($event, view.tabs, i)">
+              @if (tab.orcid) {
+                <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
+              }
+              {{ tab.label | translate }}
+            </button>
+          </li>
+        }
+      </ul>
+
+      <section class="profile-panel mt-3" role="tabpanel" tabindex="0"
+               [id]="'profile-panel-' + activeTab" [attr.aria-labelledby]="'profile-tab-' + activeTab">
+        @switch (activeTab) {
+          @case ('presentation') {
+            <ds-orcid-person-enrichment [item]="object" section="presentation"></ds-orcid-person-enrichment>
+          }
+          @case ('works') {
+            <ds-orcid-person-enrichment [item]="object" section="works"></ds-orcid-person-enrichment>
+          }
+          @case ('fundings') {
+            <!-- Données ORCID en attendant celles de Synchro Recherche -->
+            <ds-orcid-person-enrichment [item]="object" section="fundings"></ds-orcid-person-enrichment>
+          }
+          @case ('publications') {
+            @if (view.publicationRoles.length > 0) {
+              <ds-tabbed-related-entities-search [item]="object" [relationTypes]="view.publicationRoles">
+              </ds-tabbed-related-entities-search>
+            } @else {
+              <p class="fst-italic text-muted">{{ 'papyrus.person.page.tab.papyrus.empty' | translate }}</p>
+            }
+          }
+        }
+      </section>
+    } @else {
+      <ds-loading [showMessage]="false"></ds-loading>
+    }
 
   </div>
 

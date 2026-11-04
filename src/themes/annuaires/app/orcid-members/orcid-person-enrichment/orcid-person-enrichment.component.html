@@ -37,7 +37,7 @@
 
             @if (hasFrenchBiography(profile)) {
               <section class="oe-section">
-                <h3 class="oe-section-title">{{ 'papyrus.orcid-profile.biography' | translate }}</h3>
+                <h3>{{ 'papyrus.orcid-profile.biography' | translate }}</h3>
                 <p class="oe-bio-text">
                   {{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}
                 </p>
@@ -62,7 +62,7 @@
 
               <!-- Distinctions, postes invités, adhésions et services, comme sur orcid.org -->
               @if (vm.professionalActivities.length > 0) {
-                <div class="oe-accordion-item">
+                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
                   <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'professional-activities', label: 'papyrus.orcid-profile.professional-activities', count: vm.professionalActivities.length }"></ng-container>
                   @if (isExpanded('professional-activities')) {
                     <div id="oe-panel-professional-activities" class="oe-accordion-body oe-affiliation-list">
@@ -75,7 +75,7 @@
               }
 
               @if (profile.educations.length > 0) {
-                <div class="oe-accordion-item">
+                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
                   <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'educations', label: 'papyrus.orcid-profile.educations', count: profile.educations.length }"></ng-container>
                   @if (isExpanded('educations')) {
                     <div id="oe-panel-educations" class="oe-accordion-body oe-affiliation-list">
@@ -88,7 +88,7 @@
               }
 
               @if (profile.qualifications.length > 0) {
-                <div class="oe-accordion-item">
+                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
                   <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'qualifications', label: 'papyrus.orcid-profile.qualifications', count: profile.qualifications.length }"></ng-container>
                   @if (isExpanded('qualifications')) {
                     <div id="oe-panel-qualifications" class="oe-accordion-body oe-affiliation-list">
@@ -101,14 +101,14 @@
               }
 
               @if (profile.peerReviews.length > 0) {
-                <div class="oe-accordion-item">
+                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
                   <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'peer-reviews', label: 'papyrus.orcid-profile.peer-reviews', count: profile.peerReviews.length }"></ng-container>
                   @if (isExpanded('peer-reviews')) {
                     <div id="oe-panel-peer-reviews" class="oe-accordion-body oe-affiliation-list">
                       <!-- Pas d'identifiant stable côté ORCID : suivi par position -->
                       @for (review of profile.peerReviews; track $index) {
                         <div class="oe-affiliation-item">
-                          <div class="oe-affiliation-title">
+                          <div class="oe-item-title lead">
                             {{ review.reviewerRole || ('papyrus.orcid-profile.peer-reviews' | translate) }}
                           </div>
                           @if (review.organizationName) {
@@ -125,13 +125,13 @@
               }
 
               @if (profile.researchResources.length > 0) {
-                <div class="oe-accordion-item">
+                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
                   <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'research-resources', label: 'papyrus.orcid-profile.research-resources', count: profile.researchResources.length }"></ng-container>
                   @if (isExpanded('research-resources')) {
                     <div id="oe-panel-research-resources" class="oe-accordion-body oe-affiliation-list">
                       @for (resource of profile.researchResources; track $index) {
                         <div class="oe-affiliation-item">
-                          <div class="oe-affiliation-title">
+                          <div class="oe-item-title lead">
                             {{ resource.title || ('papyrus.orcid-profile.research-resources' | translate) }}
                           </div>
                           @if (resource.organizationName) {
@@ -182,23 +182,21 @@
                   @for (work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); track work.putCode) {
                     <article class="work-item">
                       <div class="work-meta d-flex align-items-center gap-2 mb-1">
-                        <span class="work-type-badge {{ workTypeClass(work.type) }}">
-                          {{ workTypeKey(work.type) | translate }}
-                        </span>
+                        <span class="badge bg-info">{{ workTypeKey(work.type) | translate }}</span>
                         @if (work.publicationYear) {
                           <span class="work-year">{{ work.publicationYear }}</span>
                         }
                       </div>
-                      <h4 class="work-title">
+                      <div class="work-title">
                         @if (work.doiUrl || work.workUrl) {
-                          <a [href]="work.doiUrl || work.workUrl" target="_blank" rel="noopener noreferrer">
+                          <a class="lead dont-break-out" [href]="work.doiUrl || work.workUrl" target="_blank" rel="noopener noreferrer">
                             {{ work.title }}
                             <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
                           </a>
                         } @else {
-                          <span>{{ work.title }}</span>
+                          <span class="lead dont-break-out">{{ work.title }}</span>
                         }
-                      </h4>
+                      </div>
                       @if (work.journalTitle) {
                         <p class="work-journal">{{ work.journalTitle }}</p>
                       }
@@ -234,12 +232,12 @@
         @if (profile.fundings.length > 0) {
           <div class="oe-panel">
             <div class="oe-body">
-              <div class="oe-funding-list">
+              <div class="oe-affiliation-list">
                 @for (funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount); track funding.putCode) {
-                  <div class="oe-funding-item">
-                    <div class="oe-funding-title">{{ funding.title }}</div>
+                  <div class="oe-affiliation-item">
+                    <div class="oe-item-title lead">{{ funding.title }}</div>
                     @if (funding.organizationName) {
-                      <div class="oe-funding-org">{{ funding.organizationName }}</div>
+                      <div class="oe-affiliation-org">{{ funding.organizationName }}</div>
                     }
                     <ng-container *ngTemplateOutlet="period; context: { start: funding.startYear, end: funding.endYear }"></ng-container>
                   </div>
@@ -272,12 +270,10 @@
           [attr.aria-expanded]="isExpanded(id)"
           [attr.aria-controls]="'oe-panel-' + id"
           (click)="toggleSection(id)">
-    <span class="oe-accordion-title">
-      {{ label | translate }}
-      @if (count > 0) {
-        <span class="oe-section-badge">{{ count }}</span>
-      }
-    </span>
+    <span class="h4 mb-0">{{ label | translate }}</span>
+    @if (count > 0) {
+      <span class="badge bg-secondary rounded-pill">{{ count }}</span>
+    }
     <i class="fas oe-accordion-icon" [class.fa-plus]="!isExpanded(id)" [class.fa-minus]="isExpanded(id)" aria-hidden="true"></i>
   </button>
 </ng-template>
@@ -286,9 +282,9 @@
 <ng-template #affiliation let-entry let-kind="kind" let-ongoing="ongoing">
   <div class="oe-affiliation-item">
     @if (kind) {
-      <span class="oe-activity-type">{{ 'papyrus.orcid-profile.activity-type.' + kind | translate }}</span>
+      <span class="badge bg-info mb-1">{{ 'papyrus.orcid-profile.activity-type.' + kind | translate }}</span>
     }
-    <div class="oe-affiliation-title">{{ entry.roleTitle || entry.departmentName || entry.organizationName }}</div>
+    <div class="oe-item-title lead">{{ entry.roleTitle || entry.departmentName || entry.organizationName }}</div>
     @if (organizationLine(entry); as line) {
       <div class="oe-affiliation-org">{{ line }}</div>
     }
