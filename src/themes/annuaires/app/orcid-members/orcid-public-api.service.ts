@@ -1,9 +1,41 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpBackend, HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject, Injectable, makeStateKey, PLATFORM_ID, StateKey, TransferState } from '@angular/core';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
+import {
+  inject,
+  Injectable,
+  makeStateKey,
+  PLATFORM_ID,
+  StateKey,
+  TransferState,
+} from '@angular/core';
 import { isbot } from 'isbot';
-import { forkJoin, from, NEVER, Observable, of, throwError, timer } from 'rxjs';
-import { catchError, finalize, map, mergeMap, retry, shareReplay, switchMap, tap, timeout, toArray } from 'rxjs/operators';
+import {
+  forkJoin,
+  from,
+  NEVER,
+  Observable,
+  of,
+  throwError,
+  timer,
+} from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  mergeMap,
+  retry,
+  shareReplay,
+  switchMap,
+  tap,
+  timeout,
+  toArray,
+} from 'rxjs/operators';
 
 import { REQUEST } from '../../../../express.tokens';
 
@@ -39,16 +71,28 @@ export interface OrcidResearcherUrl {
   url: string;
 }
 
-/** Distinction, diplôme, adhésion, qualification ou service (même structure dans ORCID). */
+/** Identifiant externe d'une activité (ISSN, DOI, etc.). */
+export interface OrcidExternalId {
+  type: string;
+  value: string;
+  url?: string;
+}
+
+/** Distinction, poste invité, formation, adhésion, qualification ou service (même structure dans ORCID). */
 export interface OrcidAffiliationEntry {
   putCode: number;
   roleTitle?: string;
   departmentName?: string;
   organizationName?: string;
   city?: string;
+  region?: string;
+  /** Nom du pays en français. */
   country?: string;
-  startYear?: number;
-  endYear?: number;
+  /** Date partielle, comme sur orcid.org : AAAA, AAAA-MM ou AAAA-MM-JJ. */
+  startDate?: string;
+  endDate?: string;
+  url?: string;
+  externalIds: OrcidExternalId[];
 }
 
 /** Activité de révision par les pairs déclarée sur ORCID. */
@@ -88,8 +132,6 @@ export interface OrcidResearcherProfile {
   familyName: string;
   creditName?: string;
   biography?: string;
-  /** Pays de résidence, en français. */
-  country?: string;
   keywords: string[];
   researcherUrls: OrcidResearcherUrl[];
   /** Triés du plus récent au plus ancien. */
@@ -98,6 +140,7 @@ export interface OrcidResearcherProfile {
   works: OrcidWork[];
   worksTotal: number;
   distinctions: OrcidAffiliationEntry[];
+  invitedPositions: OrcidAffiliationEntry[];
   educations: OrcidAffiliationEntry[];
   memberships: OrcidAffiliationEntry[];
   qualifications: OrcidAffiliationEntry[];
@@ -121,9 +164,6 @@ interface OrcidPersonResponse {
   } | null;
   biography?: { content: string | null } | null;
   keywords?: { keyword: Array<{ content: string }> | null } | null;
-  addresses?: {
-    address: Array<{ country?: { value: string } | null }> | null;
-  } | null;
   'researcher-urls'?: {
     'researcher-url': Array<{ 'url-name'?: string | null; url: { value: string } }> | null;
   } | null;
@@ -132,6 +172,8 @@ interface OrcidPersonResponse {
 /** Date ORCID `{ year: { value: "2024" } }`, commune à tous les endpoints. */
 interface OrcidDateParts {
   year?: { value: string } | null;
+  month?: { value: string } | null;
+  day?: { value: string } | null;
 }
 
 interface OrcidFundingsResponse {
@@ -167,7 +209,7 @@ interface OrcidWorksResponse {
   }> | null;
 }
 
-/** Modèle "Affiliations" v3, commun aux 5 catégories (distinctions, educations, memberships, qualifications, services). */
+/** Modèle "Affiliations" v3, commun aux 6 catégories (distinctions, invited-positions, educations, memberships, qualifications, services). */
 interface OrcidAffiliationSummaryRaw {
   'put-code': number;
   'department-name'?: string | null;
@@ -176,7 +218,15 @@ interface OrcidAffiliationSummaryRaw {
   'end-date'?: OrcidDateParts | null;
   organization?: {
     name: string;
-    address?: { city?: string | null; country?: string | null } | null;
+    address?: { city?: string | null; region?: string | null; country?: string | null } | null;
+  } | null;
+  url?: { value: string } | null;
+  'external-ids'?: {
+    'external-id': Array<{
+      'external-id-type': string;
+      'external-id-value': string;
+      'external-id-url'?: { value: string } | null;
+    }> | null;
   } | null;
 }
 
@@ -216,6 +266,7 @@ interface OrcidResearchResourcesResponse {
 /** Réponse de /activities : toutes les sections d'activités en un seul appel. */
 interface OrcidActivitiesResponse {
   distinctions?: OrcidAffiliationGroupResponse | null;
+  'invited-positions'?: OrcidAffiliationGroupResponse | null;
   educations?: OrcidAffiliationGroupResponse | null;
   memberships?: OrcidAffiliationGroupResponse | null;
   qualifications?: OrcidAffiliationGroupResponse | null;
@@ -243,6 +294,11 @@ const REQUEST_TIMEOUT_MS = 5000;           // par tentative
 const RETRY_COUNT = 2;
 const RETRY_DELAY_MS = 500;
 const SEARCH_CONCURRENCY = 4;
+
+/** Du plus récent au plus ancien ; les dates partielles ISO se comparent comme des chaînes. */
+export function compareByStartDateDesc(a: OrcidAffiliationEntry, b: OrcidAffiliationEntry): number {
+  return (b.startDate ?? '').localeCompare(a.startDate ?? '');
+}
 
 interface CacheEntry<T> {
   data: T;
@@ -317,7 +373,8 @@ export class OrcidPublicApiService {
    * @param orcidId Identifiant ORCID au format 0000-0000-0000-0000.
    */
   getResearcherProfile(orcidId: string): Observable<OrcidResearcherProfile> {
-    const key = `profile|${orcidId}`;
+    // Version à incrémenter quand la forme du profil change, pour ignorer les profils déjà en cache.
+    const key = `profile|v2|${orcidId}`;
     return this.getCachedOrFetch<OrcidResearcherProfile>(key, () =>
       this.fetchProfile(orcidId),
     { cacheIf: (profile) => !incompleteProfiles.has(profile) });
@@ -389,7 +446,7 @@ export class OrcidPublicApiService {
 
     const req$ = factory().pipe(
       finalize(() => this.inflight.delete(key)),
-      shareReplay(1),
+      shareReplay({ bufferSize: 1, refCount: false }),
     );
 
     this.inflight.set(key, req$);
@@ -481,11 +538,15 @@ export class OrcidPublicApiService {
       .set('rows', String(pageSize));
 
     return this.orcidGet<OrcidSearchResponse>(`${API_BASE}/search`, params).pipe(
-      tap({ error: (err) => console.warn('[ORCID] Échec de la recherche', err) }),
+      tap({ error: (err: unknown) => console.warn('[ORCID] Échec de la recherche', err) }),
       switchMap(({ result, 'num-found': totalResults }) => {
         const ids = (result ?? []).map((r) => r['orcid-identifier'].path);
 
-        if (ids.length === 0) return of({ members: [], totalResults });
+        if (ids.length === 0) {
+
+          return of({ members: [], totalResults });
+
+        }
 
         // mergeMap ne garde pas l'ordre : on retrie sur l'index.
         return from(ids).pipe(
@@ -581,13 +642,13 @@ export class OrcidPublicApiService {
       familyName: person?.name?.['family-name']?.value ?? '',
       creditName: person?.name?.['credit-name']?.value ?? undefined,
       biography: person?.biography?.content ?? undefined,
-      country: this.mapCountry(person),
       keywords: this.mapKeywords(person),
       researcherUrls: this.mapResearcherUrls(person),
       fundings: this.mapFundings(activities?.fundings ?? null),
       works: this.mapWorks(activities?.works ?? null),
       worksTotal: this.countWorks(activities?.works ?? null),
       distinctions: this.mapAffiliationGroup(activities?.distinctions, 'distinction-summary'),
+      invitedPositions: this.mapAffiliationGroup(activities?.['invited-positions'], 'invited-position-summary'),
       educations: this.mapAffiliationGroup(activities?.educations, 'education-summary'),
       memberships: this.mapAffiliationGroup(activities?.memberships, 'membership-summary'),
       qualifications: this.mapAffiliationGroup(activities?.qualifications, 'qualification-summary'),
@@ -598,9 +659,10 @@ export class OrcidPublicApiService {
   }
 
   // Code ISO (CA) vers le nom en français (Canada).
-  private mapCountry(person: OrcidPersonResponse | null): string | undefined {
-    const code = person?.addresses?.address?.[0]?.country?.value;
-    if (!code) return undefined;
+  private countryName(code: string | null | undefined): string | undefined {
+    if (!code) {
+      return undefined;
+    }
     try {
       return new Intl.DisplayNames(['fr'], { type: 'region' }).of(code) ?? code;
     } catch {
@@ -623,12 +685,16 @@ export class OrcidPublicApiService {
   }
 
   private mapFundings(resp: OrcidFundingsResponse | null): OrcidFunding[] {
-    if (!resp?.group) return [];
+    if (!resp?.group) {
+      return [];
+    }
 
     return resp.group
       .map((group) => {
         const summary = group['funding-summary']?.[0];
-        if (!summary || !summary.title?.title?.value) return null;
+        if (!summary || !summary.title?.title?.value) {
+          return null;
+        }
 
         return {
           putCode: summary['put-code'],
@@ -644,12 +710,16 @@ export class OrcidPublicApiService {
   }
 
   private mapWorks(resp: OrcidWorksResponse | null): OrcidWork[] {
-    if (!resp?.group) return [];
+    if (!resp?.group) {
+      return [];
+    }
 
     return resp.group
       .map((group) => {
         const summary = group['work-summary']?.[0];
-        if (!summary || !summary.title?.title?.value) return null;
+        if (!summary || !summary.title?.title?.value) {
+          return null;
+        }
 
         const doi = summary['external-ids']?.['external-id']?.find(
           (id) => id['external-id-type'] === 'doi',
@@ -676,35 +746,49 @@ export class OrcidPublicApiService {
     return resp?.group?.length ?? 0;
   }
 
-  // Même structure pour les 5 catégories d'affiliation ; seule la clé du résumé change.
+  // Même structure pour les 6 catégories d'affiliation ; seule la clé du résumé change.
   private mapAffiliationGroup(
     resp: OrcidAffiliationGroupResponse | null | undefined,
     summaryKey: string,
   ): OrcidAffiliationEntry[] {
-    if (!resp?.['affiliation-group']) return [];
+    if (!resp?.['affiliation-group']) {
+      return [];
+    }
 
     return resp['affiliation-group']
       .map((group) => {
         const summary = group.summaries?.[0]?.[summaryKey];
-        if (!summary) return null;
+        if (!summary) {
+          return null;
+        }
 
+        const address = summary.organization?.address;
         return {
           putCode: summary['put-code'],
           roleTitle: summary['role-title'] ?? undefined,
           departmentName: summary['department-name'] ?? undefined,
           organizationName: summary.organization?.name ?? undefined,
-          city: summary.organization?.address?.city ?? undefined,
-          country: summary.organization?.address?.country ?? undefined,
-          startYear: this.parseYear(summary['start-date']),
-          endYear: this.parseYear(summary['end-date']),
+          city: address?.city ?? undefined,
+          region: address?.region ?? undefined,
+          country: this.countryName(address?.country),
+          startDate: this.formatDate(summary['start-date']),
+          endDate: this.formatDate(summary['end-date']),
+          url: summary.url?.value ?? undefined,
+          externalIds: (summary['external-ids']?.['external-id'] ?? []).map((id) => ({
+            type: id['external-id-type'],
+            value: id['external-id-value'],
+            url: id['external-id-url']?.value ?? undefined,
+          })),
         } as OrcidAffiliationEntry;
       })
       .filter((e): e is OrcidAffiliationEntry => e !== null)
-      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
+      .sort(compareByStartDateDesc);
   }
 
   private mapPeerReviews(resp: OrcidPeerReviewsResponse | null | undefined): OrcidPeerReview[] {
-    if (!resp?.group) return [];
+    if (!resp?.group) {
+      return [];
+    }
 
     return resp.group
       .flatMap((group) => group['peer-review-group'] ?? [])
@@ -722,7 +806,9 @@ export class OrcidPublicApiService {
   private mapResearchResources(
     resp: OrcidResearchResourcesResponse | null | undefined,
   ): OrcidResearchResource[] {
-    if (!resp?.group) return [];
+    if (!resp?.group) {
+      return [];
+    }
 
     return resp.group
       .map((group) => group['research-resource-summary']?.[0]?.proposal)
@@ -740,9 +826,21 @@ export class OrcidPublicApiService {
     return date?.year?.value ? parseInt(date.year.value, 10) : undefined;
   }
 
+  // AAAA, AAAA-MM ou AAAA-MM-JJ selon la précision saisie.
+  private formatDate(date: OrcidDateParts | null | undefined): string | undefined {
+    const year = date?.year?.value;
+    if (!year) {
+      return undefined;
+    }
+    const month = date.month?.value;
+    return [year, month, month ? date.day?.value : undefined].filter(Boolean).join('-');
+  }
+
   private buildQuery(nameFilter: string): string {
     const safe = nameFilter.trim().replace(/["\\]/g, '');
-    if (!safe) return AFFIL_QUERY;
+    if (!safe) {
+      return AFFIL_QUERY;
+    }
     return `${AFFIL_QUERY} AND (given-names:${safe}* OR family-name:${safe}*)`;
   }
 }

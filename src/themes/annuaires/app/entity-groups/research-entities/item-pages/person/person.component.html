@@ -89,34 +89,36 @@
         </button>
       </nav>
 
-      <section id="profile-panel-orcid" role="tabpanel" aria-labelledby="profile-tab-orcid"
-               class="mt-3" *ngIf="activeSection === 'orcid'">
-        <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
-      </section>
+      @if (activeSection === 'orcid') {
+        <section id="profile-panel-orcid" role="tabpanel" aria-labelledby="profile-tab-orcid" class="mt-3">
+          <ds-orcid-person-enrichment [item]="object"></ds-orcid-person-enrichment>
+        </section>
+      }
 
-      <section id="profile-panel-papyrus" role="tabpanel" aria-labelledby="profile-tab-papyrus"
-               class="mt-3" *ngIf="activeSection === 'papyrus'">
-        <p class="papyrus-empty-message fst-italic text-muted d-none">
-          {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
-        </p>
-        <ds-related-items
-          [parentItem]="object"
-          [relationType]="'isProjectOfPerson'"
-          [label]="'relationships.isProjectOf' | translate">
-        </ds-related-items>
-        <ds-related-items
-          [parentItem]="object"
-          [relationType]="'isPublicationOfAuthor'"
-          [incrementBy]="relatedItemsPageSize"
-          [label]="'relationships.isPublicationOf' | translate">
-        </ds-related-items>
-        <ds-related-items
-          [parentItem]="object"
-          [relationType]="'isPublicationOfAdvisor'"
-          [incrementBy]="relatedItemsPageSize"
-          [label]="'item.page.advisor' | translate">
-        </ds-related-items>
-      </section>
+      @if (activeSection === 'papyrus') {
+        <section id="profile-panel-papyrus" role="tabpanel" aria-labelledby="profile-tab-papyrus" class="mt-3">
+          <p class="papyrus-empty-message fst-italic text-muted d-none">
+            {{ 'papyrus.person.page.tab.papyrus.empty' | translate }}
+          </p>
+          <ds-related-items
+            [parentItem]="object"
+            [relationType]="'isProjectOfPerson'"
+            [label]="'relationships.isProjectOf' | translate">
+          </ds-related-items>
+          <ds-related-items
+            [parentItem]="object"
+            [relationType]="'isPublicationOfAuthor'"
+            [incrementBy]="relatedItemsPageSize"
+            [label]="'relationships.isPublicationOf' | translate">
+          </ds-related-items>
+          <ds-related-items
+            [parentItem]="object"
+            [relationType]="'isPublicationOfAdvisor'"
+            [incrementBy]="relatedItemsPageSize"
+            [label]="'item.page.advisor' | translate">
+          </ds-related-items>
+        </section>
+      }
 
     </main>
 

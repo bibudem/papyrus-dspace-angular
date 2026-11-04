@@ -1,7 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -47,14 +44,12 @@ type ProfileSection = 'papyrus' | 'orcid';
     '../../../../../../../app/entity-groups/research-entities/item-pages/person/person.component.scss',
   ],
   templateUrl: './person.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
     DsoEditMenuComponent,
     GenericItemPageFieldComponent,
     ItemPageUriFieldComponent,
     MetadataFieldWrapperComponent,
-    NgIf,
     OrcidPersonEnrichmentComponent,
     RelatedItemsComponent,
     ThemedThumbnailComponent,

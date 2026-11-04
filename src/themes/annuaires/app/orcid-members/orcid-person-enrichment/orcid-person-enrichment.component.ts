@@ -1,43 +1,60 @@
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import {
+  AsyncPipe,
+  NgTemplateOutlet,
+  SlicePipe,
+  UpperCasePipe,
+} from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, startWith } from 'rxjs/operators';
+import {
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  catchError,
+  map,
+  startWith,
+} from 'rxjs/operators';
 
 import { Item } from '../../../../../app/core/shared/item.model';
 import { getOrcidId } from '../orcid-id';
 import {
+  compareByStartDateDesc,
   OrcidAffiliationEntry,
   OrcidPublicApiService,
   OrcidResearcherProfile,
   OrcidWork,
 } from '../orcid-public-api.service';
 
-// ── Types de travaux ──────────────────────────────────────────────────────────
-
 const WORK_TYPE_I18N_PREFIX = 'papyrus.orcid-profile.work-type.';
 
-/** Type ORCID → classe CSS du badge. */
+/** Type de travail ORCID vers la classe CSS de son badge. */
 const WORK_TYPE_CSS: Readonly<Record<string, string>> = {
-  'journal-article':    'badge-article',
-  'book':               'badge-book',
-  'book-chapter':       'badge-book',
-  'conference-paper':   'badge-conference',
-  'dissertation-thesis':'badge-thesis',
-  'report':             'badge-report',
-  'preprint':           'badge-preprint',
+  'journal-article': 'badge-article',
+  'book': 'badge-book',
+  'book-chapter': 'badge-book',
+  'conference-paper': 'badge-conference',
+  'dissertation-thesis': 'badge-thesis',
+  'report': 'badge-report',
+  'preprint': 'badge-preprint',
 };
 
 const KNOWN_WORK_TYPES = new Set(Object.keys(WORK_TYPE_CSS));
 
-/** Catégorie regroupant tous les types ORCID absents de WORK_TYPE_CSS. */
+/** Regroupe les types ORCID absents de WORK_TYPE_CSS. */
 const OTHER_WORK_TYPE = 'other';
 
-// ── Détection de langue de la biographie ──────────────────────────────────────
-// Heuristique maison (aucune librairie ni appel externe) : mots-outils FR forts/faibles,
-// élisions et densité d'accents propres au français, comparés aux mots-outils anglais.
-// Les marqueurs faibles sont partagés avec d'autres langues romanes, d'où leur faible poids.
-
+/*
+ * Détection du français dans la biographie, sans librairie : mots-outils, élisions et densité d'accents,
+ * comparés aux mots-outils anglais. Les marqueurs faibles existent aussi dans d'autres langues romanes,
+ * d'où leur faible poids.
+ */
 const STRONG_FRENCH_MARKERS = new Set([
   'etre', 'ete', 'avec', 'dans', 'nous', 'vous', 'qui', 'tres', 'ou', 'deja', 'ainsi',
   'cependant', 'egalement', 'toujours', 'donc', 'aussi', 'pour', 'chez', 'sans', 'mais',
@@ -63,45 +80,54 @@ const ELISION_WEIGHT = 2.5;
 const ACCENT_DENSITY_COEFFICIENT = 3;
 const ACCENT_BONUS_CAP = 1;
 
-// ── ViewModel ─────────────────────────────────────────────────────────────────
+/** Catégories ORCID regroupées sous « Activités professionnelles », comme sur orcid.org. */
+type ProfessionalActivityKind = 'distinction' | 'invited-position' | 'membership' | 'service';
 
-type OrcidPanelStatus = 'loading' | 'loaded' | 'error' | 'no-orcid';
-
-interface OrcidPanelViewModel {
-  status: OrcidPanelStatus;
-  profile: OrcidResearcherProfile | null;
+interface ProfessionalActivity extends OrcidAffiliationEntry {
+  kind: ProfessionalActivityKind;
 }
 
-const VM_LOADING:  OrcidPanelViewModel = { status: 'loading',  profile: null };
-const VM_ERROR:    OrcidPanelViewModel = { status: 'error',    profile: null };
-const VM_NO_ORCID: OrcidPanelViewModel = { status: 'no-orcid', profile: null };
+/** Une distinction est ponctuelle : sans date de fin, elle n'est pas « en cours ». */
+const ONGOING_KINDS: ReadonlySet<ProfessionalActivityKind> = new Set(['invited-position', 'membership', 'service']);
 
-/** Catégories d'activités de l'accordéon (rendues seulement si non vides, sauf travaux et financement). */
-export type ActivityTab =
+/** Sections de l'accordéon. */
+type ActivitySection =
   | 'works'
   | 'funding'
-  | 'distinctions'
+  | 'professional-activities'
   | 'educations'
-  | 'memberships'
   | 'qualifications'
-  | 'services'
   | 'peer-reviews'
   | 'research-resources';
 
-// ── Composant ─────────────────────────────────────────────────────────────────
+interface OrcidPanelViewModel {
+  status: 'loading' | 'loaded' | 'error' | 'no-orcid';
+  profile: OrcidResearcherProfile | null;
+  professionalActivities: ProfessionalActivity[];
+}
 
+const VM_LOADING: OrcidPanelViewModel = { status: 'loading', profile: null, professionalActivities: [] };
+const VM_ERROR: OrcidPanelViewModel = { status: 'error', profile: null, professionalActivities: [] };
+const VM_NO_ORCID: OrcidPanelViewModel = { status: 'no-orcid', profile: null, professionalActivities: [] };
+
+/**
+ * Données du profil ORCID public d'une personne : biographie, puis un accordéon par catégorie d'activités.
+ */
 @Component({
   selector: 'ds-orcid-person-enrichment',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './orcid-person-enrichment.component.html',
   styleUrls: ['./orcid-person-enrichment.component.scss'],
-  standalone: true,
-  imports: [AsyncPipe, NgFor, NgIf, SlicePipe, TranslateModule],
+  imports: [
+    AsyncPipe,
+    NgTemplateOutlet,
+    SlicePipe,
+    TranslateModule,
+    UpperCasePipe,
+  ],
 })
 export class OrcidPersonEnrichmentComponent implements OnInit {
-  @Input() item!: Item;
-
-  private readonly orcidService = inject(OrcidPublicApiService);
+  @Input() item: Item;
 
   vm$: Observable<OrcidPanelViewModel> = of(VM_NO_ORCID);
 
@@ -109,44 +135,41 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
   readonly bioPreviewLength = 800;
   showFullBio = false;
 
-  /** Publications affichées avant « voir plus ». */
   readonly worksPreviewCount = 5;
   showAllWorks = false;
 
-  /** Financements affichés avant « voir plus ». */
   readonly fundingsPreviewCount = 5;
   showAllFundings = false;
 
-  /** Filtre de type de travail actif (null = tous). */
+  /** Type de travail filtré, null pour tous. */
   activeWorkTypeFilter: string | null = null;
 
-  /** Sections dépliées de l'accordéon, indépendantes les unes des autres (toutes repliées au départ). */
-  expandedSections = new Set<ActivityTab>();
+  /** Sections dépliées, toutes repliées au départ. */
+  expandedSections = new Set<ActivitySection>();
+
+  private readonly orcidService = inject(OrcidPublicApiService);
 
   ngOnInit(): void {
-    const orcidId = this.extractOrcidId();
-
+    const orcidId = getOrcidId(this.item);
     if (!orcidId) {
-      this.vm$ = of(VM_NO_ORCID);
       return;
     }
 
     this.vm$ = this.orcidService.getResearcherProfile(orcidId).pipe(
-      map((profile): OrcidPanelViewModel => ({ status: 'loaded', profile })),
-      catchError((err) => {
+      map((profile): OrcidPanelViewModel => ({
+        status: 'loaded',
+        profile,
+        professionalActivities: this.toProfessionalActivities(profile),
+      })),
+      catchError((err: unknown) => {
         console.error(`[OrcidEnrichment] Échec du chargement du profil ${orcidId}`, err);
-        return [VM_ERROR];
+        return of(VM_ERROR);
       }),
       startWith(VM_LOADING),
     );
   }
 
-  // ── Biographie ────────────────────────────────────────────────────────────
-
-  /**
-   * Vrai si le texte semble être en français (heuristique, pas une détection fiable).
-   * Sert à masquer les biographies dans une autre langue, l'annuaire étant en français.
-   */
+  /** Heuristique, pas une détection fiable : sert à masquer les biographies dans une autre langue. */
   isFrenchText(text: string): boolean {
     const normalized = text.toLowerCase()
       .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a').replace(/[ôö]/g, 'o')
@@ -169,7 +192,7 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     return frenchScore >= FRENCH_SCORE_THRESHOLD && frenchScore > englishScore;
   }
 
-  /** Tronque la biographie à la frontière de mot la plus proche de bioPreviewLength. */
+  /** Coupe à la frontière de mot la plus proche de bioPreviewLength. */
   truncatedBio(bio: string): string {
     if (bio.length <= this.bioPreviewLength) {
       return bio;
@@ -182,9 +205,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.showFullBio = !this.showFullBio;
   }
 
-  // ── Travaux ───────────────────────────────────────────────────────────────
-
-  /** Clé i18n du type de travail (repli sur `other` pour les types non reconnus). */
   workTypeKey(type: string): string {
     return `${WORK_TYPE_I18N_PREFIX}${this.workBucket(type)}`;
   }
@@ -193,8 +213,8 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     return WORK_TYPE_CSS[type] ?? 'badge-other';
   }
 
-  /** Nombre de travaux par catégorie affichée : les types inconnus sont cumulés sous « Autre ». */
-  workTypeCounts(works: OrcidWork[]): Array<{ type: string; count: number }> {
+  /** Nombre de travaux par type, les types inconnus cumulés sous « Autre ». */
+  workTypeCounts(works: OrcidWork[]): { type: string; count: number }[] {
     const counts = new Map<string, number>();
     for (const work of works) {
       const bucket = this.workBucket(work.type);
@@ -211,7 +231,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
       : works;
   }
 
-  /** Change le filtre actif et réinitialise « voir plus ». */
   setWorkTypeFilter(type: string | null): void {
     this.activeWorkTypeFilter = type;
     this.showAllWorks = false;
@@ -221,20 +240,16 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.showAllWorks = !this.showAllWorks;
   }
 
-  // ── Financement ───────────────────────────────────────────────────────────
-
   toggleFundings(): void {
     this.showAllFundings = !this.showAllFundings;
   }
 
-  // ── Accordéon ─────────────────────────────────────────────────────────────
-
-  isExpanded(section: ActivityTab): boolean {
+  isExpanded(section: ActivitySection): boolean {
     return this.expandedSections.has(section);
   }
 
-  /** Nouveau Set à chaque bascule pour que OnPush détecte le changement de référence. */
-  toggleSection(section: ActivityTab): void {
+  /** Nouveau Set à chaque bascule, pour que OnPush voie le changement. */
+  toggleSection(section: ActivitySection): void {
     const next = new Set(this.expandedSections);
     if (next.has(section)) {
       next.delete(section);
@@ -244,29 +259,36 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
     this.expandedSections = next;
   }
 
-  // ── TrackBy ───────────────────────────────────────────────────────────────
-
-  trackByPutCode(_index: number, work: OrcidWork): number {
-    return work.putCode;
+  /** Activité sans date de fin affichée « à aujourd'hui ». */
+  isOngoing(activity: ProfessionalActivity): boolean {
+    return ONGOING_KINDS.has(activity.kind) && !!activity.startDate && !activity.endDate;
   }
 
-  trackByAffiliationPutCode(_index: number, entry: OrcidAffiliationEntry): number {
-    return entry.putCode;
+  /**
+   * Département et organisme quand ils ne servent pas déjà d'intitulé, puis le lieu.
+   * Ex. : « Département de médecine sociale, Université de Montréal · Montréal, QC, Canada ».
+   */
+  organizationLine(entry: OrcidAffiliationEntry): string {
+    const unit = [
+      entry.roleTitle ? entry.departmentName : undefined,
+      entry.roleTitle || entry.departmentName ? entry.organizationName : undefined,
+    ].filter(Boolean).join(', ');
+    const place = [entry.city, entry.region, entry.country].filter(Boolean).join(', ');
+    return [unit, place].filter(Boolean).join(' · ');
   }
 
-  /** Revues par les pairs et ressources de recherche n'ont pas d'identifiant stable côté ORCID. */
-  trackByIndex(index: number): number {
-    return index;
+  private toProfessionalActivities(profile: OrcidResearcherProfile): ProfessionalActivity[] {
+    const withKind = (entries: OrcidAffiliationEntry[] | undefined, kind: ProfessionalActivityKind) =>
+      (entries ?? []).map((entry): ProfessionalActivity => ({ ...entry, kind }));
+    return [
+      ...withKind(profile.distinctions, 'distinction'),
+      ...withKind(profile.invitedPositions, 'invited-position'),
+      ...withKind(profile.memberships, 'membership'),
+      ...withKind(profile.services, 'service'),
+    ].sort(compareByStartDateDesc);
   }
-
-  // ── Privé ─────────────────────────────────────────────────────────────────
 
   private workBucket(type: string): string {
     return KNOWN_WORK_TYPES.has(type) ? type : OTHER_WORK_TYPE;
-  }
-
-  /** ORCID iD normalisé depuis les métadonnées (accepte l'identifiant nu ou l'URL orcid.org), sinon null. */
-  private extractOrcidId(): string | null {
-    return getOrcidId(this.item);
   }
 }

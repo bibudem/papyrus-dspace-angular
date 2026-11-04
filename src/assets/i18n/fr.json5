@@ -7662,15 +7662,23 @@
 
   "papyrus.orcid-profile.links": "Liens",
 
-  "papyrus.orcid-profile.distinctions": "Distinctions",
+  "papyrus.orcid-profile.professional-activities": "Activités professionnelles",
+
+  "papyrus.orcid-profile.activity-type.distinction": "Distinction",
+
+  "papyrus.orcid-profile.activity-type.invited-position": "Poste invité",
+
+  "papyrus.orcid-profile.activity-type.membership": "Adhésion",
+
+  "papyrus.orcid-profile.activity-type.service": "Service",
+
+  "papyrus.orcid-profile.period.range": "{{start}} à {{end}}",
+
+  "papyrus.orcid-profile.period.ongoing": "{{start}} à aujourd'hui",
 
   "papyrus.orcid-profile.educations": "Formation",
 
-  "papyrus.orcid-profile.memberships": "Adhésions",
-
   "papyrus.orcid-profile.qualifications": "Qualifications",
-
-  "papyrus.orcid-profile.services": "Service",
 
   "papyrus.orcid-profile.peer-reviews": "Revues par les pairs",
 
