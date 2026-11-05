@@ -1,0 +1,58 @@
+@import '../../../montreal/styles/_variables_papyrus.scss';
+
+.pf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pf-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.pf-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: 0.1rem;
+  font-size: 0.95rem;
+  color: $greensecondary;
+  background-color: rgba($greensecondary, 0.1);
+  border-radius: 50%;
+}
+
+.pf-content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.pf-title {
+  margin-bottom: 0.15rem;
+  font-weight: 450;
+  color: $darkgreen;
+}
+
+.pf-source { color: $gray-700; margin-bottom: 0.1rem; }
+
+.pf-detail {
+  font-size: 0.9rem;
+  color: $gray-700;
+  margin-bottom: 0.1rem;
+}
+
+.pf-label {
+  font-weight: 600;
+  color: $gray-800;
+}
+
+.pf-period { font-size: 0.9rem; color: $gray-600; }
+
+.pf-updated {
+  font-size: 0.85rem;
+  color: $gray-600;
+}

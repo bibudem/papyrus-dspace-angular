@@ -143,32 +143,6 @@
           </div>
         }
       }
-      @case ('fundings') {
-        @if (profile.fundings.length > 0) {
-          <div class="oe-panel">
-            <div class="oe-body">
-              <div id="oe-fundings" class="oe-affiliation-list">
-                @for (funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount); track funding.putCode) {
-                  <div class="oe-affiliation-item">
-                    <div class="oe-item-title lead">{{ funding.title }}</div>
-                    @if (funding.organizationName) {
-                      <div class="oe-affiliation-org">{{ funding.organizationName }}</div>
-                    }
-                    <ng-container *ngTemplateOutlet="period; context: { start: funding.startYear, end: funding.endYear }"></ng-container>
-                  </div>
-                }
-              </div>
-
-              @if (profile.fundings.length > fundingsPreviewCount) {
-                <button type="button" class="annuaires-show-more mt-2" aria-controls="oe-fundings"
-                        [attr.aria-expanded]="showAllFundings" (click)="toggleFundings()">
-                  {{ (showAllFundings ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
-                </button>
-              }
-            </div>
-          </div>
-        }
-      }
     }
   }
 }

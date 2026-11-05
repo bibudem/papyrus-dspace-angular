@@ -59,7 +59,7 @@ interface ProfessionalActivity extends OrcidAffiliationEntry {
 const ONGOING_KINDS: ReadonlySet<ProfessionalActivityKind> = new Set(['invited-position', 'membership', 'service']);
 
 /** Partie du profil affichée, une par onglet de la fiche. */
-export type OrcidProfileSection = 'presentation' | 'works' | 'fundings';
+export type OrcidProfileSection = 'presentation' | 'works';
 
 /** Sections de l'accordéon de la présentation. */
 type ActivitySection = 'professional-activities' | 'educations';
@@ -74,8 +74,8 @@ const VM_LOADING: OrcidPanelViewModel = { status: 'loading', profile: null, prof
 const VM_UNAVAILABLE: OrcidPanelViewModel = { status: 'unavailable', profile: null, professionalActivities: [] };
 
 /**
- * Une partie du profil ORCID public d'une personne : présentation (biographie et activités en accordéon),
- * travaux ou financements. Les onglets partagent la même requête, mise en cache par le service.
+ * Une partie du profil ORCID public d'une personne : présentation (biographie et activités en accordéon)
+ * ou travaux. Les onglets partagent la même requête, mise en cache par le service.
  */
 @Component({
   selector: 'ds-orcid-person-enrichment',
@@ -103,9 +103,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   readonly worksPreviewCount = 10;
   showAllWorks = false;
-
-  readonly fundingsPreviewCount = 10;
-  showAllFundings = false;
 
   /** Type de travail filtré, null pour tous. */
   activeWorkTypeFilter: string | null = null;
@@ -179,10 +176,6 @@ export class OrcidPersonEnrichmentComponent implements OnInit {
 
   toggleWorks(): void {
     this.showAllWorks = !this.showAllWorks;
-  }
-
-  toggleFundings(): void {
-    this.showAllFundings = !this.showAllFundings;
   }
 
   isExpanded(section: ActivitySection): boolean {

@@ -1765,6 +1765,10 @@
   "papyrus.person.page.tab.presentation": "Présentation",
   "papyrus.person.page.tab.works": "Travaux",
   "papyrus.person.page.tab.fundings": "Financements",
+  "papyrus.person.fundings.program": "Programme",
+  "papyrus.person.fundings.principal-investigators": "Chercheur·es principal·es",
+  "papyrus.person.fundings.co-investigators": "Cochercheur·es",
+  "papyrus.person.fundings.updated": "Dernière mise à jour : {{date}}",
 
   "papyrus.directory.orcid-badge": "Profil ORCID",
   "papyrus.annuaires.banner-title": "Répertoire des professeures et professeurs",

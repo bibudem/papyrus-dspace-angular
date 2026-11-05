@@ -11,7 +11,7 @@ $touch-target: 2.75rem; // 44 px, cible tactile recommandée
 }
 
 // Le champ s'ouvre vers la gauche, par-dessus le fil d'Ariane, la loupe restant à droite.
-// Même durée que l'animation de la recherche de l'en-tête DSpace ; plus large pour le placeholder entier.
+// Plus large que la recherche de l'en-tête DSpace pour le placeholder entier.
 .directory-search__input {
   position: absolute;
   top: 50%;
@@ -28,7 +28,7 @@ $touch-target: 2.75rem; // 44 px, cible tactile recommandée
   opacity: 0;
   pointer-events: none;
   transform: translateY(-50%);
-  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
 
   // Jamais plus large que l'écran, marges comprises (petits téléphones).
   &.is-expanded {

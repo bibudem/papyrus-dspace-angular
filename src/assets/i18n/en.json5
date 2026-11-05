@@ -7763,4 +7763,13 @@
 
   "papyrus.person.page.tab.fundings": "Funding",
 
+  "papyrus.person.fundings.program": "Program",
+
+  "papyrus.person.fundings.principal-investigators": "Principal investigators",
+
+  "papyrus.person.fundings.co-investigators": "Co-investigators",
+
+  "papyrus.person.fundings.updated": "Last updated: {{date}}",
+
+
 }

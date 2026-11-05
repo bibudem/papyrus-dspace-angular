@@ -1,0 +1,46 @@
+@if (data?.fundings.length > 0) {
+  <div id="person-fundings" class="pf-list">
+    @for (funding of data.fundings | slice:0:(showAll ? data.fundings.length : previewCount); track $index) {
+      <article class="pf-item">
+        <span class="pf-icon" aria-hidden="true"><i class="fas fa-award"></i></span>
+        <div class="pf-content">
+          <div class="pf-title lead dont-break-out">{{ funding.title }}</div>
+          @if (funding.source) {
+            <div class="pf-source">{{ funding.source }}</div>
+          }
+          @if (funding.program) {
+            <div class="pf-detail">
+              <span class="pf-label">{{ 'papyrus.person.fundings.program' | translate }} :</span> {{ funding.program }}
+            </div>
+          }
+          @if (funding.principalInvestigators.length > 0) {
+            <div class="pf-detail">
+              <span class="pf-label">{{ 'papyrus.person.fundings.principal-investigators' | translate }} :</span> {{ funding.principalInvestigators.join(', ') }}
+            </div>
+          }
+          @if (funding.coInvestigators.length > 0) {
+            <div class="pf-detail">
+              <span class="pf-label">{{ 'papyrus.person.fundings.co-investigators' | translate }} :</span> {{ funding.coInvestigators.join(', ') }}
+            </div>
+          }
+          @if (funding.startYear && funding.endYear && funding.startYear !== funding.endYear) {
+            <div class="pf-period">{{ 'papyrus.orcid-profile.period.range' | translate:{ start: funding.startYear, end: funding.endYear } }}</div>
+          } @else if (funding.startYear || funding.endYear) {
+            <div class="pf-period">{{ funding.startYear || funding.endYear }}</div>
+          }
+        </div>
+      </article>
+    }
+  </div>
+
+  @if (data.fundings.length > previewCount) {
+    <button type="button" class="annuaires-show-more mt-2" aria-controls="person-fundings"
+            [attr.aria-expanded]="showAll" (click)="toggleShowAll()">
+      {{ (showAll ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
+    </button>
+  }
+
+  @if (updatedOn; as date) {
+    <p class="pf-updated mt-4 mb-0">{{ 'papyrus.person.fundings.updated' | translate:{ date: date } }}</p>
+  }
+}

@@ -102,7 +102,7 @@
         }
       </ul>
 
-      <section class="profile-panel mt-3" role="tabpanel" tabindex="0"
+      <section class="profile-panel pt-4" role="tabpanel" tabindex="0"
                [id]="'profile-panel-' + view.activeTab" [attr.aria-labelledby]="'profile-tab-' + view.activeTab">
         @switch (view.activeTab) {
           @case ('presentation') {
@@ -112,8 +112,7 @@
             <ds-orcid-person-enrichment [item]="object" section="works"></ds-orcid-person-enrichment>
           }
           @case ('fundings') {
-            <!-- Données ORCID en attendant celles de Synchro Recherche -->
-            <ds-orcid-person-enrichment [item]="object" section="fundings"></ds-orcid-person-enrichment>
+            <ds-person-fundings [data]="view.fundings"></ds-person-fundings>
           }
           @case ('publications') {
             @if (view.publicationRoles.length > 0) {

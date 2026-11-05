@@ -57,6 +57,12 @@ import {
   OrcidPublicApiService,
   OrcidResearcherProfile,
 } from '../../../../orcid-members/orcid-public-api.service';
+import { PersonFundingsComponent } from '../../../../person-fundings/person-fundings.component';
+import {
+  NO_FUNDINGS,
+  PersonFundings,
+  PersonFundingsService,
+} from '../../../../person-fundings/person-fundings.service';
 import { getPersonDisplayName } from '../../person-name';
 
 type ProfileTabId = 'presentation' | 'works' | 'fundings' | 'publications';
@@ -67,7 +73,7 @@ const TAB_PARAM = 'tab';
 interface ProfileTab {
   id: ProfileTabId;
   label: string;
-  /** Onglet marqué du logo ORCID. Pas Financements, qui viendra de Synchro Recherche. */
+  /** Onglet marqué du logo ORCID. Pas Financements, qui vient de Synchro Recherche. */
   orcid: boolean;
 }
 
@@ -105,6 +111,7 @@ interface ProfileContent {
   tabs: ProfileTab[];
   /** Rôles ayant au moins une publication ; vide : message « aucune publication ». */
   publicationRoles: PublicationRole[];
+  fundings: PersonFundings;
 }
 
 interface ProfileView extends ProfileContent {
@@ -112,9 +119,9 @@ interface ProfileView extends ProfileContent {
 }
 
 /**
- * Fiche Person en onglets : Présentation, Travaux et Financements viennent d'ORCID, Publications dans Papyrus
- * des relations, cherchables par rôle (auteur·e, direction de recherche). Un onglet sans contenu n'est pas
- * affiché, sauf Publications dans Papyrus, toujours présent avec un message s'il est vide.
+ * Fiche Person en onglets : Présentation et Travaux viennent d'ORCID, Financements de Synchro Recherche,
+ * Publications dans Papyrus des relations, cherchables par rôle (auteur·e, direction de recherche).
+ * Un onglet sans contenu n'est pas affiché, sauf Publications dans Papyrus, toujours présent avec un message s'il est vide.
  *
  * L'onglet actif est dans l'URL, comme les sous-onglets DSpace : `?tab=presentation`, `works`, `fundings`,
  * et pour les publications le rôle affiché (`isAuthorOfPublication`, `isAdvisorOfPublication`).
@@ -134,6 +141,7 @@ interface ProfileView extends ProfileContent {
     ItemPageUriFieldComponent,
     MetadataFieldWrapperComponent,
     OrcidPersonEnrichmentComponent,
+    PersonFundingsComponent,
     RelatedItemsComponent,
     TabbedRelatedEntitiesSearchComponent,
     ThemedLoadingComponent,
@@ -153,6 +161,7 @@ export class PersonComponent extends BaseComponent implements OnInit {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly dsoNameService = inject(DSONameService);
   private readonly orcidService = inject(OrcidPublicApiService);
+  private readonly fundingsService = inject(PersonFundingsService);
   private readonly relationshipService = inject(RelationshipDataService);
   private readonly route = inject(ActivatedRoute);
   private readonly title = inject(Title);
@@ -183,15 +192,16 @@ export class PersonComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     super.ngOnInit();
-    const content$ = combineLatest([this.loadOrcidProfile(), this.loadPublicationRoles()]).pipe(
-      map(([profile, publicationRoles]): ProfileContent => ({
+    const content$ = combineLatest([this.loadOrcidProfile(), this.loadPublicationRoles(), this.loadFundings()]).pipe(
+      map(([profile, publicationRoles, fundings]): ProfileContent => ({
         tabs: [
           ...(hasPresentationContent(profile) ? [PRESENTATION_TAB] : []),
           ...(profile?.works.length > 0 ? [WORKS_TAB] : []),
-          ...(profile?.fundings.length > 0 ? [FUNDINGS_TAB] : []),
+          ...(fundings.fundings.length > 0 ? [FUNDINGS_TAB] : []),
           PUBLICATIONS_TAB,
         ],
         publicationRoles,
+        fundings,
       })),
     );
     this.view$ = combineLatest([content$, this.route.queryParamMap]).pipe(
@@ -300,6 +310,17 @@ export class PersonComponent extends BaseComponent implements OnInit {
     return this.orcidService.getResearcherProfile(orcidId).pipe(
       defaultIfEmpty(null),
       catchError(() => of(null)),
+    );
+  }
+
+  private loadFundings(): Observable<PersonFundings> {
+    const email = this.emails.find((value) => value.includes('@'));
+    if (!email) {
+      return of(NO_FUNDINGS);
+    }
+    return this.fundingsService.getFundings(email).pipe(
+      defaultIfEmpty(NO_FUNDINGS),
+      catchError(() => of(NO_FUNDINGS)),
     );
   }
 
