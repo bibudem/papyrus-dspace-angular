@@ -1,5 +1,8 @@
 @import '../../../montreal/styles/_variables_papyrus.scss';
 
+// Téléphones (sous le point de rupture « sm » de Bootstrap) : fil d'Ariane et boutons compacts.
+$phone-max: 575.98px;
+
 // ── Bandeau « Répertoire » ──
 // Photo en fond (image fournie par le HTML, cf. --annuaire-banner-image) sous un voile $darkgreen
 // dégradé : opaque à gauche pour la lisibilité du titre, transparent à droite pour la photo.
@@ -127,6 +130,12 @@ li.breadcrumb-item {
     max-width: 100%;
     display: block;
   }
+
+  // Téléphones : environ 16 caractères par élément, puis « … » (.text-truncate), le titre complet
+  // restant dans l'infobulle et pour les lecteurs d'écran.
+  @media (max-width: $phone-max) {
+    max-width: 16ch;
+  }
 }
 
 li.breadcrumb-item a {
@@ -184,6 +193,22 @@ li.breadcrumb-item.active {
     &:focus-visible {
       outline: 2px solid $white;
       outline-offset: 2px;
+    }
+
+    // Téléphones : flèche seule, pour laisser la place à la recherche. Taille de police nulle plutôt
+    // que display: none, pour que le libellé reste lu par les lecteurs d'écran.
+    @media (max-width: $phone-max) {
+      justify-content: center;
+      width: 1.85rem;
+      height: 1.85rem;
+      padding: 0;
+      gap: 0;
+      font-size: 0;
+      border-radius: 50%;
+
+      i {
+        font-size: 0.8rem;
+      }
     }
   }
 }

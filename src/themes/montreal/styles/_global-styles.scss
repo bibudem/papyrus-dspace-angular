@@ -465,9 +465,14 @@ ds-file-download-link a.dont-break-out:hover {
 }
 
 @media (max-width: 600px) {
-  /* Organisation du logo avec le menu sur petits écrans */
+  /* Petits écrans : icônes sur une seconde ligne sous le logo, alignées à droite, sans déborder de l'écran */
+  header .container > .d-flex {
+    flex-wrap: wrap;
+  }
+
   .navbar-right-bib {
-    margin-top: 5rem!important;
+    width: 100%;
+    justify-content: flex-end;
     padding-bottom: 2.5rem!important;
   }
 }

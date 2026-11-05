@@ -111,6 +111,17 @@ nav {
   @include media-breakpoint-up(md) {
     height: var(--ds-header-height);
   }
+
+  // Tablette : les entrées du menu ne tiennent pas sur une ligne ; deux lignes plutôt qu'un débordement à droite.
+  @include media-breakpoint-only(md) {
+    height: auto;
+  }
+}
+
+@include media-breakpoint-only(md) {
+  .navbar-navigation {
+    flex-wrap: wrap;
+  }
 }
 
 ::ng-deep {
@@ -118,6 +129,14 @@ nav {
     display: flex;
     align-items: center;
     height: 100%;
+  }
+
+  // Mobile (< 768 px, menu replié) : le sous-menu (ex. « Parcourir Papyrus ») se déplie sous son titre, et non à côté.
+  @include media-breakpoint-down(md) {
+    .ds-menu-item-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
 //End of Browse By Navbar Code Added by Team Scholaris

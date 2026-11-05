@@ -2,6 +2,7 @@
 
 // Couleurs du bouton « Retour aux résultats » du bandeau ; loupe seule, sans cercle.
 $control-height: 1.85rem;
+$touch-target: 2.75rem; // 44 px, cible tactile recommandée
 
 .directory-search {
   position: relative;
@@ -29,12 +30,17 @@ $control-height: 1.85rem;
   transform: translateY(-50%);
   transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
+  // Jamais plus large que l'écran, marges comprises (petits téléphones).
   &.is-expanded {
-    width: 320px;
+    width: min(320px, calc(100vw - 2rem));
     padding: 0 2.25rem 0 0.9rem;
     border-width: 1px;
     opacity: 1;
     pointer-events: auto;
+
+    @media (pointer: coarse) {
+      padding-right: $touch-target;
+    }
   }
 
   &::placeholder {
@@ -77,5 +83,12 @@ $control-height: 1.85rem;
   &:focus-visible {
     outline: 2px solid $white;
     outline-offset: 2px;
+  }
+
+  // Écran tactile : zone cliquable de 44 px, sans changer l'apparence de la loupe.
+  @media (pointer: coarse) {
+    width: $touch-target;
+    height: $touch-target;
+    margin: calc(($control-height - $touch-target) / 2) 0;
   }
 }
