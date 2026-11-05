@@ -3,9 +3,7 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
-  HostBinding,
   Inject,
-  inject,
   Input,
   OnInit,
 } from '@angular/core';
@@ -28,7 +26,6 @@ import {
   take,
 } from 'rxjs/operators';
 
-import { DSpaceObjectDataService } from '../../../../../../app/core/data/dspace-object-data.service';
 import { RemoteData } from '../../../../../../app/core/data/remote-data';
 import { SearchService } from '../../../../../../app/core/shared/search/search.service';
 import { SearchConfigurationService } from '../../../../../../app/core/shared/search/search-configuration.service';
@@ -42,7 +39,6 @@ import {
   APP_CONFIG,
   AppConfig,
 } from '../../../../../../config/app-config.interface';
-import { isOrgUnitCollection } from '../../org-unit-collection';
 
 /** Facettes masquées (noms de GET /server/api/discover/facets), peu pertinentes pour un annuaire. */
 const HIDDEN_FACET_NAMES = ['itemtype', 'access_status'];
@@ -115,11 +111,6 @@ export class SearchFiltersComponent implements OnInit, AfterViewChecked {
   filterLabel = 'search';
   defaultFilterCount: number;
 
-  /** Collection « Unités académiques » : liste alphabétique simple, les filtres n'apportent rien. */
-  @HostBinding('class.d-none') hidden = false;
-
-  private readonly dsoService = inject(DSpaceObjectDataService);
-
   private _filters: Observable<RemoteData<SearchFilterConfig[]>>;
 
   /** Nombre de filtres calculés par configuration pendant le rendu courant. */
@@ -141,9 +132,6 @@ export class SearchFiltersComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.subs.push(isOrgUnitCollection(this.dsoService, this.currentScope)
-      .subscribe((isOrgUnits) => this.hidden = isOrgUnits));
-
     if (!this.inPlaceSearch) {
       this.filterLabel = 'discover';
     }

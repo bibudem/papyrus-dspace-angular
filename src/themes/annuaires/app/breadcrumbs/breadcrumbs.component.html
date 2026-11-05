@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <!-- Fil d'Ariane intégré au bas du bandeau, bouton "Retour aux résultats" sur la même ligne -->
+      <!-- Fil d'Ariane intégré au bas du bandeau ; loupe du répertoire et « Retour aux résultats » à droite -->
       <nav aria-label="breadcrumb" class="nav-breadcrumb">
         <ol class="container breadcrumb my-0">
           <ng-container
@@ -18,8 +18,11 @@
             <ng-container *ngTemplateOutlet="!last ? breadcrumb : activeBreadcrumb; context: bc"></ng-container>
           }
 
-          <li class="breadcrumb-item annuaire-backbutton-item" *ngIf="showBackButton$ | async">
-            <ds-results-back-button [back]="back"></ds-results-back-button>
+          <li class="breadcrumb-item annuaire-actions-item">
+            <ds-annuaires-directory-search></ds-annuaires-directory-search>
+            @if (showBackButton$ | async) {
+              <ds-results-back-button [back]="back"></ds-results-back-button>
+            }
           </li>
         </ol>
       </nav>

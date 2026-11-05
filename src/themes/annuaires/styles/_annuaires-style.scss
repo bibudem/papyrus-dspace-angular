@@ -51,6 +51,13 @@ ds-community-page-sub-collection-list .pagination-info {
   }
 }
 
+// ── Collection « Unités académiques » ──
+// Liste simple : les filtres n'apportent rien (classe posée par la recherche du thème).
+// !important : la barre latérale de DSpace impose display: block, avec une spécificité supérieure.
+.annuaires-simple-list ds-search-filters {
+  display: none !important;
+}
+
 // ── Page communauté ──
 // En-tête décollé du bandeau ; scopé à .comcol-header car .me-auto est trop générique.
 .comcol-header.me-auto {
@@ -207,9 +214,14 @@ ds-community-page-sub-collection-list .pagination-info {
   border-radius: var(--bs-border-radius-lg);
 }
 
-// Interligne des autres champs de la fiche (Fonction, Courriel).
+// Interligne des autres champs de la fiche (Fonction, Courriel). Majuscule initiale quelle que soit
+// la saisie dans les données (ex. « low vision »).
 .person-expertise-list li {
   line-height: $line-height-base;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 
 // Onglets de la fiche : style natif DSpace (nav-tabs), titres avec la typographie des libellés de la fiche

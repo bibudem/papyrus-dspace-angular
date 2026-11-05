@@ -1,6 +1,5 @@
 import {
   AsyncPipe,
-  NgIf,
   NgTemplateOutlet,
 } from '@angular/common';
 import {
@@ -25,10 +24,12 @@ import { RouteService } from '../../../../app/core/services/route.service';
 import { ThemedResultsBackButtonComponent } from '../../../../app/shared/results-back-button/themed-results-back-button.component';
 import { VarDirective } from '../../../../app/shared/utils/var.directive';
 import { toGivenFamilyOrder } from '../entity-groups/research-entities/person-name';
+import { DirectorySearchComponent } from '../shared/directory-search/directory-search.component';
 import { PageScrollComponent } from '../shared/page-scroll/page-scroll.component';
 
 /**
- * Fil d'Ariane du thème "annuaires" : bandeau « Répertoire » + bouton "Retour aux résultats" sur la même ligne.
+ * Fil d'Ariane du thème "annuaires" : bandeau « Répertoire », avec la loupe du répertoire et le bouton
+ * "Retour aux résultats" sur la même ligne.
  * Chargé seulement dans la zone de l'annuaire (cf. config.papyrus.yml) ; la logique du bouton retour
  * reprend celle d'ItemComponent pour l'offrir sur toutes les pages de la zone.
  */
@@ -38,8 +39,8 @@ import { PageScrollComponent } from '../shared/page-scroll/page-scroll.component
   styleUrls: ['breadcrumbs.component.scss'],
   imports: [
     AsyncPipe,
+    DirectorySearchComponent,
     NgbTooltipModule,
-    NgIf,
     NgTemplateOutlet,
     PageScrollComponent,
     RouterLink,

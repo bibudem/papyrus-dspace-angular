@@ -18,7 +18,7 @@
   // Cadre la bande des visages (≈ 30 % depuis le haut) plutôt que le centre de la photo.
   background-position: 60% 30%;
   background-repeat: no-repeat;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   // Titre en haut, bande du fil d'Ariane collée en bas.
   display: flex;
   flex-direction: column;
@@ -138,12 +138,13 @@ li.breadcrumb-item.active {
   font-weight: 600;
 }
 
-// ── Bouton « Retour aux résultats » ──
-// Poussé à droite de la rangée, sans séparateur ; bouton « fantôme » blanc translucide
-// qui se fond dans la bande au lieu d'un bouton plein.
-.annuaire-backbutton-item {
+// ── Loupe du répertoire et bouton « Retour aux résultats » ──
+// Poussés à droite de la rangée, sans séparateur ; boutons « fantômes » blancs translucides
+// qui se fondent dans la bande au lieu de boutons pleins.
+.annuaire-actions-item {
   margin-left: auto;
   align-items: center;
+  gap: 0.5rem;
 
   &::before {
     content: none !important;

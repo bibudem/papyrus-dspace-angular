@@ -7584,12 +7584,6 @@
 
   "papyrus.orcid-profile.educations": "Education",
 
-  "papyrus.orcid-profile.qualifications": "Qualifications",
-
-  "papyrus.orcid-profile.peer-reviews": "Peer review",
-
-  "papyrus.orcid-profile.research-resources": "Research resources",
-
   "papyrus.orcid-profile.keywords": "Research areas",
 
   "papyrus.orcid-profile.publications.filter-all": "All",
@@ -7625,6 +7619,8 @@
   "papyrus.annuaires.browse.keywords": "Expertise",
 
   "papyrus.annuaires.search-form.placeholder": "Search the directory",
+
+  "papyrus.annuaires.directory-search.placeholder": "Search for a person, an area of expertise...",
 
   "papyrus.annuaires.browse.search-form.placeholder": "Search the directory",
 

@@ -1,9 +1,4 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { Context } from '../../../../../../../app/core/shared/context.model';
@@ -21,8 +16,8 @@ import { listableObjectComponent } from '../../../../../../../app/shared/object-
 const COPIED_FEEDBACK_DURATION_MS = 1500;
 
 /**
- * Fiche OrgUnit : comme le thème montreal, sans vignette ni bouton « Retour aux résultats »
- * (déjà dans le fil d'Ariane du thème), avec le site web en ligne + bouton copier.
+ * Fiche OrgUnit : comme le thème montreal, sans vignette, ni bouton « Retour aux résultats » (déjà dans
+ * le fil d'Ariane du thème), ni « Notice complète », avec le site web en ligne + bouton copier.
  * Le site web n'utilise pas ds-item-page-uri-field, partagé avec d'autres fiches (ex. Person).
  */
 @listableObjectComponent('OrgUnit', ViewMode.StandalonePage, Context.Any, 'annuaires')
@@ -30,15 +25,11 @@ const COPIED_FEEDBACK_DURATION_MS = 1500;
   selector: 'ds-org-unit',
   styleUrls: ['./org-unit.component.scss'],
   templateUrl: './org-unit.component.html',
-  standalone: true,
   imports: [
-    AsyncPipe,
     DsoEditMenuComponent,
     GenericItemPageFieldComponent,
     ItemPageImgFieldComponent,
-    NgIf,
     RelatedItemsComponent,
-    RouterLink,
     TabbedRelatedEntitiesSearchComponent,
     ThemedItemPageTitleFieldComponent,
     TranslateModule,

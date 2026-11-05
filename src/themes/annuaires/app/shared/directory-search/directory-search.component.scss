@@ -1,0 +1,81 @@
+@import '../../../../montreal/styles/_variables_papyrus.scss';
+
+// Couleurs du bouton « Retour aux résultats » du bandeau ; loupe seule, sans cercle.
+$control-height: 1.85rem;
+
+.directory-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+// Le champ s'ouvre vers la gauche, par-dessus le fil d'Ariane, la loupe restant à droite.
+// Même durée que l'animation de la recherche de l'en-tête DSpace ; plus large pour le placeholder entier.
+.directory-search__input {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0;
+  height: $control-height;
+  padding: 0;
+  font-size: 0.875rem;
+  color: $white;
+  background-color: rgba($darkgreen, 0.9);
+  border: 0 solid rgba($white, 0.6);
+  border-radius: 999px;
+  box-shadow: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &.is-expanded {
+    width: 320px;
+    padding: 0 2.25rem 0 0.9rem;
+    border-width: 1px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &::placeholder {
+    font-size: 0.8125rem;
+    color: rgba($white, 0.75);
+  }
+
+  &:focus {
+    color: $white;
+    background-color: rgba($darkgreen, 0.95);
+    border-color: $white;
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.directory-search__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $control-height;
+  height: $control-height;
+  padding: 0;
+  font-size: 0.95rem;
+  color: rgba($white, 0.85);
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  transition: color 0.15s ease;
+
+  &:hover,
+  &[aria-expanded='true'] {
+    color: $white;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $white;
+    outline-offset: 2px;
+  }
+}

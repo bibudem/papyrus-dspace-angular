@@ -60,65 +60,7 @@
                   @if (isExpanded('educations')) {
                     <div id="oe-panel-educations" class="oe-accordion-body oe-affiliation-list">
                       @for (entry of profile.educations; track entry.putCode) {
-                        <ng-container *ngTemplateOutlet="affiliation; context: { $implicit: entry }"></ng-container>
-                      }
-                    </div>
-                  }
-                </div>
-              }
-
-              @if (profile.qualifications.length > 0) {
-                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
-                  <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'qualifications', label: 'papyrus.orcid-profile.qualifications', count: profile.qualifications.length }"></ng-container>
-                  @if (isExpanded('qualifications')) {
-                    <div id="oe-panel-qualifications" class="oe-accordion-body oe-affiliation-list">
-                      @for (entry of profile.qualifications; track entry.putCode) {
-                        <ng-container *ngTemplateOutlet="affiliation; context: { $implicit: entry }"></ng-container>
-                      }
-                    </div>
-                  }
-                </div>
-              }
-
-              @if (profile.peerReviews.length > 0) {
-                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
-                  <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'peer-reviews', label: 'papyrus.orcid-profile.peer-reviews', count: profile.peerReviews.length }"></ng-container>
-                  @if (isExpanded('peer-reviews')) {
-                    <div id="oe-panel-peer-reviews" class="oe-accordion-body oe-affiliation-list">
-                      <!-- Pas d'identifiant stable côté ORCID : suivi par position -->
-                      @for (review of profile.peerReviews; track $index) {
-                        <div class="oe-affiliation-item">
-                          <div class="oe-item-title lead">
-                            {{ review.reviewerRole || ('papyrus.orcid-profile.peer-reviews' | translate) }}
-                          </div>
-                          @if (review.organizationName) {
-                            <div class="oe-affiliation-org">{{ review.organizationName }}</div>
-                          }
-                          @if (review.year) {
-                            <div class="oe-affiliation-period">{{ review.year }}</div>
-                          }
-                        </div>
-                      }
-                    </div>
-                  }
-                </div>
-              }
-
-              @if (profile.researchResources.length > 0) {
-                <div class="oe-accordion-item facet-filter d-block mb-3 p-3">
-                  <ng-container *ngTemplateOutlet="sectionHeader; context: { $implicit: 'research-resources', label: 'papyrus.orcid-profile.research-resources', count: profile.researchResources.length }"></ng-container>
-                  @if (isExpanded('research-resources')) {
-                    <div id="oe-panel-research-resources" class="oe-accordion-body oe-affiliation-list">
-                      @for (resource of profile.researchResources; track $index) {
-                        <div class="oe-affiliation-item">
-                          <div class="oe-item-title lead">
-                            {{ resource.title || ('papyrus.orcid-profile.research-resources' | translate) }}
-                          </div>
-                          @if (resource.organizationName) {
-                            <div class="oe-affiliation-org">{{ resource.organizationName }}</div>
-                          }
-                          <ng-container *ngTemplateOutlet="period; context: { start: resource.startYear, end: resource.endYear }"></ng-container>
-                        </div>
+                        <ng-container *ngTemplateOutlet="affiliation; context: { $implicit: entry, icon: 'fa-graduation-cap' }"></ng-container>
                       }
                     </div>
                   }
@@ -245,35 +187,41 @@
 </ng-template>
 
 <!-- Intitulé, organisme et lieu, période, puis liens, comme sur orcid.org -->
-<ng-template #affiliation let-entry let-kind="kind" let-ongoing="ongoing">
-  <div class="oe-affiliation-item">
-    @if (kind) {
-      <span class="badge bg-info mb-1">{{ 'papyrus.orcid-profile.activity-type.' + kind | translate }}</span>
+<!-- icon : icône Font Awesome décorative devant l'entrée (ex. formations) -->
+<ng-template #affiliation let-entry let-kind="kind" let-ongoing="ongoing" let-icon="icon">
+  <div class="oe-affiliation-item" [class.oe-affiliation-item--with-icon]="icon">
+    @if (icon) {
+      <span class="oe-affiliation-icon" aria-hidden="true"><i class="fas" [class]="icon"></i></span>
     }
-    <div class="oe-item-title lead">{{ entry.roleTitle || entry.departmentName || entry.organizationName }}</div>
-    @if (organizationLine(entry); as line) {
-      <div class="oe-affiliation-org">{{ line }}</div>
-    }
-    <ng-container *ngTemplateOutlet="period; context: { start: entry.startDate, end: entry.endDate, ongoing: ongoing }"></ng-container>
-    @if (entry.url || entry.externalIds?.length) {
-      <div class="oe-affiliation-links">
-        @if (entry.url) {
-          <a [href]="entry.url" target="_blank" rel="noopener noreferrer" class="dont-break-out">
-            {{ entry.url }}<i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
-          </a>
-        }
-        @for (id of entry.externalIds; track id.type + id.value) {
-          <span class="oe-external-id">
-            {{ id.type | uppercase }} :
-            @if (id.url) {
-              <a [href]="id.url" target="_blank" rel="noopener noreferrer">{{ id.value }}</a>
-            } @else {
-              {{ id.value }}
-            }
-          </span>
-        }
-      </div>
-    }
+    <div class="oe-affiliation-content">
+      @if (kind) {
+        <span class="badge bg-info mb-1">{{ 'papyrus.orcid-profile.activity-type.' + kind | translate }}</span>
+      }
+      <div class="oe-item-title lead">{{ entry.roleTitle || entry.departmentName || entry.organizationName }}</div>
+      @if (organizationLine(entry); as line) {
+        <div class="oe-affiliation-org">{{ line }}</div>
+      }
+      <ng-container *ngTemplateOutlet="period; context: { start: entry.startDate, end: entry.endDate, ongoing: ongoing }"></ng-container>
+      @if (entry.url || entry.externalIds?.length) {
+        <div class="oe-affiliation-links">
+          @if (entry.url) {
+            <a [href]="entry.url" target="_blank" rel="noopener noreferrer" class="dont-break-out">
+              {{ entry.url }}<i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
+            </a>
+          }
+          @for (id of entry.externalIds; track id.type + id.value) {
+            <span class="oe-external-id">
+              {{ id.type | uppercase }} :
+              @if (id.url) {
+                <a [href]="id.url" target="_blank" rel="noopener noreferrer">{{ id.value }}</a>
+              } @else {
+                {{ id.value }}
+              }
+            </span>
+          }
+        </div>
+      }
+    </div>
   </div>
 </ng-template>
 

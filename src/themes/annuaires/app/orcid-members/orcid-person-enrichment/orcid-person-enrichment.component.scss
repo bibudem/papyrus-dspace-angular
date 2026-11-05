@@ -53,10 +53,15 @@
 
 // Sections dépliables : blocs .facet-filter, comme les filtres de la recherche.
 
-// Montreal force 0.5rem de padding vertical sur .facet-filter.
+// Montreal force 0.5rem de padding vertical sur .facet-filter. Bordure : délimite le contenu blanc
+// déplié sur la page blanche.
+$accordion-padding-x: 1rem;     // .p-3
+$accordion-padding-y: 0.875rem;
+
 .oe-accordion-item.facet-filter.p-3 {
-  padding-top: 0.875rem !important;
-  padding-bottom: 0.875rem !important;
+  padding-top: $accordion-padding-y !important;
+  padding-bottom: $accordion-padding-y !important;
+  border: 1px solid $gray-200;
 }
 
 .oe-accordion-header {
@@ -87,8 +92,13 @@
   font-size: 0.9rem;
 }
 
+// Contenu déplié sur fond blanc, jusqu'aux bords du bloc ; seul l'en-tête reste gris.
 .oe-accordion-body {
-  padding-top: 0.75rem;
+  margin: $accordion-padding-y (-$accordion-padding-x) (-$accordion-padding-y);
+  padding: 1rem $accordion-padding-x;
+  background-color: $white;
+  border-top: 1px solid $gray-200;
+  border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
 }
 
 // Biographie
@@ -107,6 +117,31 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+// Icône devant l'entrée (formations) : pastille alignée sur la première ligne du titre.
+.oe-affiliation-item--with-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.oe-affiliation-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: 0.1rem;
+  font-size: 0.95rem;
+  color: $greensecondary;
+  background-color: rgba($greensecondary, 0.1);
+  border-radius: 50%;
+}
+
+.oe-affiliation-content {
+  min-width: 0;
 }
 
 // Même typographie que les titres de la liste de résultats (a.lead), en texte foncé hors lien.

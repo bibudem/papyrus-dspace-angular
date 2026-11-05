@@ -69,8 +69,5 @@ export function hasPresentationContent(profile: OrcidResearcherProfile | null): 
     profile.memberships,
     profile.services,
     profile.educations,
-    profile.qualifications,
-    profile.peerReviews,
-    profile.researchResources,
   ].some((entries) => entries?.length > 0);
 }

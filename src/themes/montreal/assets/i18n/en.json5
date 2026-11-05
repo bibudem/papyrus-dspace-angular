@@ -971,6 +971,7 @@
   "papyrus.annuaires.browse.units": "Faculty and academic units",
   "papyrus.annuaires.browse.keywords": "Expertise",
   "papyrus.annuaires.search-form.placeholder": "Search the directory",
+  "papyrus.annuaires.directory-search.placeholder": "Search for a person, an area of expertise...",
   "papyrus.annuaires.browse.search-form.placeholder": "Search the directory",
   "papyrus.annuaires.back-to-top": "Back to top",
 
@@ -998,9 +999,6 @@
   "papyrus.orcid-profile.period.range": "{{start}} to {{end}}",
   "papyrus.orcid-profile.period.ongoing": "{{start}} to present",
   "papyrus.orcid-profile.educations": "Education",
-  "papyrus.orcid-profile.qualifications": "Qualifications",
-  "papyrus.orcid-profile.peer-reviews": "Peer review",
-  "papyrus.orcid-profile.research-resources": "Research resources",
   "papyrus.orcid-profile.keywords": "Research areas",
   "papyrus.orcid-profile.publications.filter-all": "All",
   "papyrus.orcid-profile.publications.filter-label": "Filter by work type",

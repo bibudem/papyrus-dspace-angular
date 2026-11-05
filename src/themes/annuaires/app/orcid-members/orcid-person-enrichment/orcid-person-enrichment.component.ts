@@ -62,12 +62,7 @@ const ONGOING_KINDS: ReadonlySet<ProfessionalActivityKind> = new Set(['invited-p
 export type OrcidProfileSection = 'presentation' | 'works' | 'fundings';
 
 /** Sections de l'accordéon de la présentation. */
-type ActivitySection =
-  | 'professional-activities'
-  | 'educations'
-  | 'qualifications'
-  | 'peer-reviews'
-  | 'research-resources';
+type ActivitySection = 'professional-activities' | 'educations';
 
 interface OrcidPanelViewModel {
   status: 'loading' | 'loaded' | 'unavailable';

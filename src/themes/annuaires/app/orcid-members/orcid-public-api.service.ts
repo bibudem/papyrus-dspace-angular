@@ -71,7 +71,7 @@ export interface OrcidExternalId {
   url?: string;
 }
 
-/** Distinction, poste invité, formation, adhésion, qualification ou service (même structure dans ORCID). */
+/** Distinction, poste invité, formation, adhésion ou service (même structure dans ORCID). */
 export interface OrcidAffiliationEntry {
   putCode: number;
   roleTitle?: string;
@@ -86,22 +86,6 @@ export interface OrcidAffiliationEntry {
   endDate?: string;
   url?: string;
   externalIds: OrcidExternalId[];
-}
-
-/** Activité de révision par les pairs déclarée sur ORCID. */
-export interface OrcidPeerReview {
-  reviewerRole?: string;
-  reviewType?: string;
-  organizationName?: string;
-  year?: number;
-}
-
-/** Ressource de recherche (infrastructure, équipement) déclarée sur ORCID. */
-export interface OrcidResearchResource {
-  title?: string;
-  organizationName?: string;
-  startYear?: number;
-  endYear?: number;
 }
 
 /** Publication de la liste de travaux ORCID. */
@@ -135,11 +119,8 @@ export interface OrcidResearcherProfile {
   invitedPositions: OrcidAffiliationEntry[];
   educations: OrcidAffiliationEntry[];
   memberships: OrcidAffiliationEntry[];
-  qualifications: OrcidAffiliationEntry[];
   /** Comités, bénévolat, etc. */
   services: OrcidAffiliationEntry[];
-  peerReviews: OrcidPeerReview[];
-  researchResources: OrcidResearchResource[];
 }
 
 // Réponses de l'API ORCID v3.0
@@ -198,7 +179,7 @@ interface OrcidWorksResponse {
   }> | null;
 }
 
-/** Modèle "Affiliations" v3, commun aux 6 catégories (distinctions, invited-positions, educations, memberships, qualifications, services). */
+/** Modèle "Affiliations" v3, commun aux catégories lues (distinctions, invited-positions, educations, memberships, services). */
 interface OrcidAffiliationSummaryRaw {
   'put-code': number;
   'department-name'?: string | null;
@@ -225,43 +206,13 @@ interface OrcidAffiliationGroupResponse {
   }> | null;
 }
 
-interface OrcidPeerReviewsResponse {
-  group: Array<{
-    'peer-review-group': Array<{
-      'peer-review-summary': Array<{
-        'reviewer-role'?: string | null;
-        'review-type'?: string | null;
-        'completion-date'?: OrcidDateParts | null;
-        'convening-organization'?: { name: string } | null;
-      }>;
-    }> | null;
-  }> | null;
-}
-
-/** Forme best-effort : non vérifiée sur un profil réel (section rare), d'où la tolérance aux champs manquants. */
-interface OrcidResearchResourcesResponse {
-  group: Array<{
-    'research-resource-summary'?: Array<{
-      proposal?: {
-        title?: { title?: { value: string } | null } | null;
-        hosts?: { organization?: Array<{ name: string }> | null } | null;
-        'start-date'?: OrcidDateParts | null;
-        'end-date'?: OrcidDateParts | null;
-      } | null;
-    }> | null;
-  }> | null;
-}
-
 /** Sections d'activités du dossier ORCID. */
 interface OrcidActivitiesResponse {
   distinctions?: OrcidAffiliationGroupResponse | null;
   'invited-positions'?: OrcidAffiliationGroupResponse | null;
   educations?: OrcidAffiliationGroupResponse | null;
   memberships?: OrcidAffiliationGroupResponse | null;
-  qualifications?: OrcidAffiliationGroupResponse | null;
   services?: OrcidAffiliationGroupResponse | null;
-  'peer-reviews'?: OrcidPeerReviewsResponse | null;
-  'research-resources'?: OrcidResearchResourcesResponse | null;
   fundings?: OrcidFundingsResponse | null;
   works?: OrcidWorksResponse | null;
 }
@@ -628,10 +579,7 @@ export class OrcidPublicApiService {
       invitedPositions: this.mapAffiliationGroup(activities?.['invited-positions'], 'invited-position-summary'),
       educations: this.mapAffiliationGroup(activities?.educations, 'education-summary'),
       memberships: this.mapAffiliationGroup(activities?.memberships, 'membership-summary'),
-      qualifications: this.mapAffiliationGroup(activities?.qualifications, 'qualification-summary'),
       services: this.mapAffiliationGroup(activities?.services, 'service-summary'),
-      peerReviews: this.mapPeerReviews(activities?.['peer-reviews']),
-      researchResources: this.mapResearchResources(activities?.['research-resources']),
     };
   }
 
@@ -717,7 +665,7 @@ export class OrcidPublicApiService {
     return resp?.group?.length ?? 0;
   }
 
-  // Même structure pour les 6 catégories d'affiliation ; seule la clé du résumé change.
+  // Même structure pour toutes les catégories d'affiliation ; seule la clé du résumé change.
   private mapAffiliationGroup(
     resp: OrcidAffiliationGroupResponse | null | undefined,
     summaryKey: string,
@@ -754,43 +702,6 @@ export class OrcidPublicApiService {
       })
       .filter((e): e is OrcidAffiliationEntry => e !== null)
       .sort(compareByStartDateDesc);
-  }
-
-  private mapPeerReviews(resp: OrcidPeerReviewsResponse | null | undefined): OrcidPeerReview[] {
-    if (!resp?.group) {
-      return [];
-    }
-
-    return resp.group
-      .flatMap((group) => group['peer-review-group'] ?? [])
-      .map((prGroup) => prGroup['peer-review-summary']?.[0])
-      .filter((summary): summary is NonNullable<typeof summary> => !!summary)
-      .map((summary) => ({
-        reviewerRole: summary['reviewer-role'] ?? undefined,
-        reviewType: summary['review-type'] ?? undefined,
-        organizationName: summary['convening-organization']?.name ?? undefined,
-        year: this.parseYear(summary['completion-date']),
-      }))
-      .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-  }
-
-  private mapResearchResources(
-    resp: OrcidResearchResourcesResponse | null | undefined,
-  ): OrcidResearchResource[] {
-    if (!resp?.group) {
-      return [];
-    }
-
-    return resp.group
-      .map((group) => group['research-resource-summary']?.[0]?.proposal)
-      .filter((proposal): proposal is NonNullable<typeof proposal> => !!proposal)
-      .map((proposal) => ({
-        title: proposal.title?.title?.value ?? undefined,
-        organizationName: proposal.hosts?.organization?.[0]?.name ?? undefined,
-        startYear: this.parseYear(proposal['start-date']),
-        endYear: this.parseYear(proposal['end-date']),
-      }))
-      .sort((a, b) => (b.startYear ?? 0) - (a.startYear ?? 0));
   }
 
   private parseYear(date: OrcidDateParts | null | undefined): number | undefined {

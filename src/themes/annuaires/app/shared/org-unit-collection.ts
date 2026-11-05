@@ -18,8 +18,9 @@ export function isOrgUnitCollection(dsoService: DSpaceObjectDataService, id: str
   }
   return dsoService.findById(id).pipe(
     getFirstCompletedRemoteData(),
+    // `type` est désérialisé en simple chaîne ('collection') : test sur la classe du modèle.
     map((rd) => rd.hasSucceeded
-      && rd.payload?.type?.value === Collection.type.value
+      && rd.payload instanceof Collection
       && rd.payload.firstMetadataValue('dspace.entity.type') === 'OrgUnit'),
   );
 }

@@ -1,0 +1,18 @@
+<form class="directory-search" role="search" autocomplete="off" [formGroup]="searchForm"
+      [attr.aria-label]="'papyrus.annuaires.search-form.placeholder' | translate"
+      (ngSubmit)="submit()" (dsClickOutside)="collapse()">
+  <input #searchInput type="search" name="query"
+         class="directory-search__input form-control"
+         formControlName="query"
+         [class.is-expanded]="expanded"
+         [placeholder]="'papyrus.annuaires.directory-search.placeholder' | translate"
+         [attr.aria-label]="'papyrus.annuaires.directory-search.placeholder' | translate"
+         [tabIndex]="expanded ? 0 : -1"
+         (keydown.escape)="collapse()">
+  <button type="button" class="directory-search__button"
+          [attr.aria-label]="(expanded ? 'nav.search.button' : 'papyrus.annuaires.search-form.placeholder') | translate"
+          [attr.aria-expanded]="expanded"
+          (click)="onButtonClick()">
+    <i class="fas fa-search" aria-hidden="true"></i>
+  </button>
+</form>
