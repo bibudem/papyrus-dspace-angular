@@ -62,18 +62,9 @@
             }
           </ul>
           @if (expertises.length > expertisePreviewCount) {
-            <button type="button" class="btn btn-link person-toggle-btn"
-                    aria-controls="person-expertises"
-                    [attr.aria-expanded]="showAllExpertises"
-                    (click)="toggleExpertises()">
-              <i class="fas fa-xs me-1" aria-hidden="true"
-                 [class.fa-chevron-down]="!showAllExpertises"
-                 [class.fa-chevron-up]="showAllExpertises"></i>
-              @if (showAllExpertises) {
-                {{ 'papyrus.person.page.discipline.show-less' | translate }}
-              } @else {
-                {{ 'papyrus.person.page.discipline.show-more' | translate: { count: expertises.length - expertisePreviewCount } }}
-              }
+            <button type="button" class="annuaires-show-more mt-1" aria-controls="person-expertises"
+                    [attr.aria-expanded]="showAllExpertises" (click)="toggleExpertises()">
+              {{ (showAllExpertises ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
             </button>
           }
         </ds-metadata-field-wrapper>

@@ -955,8 +955,6 @@
   "item.page.orcid-profile": "ORCID",
 
   "papyrus.person.page.discipline": "Expertise",
-  "papyrus.person.page.discipline.show-more": "Show {{count}} more areas of expertise",
-  "papyrus.person.page.discipline.show-less": "Show less",
 
   "papyrus.person.page.uri": "Permanent link",
   "papyrus.person.page.relation.affiliation": "Affiliation",
@@ -991,8 +989,6 @@
   "papyrus.orcid-profile.back": "Back to the list",
   "papyrus.orcid-profile.see-orcid-profile": "See the ORCID profile for more information:",
   "papyrus.orcid-profile.biography": "Biography",
-  "papyrus.orcid-profile.biography.show-more": "Show more",
-  "papyrus.orcid-profile.biography.show-less": "Show less",
   "papyrus.orcid-profile.links": "Links",
   "papyrus.orcid-profile.professional-activities": "Professional activities",
   "papyrus.orcid-profile.activity-type.distinction": "Distinction",
@@ -1005,8 +1001,6 @@
   "papyrus.orcid-profile.qualifications": "Qualifications",
   "papyrus.orcid-profile.peer-reviews": "Peer review",
   "papyrus.orcid-profile.research-resources": "Research resources",
-  "papyrus.orcid-profile.funding.show-more": "Show {{count}} more funding items",
-  "papyrus.orcid-profile.funding.show-less": "Show less",
   "papyrus.orcid-profile.keywords": "Research areas",
   "papyrus.orcid-profile.publications.filter-all": "All",
   "papyrus.orcid-profile.publications.filter-label": "Filter by work type",
@@ -1019,8 +1013,6 @@
   "papyrus.orcid-profile.work-type.report": "Report",
   "papyrus.orcid-profile.work-type.preprint": "Preprint",
   "papyrus.orcid-profile.work-type.other": "Other",
-  "papyrus.orcid-profile.publications.show-more": "Show {{count}} more publications",
-  "papyrus.orcid-profile.publications.show-less": "Show less",
 
   "person.page.titleprefix": "",
   "orgunit.page.titleprefix": "",

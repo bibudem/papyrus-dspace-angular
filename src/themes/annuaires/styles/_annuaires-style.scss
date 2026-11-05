@@ -28,6 +28,29 @@ ds-community-page-sub-collection-list .pagination-info {
   }
 }
 
+// ── Afficher plus / moins ──
+// Même rendu que les liens natifs des filtres de recherche (.toggle-more-filters), en vrai bouton.
+.annuaires-show-more {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: start;
+  color: var(--bs-link-color);
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $greensecondary;
+    outline-offset: 2px;
+  }
+}
+
 // ── Page communauté ──
 // En-tête décollé du bandeau ; scopé à .comcol-header car .me-auto est trop générique.
 .comcol-header.me-auto {
@@ -187,28 +210,6 @@ ds-community-page-sub-collection-list .pagination-info {
 // Interligne des autres champs de la fiche (Fonction, Courriel).
 .person-expertise-list li {
   line-height: $line-height-base;
-}
-
-// « Voir plus » des expertises : aligné sur la liste, contour au clavier seulement.
-.person-toggle-btn {
-  margin-top: 0.25rem;
-  padding: 0;
-  font-size: 0.9rem;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &:focus:not(:focus-visible) {
-    box-shadow: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $greensecondary;
-    outline-offset: 2px;
-    box-shadow: none;
-  }
 }
 
 // Onglets de la fiche : style natif DSpace (nav-tabs), titres avec la typographie des libellés de la fiche

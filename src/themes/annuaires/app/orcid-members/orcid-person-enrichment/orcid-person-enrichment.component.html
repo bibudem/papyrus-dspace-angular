@@ -27,19 +27,12 @@
             @if (hasFrenchBiography(profile)) {
               <section class="oe-section">
                 <h3>{{ 'papyrus.orcid-profile.biography' | translate }}</h3>
-                <p class="oe-bio-text">{{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}</p>
+                <p id="oe-biography" class="oe-bio-text">{{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}</p>
                 @if (profile.biography.length > bioPreviewLength) {
-                  <div class="mt-3 text-center">
-                    <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleBio()">
-                      @if (showFullBio) {
-                        <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                        {{ 'papyrus.orcid-profile.biography.show-less' | translate }}
-                      } @else {
-                        <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                        {{ 'papyrus.orcid-profile.biography.show-more' | translate }}
-                      }
-                    </button>
-                  </div>
+                  <button type="button" class="annuaires-show-more mt-2" aria-controls="oe-biography"
+                          [attr.aria-expanded]="showFullBio" (click)="toggleBio()">
+                    {{ (showFullBio ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
+                  </button>
                 }
               </section>
             }
@@ -165,7 +158,7 @@
               }
 
               @if (filteredWorks(profile.works); as visibleWorks) {
-                <div class="oe-works-list">
+                <div id="oe-works" class="oe-works-list">
                   @for (work of visibleWorks | slice:0:(showAllWorks ? visibleWorks.length : worksPreviewCount); track work.putCode) {
                     <article class="work-item">
                       <div class="work-meta d-flex align-items-center gap-2 mb-1">
@@ -198,17 +191,10 @@
                 </div>
 
                 @if (visibleWorks.length > worksPreviewCount) {
-                  <div class="oe-works-toggle mt-3 text-center">
-                    <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleWorks()">
-                      @if (showAllWorks) {
-                        <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                        {{ 'papyrus.orcid-profile.publications.show-less' | translate }}
-                      } @else {
-                        <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                        {{ 'papyrus.orcid-profile.publications.show-more' | translate:{ count: visibleWorks.length - worksPreviewCount } }}
-                      }
-                    </button>
-                  </div>
+                  <button type="button" class="annuaires-show-more mt-2" aria-controls="oe-works"
+                          [attr.aria-expanded]="showAllWorks" (click)="toggleWorks()">
+                    {{ (showAllWorks ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
+                  </button>
                 }
               }
             </div>
@@ -219,7 +205,7 @@
         @if (profile.fundings.length > 0) {
           <div class="oe-panel">
             <div class="oe-body">
-              <div class="oe-affiliation-list">
+              <div id="oe-fundings" class="oe-affiliation-list">
                 @for (funding of profile.fundings | slice:0:(showAllFundings ? profile.fundings.length : fundingsPreviewCount); track funding.putCode) {
                   <div class="oe-affiliation-item">
                     <div class="oe-item-title lead">{{ funding.title }}</div>
@@ -232,17 +218,10 @@
               </div>
 
               @if (profile.fundings.length > fundingsPreviewCount) {
-                <div class="oe-works-toggle mt-3 text-center">
-                  <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleFundings()">
-                    @if (showAllFundings) {
-                      <i class="fas fa-chevron-up fa-xs me-1" aria-hidden="true"></i>
-                      {{ 'papyrus.orcid-profile.funding.show-less' | translate }}
-                    } @else {
-                      <i class="fas fa-chevron-down fa-xs me-1" aria-hidden="true"></i>
-                      {{ 'papyrus.orcid-profile.funding.show-more' | translate:{ count: profile.fundings.length - fundingsPreviewCount } }}
-                    }
-                  </button>
-                </div>
+                <button type="button" class="annuaires-show-more mt-2" aria-controls="oe-fundings"
+                        [attr.aria-expanded]="showAllFundings" (click)="toggleFundings()">
+                  {{ (showAllFundings ? 'search.filters.filter.show-less' : 'search.filters.filter.show-more') | translate }}
+                </button>
               }
             </div>
           </div>

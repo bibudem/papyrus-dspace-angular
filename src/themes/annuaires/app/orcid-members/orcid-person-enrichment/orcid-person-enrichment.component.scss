@@ -177,27 +177,6 @@
 .work-doi { font-size: 0.9rem; color: $gray-600; margin-bottom: 0; }
 .doi-link { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
 
-// Bouton voir plus / voir moins
-
-.oe-toggle-btn {
-  color: $darkgreen;
-  font-weight: 600;
-  text-decoration: none;
-
-  &:hover,
-  &:focus-visible {
-    color: $greensecondary;
-    text-decoration: underline;
-  }
-
-  // Neutralise le halo bleu (.btn:focus) et la couleur de .btn-link:active de Bootstrap.
-  &:active,
-  &:focus {
-    color: $darkgreen;
-    box-shadow: none;
-  }
-}
-
 // Squelettes de chargement
 
 .oe-skeleton {

@@ -17,7 +17,6 @@ import {
 import { isbot } from 'isbot';
 import {
   EMPTY,
-  forkJoin,
   from,
   Observable,
   of,
@@ -253,7 +252,7 @@ interface OrcidResearchResourcesResponse {
   }> | null;
 }
 
-/** Réponse de /activities : toutes les sections d'activités en un seul appel. */
+/** Sections d'activités du dossier ORCID. */
 interface OrcidActivitiesResponse {
   distinctions?: OrcidAffiliationGroupResponse | null;
   'invited-positions'?: OrcidAffiliationGroupResponse | null;
@@ -265,6 +264,12 @@ interface OrcidActivitiesResponse {
   'research-resources'?: OrcidResearchResourcesResponse | null;
   fundings?: OrcidFundingsResponse | null;
   works?: OrcidWorksResponse | null;
+}
+
+/** Réponse de /record : identité et activités en un seul appel. */
+interface OrcidRecordResponse {
+  person?: OrcidPersonResponse | null;
+  'activities-summary'?: OrcidActivitiesResponse | null;
 }
 
 /** API publique ORCID (sans authentification). */
@@ -300,7 +305,7 @@ interface CacheEntry<T> {
 const sharedCache = new Map<string, CacheEntry<unknown>>();
 const notFoundUntil = new Map<string, number>();
 
-// Profils partiels (un endpoint en erreur) : affichés, mais jamais mis en cache.
+// Profils vides après une erreur (hors 404) : affichés, mais jamais mis en cache.
 const incompleteProfiles = new WeakSet<OrcidResearcherProfile>();
 
 // Disjoncteur après un 429.
@@ -358,7 +363,7 @@ export class OrcidPublicApiService {
   }
 
   /**
-   * Profil complet d'un chercheur (/person et /activities).
+   * Profil complet d'un chercheur, en un seul appel à /record.
    *
    * @param orcidId Identifiant ORCID au format 0000-0000-0000-0000.
    */
@@ -551,30 +556,20 @@ export class OrcidPublicApiService {
     );
   }
 
-  // Une erreur sur un endpoint donne null sans bloquer l'autre ; hors 404, le profil n'est pas mis en cache.
+  // Réponse lourde, pas mise en cache : le profil construit à partir d'elle l'est déjà.
+  // En erreur, profil vide ; hors 404, il n'est pas mis en cache.
   private fetchProfile(orcidId: string): Observable<OrcidResearcherProfile> {
-    let complete = true;
-    const tolerate = <T>(source$: Observable<T>, endpoint: string): Observable<T | null> =>
-      source$.pipe(
-        catchError((err: unknown) => {
-          console.warn(`[ORCID] ${endpoint} inaccessible pour ${orcidId}`, err);
-          if ((err as HttpErrorResponse)?.status !== 404) {
-            complete = false;
-          }
-          return of(null);
-        }),
-      );
-
-    return forkJoin({
-      person: tolerate(this.personRaw$(orcidId), '/person'),
-      activities: tolerate(this.activitiesRaw$(orcidId), '/activities'),
-    }).pipe(
-      map(({ person, activities }) => {
-        const profile = this.mapProfile(orcidId, person, activities);
-        if (!complete) {
+    return this.getCachedOrFetch<OrcidRecordResponse>(`record|${orcidId}`, () =>
+      this.orcidGet<OrcidRecordResponse>(`${API_BASE}/${orcidId}/record`),
+    { cache: false }).pipe(
+      map((record) => this.mapProfile(orcidId, record?.person ?? null, record?.['activities-summary'] ?? null)),
+      catchError((err: unknown) => {
+        console.warn(`[ORCID] /record inaccessible pour ${orcidId}`, err);
+        const profile = this.mapProfile(orcidId, null, null);
+        if ((err as HttpErrorResponse)?.status !== 404) {
           incompleteProfiles.add(profile);
         }
-        return profile;
+        return of(profile);
       }),
     );
   }
@@ -595,18 +590,11 @@ export class OrcidPublicApiService {
     );
   }
 
-  // Partagé entre la liste et la fiche. Les erreurs remontent : un échec ne va jamais en cache.
+  // Liste des chercheurs : identité seulement. Les erreurs remontent : un échec ne va jamais en cache.
   private personRaw$(orcidId: string): Observable<OrcidPersonResponse> {
     return this.getCachedOrFetch<OrcidPersonResponse>(`person|${orcidId}`, () =>
       this.orcidGet<OrcidPersonResponse>(`${API_BASE}/${orcidId}/person`),
     );
-  }
-
-  // Réponse lourde, pas mise en cache : le profil construit à partir d'elle l'est déjà.
-  private activitiesRaw$(orcidId: string): Observable<OrcidActivitiesResponse> {
-    return this.getCachedOrFetch<OrcidActivitiesResponse>(`activities|${orcidId}`, () =>
-      this.orcidGet<OrcidActivitiesResponse>(`${API_BASE}/${orcidId}/activities`),
-    { cache: false });
   }
 
   private mapPersonLight(orcidId: string, p: OrcidPersonResponse | null): OrcidMember {

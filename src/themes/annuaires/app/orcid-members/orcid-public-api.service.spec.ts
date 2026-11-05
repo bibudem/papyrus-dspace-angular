@@ -19,7 +19,7 @@ import {
 
 const ORCID_ID = '0000-0001-2345-6789';
 const PERSON_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}/person`;
-const ACTIVITIES_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}/activities`;
+const RECORD_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}/record`;
 
 describe('OrcidPublicApiService', () => {
   let http: HttpTestingController;
@@ -47,17 +47,28 @@ describe('OrcidPublicApiService', () => {
 
   afterEach(() => http.verify());
 
+  it('charge le profil en un seul appel à /record', () => {
+    const service = setup();
+    let profile: OrcidResearcherProfile | undefined;
+    service.getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
+    http.expectOne(RECORD_URL).flush({
+      person: { biography: { content: ' Biographie ' } },
+      'activities-summary': { works: { group: [] } },
+    });
+
+    http.expectNone(PERSON_URL);
+    expect(profile?.biography).toBe('Biographie');
+  });
+
   it('partage le profil en cache entre les instances (requêtes SSR)', () => {
     const service = setup();
     service.getResearcherProfile(ORCID_ID).subscribe();
-    http.expectOne(PERSON_URL).flush({});
-    http.expectOne(ACTIVITIES_URL).flush({});
+    http.expectOne(RECORD_URL).flush({});
 
     let profile: OrcidResearcherProfile | undefined;
     newInstance().getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
 
-    http.expectNone(PERSON_URL);
-    http.expectNone(ACTIVITIES_URL);
+    http.expectNone(RECORD_URL);
     expect(profile?.orcidId).toBe(ORCID_ID);
   });
 
@@ -66,28 +77,25 @@ describe('OrcidPublicApiService', () => {
     let profile: OrcidResearcherProfile | undefined;
     service.getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
 
-    http.expectOne(PERSON_URL).flush({});
     for (let attempt = 0; attempt < 3; attempt++) {
-      http.expectOne(ACTIVITIES_URL).flush(null, { status: 503, statusText: 'Unavailable' });
+      http.expectOne(RECORD_URL).flush(null, { status: 503, statusText: 'Unavailable' });
       tick(500);
     }
     expect(profile).toBeDefined();
 
     newInstance().getResearcherProfile(ORCID_ID).subscribe();
-    http.expectOne(ACTIVITIES_URL).flush({});
+    http.expectOne(RECORD_URL).flush({});
   }));
 
   it('suspend tous les appels après un 429, sans nouvel essai', () => {
     const service = setup();
     service.getResearcherProfile(ORCID_ID).subscribe();
-    http.expectOne(PERSON_URL).flush(null, { status: 429, statusText: 'Too Many Requests' });
-    http.expectOne(ACTIVITIES_URL).flush({});
+    http.expectOne(RECORD_URL).flush(null, { status: 429, statusText: 'Too Many Requests' });
 
     let profile: OrcidResearcherProfile | undefined;
     newInstance().getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
 
-    http.expectNone(PERSON_URL);
-    http.expectNone(ACTIVITIES_URL);
+    http.expectNone(RECORD_URL);
     expect(profile?.orcidId).toBe(ORCID_ID);
   });
 
@@ -107,12 +115,11 @@ describe('OrcidPublicApiService', () => {
     let profile: OrcidResearcherProfile | undefined;
     service.getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
 
-    http.expectOne(PERSON_URL).flush({});
-    const slow = http.expectOne(ACTIVITIES_URL);
+    const slow = http.expectOne(RECORD_URL);
     tick(5000);
 
     expect(slow.cancelled).toBeTrue();
-    http.expectNone(ACTIVITIES_URL);
+    http.expectNone(RECORD_URL);
     expect(profile).toBeDefined();
   }));
 
@@ -125,8 +132,7 @@ describe('OrcidPublicApiService', () => {
       complete: () => (completed = true),
     });
 
-    http.expectNone(PERSON_URL);
-    http.expectNone(ACTIVITIES_URL);
+    http.expectNone(RECORD_URL);
     expect(emitted).toBeFalse();
     expect(completed).toBeTrue();
   });
@@ -134,8 +140,7 @@ describe('OrcidPublicApiService', () => {
   it('sert un robot depuis le cache rempli par un visiteur humain', () => {
     const service = setup();
     service.getResearcherProfile(ORCID_ID).subscribe();
-    http.expectOne(PERSON_URL).flush({});
-    http.expectOne(ACTIVITIES_URL).flush({});
+    http.expectOne(RECORD_URL).flush({});
 
     TestBed.resetTestingModule();
     let profile: OrcidResearcherProfile | undefined;
