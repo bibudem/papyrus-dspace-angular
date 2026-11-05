@@ -277,8 +277,8 @@ const API_BASE = 'https://pub.orcid.org/v3.0';
 
 const HEADERS = new HttpHeaders({ Accept: 'application/vnd.orcid+json' });
 
-const CACHE_TTL_MS = 30 * 60 * 1000;            // navigateur
-const SERVER_CACHE_TTL_MS = 6 * 60 * 60 * 1000; // serveur, partagé entre les visiteurs
+// Serveur (partagé entre les visiteurs) et navigateur : les profils ORCID changent rarement.
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 const CACHE_MAX_ENTRIES = 2000;                 // environ 2 entrées par chercheur
 
 const STORAGE_PREFIX = 'papyrus-annuaires:orcid-cache:';
@@ -342,9 +342,10 @@ export class OrcidPublicApiService {
 
   private readonly request = inject(REQUEST, { optional: true });
 
-  // Robot en SSR : on sert le cache, sans appeler ORCID ; sinon le flux se termine sans valeur.
-  private readonly isServerSideBot =
-    !this.isBrowser && isbot(this.request?.headers?.['user-agent'] as string | undefined);
+  // Robot (rendu serveur ou navigateur) : on sert le cache, sans appeler ORCID ; sinon le flux se termine sans valeur.
+  private readonly isBot = isbot(this.isBrowser
+    ? navigator.userAgent
+    : this.request?.headers?.['user-agent'] as string | undefined);
 
   private readonly inflight = new Map<string, Observable<unknown>>();
 
@@ -385,7 +386,7 @@ export class OrcidPublicApiService {
     { cache = true, cacheIf }: { cache?: boolean; cacheIf?: (data: T) => boolean } = {},
   ): Observable<T> {
     if (!cache) {
-      return this.isServerSideBot ? EMPTY : this.dedupe(key, factory);
+      return this.isBot ? EMPTY : this.dedupe(key, factory);
     }
 
     const transferKey = this.transferStateKey<T>(key);
@@ -413,7 +414,7 @@ export class OrcidPublicApiService {
       this.removePersisted(key);
     }
 
-    if (this.isServerSideBot) {
+    if (this.isBot) {
       return EMPTY;
     }
 
@@ -422,8 +423,7 @@ export class OrcidPublicApiService {
         if (cacheIf && !cacheIf(data)) {
           return;
         }
-        const ttl = this.isBrowser ? CACHE_TTL_MS : SERVER_CACHE_TTL_MS;
-        const entry = { data, expiresAt: Date.now() + ttl };
+        const entry = { data, expiresAt: Date.now() + CACHE_TTL_MS };
         this.setCached(key, entry);
         this.writePersisted(key, entry);
         if (!this.isBrowser) {

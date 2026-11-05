@@ -137,6 +137,47 @@ describe('OrcidPublicApiService', () => {
     expect(completed).toBeTrue();
   });
 
+  describe('dans le navigateur', () => {
+    // Le Chrome sans interface de Karma est lui-même reconnu comme un robot.
+    function setupBrowser(userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0'): OrcidPublicApiService {
+      spyOnProperty(navigator, 'userAgent').and.returnValue(userAgent);
+      TestBed.configureTestingModule({
+        providers: [
+          provideHttpClient(),
+          provideHttpClientTesting(),
+          { provide: PLATFORM_ID, useValue: 'browser' },
+        ],
+      });
+      http = TestBed.inject(HttpTestingController);
+      return TestBed.inject(OrcidPublicApiService);
+    }
+
+    beforeEach(() => localStorage.clear());
+
+    afterEach(() => localStorage.clear());
+
+    it("n'appelle jamais ORCID pour un robot qui exécute le JavaScript", () => {
+      let emitted = false;
+      setupBrowser('Mozilla/5.0 (compatible; Googlebot/2.1)').getResearcherProfile(ORCID_ID)
+        .subscribe(() => (emitted = true));
+
+      http.expectNone(RECORD_URL);
+      expect(emitted).toBeFalse();
+    });
+
+    it('relit le profil depuis localStorage à la visite suivante', () => {
+      setupBrowser().getResearcherProfile(ORCID_ID).subscribe();
+      http.expectOne(RECORD_URL).flush({});
+
+      resetOrcidSharedState();
+      let profile: OrcidResearcherProfile | undefined;
+      newInstance().getResearcherProfile(ORCID_ID).subscribe((p) => (profile = p));
+
+      http.expectNone(RECORD_URL);
+      expect(profile?.orcidId).toBe(ORCID_ID);
+    });
+  });
+
   it('sert un robot depuis le cache rempli par un visiteur humain', () => {
     const service = setup();
     service.getResearcherProfile(ORCID_ID).subscribe();
