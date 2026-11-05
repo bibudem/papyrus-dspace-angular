@@ -20,13 +20,13 @@ const RESULTS_ANCHORS = [
 
 const SCROLL_OFFSET_PX = 16;
 
-/** Paramètres d'un changement de sous-onglet (ds-tabbed-related-entities-search). */
-const TAB_SWITCH_PARAMS = ['tab', 'spc.page'];
+/** Onglet actif : onglets de la fiche Person et sous-onglets de ds-tabbed-related-entities-search. */
+const TAB_PARAM = 'tab';
 
 /**
  * Défilement du répertoire quand les paramètres changent sur la même page :
  * - recherche, filtre ou pagination : on arrive au début des résultats, plutôt qu'en haut de la page ;
- * - changement de sous-onglet (ex. rôles des publications d'une fiche) : la page ne bouge pas.
+ * - changement d'onglet (fiche Person, rôles des publications) : la page ne bouge pas.
  *
  * Service unique plutôt que composant : le fil d'Ariane qui l'affichait est recréé à chaque navigation,
  * ce qui perdait l'URL et la position précédentes.
@@ -86,13 +86,11 @@ export class ResultsScrollService {
     window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
   }
 
-  /** Vrai si seuls les paramètres de sous-onglet ont changé, dont l'onglet lui-même. */
+  /** Vrai si l'onglet a changé ; les paramètres de recherche de l'ancien onglet sont alors abandonnés. */
   private isTabSwitch(previousUrl: string, url: string): boolean {
     const previous = this.router.parseUrl(previousUrl).queryParams;
     const current = this.router.parseUrl(url).queryParams;
-    const keys = new Set([...Object.keys(previous), ...Object.keys(current)]);
-    const changed = [...keys].filter((key) => previous[key] !== current[key]);
-    return changed.includes('tab') && changed.every((key) => TAB_SWITCH_PARAMS.includes(key));
+    return previous[TAB_PARAM] !== current[TAB_PARAM];
   }
 
   private path(url: string): string {

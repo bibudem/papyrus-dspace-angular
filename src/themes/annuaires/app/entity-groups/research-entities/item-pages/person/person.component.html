@@ -56,11 +56,25 @@
       <!-- Texte simple : pas de lien vers l'index de parcours des expertises. -->
       @if (expertises.length > 0) {
         <ds-metadata-field-wrapper [label]="'papyrus.person.page.discipline' | translate">
-          @for (expertise of expertises; track expertise; let last = $last) {
-            <span class="dont-break-out">{{ expertise }}</span>
-            @if (!last) {
-              <br>
+          <ul id="person-expertises" class="person-expertise-list list-unstyled mb-0">
+            @for (expertise of visibleExpertises; track expertise) {
+              <li class="dont-break-out">{{ expertise }}</li>
             }
+          </ul>
+          @if (expertises.length > expertisePreviewCount) {
+            <button type="button" class="btn btn-link person-toggle-btn"
+                    aria-controls="person-expertises"
+                    [attr.aria-expanded]="showAllExpertises"
+                    (click)="toggleExpertises()">
+              <i class="fas fa-xs me-1" aria-hidden="true"
+                 [class.fa-chevron-down]="!showAllExpertises"
+                 [class.fa-chevron-up]="showAllExpertises"></i>
+              @if (showAllExpertises) {
+                {{ 'papyrus.person.page.discipline.show-less' | translate }}
+              } @else {
+                {{ 'papyrus.person.page.discipline.show-more' | translate: { count: expertises.length - expertisePreviewCount } }}
+              }
+            </button>
           }
         </ds-metadata-field-wrapper>
       }
@@ -81,13 +95,13 @@
           <li class="nav-item" role="presentation">
             <button role="tab" type="button"
                     class="nav-link"
-                    [class.active]="activeTab === tab.id"
+                    [class.active]="view.activeTab === tab.id"
                     [id]="'profile-tab-' + tab.id"
                     [attr.aria-controls]="'profile-panel-' + tab.id"
-                    [attr.aria-selected]="activeTab === tab.id"
-                    [attr.tabindex]="activeTab === tab.id ? 0 : -1"
-                    (click)="selectTab(tab.id)"
-                    (keydown)="onTabKeydown($event, view.tabs, i)">
+                    [attr.aria-selected]="view.activeTab === tab.id"
+                    [attr.tabindex]="view.activeTab === tab.id ? 0 : -1"
+                    (click)="selectTab(tab.id, view)"
+                    (keydown)="onTabKeydown($event, view, i)">
               @if (tab.orcid) {
                 <img src="assets/images/orcid.logo.icon.svg" alt="" aria-hidden="true" width="16" height="16">
               }
@@ -98,8 +112,8 @@
       </ul>
 
       <section class="profile-panel mt-3" role="tabpanel" tabindex="0"
-               [id]="'profile-panel-' + activeTab" [attr.aria-labelledby]="'profile-tab-' + activeTab">
-        @switch (activeTab) {
+               [id]="'profile-panel-' + view.activeTab" [attr.aria-labelledby]="'profile-tab-' + view.activeTab">
+        @switch (view.activeTab) {
           @case ('presentation') {
             <ds-orcid-person-enrichment [item]="object" section="presentation"></ds-orcid-person-enrichment>
           }

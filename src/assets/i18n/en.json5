@@ -7761,6 +7761,10 @@
 
   "papyrus.person.page.discipline": "Expertise",
 
+  "papyrus.person.page.discipline.show-more": "Show {{count}} more areas of expertise",
+
+  "papyrus.person.page.discipline.show-less": "Show less",
+
 
   "papyrus.person.page.uri": "Permanent link",
 

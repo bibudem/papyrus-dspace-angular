@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { SearchConfigurationService } from '../../../../app/core/shared/search/search-configuration.service';
+import {
+  SortDirection,
+  SortOptions,
+} from '../../../../app/core/cache/models/sort-options.model';
 import { ViewMode } from '../../../../app/core/shared/view-mode.model';
 import { SEARCH_CONFIG_SERVICE } from '../../../../app/my-dspace-page/my-dspace-configuration.service';
 import { ConfigurationSearchPageComponent as BaseComponent } from '../../../../app/search-page/configuration-search-page.component';
@@ -20,9 +23,15 @@ import { ThemedSearchFormComponent } from '../../../../app/shared/search-form/th
 import { PageWithSidebarComponent } from '../../../../app/shared/sidebar/page-with-sidebar.component';
 import { ViewModeSwitchComponent } from '../../../../app/shared/view-mode-switch/view-mode-switch.component';
 import { ANNUAIRES_SEARCH_PLACEHOLDER } from '../shared/search/search.component';
+import { DefaultSortSearchConfigurationService } from './default-sort-search-configuration.service';
 
 /** Publications d'une fiche (ds-tabbed-related-entities-search) : affichées en liste seulement. */
 const LIST_ONLY_CONFIGURATIONS = ['default-relationships'];
+
+/** Tri par défaut à la place du premier tri du backend (pertinence) : publications les plus récentes d'abord. */
+const DEFAULT_SORTS: Record<string, SortOptions> = {
+  'default-relationships': new SortOptions('dc.date.issued', SortDirection.DESC),
+};
 
 /**
  * Recherche embarquée dans une fiche (ex. professeur·es d'une unité) : masque le sélecteur de portée
@@ -36,7 +45,7 @@ const LIST_ONLY_CONFIGURATIONS = ['default-relationships'];
   providers: [
     {
       provide: SEARCH_CONFIG_SERVICE,
-      useClass: SearchConfigurationService,
+      useClass: DefaultSortSearchConfigurationService,
     },
   ],
   imports: [
@@ -54,6 +63,10 @@ const LIST_ONLY_CONFIGURATIONS = ['default-relationships'];
 })
 export class ConfigurationSearchPageComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
+    // Avant super.ngOnInit(), qui lit les tris de la configuration.
+    if (this.searchConfigService instanceof DefaultSortSearchConfigurationService) {
+      this.searchConfigService.defaultSort = DEFAULT_SORTS[this.configuration] ?? null;
+    }
     super.ngOnInit();
     // Forcé ici : ThemedComponent recopie toutes les entrées (même non définies), écrasant une valeur par défaut.
     this.showScopeSelector = false;

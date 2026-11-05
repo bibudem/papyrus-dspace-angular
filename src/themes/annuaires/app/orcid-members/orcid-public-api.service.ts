@@ -65,12 +65,6 @@ export interface OrcidFunding {
   endYear?: number;
 }
 
-/** Lien externe déclaré sur le profil ORCID (page personnelle, etc.). */
-export interface OrcidResearcherUrl {
-  name: string;
-  url: string;
-}
-
 /** Identifiant externe d'une activité (ISSN, DOI, etc.). */
 export interface OrcidExternalId {
   type: string;
@@ -133,7 +127,6 @@ export interface OrcidResearcherProfile {
   creditName?: string;
   biography?: string;
   keywords: string[];
-  researcherUrls: OrcidResearcherUrl[];
   /** Triés du plus récent au plus ancien. */
   fundings: OrcidFunding[];
   /** Triées par année de publication décroissante. */
@@ -164,9 +157,6 @@ interface OrcidPersonResponse {
   } | null;
   biography?: { content: string | null } | null;
   keywords?: { keyword: Array<{ content: string }> | null } | null;
-  'researcher-urls'?: {
-    'researcher-url': Array<{ 'url-name'?: string | null; url: { value: string } }> | null;
-  } | null;
 }
 
 /** Date ORCID `{ year: { value: "2024" } }`, commune à tous les endpoints. */
@@ -626,7 +616,7 @@ export class OrcidPublicApiService {
       givenName: p?.name?.['given-names']?.value ?? '',
       familyName: p?.name?.['family-name']?.value ?? '',
       creditName: p?.name?.['credit-name']?.value ?? undefined,
-      biography: p?.biography?.content ?? undefined,
+      biography: p?.biography?.content?.trim() || undefined,
     };
   }
 
@@ -641,9 +631,8 @@ export class OrcidPublicApiService {
       givenName: person?.name?.['given-names']?.value ?? '',
       familyName: person?.name?.['family-name']?.value ?? '',
       creditName: person?.name?.['credit-name']?.value ?? undefined,
-      biography: person?.biography?.content ?? undefined,
+      biography: person?.biography?.content?.trim() || undefined,
       keywords: this.mapKeywords(person),
-      researcherUrls: this.mapResearcherUrls(person),
       fundings: this.mapFundings(activities?.fundings ?? null),
       works: this.mapWorks(activities?.works ?? null),
       worksTotal: this.countWorks(activities?.works ?? null),
@@ -676,12 +665,6 @@ export class OrcidPublicApiService {
       .flatMap((k) => (k.content ?? '').split(','))
       .map((kw) => kw.trim())
       .filter(Boolean);
-  }
-
-  private mapResearcherUrls(person: OrcidPersonResponse | null): OrcidResearcherUrl[] {
-    return (person?.['researcher-urls']?.['researcher-url'] ?? [])
-      .filter((u) => !!u.url?.value)
-      .map((u) => ({ name: u['url-name']?.trim() || u.url.value, url: u.url.value }));
   }
 
   private mapFundings(resp: OrcidFundingsResponse | null): OrcidFunding[] {

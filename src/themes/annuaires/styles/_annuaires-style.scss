@@ -15,6 +15,19 @@ ds-community-page-sub-collection-list .pagination-info {
   display: none;
 }
 
+// ── Navigation sur la même page ──
+// Onglet, recherche ou pagination : le contenu reste affiché au lieu du chargement pleine page de DSpace
+// (classe posée par SamePageNavigationService). !important : .d-none de Bootstrap l'est aussi.
+.same-page-navigation #main-content {
+  > .d-none {
+    display: block !important;
+  }
+
+  > .container:has(> ds-loading, > ds-themed-loading) {
+    display: none !important;
+  }
+}
+
 // ── Page communauté ──
 // En-tête décollé du bandeau ; scopé à .comcol-header car .me-auto est trop générique.
 .comcol-header.me-auto {
@@ -167,6 +180,37 @@ ds-community-page-sub-collection-list .pagination-info {
   margin-top: 0;
 }
 
+.person-page ds-thumbnail img {
+  border-radius: var(--bs-border-radius-lg);
+}
+
+// Interligne des autres champs de la fiche (Fonction, Courriel).
+.person-expertise-list li {
+  line-height: $line-height-base;
+}
+
+// « Voir plus » des expertises : aligné sur la liste, contour au clavier seulement.
+.person-toggle-btn {
+  margin-top: 0.25rem;
+  padding: 0;
+  font-size: 0.9rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $greensecondary;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
 // Onglets de la fiche : style natif DSpace (nav-tabs), titres avec la typographie des libellés de la fiche
 // (« Courriel », « Expertise »). L'onglet actif se distingue par l'encadré natif.
 // Logo ORCID devant les onglets venant d'ORCID, toujours en couleur : il signale la provenance des données.
@@ -188,6 +232,35 @@ ds-community-page-sub-collection-list .pagination-info {
     outline: 2px solid $greensecondary;
     outline-offset: -2px;
     box-shadow: none;
+  }
+}
+
+// Mobile : une ligne défilante plutôt que des onglets sur plusieurs lignes. Le trait du bas passe en ombre
+// interne, que overflow ne coupe pas sous l'onglet actif.
+@include media-breakpoint-down(md) {
+  .profile-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 0;
+    box-shadow: inset 0 -1px 0 var(--bs-border-color);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-item {
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      margin-bottom: 0;
+      padding: 0.5rem 0.875rem;
+      font-size: 1.0625rem;
+      white-space: nowrap;
+    }
   }
 }
 

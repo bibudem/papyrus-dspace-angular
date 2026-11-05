@@ -2,12 +2,9 @@
 
 // Contenu posé sur la page, sans cadre, comme l'onglet « Publications dans Papyrus ».
 
-// En-tête : ORCID iD, liens
+// En-tête : ORCID iD
 
 .oe-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
   margin-bottom: 1.5rem;
 }
 
@@ -43,20 +40,6 @@
   &:hover { color: $darkgreen; text-decoration: underline; }
 }
 
-// Liens en ligne séparés par « | » : reste compact même avec 5+ liens.
-.oe-links-row {
-  font-size: 0.8rem;
-  color: $gray-500;
-
-  i { margin-right: 0.5rem; }
-  a { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
-}
-
-.oe-links-sep {
-  margin: 0 0.5rem;
-  color: $gray-400;
-}
-
 // Corps et sections
 
 .oe-section {
@@ -69,6 +52,12 @@
 }
 
 // Sections dépliables : blocs .facet-filter, comme les filtres de la recherche.
+
+// Montreal force 0.5rem de padding vertical sur .facet-filter.
+.oe-accordion-item.facet-filter.p-3 {
+  padding-top: 0.875rem !important;
+  padding-bottom: 0.875rem !important;
+}
 
 .oe-accordion-header {
   display: flex;
@@ -107,7 +96,7 @@
 .oe-bio-text {
   color: $gray-700;
   line-height: 1.75;
-  white-space: pre-wrap;
+  white-space: pre-line;
   font-size: 0.95rem;
   margin-bottom: 0;
 }
@@ -128,7 +117,7 @@
 }
 
 .oe-affiliation-org { color: $gray-700; margin-bottom: 0.1rem; }
-.oe-affiliation-period { font-size: 0.9rem; color: $gray-500; }
+.oe-affiliation-period { font-size: 0.9rem; color: $gray-600; }
 
 .oe-affiliation-links {
   display: flex;
@@ -140,7 +129,7 @@
   a { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
 }
 
-.oe-external-id { color: $gray-500; }
+.oe-external-id { color: $gray-600; }
 
 // Publications
 
@@ -158,7 +147,7 @@
   background: none;
   border: none;
   padding: 0;
-  color: $gray-500;
+  color: $gray-600;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.12s ease;
@@ -180,12 +169,12 @@
 
 .oe-works-list { display: flex; flex-direction: column; gap: 1.5rem; }
 
-.work-year { font-size: 0.9rem; color: $gray-500; }
+.work-year { font-size: 0.9rem; color: $gray-600; }
 
 .work-title { margin-bottom: 0.15rem; }
 
 .work-journal { color: $gray-700; margin-bottom: 0.1rem; }
-.work-doi { font-size: 0.9rem; color: $gray-500; margin-bottom: 0; }
+.work-doi { font-size: 0.9rem; color: $gray-600; margin-bottom: 0; }
 .doi-link { color: $greensecondary; text-decoration: none; &:hover { text-decoration: underline; } }
 
 // Bouton voir plus / voir moins

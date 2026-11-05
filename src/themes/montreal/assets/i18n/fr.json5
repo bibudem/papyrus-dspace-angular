@@ -1756,6 +1756,8 @@
   "item.page.orcid-profile": "ORCID",
 
   "papyrus.person.page.discipline": "Expertise",
+  "papyrus.person.page.discipline.show-more": "Voir {{count}} expertises de plus",
+  "papyrus.person.page.discipline.show-less": "Voir moins",
 
   "papyrus.person.page.uri": "Lien permanent",
   "papyrus.person.page.relation.affiliation": "Affiliation",

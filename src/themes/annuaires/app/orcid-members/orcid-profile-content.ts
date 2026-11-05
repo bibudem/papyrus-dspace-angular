@@ -64,7 +64,6 @@ export function hasPresentationContent(profile: OrcidResearcherProfile | null): 
     return false;
   }
   return hasFrenchBiography(profile) || [
-    profile.researcherUrls,
     profile.distinctions,
     profile.invitedPositions,
     profile.memberships,

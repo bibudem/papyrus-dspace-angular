@@ -11,12 +11,13 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ResultsScrollService } from './results-scroll.service';
+import { SamePageNavigationService } from './same-page-navigation.service';
 
 const BACK_TO_TOP_THRESHOLD_PX = 600;
 
 /**
- * Bouton « Haut de page » quand on est descendu assez bas. Démarre aussi le défilement vers
- * les résultats du répertoire (ResultsScrollService).
+ * Bouton « Haut de page » quand on est descendu assez bas. Démarre aussi les services de navigation
+ * du répertoire : défilement vers les résultats et navigation sur la même page sans flash blanc.
  */
 @Component({
   selector: 'ds-annuaires-page-scroll',
@@ -32,10 +33,12 @@ export class PageScrollComponent implements OnInit {
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly resultsScroll = inject(ResultsScrollService);
+  private readonly samePageNavigation = inject(SamePageNavigationService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   ngOnInit(): void {
     this.resultsScroll.start();
+    this.samePageNavigation.start();
   }
 
   @HostListener('window:scroll')

@@ -20,17 +20,6 @@
                 <i class="fas fa-external-link-alt fa-xs ms-1" aria-hidden="true"></i>
               </a>
             </p>
-            @if (profile.researcherUrls.length > 0) {
-              <div class="oe-links-row">
-                <i class="fas fa-link fa-xs" aria-hidden="true"></i>
-                @for (link of profile.researcherUrls; track link.url; let last = $last) {
-                  <a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
-                  @if (!last) {
-                    <span class="oe-links-sep" aria-hidden="true">|</span>
-                  }
-                }
-              </div>
-            }
           </div>
 
           <div class="oe-body">
@@ -38,9 +27,7 @@
             @if (hasFrenchBiography(profile)) {
               <section class="oe-section">
                 <h3>{{ 'papyrus.orcid-profile.biography' | translate }}</h3>
-                <p class="oe-bio-text">
-                  {{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}
-                </p>
+                <p class="oe-bio-text">{{ showFullBio ? profile.biography : truncatedBio(profile.biography) }}</p>
                 @if (profile.biography.length > bioPreviewLength) {
                   <div class="mt-3 text-center">
                     <button type="button" class="btn btn-link oe-toggle-btn" (click)="toggleBio()">

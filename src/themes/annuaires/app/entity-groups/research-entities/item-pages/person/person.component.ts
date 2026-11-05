@@ -1,10 +1,14 @@
-import { AsyncPipe } from '@angular/common';
+import {
+  AsyncPipe,
+  isPlatformBrowser,
+} from '@angular/common';
 import {
   Component,
   DestroyRef,
   ElementRef,
   inject,
   OnInit,
+  PLATFORM_ID,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -14,6 +18,7 @@ import {
 import {
   ActivatedRoute,
   NavigationEnd,
+  ParamMap,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -56,6 +61,9 @@ import { getPersonDisplayName } from '../../person-name';
 
 type ProfileTabId = 'presentation' | 'works' | 'fundings' | 'publications';
 
+/** Paramètre d'URL de l'onglet actif, partagé avec les sous-onglets de ds-tabbed-related-entities-search. */
+const TAB_PARAM = 'tab';
+
 interface ProfileTab {
   id: ProfileTabId;
   label: string;
@@ -67,6 +75,9 @@ const PRESENTATION_TAB: ProfileTab = { id: 'presentation', label: 'papyrus.perso
 const WORKS_TAB: ProfileTab = { id: 'works', label: 'papyrus.person.page.tab.works', orcid: true };
 const FUNDINGS_TAB: ProfileTab = { id: 'fundings', label: 'papyrus.person.page.tab.fundings', orcid: false };
 const PUBLICATIONS_TAB: ProfileTab = { id: 'publications', label: 'papyrus.person.page.tab.papyrus', orcid: false };
+
+/** Expertises visibles avant « Voir plus ». */
+const EXPERTISE_PREVIEW_COUNT = 10;
 
 /** Sous-onglet de recherche des publications Papyrus, au format de ds-tabbed-related-entities-search. */
 interface PublicationRole {
@@ -90,16 +101,24 @@ const PUBLICATION_ROLES: { relationship: string; role: PublicationRole }[] = [
   },
 ];
 
-interface ProfileView {
+interface ProfileContent {
   tabs: ProfileTab[];
   /** Rôles ayant au moins une publication ; vide : message « aucune publication ». */
   publicationRoles: PublicationRole[];
+}
+
+interface ProfileView extends ProfileContent {
+  activeTab: ProfileTabId;
 }
 
 /**
  * Fiche Person en onglets : Présentation, Travaux et Financements viennent d'ORCID, Publications dans Papyrus
  * des relations, cherchables par rôle (auteur·e, direction de recherche). Un onglet sans contenu n'est pas
  * affiché, sauf Publications dans Papyrus, toujours présent avec un message s'il est vide.
+ *
+ * L'onglet actif est dans l'URL, comme les sous-onglets DSpace : `?tab=presentation`, `works`, `fundings`,
+ * et pour les publications le rôle affiché (`isAuthorOfPublication`, `isAdvisorOfPublication`).
+ * Sans paramètre, le premier onglet disponible est affiché.
  */
 @listableObjectComponent('Person', ViewMode.StandalonePage, Context.Any, 'annuaires')
 @Component({
@@ -124,11 +143,12 @@ interface ProfileView {
 })
 export class PersonComponent extends BaseComponent implements OnInit {
 
-  /** Premier onglet disponible tant que l'utilisateur n'en a pas choisi un autre. */
-  activeTab: ProfileTabId;
-
   /** Émis une fois les données ORCID et les publications connues, pour ne pas faire bouger la barre. */
   view$: Observable<ProfileView>;
+
+  readonly expertisePreviewCount = EXPERTISE_PREVIEW_COUNT;
+
+  showAllExpertises = false;
 
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly dsoNameService = inject(DSONameService);
@@ -138,6 +158,7 @@ export class PersonComponent extends BaseComponent implements OnInit {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   /** « Prénom Nom », sinon le nom DSpace habituel. */
   get displayName(): string {
@@ -156,10 +177,14 @@ export class PersonComponent extends BaseComponent implements OnInit {
     return this.object?.allMetadataValues('dc.subject.discipline') ?? [];
   }
 
+  get visibleExpertises(): string[] {
+    return this.showAllExpertises ? this.expertises : this.expertises.slice(0, EXPERTISE_PREVIEW_COUNT);
+  }
+
   ngOnInit(): void {
     super.ngOnInit();
-    this.view$ = combineLatest([this.loadOrcidProfile(), this.loadPublicationRoles()]).pipe(
-      map(([profile, publicationRoles]): ProfileView => ({
+    const content$ = combineLatest([this.loadOrcidProfile(), this.loadPublicationRoles()]).pipe(
+      map(([profile, publicationRoles]): ProfileContent => ({
         tabs: [
           ...(hasPresentationContent(profile) ? [PRESENTATION_TAB] : []),
           ...(profile?.works.length > 0 ? [WORKS_TAB] : []),
@@ -168,7 +193,13 @@ export class PersonComponent extends BaseComponent implements OnInit {
         ],
         publicationRoles,
       })),
-      tap((view) => this.activeTab ??= this.hasPublicationSearchParams() ? 'publications' : view.tabs[0].id),
+    );
+    this.view$ = combineLatest([content$, this.route.queryParamMap]).pipe(
+      map(([content, params]): ProfileView => ({ ...content, activeTab: this.resolveActiveTab(content, params) })),
+      tap((view) => {
+        this.openFirstPublicationRole(view);
+        this.revealActiveTab();
+      }),
     );
 
     this.setPageTitle();
@@ -179,12 +210,24 @@ export class PersonComponent extends BaseComponent implements OnInit {
     ).subscribe(() => this.setPageTitle());
   }
 
-  selectTab(tab: ProfileTabId): void {
-    this.activeTab = tab;
+  toggleExpertises(): void {
+    this.showAllExpertises = !this.showAllExpertises;
+  }
+
+  /** Comme les sous-onglets DSpace : nouvelle URL, sans les paramètres de recherche de l'onglet précédent. */
+  selectTab(tab: ProfileTabId, view: ProfileView): void {
+    if (tab === view.activeTab) {
+      return;
+    }
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { [TAB_PARAM]: this.tabParam(tab, view) },
+    });
   }
 
   /** Flèches gauche/droite, Début et Fin entre les onglets (motif ARIA « tabs »). */
-  onTabKeydown(event: KeyboardEvent, tabs: ProfileTab[], index: number): void {
+  onTabKeydown(event: KeyboardEvent, view: ProfileView, index: number): void {
+    const tabs = view.tabs;
     const target = {
       ArrowLeft: (index - 1 + tabs.length) % tabs.length,
       ArrowRight: (index + 1) % tabs.length,
@@ -195,8 +238,57 @@ export class PersonComponent extends BaseComponent implements OnInit {
       return;
     }
     event.preventDefault();
-    this.selectTab(tabs[target].id);
+    this.selectTab(tabs[target].id, view);
     this.elementRef.nativeElement.querySelector<HTMLElement>(`#profile-tab-${tabs[target].id}`)?.focus();
+  }
+
+  /**
+   * Onglet demandé par l'URL s'il est affiché. Un rôle de publication ou une recherche (`spc.*`) ouvre
+   * Publications dans Papyrus ; un onglet inconnu ou masqué (profil ORCID modifié), le premier onglet.
+   */
+  private resolveActiveTab(content: ProfileContent, params: ParamMap): ProfileTabId {
+    const tab = params.get(TAB_PARAM);
+    if (content.tabs.some(({ id }) => id === tab)) {
+      return tab as ProfileTabId;
+    }
+    const isPublicationSearch = PUBLICATION_ROLES.some(({ role }) => role.filter === tab)
+      || params.keys.some((key) => key.startsWith('spc.'));
+    return isPublicationSearch ? 'publications' : content.tabs[0].id;
+  }
+
+  /** `?tab=publications` saisi à la main : remplacé par le premier rôle, sinon la recherche resterait vide. */
+  private openFirstPublicationRole(view: ProfileView): void {
+    const role = view.publicationRoles[0];
+    if (role && this.route.snapshot.queryParamMap.get(TAB_PARAM) === 'publications') {
+      void this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { [TAB_PARAM]: role.filter },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+  }
+
+  /** Mobile : centre l'onglet actif dans la barre défilante, sans faire défiler la page. */
+  private revealActiveTab(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    setTimeout(() => {
+      const list = this.elementRef.nativeElement.querySelector<HTMLElement>('.profile-tabs');
+      const active = list?.querySelector<HTMLElement>('.nav-link.active');
+      if (!active || list.scrollWidth <= list.clientWidth) {
+        return;
+      }
+      const listRect = list.getBoundingClientRect();
+      const activeRect = active.getBoundingClientRect();
+      list.scrollLeft += activeRect.left - listRect.left - (listRect.width - activeRect.width) / 2;
+    });
+  }
+
+  /** Publications s'ouvre sur son premier rôle, le sous-onglet actif de la recherche. */
+  private tabParam(tab: ProfileTabId, content: ProfileContent): string {
+    return tab === 'publications' ? content.publicationRoles[0]?.filter ?? tab : tab;
   }
 
   /** Même requête que le panneau ORCID : le service la partage et la met en cache. Null si indisponible. */
@@ -209,12 +301,6 @@ export class PersonComponent extends BaseComponent implements OnInit {
       defaultIfEmpty(null),
       catchError(() => of(null)),
     );
-  }
-
-  /** Lien partagé ou page rechargée sur la recherche des publications (sous-onglet `tab`, paramètres `spc.*`). */
-  private hasPublicationSearchParams(): boolean {
-    const params = Object.keys(this.route.snapshot.queryParams);
-    return params.includes('tab') || params.some((param) => param.startsWith('spc.'));
   }
 
   /** Rôles de PUBLICATION_ROLES ayant au moins une publication (une relation demandée par rôle). */

@@ -955,6 +955,8 @@
   "item.page.orcid-profile": "ORCID",
 
   "papyrus.person.page.discipline": "Expertise",
+  "papyrus.person.page.discipline.show-more": "Show {{count}} more areas of expertise",
+  "papyrus.person.page.discipline.show-less": "Show less",
 
   "papyrus.person.page.uri": "Permanent link",
   "papyrus.person.page.relation.affiliation": "Affiliation",
