@@ -1798,7 +1798,7 @@
   "papyrus.orcid-profile.activity-type.service": "Service",
   "papyrus.orcid-profile.period.range": "{{start}} à {{end}}",
   "papyrus.orcid-profile.period.ongoing": "{{start}} à aujourd'hui",
-  "papyrus.orcid-profile.educations": "Formation",
+  "papyrus.orcid-profile.educations": "Formations",
   "papyrus.orcid-profile.qualifications": "Qualifications",
   "papyrus.orcid-profile.peer-reviews": "Revues par les pairs",
   "papyrus.orcid-profile.research-resources": "Ressources de recherche",
